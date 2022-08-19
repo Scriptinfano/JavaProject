@@ -1,3 +1,4 @@
 # 项目排除路径
 /out/
 /.idea/vcs.xml
+/.idea/intellij-javadocs-4.0.1.xml
