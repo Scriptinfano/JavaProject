@@ -1,0 +1,134 @@
+一、什么是嵌套类及内部类
+　　可以在一个类的内部定义另一个类，这种类称为嵌套类（nested classes），它有两种类型：静态嵌套类和非静态嵌套类。静态嵌套类使用很少，最重要的是非静态嵌套类，也即是被称作为内部类（inner）。嵌套类从JDK1.1开始引入。其中inner类又可分为三种：
+　　其一、在一个类（外部类）中直接定义的内部类；
+　　其二、在一个方法（外部类的方法）中定义的内部类；
+　　其三、匿名内部类。
+    其四、在一个外部类中直接定义的静态嵌套类
+
+ 使用嵌套类的好处：
+  1、嵌套类可以访问外部类的所有数据成员和方法，即使它是私有的。
+  2、提高可读性和可维护性：因为如果一个类只对另外一个类可用，那么将它们放在一起，这更便于理解和维护。
+  3、提高封装性：给定两个类A和B，如果需要访问A类中的私有成员，则可以将B类封装在A类中，这样不仅可以使得B类可以访问A类中的私有成员，并且可以在外部隐藏B类本身。
+  4、减少代码的编写量。
+
+ 几种内部类的共性：
+  A、内部类仍然是一个独立的类，在编译之后会内部类会被编译成独立的.class文件，但是前面冠以外部类的类命和$符号。
+  B、内部类不能用普通的方式访问。内部类是外部类的一个成员，因此内部类可以自由地访问外部类的成员变量，无论是否是private的。
+
+二、静态嵌套类
+如下所示代码为定义一个静态嵌套类，
+public class StaticTest {
+　　   private static String name = "javaJohn";　
+　　　　private String id = "X001";
+　　　　static class Person{
+          //静态嵌套内的所有成员和方法默认为静态
+　　　　　　private String address = "swjtu,chenDu,China";
+　　　　　　public String mail = "josserchai@yahoo.com";//内部类公有成员
+　　　　　　public void display(){
+　　　　　　　　//System.out.println(id);//不能直接访问外部类的非静态成员
+　　　　　　　　System.out.println(name);//只能直接访问外部类的静态成员
+　　　　　　　　System.out.println("Inner "+address);//访问本内部类成员。
+　　　　　　}
+　　　　}
+　　
+　　　　public void printInfo(){
+　　　　　　Person person = new Person();
+　　　　　　person.display();
+　　　　　　//System.out.println(mail);//不可访问
+　　　　　　//System.out.println(address);//不可访问
+　　　　　　System.out.println(person.address);//可以访问内部类的私有成员
+　　　　　　System.out.println(person.mail);//可以访问内部类的公有成员
+　　
+　　　　}
+　　　　public static void main(String[] args) {
+　　　　StaticTest staticTest = new StaticTest();
+　　　　staticTest.printInfo();
+　　}
+　　}
+在静态嵌套类内部，不能访问外部类的非静态成员，这是由Java语法中"静态方法不能直接访问非静态成员"所限定。若想访问外部类的变量，
+必须通过其它方法解决，由于这个原因，静态嵌套类使用很少。注意，外部类访问内部类的的成员有些特别，不能直接访问，但可以通过内部
+类来访问，这是因为静态嵌套内的所有成员和方法默认为静态的了。同时注意，内部静态类Person只在类StaticTest 范围内可见，若在
+其它类中引用或初始化，均是错误的。
+三、非静态嵌套类
+public class Outer {
+        int outer_x = 100;
+　　　　class Inner{
+　　　　　　public int y = 10;
+　　　　　　private int z = 9;
+　　　　　　int m = 5;
+　　　　　　public void display(){
+　　　　　　　　System.out.println("display outer_x:"+ outer_x);
+　　　　　　}
+　　　　　　private void display2(){
+　　　　　　　　System.out.println("display outer_x:"+ outer_x);
+　　　　　　}
+　　　　}
+　　　　void test(){
+　　　　　　Inner inner = new Inner();
+　　　　　　inner.display();
+　　　　　　inner.display2();
+　　　　　　//System.out.println("Inner y:" + y);//不能访问内部内变量
+　　　　　　System.out.println("Inner y:" + inner.y);//可以访问
+　　　　　　System.out.println("Inner z:" + inner.z);//可以访问
+　　　　　　System.out.println("Inner m:" + inner.m);//可以访问
+　　　　　　InnerTwo innerTwo = new InnerTwo();
+　　　　　　innerTwo.show();
+　　　　}
+　　　　class InnerTwo{
+　　　　　　Inner innerx = new Inner();
+　　　　　　public void show(){
+　　　　　　　　//System.out.println(y);//不可访问Innter的y成员
+　　　　　　　　//System.out.println(Inner.y);//不可直接访问Inner的任何成员和方法
+　　　　　　　　innerx.display();//可以访问
+　　　　　　　　innerx.display2();//可以访问
+　　　　　　　　System.out.println(innerx.y);//可以访问
+　　　　　　　　System.out.println(innerx.z);//可以访问
+　　　　　　　　System.out.println(innerx.m);//可以访问
+　　　　　　}
+　　　　}
+　　　　public static void main(String args[]){
+　　　　　　Outer outer = new Outer();
+　　　　　　outer.test();
+　　　　}
+}
+总结：
+ 1、对于内部类，通常在定义类的class关键字前不加public 或 private等限制符，若加了没有任何影响。
+ 2、内部类中可以直接访问外部类的数据成员和方法。
+ 3、另外，就是要注意，内部类Inner及InnterTwo只在类Outer的作用域内是可知的，如果类Outer外的任何代码尝试初始化类Inner或使
+ 用它，编译就不会通过。同时，内部类的变量成员只在内部内内部可见，若外部类或同层次的内部类需要访问，需采用示例程序中的方法，
+ 不可直接访问内部类的变量。
+
+四、方法内部类
+A、方法内部类只能在定义该内部类的方法内实例化，不可以在此方法外对其实例化。
+B、方法内部类对象不能使用该内部类所在方法的非final局部变量。
+      因为方法的局部变量位于栈上，只存在于该方法的生命期内。当一个方法结束，其栈结构被删除，局部变量成为历史。但是该方法结束之后，
+在方法内创建的内部类对象可能仍然存在于堆中！例如，如果对它的引用被传递到其他某些代码，并存储在一个成员变量内。
+      正因为不能保证局部变量的存活期和方法内部类对象的一样长，所以内部类对象不能使用它们。
+下面是完整的例子：
+class Outer {
+    public void doSomething(){
+        final int a =10;
+        class Inner{
+            public void seeOuter(){
+                System.out.println(a);
+            }
+        }
+        Inner in = new Inner();
+        in.seeOuter();
+    }
+    public static void main(String[] args) {
+        Outer out = new Outer();
+        out.doSomething();
+    }
+}
+
+五、匿名内部类
+匿名内部类即没有名字的内部类，如我们在临时创建新的线程时,经常会这么写:
+new Thread(new Runnable(){
+   @Override
+   public void run(){
+     // do something
+   }
+ }
+ );
+ 关于匿名内部类的更多内容详见：https://blog.csdn.net/hguisu/article/details/7270086
