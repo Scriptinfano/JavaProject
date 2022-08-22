@@ -1,6 +1,12 @@
 //本程序主要介绍java中构造函数和C++中构造函数不一样的地方
 package JavaConstructor;
 
+import javaException.*;
+
+
+import java.awt.*;
+import java.util.Hashtable;
+
 class cars {
     String model;
     int door;
@@ -16,8 +22,20 @@ class cars {
     }
 }
 
+//使用静态代码块为静态变量完成复杂的初始化工作
+class ColorWheel {
+    static Hashtable colors = new Hashtable();
+
+    static {
+        colors.put("red", Color.red);
+        colors.put("green", Color.green);
+    }
+}
+
 public class TestConstructor {
     public static void main(String[] args) {
         cars car = new cars("蓝色小汽车");
+        TestException.main(args);
+
     }
 }
