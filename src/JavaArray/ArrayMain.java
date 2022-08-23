@@ -3,9 +3,15 @@ package JavaArray;
 
 import java.util.Arrays;
 
+
+/**
+ @version 1.0
+ @author Mingxiang
+
+ */
 public class ArrayMain {
     public static void main(String[] args) {
-        copyArray();
+        defaultArrayElement();
     }
 
     public static void objectArray() {
@@ -21,6 +27,7 @@ public class ArrayMain {
 
         String[] actions = {"run", "swim", "fuck"};//java数组支持C风格的数组初始化
 
+int a =actions.length;
     }
 
     public static void catchArrayException() {
@@ -52,7 +59,7 @@ public class ArrayMain {
             System.out.print(str);
         }
 
-        //拷贝数组的第二种方法是使用 java.util.ArrayscopyOf()和 copyOfRange()方法
+        //拷贝数组的第二种方法是使用 java.util.Arrays.copyOf()和copyOfRange()方法
         int[] bar = new int[]{1, 2, 3, 4, 5};
         int[] barCopy = Arrays.copyOf(bar, bar.length);//copyOf接受最初的数组和一个目标长度作为参数
         int[] barExtraCopy = Arrays.copyOf(bar, bar.length + 2);//若目标数组长度比最初数组长，那么copyOf将会用0或null填充新数组以达到想要的长度
@@ -70,7 +77,36 @@ public class ArrayMain {
         int example1 = 12;
         int example2 = 13;
         Inner inner = new Inner();
-        inner.set(new int[]{example1,example2});
+        inner.set(new int[]{example1, example2});
     }
+
+    public static void defaultArrayElement() {
+        //各元素数组的默认值
+        //char数组的默认元素不是'0',而是asc码的0，
+        char[] charArray = new char[10];
+        System.out.println(charArray);
+
+        //当数组元素是boolean型时，默认值为false
+        boolean[] boolArray = new boolean[10];
+        System.out.println(boolArray[0]);
+
+        //当二维数组的两个维度都指定时，则说明声明之后就初始化了，输出arr[0]时输出的就是地址
+        int [][]arr=new int[3][3];
+        System.out.println(arr[0]);//输出地址值
+        //当二维数组仅指定了第一维度的值时，由于二维未指定导致二维维数组中的每个元素作为一维数组是未初始化的，即null
+        int [][]arr2=new int[3][];
+        System.out.println(arr2[0]);//输出null
+        int [][]arr3=new int[3][];
+        System.out.println(arr3[0][2]);//会抛出异常NullPointerException，因为无法根据null找到地址，报空指针异常
+
+    }
+
+    public static void multipleDimensionArray() {
+        //java声明多维数组时行数必须指定，与C++不一样
+        String[][] stringArray = new String[3][];
+
+    }
+
+
 }
 
