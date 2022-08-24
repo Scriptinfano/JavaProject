@@ -1,10 +1,12 @@
+package record;
+
 public class FinanceDetails {
     private int cash;
     private String info;
 
     private boolean incomeOrOutcome;
 
-    FinanceDetails(int cash, String info, boolean type) {
+    public FinanceDetails(int cash, String info, boolean type) {
         this.cash = cash;
         this.info = info;
         this.incomeOrOutcome = type;
@@ -18,9 +20,8 @@ public class FinanceDetails {
         return info;
     }
 
-    public String getType()
-    {
-        if(incomeOrOutcome)return "收入";
+    public String getType() {
+        if (incomeOrOutcome) return "收入";
         else return "支出";
     }
 

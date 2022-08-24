@@ -1,6 +1,8 @@
+package basicUtility;
+
 import java.util.Scanner;
 
-class Utility {
+public class Utility {
     private static Scanner scanner = new Scanner(System.in);
 
     /**
@@ -59,17 +61,5 @@ class Utility {
         return theStr;
     }
 
-class MenuReadError extends RuntimeException
-{
-    MenuReadError()
-    {
-        super();
-    }
-    public MenuReadError(String message,Throwable cause)
-    {
-        super(message,cause);
-    }
-
-}
 
 }

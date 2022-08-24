@@ -1,3 +1,6 @@
+import basicUtility.Utility;
+import record.FinanceDetails;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,9 +32,6 @@ public class FamilyAccount {
                 case "4":
                     exitProgram();
                     break;
-                default:
-//表示readMenuSelection()中代码，导致没有返回正确的字符串
-                    break;
             }
         }
     }
@@ -52,6 +52,10 @@ public class FamilyAccount {
     public static void showDetails() {
         Iterator<FinanceDetails> iter = detailList.iterator();
         System.out.println("---------收支明细如下--------");
+        if(detailList.isEmpty()){
+            System.out.println("当前没有任何收支记录，请录入收支情况后再来查看");
+
+        }
         while (iter.hasNext()) {
             FinanceDetails currentDetails = iter.next();
             System.out.println(currentDetails.getType() + ":" + currentDetails.getCash() + "\t说明：" + currentDetails.getInfo());

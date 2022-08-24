@@ -3,7 +3,7 @@
 * java方法可以有可变长度的参数列表，别名叫做varargs，允许方法在调用的时候接受任意数目的参数
 * 语法：在参数列表中应该使用数组的方括号的位置使用省略号*/
 
-package JavaParameterDelivery;
+package javaParameterDelivery;
 
 public class VariableLengthArgumentList {
 public static void printObjects(Object ...list)

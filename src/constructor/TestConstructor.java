@@ -1,7 +1,7 @@
 //本程序主要介绍java中构造函数和C++中构造函数不一样的地方
-package JavaConstructor;
+package constructor;
 
-import javaException.*;
+import exception.*;
 
 
 import java.awt.*;

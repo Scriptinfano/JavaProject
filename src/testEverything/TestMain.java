@@ -1,6 +1,4 @@
-package testeverything;
-
-import java.util.Scanner;
+package testEverything;
 
 class StaticSuper {
     static {

@@ -1,13 +1,10 @@
-package javaException;
+package exception;
 
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
-import java.net.UnknownHostException;
 
 public class TestException {
     public static void fun() throws IOException {

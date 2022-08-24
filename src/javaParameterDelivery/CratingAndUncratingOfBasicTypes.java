@@ -1,5 +1,5 @@
 //本程序主要探讨基本类型的包装器(java中可以将基本数据类型包装成一个类对象)
-package JavaParameterDelivery;
+package javaParameterDelivery;
 
 import java.util.ArrayList;
 import java.util.List;

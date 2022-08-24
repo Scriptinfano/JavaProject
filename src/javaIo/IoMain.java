@@ -1,4 +1,4 @@
-package JavaIo;
+package javaIo;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

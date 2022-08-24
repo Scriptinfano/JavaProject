@@ -1,4 +1,4 @@
-package JavaConstructor;
+package constructor;
 
 class StaticSuper {
 

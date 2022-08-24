@@ -1,5 +1,5 @@
 //本程序主要讲解java中的数组及其使用
-package JavaArray;
+package array;
 
 import java.util.Arrays;
 
