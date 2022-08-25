@@ -157,44 +157,61 @@ public class ArrayMain {
 
     //利用二维数组实现输出回形数
     public static void numberOfRounds() {
-        Pointer pointer = new Pointer(0, 0, 1);
+        CircularDigitalMatrix circularDigitalMatrix = new CircularDigitalMatrix(5, 5,  56);
+        circularDigitalMatrix.showMatrix();
+    }
+}
+
+//回形数组类
+class CircularDigitalMatrix {
+    private int x;//数组元素横坐标
+
+    private int y;//数组元素纵坐标
+    private int beginNumber;//从beginNumber这个数字开始输出回形数
+
+    private int[][] array;//内置的二维数组
+
+    /**
+     * <code>Obstruction异常类</code>
+     * 回形数组无法再继续赋值输出时会抛出此异常，表示整个数组输出完毕，提示中断私有run()方法*/
+    class Obstruction extends Exception {}
+    /**
+     * 这个构造函数可以指定从哪开始输出，并从多少开始输出
+     *
+     * @param oneDimension 指定回形数数组的一维量
+     * @param twoDimension 指定回形数组的二维量
+     * @param beginNumber  表示从几开始输出回形数序列
+     */
+    public CircularDigitalMatrix(int oneDimension, int twoDimension, int beginNumber) {
+        array = new int[oneDimension][];
+        for (int i = 0; i < oneDimension; i++) {
+            array[i] = new int[twoDimension];
+        }
+        this.x = 0;//开始输出的起始横坐标
+        this.y = 0;//开始输出的起始纵坐标
+        this.beginNumber = beginNumber;//从几开始输出
+    }
+
+    /**
+     * 这个函数开始控制整个回形数序列生成的流程，调用其他四个私有接口完成回形数组的赋值
+     */
+    private void run() {
         while (true) {
             try {
-                pointer = pointer.goRight();
-                pointer = pointer.goDown();
-                pointer = pointer.goLeft();
-                pointer = pointer.goUp();
+                this.goRight();
+                this.goDown();
+                this.goLeft();
+                this.goUp();
             } catch (Obstruction exception) {
                 break;
             }
         }
-        pointer.showArray();
-    }
-}
-
-class Pointer {
-    private int x;
-    private int y;
-    private int beginNumber;
-
-    int[][] array = new int[5][5];
-
-
-    public Pointer(int x, int y, int beginNumber) {
-        this.x = x;
-        this.y = y;
-        this.beginNumber = beginNumber;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public Pointer goRight() throws Obstruction {
+    /**
+     * 这个方法总是从左向右地为回形数组赋值
+     */
+    private void goRight() throws Obstruction {
         if (array[x][y + 1] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
         if (array[x][y] != 0) y++;//先判断自己所在的位置有没有元素
         while (true) {
@@ -211,10 +228,12 @@ class Pointer {
             beginNumber++;
             y++;
         }
-        return this;
     }
 
-    public Pointer goLeft() throws Obstruction {
+    /**
+     * 这个方法总是从右向左地为回形数组赋值
+     */
+    private void goLeft() throws Obstruction {
         if (array[x][y - 1] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
         if (array[x][y] != 0) y--;//先判断自己所在的位置有没有元素
         while (true) {
@@ -232,11 +251,12 @@ class Pointer {
             beginNumber++;
             y--;
         }
-        return this;
     }
 
-
-    public Pointer goUp() throws Obstruction {
+    /**
+     * 这个方法总是从下向上地为回形数组赋值
+     */
+    private void goUp() throws Obstruction {
         if (array[x - 1][y] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
         if (array[x][y] != 0) x--;//先判断自己所在的位置有没有元素
         while (true) {
@@ -254,10 +274,12 @@ class Pointer {
             beginNumber++;
             x--;
         }
-        return this;
     }
 
-    public Pointer goDown() throws Obstruction {
+    /**
+     * 这个方法总是从上向下地为回形数组赋值
+     */
+    private void goDown() throws Obstruction {
         if (array[x + 1][y] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
         if (array[x][y] != 0) x++;//先判断自己所在的位置有没有元素
         while (true) {
@@ -274,10 +296,14 @@ class Pointer {
             beginNumber++;
             x++;
         }
-        return this;
     }
 
-    public void showArray() {
+    /**
+     * 赋值整个回形数组并将数组输出出来*/
+    public void showMatrix() {
+        this.run();//调用私有接口run方法完成赋值操作
+
+        //输出整个回形数组
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 System.out.print(array[i][j] + "\t");
@@ -288,6 +314,3 @@ class Pointer {
     }
 }
 
-class Obstruction extends Exception {
-
-}
