@@ -2,16 +2,28 @@
 package array;
 
 import java.util.Arrays;
+import java.util.Random;
 
 
 /**
- @version 1.0
- @author Mingxiang
-
+ * @author Mingxiang
+ * @version 1.0
  */
 public class ArrayMain {
     public static void main(String[] args) {
-        defaultArrayElement();
+        numberOfRounds();
+    }
+
+    public static void arrayInitialize() {
+        //数组正确的初始化方式
+        int[] arr = new int[]{1, 2, 3};//一维数组静态初始化
+        int[] arr2 = {12, 23, 23};//一维数组静态初始化
+        int[] arr3 = new int[12];//一维数组动态初始化，此时要赋值只能一个一个赋值
+        //二维数组正确的初始化方式
+        int[][] arr4 = new int[3][2];//行数和列数都指定，但在java中行必须指定
+        int[][] arr5 = {{1, 2, 3}, {12, 32}};
+        int[][] arr6 = new int[23][];//可以仅指定行数不指定列数
+
     }
 
     public static void objectArray() {
@@ -27,7 +39,7 @@ public class ArrayMain {
 
         String[] actions = {"run", "swim", "fuck"};//java数组支持C风格的数组初始化
 
-int a =actions.length;
+        int a = actions.length;
     }
 
     public static void catchArrayException() {
@@ -91,22 +103,173 @@ int a =actions.length;
         System.out.println(boolArray[0]);
 
         //当二维数组的两个维度都指定时，则说明声明之后就初始化了，输出arr[0]时输出的就是地址
-        int [][]arr=new int[3][3];
+        int[][] arr = new int[3][3];
         System.out.println(arr[0]);//输出地址值
         //当二维数组仅指定了第一维度的值时，由于二维未指定导致二维维数组中的每个元素作为一维数组是未初始化的，即null
-        int [][]arr2=new int[3][];
+        int[][] arr2 = new int[3][];
         System.out.println(arr2[0]);//输出null
-        int [][]arr3=new int[3][];
+        int[][] arr3 = new int[3][];
         System.out.println(arr3[0][2]);//会抛出异常NullPointerException，因为无法根据null找到地址，报空指针异常
 
     }
 
-    public static void multipleDimensionArray() {
-        //java声明多维数组时行数必须指定，与C++不一样
-        String[][] stringArray = new String[3][];
+    //输出十行杨辉三角
+    public static void pascalTriangle() {
+        int[][] pascalTriangle = new int[10][];
+        for (int i = 0; i < pascalTriangle.length; i++) {
+            pascalTriangle[i] = new int[i + 1];
+            int lastIndex = pascalTriangle[i].length - 1;
+            pascalTriangle[i][0] = 1;
+            pascalTriangle[i][lastIndex] = 1;
+        }
+        for (int i = 2; i < pascalTriangle.length; i++) {
+            for (int j = 1; j < i; j++) {
+                pascalTriangle[i][j] = pascalTriangle[i - 1][j - 1] + pascalTriangle[i - 1][j];
+            }
+        }
+        for (int i = 0; i < pascalTriangle.length; i++) {
+            for (int j = 0; j < pascalTriangle[i].length; j++) {
+                System.out.print(pascalTriangle[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
 
+    //在数组中输出随机数
+    public static void randomArray() {
+        int[] randomArray = new int[6];
+        Random randomGenerator = new Random(System.currentTimeMillis());
+        for (int i = 0; i < randomArray.length; i++) {
+            loopLabel:
+            while (true) {
+                int temp = randomGenerator.nextInt(1, 30);
+                for (int j = 0; j < i; j++) {
+                    if (temp == randomArray[j]) continue loopLabel;
+                }
+                randomArray[i] = temp;
+                break;
+            }
+        }
+        for (int i : randomArray) {
+            System.out.print(i + " ");
+        }
+    }
+
+    //利用二维数组实现输出回形数
+    public static void numberOfRounds() {
+        Pointer pointer = new Pointer(0, 0, 1);
+        while (true) {
+            try {
+                pointer = pointer.goRight();
+                pointer = pointer.goDown();
+                pointer = pointer.goLeft();
+                pointer = pointer.goUp();
+            } catch (Obstruction exception) {
+                break;
+            }
+        }
+        pointer.showArray();
+    }
+}
+
+class Pointer {
+    private int x;
+    private int y;
+    private int beginNumber;
+
+    int[][] array = new int[5][5];
+
+
+    public Pointer(int x, int y, int beginNumber) {
+        this.x = x;
+        this.y = y;
+        this.beginNumber = beginNumber;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Pointer goRight() throws Obstruction {
+        if (array[x][y + 1] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
+        if (array[x][y] != 0) y++;//先判断自己所在的位置有没有元素
+        while (true) {
+            try {
+                if (array[x][y + 1] != 0) break;
+                array[x][y] = beginNumber;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                break;
+            }
+            beginNumber++;
+            y++;
+        }
+        return this;
+    }
+
+    public Pointer goLeft() throws Obstruction {
+        if (array[x][y - 1] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
+        if (array[x][y] != 0) y--;//先判断自己所在的位置有没有元素
+        while (true) {
+            try {
+                if (array[x][y - 1] != 0) break;
+                array[x][y] = beginNumber;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                break;
+            }
+            beginNumber++;
+            y--;
+        }
+        return this;
     }
 
 
+    public Pointer goUp() throws Obstruction {
+        if (array[x - 1][y] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
+        if (array[x][y] != 0) x--;//先判断自己所在的位置有没有元素
+        while (true) {
+            try {
+                if (array[x - 1][y] != 0) break;
+                array[x][y] = beginNumber;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                break;
+            }
+            beginNumber++;
+            x--;
+        }
+        return this;
+    }
+
+    public Pointer goDown() throws Obstruction {
+        if (array[x + 1][y] != 0) throw new Obstruction();//一旦发出阻碍异常，则代表整个回形数已经输出完毕了
+        if (array[x][y] != 0) x++;//先判断自己所在的位置有没有元素
+        while (true) {
+            try {
+                if (array[x + 1][y] != 0) break;
+                array[x][y] = beginNumber;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                break;
+            }
+            beginNumber++;
+            x++;
+        }
+        return this;
+    }
+
+    public void showArray() {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                System.out.print(array[i][j] + "\t");
+            }
+            System.out.println();
+        }
+
+    }
 }
 
+class Obstruction extends Exception {
+
+}

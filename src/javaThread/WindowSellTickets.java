@@ -38,20 +38,35 @@ class SellingWindow extends Thread {
         }
     */
 
+    //在继承的方式中想要用同步方法解决线程安全问题，必须用静态的同步方法，默认的同步方法的同步监视器是this，而在继承方式中，有多个对象，每个对象就代表一个锁，锁不唯一是不行的
+    //静态同步方法的同步监视器是类加载器生成为每个类生成的一个独一无二的对象，对于下面的静态同步方法就是SellingWindow.class
+    private static synchronized void operateTickets(SellingWindow window)
+    {
+        if(tickets>0)
+        {
+            System.out.println(window.getName() + "卖票：票号=" + tickets);
+            tickets--;
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
     //利用同步方法解决线程安全问题
     @Override
     public void run() {
 
         while (true) {
-            if (tickets > 0) {
-                System.out.println(getName() + "卖票：票号=" + tickets);
-                tickets--;
-            } else break;
-        }
-        try {
-            sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            operateTickets(this);
+            try {
+                sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
