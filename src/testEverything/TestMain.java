@@ -1,35 +1,29 @@
 package testEverything;
 
-class StaticSuper {
-    static {
-        System.out.println("super static block");
-    }
 
-    {
-        System.out.println("super non-static block");
-    }
+import java.io.IOException;
+import java.util.Scanner;
 
-    StaticSuper() {
-        System.out.println("super constructor");
-    }
-}
+public class TestMain {
 
-public class TestMain extends StaticSuper {
-    static {
-        System.out.println("static block");
-    }
+    public static void main(String[] args) throws IOException {
+        int x=0;
+        while (true)
+        {
+            Scanner scan=new Scanner(System.in);
 
-    {
-        System.out.println("non-static block");
-    }
-
-    TestMain() {
-        System.out.println("main class constructor");
-    }
-
-    public static void main(String args[]) {
-        System.out.println("in main");
-        TestMain mainObj=new TestMain();
+            if (scan.hasNextInt())
+            {
+                x= scan.nextInt();
+                break;
+            }
+            else
+            {
+                System.out.println("输入的不是整数，重新输入：");
+                scan.close();
+            }
+        }
+        System.out.println(x);
 
     }
 }

@@ -3,15 +3,84 @@ package array;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
+
+//排序器类，内置排序算法
+class Sort<T extends Comparable<T>> {
+
+
+    public void insertSort(T[] array) {
+        for (int i = 1; i < array.length; i++) {
+            T value = array[i];
+            insert(array, i, value);
+        }
+    }
+
+    private void insert(T[] array, int rightIndex, T value) {
+        int i;
+        for (i = rightIndex - 1; i >= 0 && value.compareTo(array[i]) < 0; i--) {
+            array[i + 1] = array[i];
+        }
+        array[i + 1] = value;
+    }
+
+    public void bubbleSort(T[] array) {
+        for (int i = array.length; i > 1 && betterBubble(array, i); i--) ;
+    }
+
+    private boolean betterBubble(T[] array, int n) {
+        boolean swapped = false;
+        for (int i = 0; i < n - 1; i++) {
+            if (array[i].compareTo(array[i + 1]) > 0) {
+                swap(array,i,i+1);
+                swapped = true;
+            }
+        }
+        return swapped;
+    }
+
+    //在java中交换数组中的两个元素时，数组对象以及交换序号必须传入函数，
+    private void swap(T[]array,int i,int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
 
 /**
  * @author Mingxiang
  * @version 1.0
  */
 public class ArrayMain {
+    public static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        numberOfRounds();
+        findNumber();
+    }
+
+    public static void findNumber() {
+        Integer[] arr = randomArray(5, 1, 100);
+
+        Sort<Integer> sorter = new Sort<Integer>();//实例化排序器对象
+        //sorter.insertSort(arr);//排序器调用插入排序法对数组排序
+        System.out.println("在排序之前的数组");
+        showArray(arr);
+        sorter.bubbleSort(arr);//排序器调用bubbleSort算法对数组进行排序
+        System.out.println("在排序之后的数组");
+        showArray(arr);
+        System.out.println("输入要查找的数字：");
+        int userNumber = 0;
+        userNumber = scanner.nextInt();
+        int index = binarySearch(arr, userNumber);//注意二分查找的条件是数组是有序的，必须提前排好序
+        if (index != -1) System.out.println("找到了，下标为：" + index);
+        else System.out.println("未找到");
+    }
+
+    public static void showArray(Integer[] arr) {
+        for (Integer i : arr)
+            System.out.print(i + " ");
+        System.out.println();
     }
 
     public static void arrayInitialize() {
@@ -70,12 +139,42 @@ public class ArrayMain {
         for (String str : names) {
             System.out.print(str);
         }
+        System.out.println();
 
         //拷贝数组的第二种方法是使用 java.util.Arrays.copyOf()和copyOfRange()方法
         int[] bar = new int[]{1, 2, 3, 4, 5};
         int[] barCopy = Arrays.copyOf(bar, bar.length);//copyOf接受最初的数组和一个目标长度作为参数
         int[] barExtraCopy = Arrays.copyOf(bar, bar.length + 2);//若目标数组长度比最初数组长，那么copyOf将会用0或null填充新数组以达到想要的长度
         int[] rangeCopy = Arrays.copyOfRange(bar, 0, bar.length);//copyOfRange()接受一个开始索引（包括该索引）和一个结束索引（不包括该索引）以及一个想要的长度，如果必要的话，它也将进行填充补齐
+        int[] barCloneCopy = bar.clone();
+        for (int i : barCloneCopy) System.out.print(i + " ");
+        System.out.println();
+        System.out.println("拷贝二维数组");
+        //拷贝二维数组
+        int[][] numbers = {{1, 2, 3, 4}, {45, 48}};
+        int[][] numbers_copy = numbers.clone();
+        for (int i = 0; i < numbers_copy.length; i++) {
+            for (int j = 0; j < numbers_copy[i].length; j++)
+                System.out.print(numbers_copy[i][j] + " ");
+            System.out.println();
+        }
+
+    }
+
+    //数组的反转
+    public static void reverseArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        for (int i = 0; i < array.length / 2; i++) {
+            int temp = array[i];
+            array[i] = array[array.length - i - 1];
+            array[array.length - i - 1] = temp;
+        }
+        for (int i : array)
+            System.out.print(i + " ");
+        System.out.println();
+
     }
 
     static class Inner {
@@ -135,30 +234,59 @@ public class ArrayMain {
         }
     }
 
-    //在数组中输出随机数
-    public static void randomArray() {
-        int[] randomArray = new int[6];
+    //该方法返回一个整型对象数组，其中的元素随机且不重复，范围在begin到end之间
+    public static Integer[] randomArray(int size, int begin, int end) {
+        Integer[] randomArray = new Integer[size];
         Random randomGenerator = new Random(System.currentTimeMillis());
         for (int i = 0; i < randomArray.length; i++) {
             loopLabel:
             while (true) {
-                int temp = randomGenerator.nextInt(1, 30);
+                Integer tempInteger = randomGenerator.nextInt(begin, end);
                 for (int j = 0; j < i; j++) {
-                    if (temp == randomArray[j]) continue loopLabel;
+                    if (tempInteger.equals(randomArray[j])) continue loopLabel;
                 }
-                randomArray[i] = temp;
+                randomArray[i] = tempInteger;
                 break;
             }
         }
-        for (int i : randomArray) {
-            System.out.print(i + " ");
+        return randomArray;
+    }
+
+    public static int binarySearch(Integer[] theArray, int targetNumber) {
+        int left = 0;
+        int right = theArray.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (targetNumber > theArray[mid])//比较运算符两边只要有一个是基本类型，右边的包装器会自动拆箱
+                left = mid + 1;
+            else if (targetNumber < theArray[mid])
+                right = mid - 1;
+            else return mid;
         }
+        return -1;
     }
 
     //利用二维数组实现输出回形数
     public static void numberOfRounds() {
-        CircularDigitalMatrix circularDigitalMatrix = new CircularDigitalMatrix(5, 5,  56);
+        CircularDigitalMatrix circularDigitalMatrix = new CircularDigitalMatrix(5, 5, 56);
         circularDigitalMatrix.showMatrix();
+    }
+
+    public static void MaxOrMinNumberOfArray() {
+        Integer[] array = randomArray(10, 10, 99);//返回一个不包含重复元素的随机数组
+        System.out.println("数组元素概览：");
+        for (int i : array) System.out.print(i + " ");
+        System.out.println();
+
+        int max = array[0], min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) max = array[i];
+            if (array[i] < min) min = array[i];
+        }
+        System.out.println("数组最大元素为：" + max);
+        System.out.println("数组最小元素为：" + min);
+
     }
 }
 
@@ -173,8 +301,11 @@ class CircularDigitalMatrix {
 
     /**
      * <code>Obstruction异常类</code>
-     * 回形数组无法再继续赋值输出时会抛出此异常，表示整个数组输出完毕，提示中断私有run()方法*/
-    class Obstruction extends Exception {}
+     * 回形数组无法再继续赋值输出时会抛出此异常，表示整个数组输出完毕，提示中断私有run()方法
+     */
+    class Obstruction extends Exception {
+    }
+
     /**
      * 这个构造函数可以指定从哪开始输出，并从多少开始输出
      *
@@ -299,7 +430,8 @@ class CircularDigitalMatrix {
     }
 
     /**
-     * 赋值整个回形数组并将数组输出出来*/
+     * 赋值整个回形数组并将数组输出出来
+     */
     public void showMatrix() {
         this.run();//调用私有接口run方法完成赋值操作
 
