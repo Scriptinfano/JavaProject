@@ -199,9 +199,11 @@ class Pointer {
         if (array[x][y] != 0) y++;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if(array[x][y]==0) array[x][y]=beginNumber;
-                if (array[x][y + 1] != 0) {beginNumber++;break;}
-                else array[x][y] = beginNumber;
+                array[x][y] = beginNumber;
+                if (array[x][y + 1] != 0) {
+                    beginNumber++;
+                    break;
+                }
             } catch (ArrayIndexOutOfBoundsException e) {
                 beginNumber++;
                 break;
@@ -217,9 +219,11 @@ class Pointer {
         if (array[x][y] != 0) y--;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if(array[x][y]==0) array[x][y]=beginNumber;
-                if (array[x][y - 1] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
+                if (array[x][y - 1] != 0) {
+                    beginNumber++;
+                    break;
+                }
             } catch (ArrayIndexOutOfBoundsException e) {
                 beginNumber++;
 
@@ -237,9 +241,11 @@ class Pointer {
         if (array[x][y] != 0) x--;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if(array[x][y]==0) array[x][y]=beginNumber;
-                if (array[x - 1][y] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
+                if (array[x - 1][y] != 0) {
+                    beginNumber++;
+                    break;
+                }
             } catch (ArrayIndexOutOfBoundsException e) {
                 beginNumber++;
 
@@ -256,12 +262,13 @@ class Pointer {
         if (array[x][y] != 0) x++;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if(array[x][y]==0) array[x][y]=beginNumber;
-                if (array[x + 1][y] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
+                if (array[x + 1][y] != 0) {
+                    beginNumber++;
+                    break;
+                }
             } catch (ArrayIndexOutOfBoundsException e) {
                 beginNumber++;
-
                 break;
             }
             beginNumber++;
