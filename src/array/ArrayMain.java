@@ -199,9 +199,11 @@ class Pointer {
         if (array[x][y] != 0) y++;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if (array[x][y + 1] != 0) break;
-                array[x][y] = beginNumber;
+                if(array[x][y]==0) array[x][y]=beginNumber;
+                if (array[x][y + 1] != 0) {beginNumber++;break;}
+                else array[x][y] = beginNumber;
             } catch (ArrayIndexOutOfBoundsException e) {
+                beginNumber++;
                 break;
             }
             beginNumber++;
@@ -215,9 +217,12 @@ class Pointer {
         if (array[x][y] != 0) y--;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if (array[x][y - 1] != 0) break;
+                if(array[x][y]==0) array[x][y]=beginNumber;
+                if (array[x][y - 1] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
             } catch (ArrayIndexOutOfBoundsException e) {
+                beginNumber++;
+
                 break;
             }
             beginNumber++;
@@ -232,9 +237,12 @@ class Pointer {
         if (array[x][y] != 0) x--;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if (array[x - 1][y] != 0) break;
+                if(array[x][y]==0) array[x][y]=beginNumber;
+                if (array[x - 1][y] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
             } catch (ArrayIndexOutOfBoundsException e) {
+                beginNumber++;
+
                 break;
             }
             beginNumber++;
@@ -248,9 +256,12 @@ class Pointer {
         if (array[x][y] != 0) x++;//先判断自己所在的位置有没有元素
         while (true) {
             try {
-                if (array[x + 1][y] != 0) break;
+                if(array[x][y]==0) array[x][y]=beginNumber;
+                if (array[x + 1][y] != 0) {beginNumber++;break;}
                 array[x][y] = beginNumber;
             } catch (ArrayIndexOutOfBoundsException e) {
+                beginNumber++;
+
                 break;
             }
             beginNumber++;
