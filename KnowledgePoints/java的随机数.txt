@@ -10,7 +10,7 @@
         Random random2=new Random(System.currentTimeMillis());//指定种子数字
         //通过Random类对象来获得随机数
         int randomNum=random2.nextInt();//不指定随机数的范围，随机返回数值
-        int randomNum2=random2.nextInt(100);//指定的返回范围是0到100
+        int randomNum2=random2.nextInt(100);//指定的返回范围是[0,100)，注意这个区间是左闭右开区间，实际上是0到99的数
         int randomNum3=random2.nextInt(2,34);//返回一个指定范围是2到34之间的随机整数
         double randomGaussianNum=random2.nextGaussian();//返回下一个“double类型”的随机数，它是呈高斯（“正常地”）分布的 double 值，其平均值是 0.0，标准偏差是 1.0
         random2.setSeed(System.currentTimeMillis());//重新设置种子

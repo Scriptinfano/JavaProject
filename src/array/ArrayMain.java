@@ -9,7 +9,28 @@ import java.util.Scanner;
 //排序器类，内置排序算法
 class Sort<T extends Comparable<T>> {
 
+    //快速排序，调用时要指定左右边界
+    public void quickSort(T[] array, int left, int right) {
+        if (left < 0 || right > array.length || right - left <= 1) return;
+        int i = left, j = right;
+        T standard = array[i];
+        while (i != j) {
+            while (array[j].compareTo(standard) >= 0 && i < j) {
+                j -= 1;
+            }
+            while (array[i].compareTo(standard) <= 0 && i < j) {
+                i += 1;
+            }
+            if (i < j)
+                swap(array, i, j);
+        }
+        swap(array, left, i);
+        quickSort(array, left, i - 1);
+        quickSort(array, i + 1, right);
+    }
 
+
+    //插入排序
     public void insertSort(T[] array) {
         for (int i = 1; i < array.length; i++) {
             T value = array[i];
@@ -25,7 +46,20 @@ class Sort<T extends Comparable<T>> {
         array[i + 1] = value;
     }
 
+    //普通的冒泡循环
     public void bubbleSort(T[] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            for (int j = 0; j < array.length - 1 - i; j++) {
+                if (array[j].compareTo(array[j + 1]) > 0) {
+                    swap(array, j, j + 1);
+                }
+            }
+        }
+
+    }
+
+    //能及时终止的冒泡循环
+    public void betterBubbleSort(T[] array) {
         for (int i = array.length; i > 1 && betterBubble(array, i); i--) ;
     }
 
@@ -33,7 +67,7 @@ class Sort<T extends Comparable<T>> {
         boolean swapped = false;
         for (int i = 0; i < n - 1; i++) {
             if (array[i].compareTo(array[i + 1]) > 0) {
-                swap(array,i,i+1);
+                swap(array, i, i + 1);
                 swapped = true;
             }
         }
@@ -41,7 +75,7 @@ class Sort<T extends Comparable<T>> {
     }
 
     //在java中交换数组中的两个元素时，数组对象以及交换序号必须传入函数，
-    private void swap(T[]array,int i,int j) {
+    private void swap(T[] array, int i, int j) {
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
@@ -56,33 +90,79 @@ public class ArrayMain {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        findNumber();
+        catchArrayException();
     }
 
-    public static void findNumber() {
-        Integer[] arr = randomArray(5, 1, 100);
+    //输入两个以纳秒为单位的long型值，返回之间的间隔时间，以毫秒为单位
+    private static double getAlgorithmTime(long begin, long end) {
+        double time = (end - begin) / 1000000d;
+        return time;
+    }
 
-        Sort<Integer> sorter = new Sort<Integer>();//实例化排序器对象
-        //sorter.insertSort(arr);//排序器调用插入排序法对数组排序
+    //输出两个指定的数组
+    private static void showBothArray(Integer[] arrayOne, Integer[] arrayTwo) {
         System.out.println("在排序之前的数组");
-        showArray(arr);
-        sorter.bubbleSort(arr);//排序器调用bubbleSort算法对数组进行排序
+        showArray(arrayOne);//输出排序前数组
         System.out.println("在排序之后的数组");
-        showArray(arr);
+        showArray(arrayTwo);
+    }
+
+    //返回指定数组的备份数组的集合，集合中的每一个元素都是第一个参数所代表的数组的拷贝，size指定了要返回多少个拷贝
+    private static Integer[][] getBackUpArrays(Integer[] array, int size) {
+        Integer[][] backupArray = new Integer[size][];//保存没有排序的数组
+        for (int i = 0; i < backupArray.length; i++) {
+            backupArray[i] = array.clone();
+        }
+        return backupArray;
+    }
+
+    //对各种排序算法做时间分析，并运行二分查找寻找给定的元素
+    public static void findNumber() {
+        Sort<Integer> sorter = new Sort<Integer>();//实例化排序器对象
+        Integer[] arr = randomArray(100, 1, 10000);//生成随机数组
+        Integer[][] backUpArrays = getBackUpArrays(arr, 4);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
+
+
+        long beginMillis1 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.betterBubbleSort(backUpArrays[0]);//排序器调用bubbleSort算法对数组进行排序
+        long endMillis1 = System.nanoTime();
+
+        long beginMillis2 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.quickSort(backUpArrays[1], 0, arr.length - 1);//排序器调用快速排序法对数组排序
+        long endMillis2 = System.nanoTime();//以纳秒为单位返回系统单位时间
+
+        long beginMillis3 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.bubbleSort(backUpArrays[2]);//排序器调用快速排序法对数组排序
+        long endMillis3 = System.nanoTime();//以纳秒为单位返回系统单位时间
+
+        long beginMillis4 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.insertSort(backUpArrays[3]);//排序器调用快速排序法对数组排序
+        long endMillis4 = System.nanoTime();//以纳秒为单位返回系统单位时间
+
+        showBothArray(arr, backUpArrays[0]);
+
+        System.out.println("优化冒泡排序总共耗费时间:" + getAlgorithmTime(beginMillis1, endMillis1) + "毫秒");
+        System.out.println("快速排序总共耗费时间:" + getAlgorithmTime(beginMillis2, endMillis2) + "毫秒");
+        System.out.println("普通冒泡排序排序总共耗费时间:" + getAlgorithmTime(beginMillis3, endMillis3) + "毫秒");
+        System.out.println("插入排序排序总共耗费时间:" + getAlgorithmTime(beginMillis4, endMillis4) + "毫秒");
+
+
         System.out.println("输入要查找的数字：");
         int userNumber = 0;
         userNumber = scanner.nextInt();
-        int index = binarySearch(arr, userNumber);//注意二分查找的条件是数组是有序的，必须提前排好序
+        int index = binarySearch(backUpArrays[0], userNumber);//注意二分查找的条件是数组是有序的，必须提前排好序
         if (index != -1) System.out.println("找到了，下标为：" + index);
         else System.out.println("未找到");
     }
 
+    //输出给定数组
     public static void showArray(Integer[] arr) {
         for (Integer i : arr)
             System.out.print(i + " ");
         System.out.println();
     }
 
+    //数组正确的初始化方式
     public static void arrayInitialize() {
         //数组正确的初始化方式
         int[] arr = new int[]{1, 2, 3};//一维数组静态初始化
@@ -95,6 +175,7 @@ public class ArrayMain {
 
     }
 
+    //对象数组
     public static void objectArray() {
         //类对象数组的元素是对象的引用，每个元素的默认值是null，直到我们为其分配空间为止
         String[] names = new String[3];
@@ -111,6 +192,7 @@ public class ArrayMain {
         int a = actions.length;
     }
 
+    //测试数组中可能抛出的异常
     public static void catchArrayException() {
         //若试图访问一个超出数组范围的元素，则会生成一个ArrayIndexOutOfBounds的异常，属于RuntimeException
         String[] states = new String[3];
@@ -122,8 +204,19 @@ public class ArrayMain {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("捕获到异常:" + e.getMessage());
         }
+        //空指针异常
+        try {
+            Integer[] array = new Integer[3];
+            array = null;//将引用置空
+            System.out.println(array[2]);//试图通过空引用访问堆内存会抛出空指针异常
+        } catch (NullPointerException e) {
+            System.out.println("捕获到异常:" + e.getMessage());
+        }
+
+
     }
 
+    //拷贝数组中的元素
     public static void copyArray() {
         //拷贝数组的第一种方法是使用System类的低层级arrayCopy()方法
         String[] names = new String[3];
@@ -183,6 +276,7 @@ public class ArrayMain {
         }
     }
 
+    //测试匿名数组
     public static void anonymousArray() {
         //本函数主要讲解匿名数组
         int example1 = 12;
@@ -191,6 +285,7 @@ public class ArrayMain {
         inner.set(new int[]{example1, example2});
     }
 
+    //数组元素的默认初始化
     public static void defaultArrayElement() {
         //各元素数组的默认值
         //char数组的默认元素不是'0',而是asc码的0，
@@ -241,7 +336,7 @@ public class ArrayMain {
         for (int i = 0; i < randomArray.length; i++) {
             loopLabel:
             while (true) {
-                Integer tempInteger = randomGenerator.nextInt(begin, end);
+                Integer tempInteger = randomGenerator.nextInt(begin, end + 1);
                 for (int j = 0; j < i; j++) {
                     if (tempInteger.equals(randomArray[j])) continue loopLabel;
                 }
@@ -252,6 +347,7 @@ public class ArrayMain {
         return randomArray;
     }
 
+    //二分查找法
     public static int binarySearch(Integer[] theArray, int targetNumber) {
         int left = 0;
         int right = theArray.length - 1;
@@ -273,6 +369,7 @@ public class ArrayMain {
         circularDigitalMatrix.showMatrix();
     }
 
+    //找出数组元素中最大的数和最小的数
     public static void MaxOrMinNumberOfArray() {
         Integer[] array = randomArray(10, 10, 99);//返回一个不包含重复元素的随机数组
         System.out.println("数组元素概览：");
@@ -288,6 +385,42 @@ public class ArrayMain {
         System.out.println("数组最小元素为：" + min);
 
     }
+
+    //Arrays工具类的使用
+    public static void theUsageOfArrays() {
+        //Arrays中常见的方法
+        //1、boolean equals(int[]a,int[]b) 判断两个数组是否相等
+        int[] arr = new int[]{12, 23, 34, 54};
+        int[] arr2 = new int[]{12, 23, 34, 12};
+        boolean isEqual = Arrays.equals(arr, arr2);
+        System.out.println(isEqual);
+        double[] arr3 = new double[]{12.23, 12.42};
+        double[] arr4 = new double[]{31d, 12.21};
+        boolean isEqual2 = Arrays.equals(arr3, arr3.clone());
+        System.out.println(isEqual2);
+
+        //2、String toString(int[]a) 输出数组信息
+        String arrayString = Arrays.toString(arr4);
+        System.out.println(arrayString);
+        //3、void fill(int[]a,int val) 将指定值填充到数组中
+        Arrays.fill(arr, 10);
+        String arrayString2 = Arrays.toString(arr);
+        System.out.println(arrayString2);
+        //4、void sort(int[]a) 对数组进行排序
+        Integer[] randomArray = randomArray(50, 0, 100);
+        Arrays.sort(randomArray);
+        String arrayString3 = Arrays.toString(randomArray);
+        System.out.println(arrayString3);
+        //5、int binarySearch(int[]a,int key) 堆排序后的数组进行二分法检索指定的值
+        System.out.println("查找上面输出的数组中的元素，请输入要查找的数字");
+        int targetNumber = scanner.nextInt();
+        int index = Arrays.binarySearch(randomArray, targetNumber);
+        if (index >= 0) System.out.println("找到了，索引是：" + index);
+        else System.out.println("未找到");
+
+    }
+
+
 }
 
 //回形数组类

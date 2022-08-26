@@ -1,0 +1,113 @@
+  零、设计模式及其分类
+   1、创建型模式
+     这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用
+     new 运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建
+     哪些对象时更加灵活。
+       1》工厂模式（Factory Pattern）
+       2》抽象工厂模式（Abstract Factory Pattern）
+       3》单例模式（Singleton Pattern）
+       4》建造者模式（Builder Pattern）
+       5》原型模式（Prototype Pattern）
+   2、结构型模式
+     这些设计模式关注类和对象的组合。继承的概念被用来组合接口和定义组合对
+     象获得新功能的方式。
+       1》适配器模式（Adapter Pattern）
+       2》桥接模式（Bridge Pattern）
+       3》过滤器模式（Filter、Criteria Pattern）
+       4》组合模式（Composite Pattern）
+       5》装饰器模式（Decorator Pattern）
+       6》外观模式（Facade Pattern）
+       7》享元模式（Flyweight Pattern）
+       8》代理模式（Proxy Pattern）
+   3、行为型模式
+     这些设计模式特别关注对象之间的通信。
+       1》责任链模式（Chain of Responsibility Pattern）
+       2》命令模式（Command Pattern）
+       3》解释器模式（Interpreter Pattern）
+       4》迭代器模式（Iterator Pattern）
+       5》中介者模式（Mediator Pattern）
+       6》备忘录模式（Memento Pattern）
+       7》观察者模式（Observer Pattern）
+       8》状态模式（State Pattern）
+       9》空对象模式（Null Object Pattern）
+       10》策略模式（Strategy Pattern）
+       11》模板模式（Template Pattern）
+       12》访问者模式（Visitor Pattern）
+   4、J2EE 模式
+     这些设计模式特别关注表示层。这些模式是由 Sun Java Center 鉴定的
+       1》MVC 模式（MVC Pattern）
+       2》业务代表模式（Business Delegate Pattern）
+       3》组合实体模式（Composite Entity Pattern）
+       4》数据访问对象模式（Data Access Object Pattern）
+       5》前端控制器模式（Front Controller Pattern）
+       6》拦截过滤器模式（Intercepting Filter Pattern）
+       7》服务定位器模式（Service Locator Pattern）
+       8》传输对象模式（Transfer Object Pattern）
+
+  设计模式的六大原则
+    1、开闭原则（Open Close Principle）
+    开闭原则的意思是：对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，
+    实现一个热插拔的效果。简言之，是为了使程序的扩展性好，易于维护和升级。想要达到这样的效果，
+    我们需要使用接口和抽象类，后面的具体设计中我们会提到这点。
+
+    2、里氏代换原则（Liskov Substitution Principle）
+    里氏代换原则是面向对象设计的基本原则之一。 里氏代换原则中说，任何基类可以出现的地方，
+    子类一定可以出现。LSP 是继承复用的基石，只有当派生类可以替换掉基类，且软件单位的功能不
+    受到影响时，基类才能真正被复用，而派生类也能够在基类的基础上增加新的行为。里氏代换原则
+    是对开闭原则的补充。实现开闭原则的关键步骤就是抽象化，而基类与子类的继承关系就是抽象化
+    的具体实现，所以里氏代换原则是对实现抽象化的具体步骤的规范。
+
+    3、依赖倒转原则（Dependence Inversion Principle）
+    这个原则是开闭原则的基础，具体内容：针对接口编程，依赖于抽象而不依赖于具体。
+
+    4、接口隔离原则（Interface Segregation Principle）
+    这个原则的意思是：使用多个隔离的接口，比使用单个接口要好。它还有另外一个意思是：降低类之
+    间的耦合度。由此可见，其实设计模式就是从大型软件架构出发、便于升级和维护的软件设计思想，
+    它强调降低依赖，降低耦合。
+
+    5、迪米特法则，又称最少知道原则（Demeter Principle）
+    最少知道原则是指：一个实体应当尽量少地与其他实体之间发生相互作用，使得系统功能模块相对独立。
+
+    6、合成复用原则（Composite Reuse Principle）
+    合成复用原则是指：尽量使用合成/聚合的方式，而不是使用继承。
+
+  一、类的单例设计模式
+    1、一个类只能存在一个对象实例，且该类只提供一个取得其对象实例的方法，
+    若要让类在虚拟机中只产生一个对象，则必须将类的构造函数设为private，此
+    时便不能用new操作符在类的外部产生对象，但在类内依然可产生类的对象，因为
+    在类的外部开始还无法获得类的对象，只能调用该类的静态方法获得类内部创建的
+    对象，静态方法只能访问类中的静态成员变量，所以指向类内部产生的该类对象
+    的变量也必须定义为静态的
+    2、实现单例设计模式的两种方式：懒汉式和饿汉式，分别如下
+    class SingletonInHungryStyle //饿汉式实现
+    {
+        private SingletonInHungryStyle() {}//私有化构造器
+        private static SingletonInHungryStyle instance = new SingletonInHungryStyle();//内部实例对象直接在类加载时初始化
+        public static SingletonInHungryStyle getInstance() {
+            return instance;//静态方法返回内部在类加载时已经初始化好的对象引用
+        }
+    }
+    class SingletonInLazyStyle //懒汉式实现
+    {
+        private SingletonInLazyStyle() {}//私有化构造器
+        private static SingletonInLazyStyle instance = null;//在类加载时先不初始化内部实例
+        public static SingletonInLazyStyle getInstance() {
+            if (instance == null)//判断内部是否有实例化的对象
+                instance = new SingletonInLazyStyle();//在静态方法中只有在第一次调用静态方法时才实例化内部对象
+            return instance;//返回内部已经创建好的实例或者返回第一次创建的实例
+        }
+    }
+    3、饿汉式实现的优点是线程安全，懒汉式写法在不进行特殊修改的情况下是线程不安全的
+    4、单例模式的优点：由于只生成一个实例，减少了系统开销，当一个对象需要比较多的资源时，比如读取
+    配置，产生其他依赖对象时，则可以通过子啊应用启动时直接在=产生一个单例对象，然后永久驻留
+    在内存的方式来解决
+    5、单例设计模式的应用场景：
+      1》网站的计数器
+      2》应用程序的日志应用，一般都使用单例模式实现，这一般是由于共享的日志文件一直处于打开
+      状态，因为只有一个实例去操作，否则内容不好追加
+      3》数据库连接池的设计一般也采用单例模式，因为数据库连接是一种数据库资源
+      4》项目中读取配置文件的类，一般也只有一个对象，没必要每次使用配置文件数据都生成一个对象
+      去读
+      5》Windows系统的任务管理器以及回收站也是典型的单例应用，在整个系统运行的过程中，回收站
+      和任务管理器一直维护着仅有的一个实例
+
