@@ -2,3 +2,10 @@
 /out/
 /.idea/vcs.xml
 /.idea/intellij-javadocs-4.0.1.xml
+/JavaCasePackages/Snake/Direction.java
+/JavaCasePackages/Snake/Food.java
+/JavaCasePackages/Snake/record.txt
+/JavaCasePackages/Snake/SnakeBody.java
+/JavaCasePackages/Snake/SnakeDemo.java
+/JavaCasePackages/Snake/SnakeList.java
+/JavaCasePackages/Snake/SnakeNode.java
