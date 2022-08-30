@@ -1,0 +1,39 @@
+Java面向对象设计 - Java Objects类
+
+Java在java.util包中有一个实用程序类Objects用于处理对象。
+
+它由所有静态方法组成。 Objects类中的大多数方法都会优雅地处理空值。
+
+以下是类中的方法列表。他们的描述遵循列表。
+
+int compare(T a, T b, Comparator c)
+如果参数相同，则返回0，否则返回c.compare(a，b)。因此，如果两个参数都为null，则返回0。
+
+boolean deepEquals(Object a, Object b)
+检查两个对象是否相等。如果两个参数都相等，则返回true。否则，它返回false。如果两个参数都为null，则返回true。
+
+boolean equals(Object a, Object b)
+比较两个对象是否相等。如果两个参数相等，则返回true。否则，它返回false。如果两个参数都为null，则返回true。
+
+int hash(Object... values)
+为所有指定的对象生成哈希码。它可以用于计算对象的哈希码，该哈希码基于多个实例字段。
+
+int hashCode(Object o)
+返回指定对象的哈希码值。如果参数为null，则返回0。
+
+boolean isNull(Object obj)
+如果指定的对象为null，isNull()方法返回true。否则，它返回false。您还可以使用比较运算符==检查对象是否为null，例如，obj == null返回obj的true为null。
+
+boolean nonNull(Object obj)
+执行与isNull()方法相反的检查。
+
+T requireNonNull(T obj)
+T requireNonNull(T obj, String message)
+T requireNonNull(T obj, Supplier messageSupplier)
+检查参数是否为null。如果参数为null，它会抛出一个NullPointerException异常。此方法设计用于验证方法和构造函数的参数。
+第二个版本可以指定当参数为null时抛出的NullPointerException的消息。
+第三个版本的方法将一个Supplier作为第二个参数。
+
+String toString(Object o)
+String toString(Object o, String nullDefault)
+如果参数为null，则toString()方法返回一个“null”字符串。对于非空参数，它返回通过调用参数的toString()方法返回的值。

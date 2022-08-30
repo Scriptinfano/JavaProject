@@ -1,0 +1,1 @@
+1、stack容器的push()方法和add()方式作用是一样的，只不过push返回添加元素的类型，add返回boolean值
