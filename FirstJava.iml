@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/Snake" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/Math" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/JavaAlgorithm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/KnowledgePoints" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

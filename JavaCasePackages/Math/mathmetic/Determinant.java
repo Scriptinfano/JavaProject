@@ -1,7 +1,7 @@
 /**
  * 本程序可以计算任意阶数的二阶行列式的结果
  */
-package struct;
+package mathmetic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,9 +128,10 @@ class DeterminantOfOrderN {
 public class Determinant {
     public static void main(String[] args) {
         int[][] thirdDeterminant = {
-                {1, 2, 3},
-                {2, 4, 6},
-                {-3, 7, -2}
+                {1, 2000, 2001, 2002},
+                {0, -1, 0, 2003},
+                {0, 0, -1, 2004},
+                {0, 0, 0, 2005}
         };
         DeterminantOfOrderN determinant = new DeterminantOfOrderN(thirdDeterminant);
         int result = determinant.result();

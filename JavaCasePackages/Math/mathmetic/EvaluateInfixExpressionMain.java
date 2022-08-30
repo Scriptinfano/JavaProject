@@ -1,9 +1,10 @@
-package other;
+/**
+ * 本程序可以计算中缀表达式
+ */
+package mathmetic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Stack;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * 中缀表达式类，内部提供方法可直接计算该中缀表达式的结果
@@ -48,32 +49,21 @@ class InfixExpression {
     }
 
     /**
-     * 该函数用在{@link other.InfixExpression#setExpressionArray(ArrayList<String>)}中，目的
-     * 是检测传入的中缀表达式是否均由数字和运算符组成
+     * 该函数用在{@link InfixExpression#setExpressionArray(ArrayList<String>)}中，目的
+     * 是检测传入的中缀表达式是否均由小数或整数或运算符组成
      *
      * @param expressionArray 代表待检测的中缀表达式
      * @return boolean 如果符合规则则返回true否则返回false
      */
     private static boolean verifyExpression(ArrayList<String> expressionArray) {
         for (String s : expressionArray) {
-            if (s.equals("0") ||
-                    s.equals("1") ||
-                    s.equals("2") ||
-                    s.equals("3") ||
-                    s.equals("4") ||
-                    s.equals("5") ||
-                    s.equals("6") ||
-                    s.equals("7") ||
-                    s.equals("8") ||
-                    s.equals("9") ||
-                    s.equals("+") ||
-                    s.equals("-") ||
-                    s.equals("*") ||
-                    s.equals("/") ||
-                    s.equals("(") ||
-                    s.equals(")")
-            ) continue;
-            else return false;
+            if (!s.equals("+") && !s.equals("-") && !s.equals("*") && !s.equals("/") && !s.equals("(") && !s.equals(")")) {
+                try {
+                    double test = Double.parseDouble(s);//如果在这里转换失败会抛出一个异常
+                } catch (NumberFormatException e) {
+                    return false;//转换失败说明其中包含有非法字符
+                }
+            }
         }
         return true;
     }
@@ -205,14 +195,38 @@ class InfixExpression {
     }
 }
 
+class Formatter {
+    public DecimalFormat formatter;
+    private String format = "#.";
+    private int precision = 0;
+
+    public Formatter() {
+    }
+
+    public void setPrecision(int thePrecision) {
+        precision = thePrecision;
+        for (int i = 0; i < precision; i++) {
+            format += "0";
+        }
+        formatter = new DecimalFormat(format);
+    }
+
+    public DecimalFormat getFormatter() {
+        return formatter;
+    }
+}
+
 public class EvaluateInfixExpressionMain {
+
     public static void main(String[] args) {
-        String[] infixExpressionArray = {"1", "+", "(", "2", "-", "3", ")", "*", "4", "+", "4", "/", "2"};
+        Formatter formatter = new Formatter();
+        formatter.setPrecision(3);
+        String[] infixExpressionArray = {"1.2", "+", "(", "2.7", "-", "3.4", ")", "*", "4.4", "+", "4.1", "/", "2.8"};
         ArrayList<String> infixExpressionList = strArrayToList(infixExpressionArray);
         InfixExpression expressionCalculator = new InfixExpression();
         expressionCalculator.setExpressionArray(infixExpressionList);
         double result = expressionCalculator.result();
-        System.out.println(result);
+        System.out.println(formatter.getFormatter().format(result));
     }
 
     private static ArrayList<String> strArrayToList(String[] strArray) {
