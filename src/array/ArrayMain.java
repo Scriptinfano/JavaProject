@@ -15,10 +15,36 @@ import java.util.Scanner;
  * @date 2022/08/27
  */
 class ArraySorter<T extends Comparable<T>> {
+    /**
+     * 内部要排列的数组
+     */
+    T[] array = null;
 
-    //快速排序，调用时要指定左右边界
-    public void quickSort(T[] array, int left, int right) {
-        if (left < 0 || right > array.length || right - left <= 1) return;
+    /**
+     * 构造ArraySorter对象，将要进行排序的数组作为属性传入ArraySorter对象，以便其调用排序算法对其进行排序
+     *
+     * @param theArray 表示要进行排序的数组
+     */
+    public ArraySorter(T[] theArray) {
+        this.array = theArray;
+    }
+
+    /**
+     * 重设要排序的数组，一般用法是仅声明一个ArraySorter对象，调用该方法重设排序数组即可对其他数组进行排序
+     */
+    public void resetArray(T[] array) {
+        this.array = array;
+    }
+
+    /**
+     * 快速排序
+     *
+     * @param left  快速排序要指定的左边界
+     * @param right 快速排序要指定的右边界
+     * @throws IllegalArgumentException 指示左边界或右边界指定错误
+     */
+    public void quickSort(int left, int right) {
+        if (left < 0 || right > array.length || right - left <= 1) throw new IllegalArgumentException("快速排序中左边界或右边界指定错误");
         int i = left, j = right;
         T standard = array[i];
         while (i != j) {
@@ -29,23 +55,35 @@ class ArraySorter<T extends Comparable<T>> {
                 i += 1;
             }
             if (i < j)
-                swap(array, i, j);
+                swap(i, j);
         }
-        swap(array, left, i);
-        quickSort(array, left, i - 1);
-        quickSort(array, i + 1, right);
+        swap(left, i);
+        quickSort(left, i - 1);
+        quickSort(i + 1, right);
     }
 
 
-    //插入排序
-    public void insertSort(T[] array) {
+    /**
+     * 插入排序<p>
+     * 插入排序的思想:从数组的第二个元素开始遍历数组，比较该元素与前一个元素，如果该元素
+     * 比前一个元素大，则继续遍历下一个元素，如果该元素比前一个元素小，则保存这个元素的值，
+     * 将这个元素不断地向后挪，直到该元素比后一个元素小为止，挪的过程中采用将前一个元素覆
+     * 写后一个元素的方式实现，不用担心后一个元素被抹掉，因为已经提前保存了这个值
+     */
+    public void insertSort() {
         for (int i = 1; i < array.length; i++) {
             T value = array[i];
-            insert(array, i, value);
+            insert(i, value);
         }
     }
 
-    private void insert(T[] array, int rightIndex, T value) {
+    /**
+     * 表示插入排序每一次遍历并且插入的过程
+     *
+     * @param rightIndex 代表要插入的元素的下标
+     * @param value      代表要插入的元素的值
+     */
+    private void insert(int rightIndex, T value) {
         int i;
         for (i = rightIndex - 1; i >= 0 && value.compareTo(array[i]) < 0; i--) {
             array[i + 1] = array[i];
@@ -53,40 +91,119 @@ class ArraySorter<T extends Comparable<T>> {
         array[i + 1] = value;
     }
 
-    //普通的冒泡循环
-    public void bubbleSort(T[] array) {
+    /**
+     * 对代码进行简化之后的插入排序
+     */
+    public void insertionSort() {
+        for (int i = 1; i < array.length; i++) {
+            T t = array[i];
+            int j;
+            for (j = i - 1; j >= 0 && array[j].compareTo(t) > 0; j--) {
+                array[j + 1] = array[j];
+            }
+            array[j + 1] = t;
+        }
+
+    }
+
+    /**
+     * 最常见的冒泡排序
+     */
+    public void bubbleSort() {
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < array.length - 1 - i; j++) {
                 if (array[j].compareTo(array[j + 1]) > 0) {
-                    swap(array, j, j + 1);
+                    swap(j, j + 1);
                 }
             }
         }
 
     }
 
-    //能及时终止的冒泡循环
-    public void betterBubbleSort(T[] array) {
-        for (int i = array.length; i > 1 && betterBubble(array, i); i--) ;
+    /**
+     * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
+     */
+    public void betterBubbleSort() {
+        for (int i = array.length; i > 1 && betterBubble(i); i--) ;
     }
 
-    private boolean betterBubble(T[] array, int n) {
+    /**
+     * 优化冒泡排序中每一次遍历不断比较的过程，如果在一次遍历的过程中没有发生交换，
+     * 则说明已经排好序了，不需要再进行遍历了，该函数会返回一个false来指示bubbleSort()
+     * 中的for循环终止执行
+     */
+    private boolean betterBubble(int n) {
         boolean swapped = false;
         for (int i = 0; i < n - 1; i++) {
             if (array[i].compareTo(array[i + 1]) > 0) {
-                swap(array, i, i + 1);
+                swap(i, i + 1);
                 swapped = true;
             }
         }
         return swapped;
     }
 
-    //在java中交换数组中的两个元素时，数组对象以及交换序号必须传入函数，
-    private void swap(T[] array, int i, int j) {
+    /**
+     * 名次排序<p>
+     * 数组中元素的名次是什么：一个元素在一个序列中的名次是所有比它小的元素个数加上
+     * 在它左边出现的与它相同的元素个数
+     *
+     * @implNote 该函数通过计算数组中各元素的名次，然后调用交换算法将每个元素转移到正确的位置上
+     * 实现从小到大排序
+     */
+    public void rankSort() {
+        Integer[] rankArray = new Integer[array.length];
+        for (int i = 0; i < rankArray.length; i++)
+            rankArray[i] = 0;
+        for (int i = 1; i < array.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (array[j].compareTo(array[i]) <= 0)
+                    rankArray[i]++;
+                else rankArray[j]++;
+            }
+        }
+        ArrayUtil.showArray(rankArray);
+        ArraySorter sorter = new ArraySorter(rankArray);
+
+        for (int i = 0; i < array.length; i++) {
+            while (!rankArray[i].equals(i)) {
+                swap(i, rankArray[i]);
+                sorter.swap(i, rankArray[i]);
+            }
+        }
+    }
+
+    /**
+     * 优化之后的选择排序，可以在已经排好序的前提下提前终止循环
+     */
+    public void selectSort() {
+        boolean sorted = false;
+        for (int i = array.length; !sorted && (i > 1); i--) {
+            int indexOfMax = 0;
+            sorted = true;
+            for (int j = 1; j < i; j++) {
+                if (array[indexOfMax].compareTo(array[j]) <= 0) indexOfMax = j;
+                else sorted = false;
+            }
+            swap(indexOfMax, i - 1);
+        }
+    }
+
+
+    /**
+     * 在java中交换数组中的两个元素<p>
+     * 注意在java中交换数组的两个元素必须给函数传入数组引用以及两个要交换的元素的下标
+     *
+     * @param i 要交换的第一个元素的下标
+     * @param j 要交换的第二个元素的下标
+     */
+    private void swap(int i, int j) {
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
+
+
 }
 
 /**
@@ -143,36 +260,53 @@ class ArrayUtil {
 
 
     /**
-     * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素
+     * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素检验排序是否正确
      */
-    public static void findNumber() {
-        ArraySorter<Integer> sorter = new ArraySorter<Integer>();//实例化排序器对象
+    public static void analysisAlgorithmTime() {
+        ArraySorter<Integer> sorter = new ArraySorter<Integer>(null);//实例化排序器对象
         Integer[] arr = randomArray(100, 1, 10000);//生成随机数组
-        Integer[][] backUpArrays = getBackUpArrays(arr, 4);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
+        Integer[][] backUpArrays = getBackUpArrays(arr, 6);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
 
 
         long beginMillis1 = System.nanoTime();//以纳秒为单位返回系统单位时间
-        sorter.betterBubbleSort(backUpArrays[0]);//排序器调用bubbleSort算法对数组进行排序
+        sorter.resetArray(backUpArrays[0]);
+        sorter.betterBubbleSort();//排序器调用bubbleSort算法对数组进行排序
         long endMillis1 = System.nanoTime();
 
         long beginMillis2 = System.nanoTime();//以纳秒为单位返回系统单位时间
-        sorter.quickSort(backUpArrays[1], 0, arr.length - 1);//排序器调用快速排序法对数组排序
+        sorter.resetArray(backUpArrays[1]);
+        sorter.quickSort(0, arr.length - 1);//排序器调用快速排序法对数组排序
         long endMillis2 = System.nanoTime();//以纳秒为单位返回系统单位时间
 
         long beginMillis3 = System.nanoTime();//以纳秒为单位返回系统单位时间
-        sorter.bubbleSort(backUpArrays[2]);//排序器调用快速排序法对数组排序
+        sorter.resetArray(backUpArrays[2]);
+        sorter.bubbleSort();//排序器调用快速排序法对数组排序
         long endMillis3 = System.nanoTime();//以纳秒为单位返回系统单位时间
 
         long beginMillis4 = System.nanoTime();//以纳秒为单位返回系统单位时间
-        sorter.insertSort(backUpArrays[3]);//排序器调用快速排序法对数组排序
+        sorter.resetArray(backUpArrays[3]);
+        sorter.insertSort();//排序器调用快速排序法对数组排序
         long endMillis4 = System.nanoTime();//以纳秒为单位返回系统单位时间
 
-        showBothArray(arr, backUpArrays[0]);
+        long beginMillis5 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.resetArray(backUpArrays[4]);
+        sorter.selectSort();//排序器调用选择排序法对数组排序
+        long endMillis5 = System.nanoTime();//以纳秒为单位返回系统单位时间
+
+        long beginMillis6 = System.nanoTime();//以纳秒为单位返回系统单位时间
+        sorter.resetArray(backUpArrays[5]);
+        sorter.rankSort();//排序器调用名次排序法对数组排序
+        long endMillis6 = System.nanoTime();//以纳秒为单位返回系统单位时间
+
+
+        showBothArray(arr, backUpArrays[4]);
 
         System.out.println("优化冒泡排序总共耗费时间:" + getAlgorithmTime(beginMillis1, endMillis1) + "毫秒");
         System.out.println("快速排序总共耗费时间:" + getAlgorithmTime(beginMillis2, endMillis2) + "毫秒");
         System.out.println("普通冒泡排序排序总共耗费时间:" + getAlgorithmTime(beginMillis3, endMillis3) + "毫秒");
         System.out.println("插入排序排序总共耗费时间:" + getAlgorithmTime(beginMillis4, endMillis4) + "毫秒");
+        System.out.println("选择排序排序总共耗费时间:" + getAlgorithmTime(beginMillis5, endMillis5) + "毫秒");
+        System.out.println("名次排序排序总共耗费时间:" + getAlgorithmTime(beginMillis6, endMillis6) + "毫秒");
 
 
         System.out.println("输入要查找的数字：");
@@ -189,70 +323,21 @@ class ArrayUtil {
      *
      * @param arr 传入的要输出的数组
      */
-    public static void showArray(Integer[] arr) {
-        for (Integer i : arr)
+    public static void showArray(Object[] arr) {
+        for (Object i : arr)
+            System.out.print(i + " ");
+        System.out.println();
+    }
+
+    public static void showArray(int[] arr) {
+        for (int i : arr)
             System.out.print(i + " ");
         System.out.println();
     }
 
 
-    /**
-     * 演示正确的数组初始化的方式
-     */
-    public static void arrayInitialize() {
-        //数组正确的初始化方式
-        int[] arr = new int[]{1, 2, 3};//一维数组静态初始化
-        int[] arr2 = {12, 23, 23};//一维数组静态初始化
-        int[] arr3 = new int[12];//一维数组动态初始化，此时要赋值只能一个一个赋值
-        //二维数组正确的初始化方式
-        int[][] arr4 = new int[3][2];//行数和列数都指定，但在java中行必须指定
-        int[][] arr5 = {{1, 2, 3}, {12, 32}};
-        int[][] arr6 = new int[23][];//可以仅指定行数不指定列数
-    }
-
-    //对象数组
-    public static void objectArray() {
-        //类对象数组的元素是对象的引用，每个元素的默认值是null，直到我们为其分配空间为止
-        String[] names = new String[3];
-        names[0] = new String("操");
-        names[1] = new String("你");
-        names[2] = new String("妈");
-        for (String str : names) {
-            System.out.print(str);
-        }
-        System.out.println();
-
-        String[] actions = {"run", "swim", "fuck"};//java数组支持C风格的数组初始化
-
-        int a = actions.length;
-    }
-
-    //测试数组中可能抛出的异常
-    public static void catchArrayException() {
-        //若试图访问一个超出数组范围的元素，则会生成一个ArrayIndexOutOfBounds的异常，属于RuntimeException
-        String[] states = new String[3];
-        try {
-            states[0] = "California";
-            states[1] = "Oregon";
-            states[2] = "NewYork";
-            states[3] = "shit";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("捕获到异常:" + e.getMessage());
-        }
-        //空指针异常
-        try {
-            Integer[] array = new Integer[3];
-            array = null;//将引用置空
-            System.out.println(array[2]);//试图通过空引用访问堆内存会抛出空指针异常
-        } catch (NullPointerException e) {
-            System.out.println("捕获到异常:" + e.getMessage());
-        }
-
-
-    }
-
     //拷贝数组中的元素
-    public static void copyArray() {
+    private static void copyArray() {
         //拷贝数组的第一种方法是使用System类的低层级arrayCopy()方法
         String[] names = new String[3];
         names[0] = new String("操");
@@ -264,9 +349,7 @@ class ArrayUtil {
         names[3] = "大";
         names[4] = "傻";
         names[5] = "逼";
-        for (String str : names) {
-            System.out.print(str);
-        }
+        showArray(names);
         System.out.println();
 
         //拷贝数组的第二种方法是使用 java.util.Arrays.copyOf()和copyOfRange()方法
@@ -274,9 +357,10 @@ class ArrayUtil {
         int[] barCopy = Arrays.copyOf(bar, bar.length);//copyOf接受最初的数组和一个目标长度作为参数
         int[] barExtraCopy = Arrays.copyOf(bar, bar.length + 2);//若目标数组长度比最初数组长，那么copyOf将会用0或null填充新数组以达到想要的长度
         int[] rangeCopy = Arrays.copyOfRange(bar, 0, bar.length);//copyOfRange()接受一个开始索引（包括该索引）和一个结束索引（不包括该索引）以及一个想要的长度，如果必要的话，它也将进行填充补齐
+        //拷贝数组的第三种方法是调用所有对象基类Object的方法clone()直接克隆数组
         int[] barCloneCopy = bar.clone();
-        for (int i : barCloneCopy) System.out.print(i + " ");
-        System.out.println();
+        System.out.println("显示克隆之后的数组：");
+        showArray(barCloneCopy);
         System.out.println("拷贝二维数组");
         //拷贝二维数组
         int[][] numbers = {{1, 2, 3, 4}, {45, 48}};
@@ -289,8 +373,13 @@ class ArrayUtil {
 
     }
 
-    //数组的反转
-    public static void reverseArray(int[] array) {
+    /**
+     * 反转数组元素
+     *
+     * @param array 传入的要反转的int[]型数组
+     * @return int[] 返回已经反转之后的数组
+     */
+    public static int[] reverseArray(int[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = i;
         }
@@ -299,10 +388,7 @@ class ArrayUtil {
             array[i] = array[array.length - i - 1];
             array[array.length - i - 1] = temp;
         }
-        for (int i : array)
-            System.out.print(i + " ");
-        System.out.println();
-
+        return array;
     }
 
     static class Inner {
@@ -312,7 +398,7 @@ class ArrayUtil {
     }
 
     //测试匿名数组
-    public static void anonymousArray() {
+    private static void anonymousArray() {
         //本函数主要讲解匿名数组
         int example1 = 12;
         int example2 = 13;
@@ -320,8 +406,8 @@ class ArrayUtil {
         inner.set(new int[]{example1, example2});
     }
 
-    //数组元素的默认初始化
-    public static void defaultArrayElement() {
+    //测试数组元素的默认初始化
+    private static void defaultArrayElement() {
         //各元素数组的默认值
         //char数组的默认元素不是'0',而是asc码的0，
         char[] charArray = new char[10];
@@ -342,9 +428,14 @@ class ArrayUtil {
 
     }
 
-    //输出十行杨辉三角
-    public static void pascalTriangle() {
-        int[][] pascalTriangle = new int[10][];
+    /**
+     * 输出rows行杨辉三角阵
+     *
+     * @param rows 要求输出多少行杨辉三角
+     */
+    public static void pascalTriangle(int rows) {
+        int[][] pascalTriangle = new int[rows][];
+        //将杨辉三角每行的第一个元素和最后一个元素置为0，便于进一步的计算
         for (int i = 0; i < pascalTriangle.length; i++) {
             pascalTriangle[i] = new int[i + 1];
             int lastIndex = pascalTriangle[i].length - 1;
@@ -364,7 +455,14 @@ class ArrayUtil {
         }
     }
 
-    //该方法返回一个整型对象数组，其中的元素随机且不重复，范围在begin到end之间
+    /**
+     * 该方法返回一个整型对象数组，其中的元素随机且不重复，范围在begin到end之间
+     *
+     * @param size  随机数组的大小
+     * @param begin 随机数组中元素可能取值范围的起始值
+     * @param end   随机数组中元素可能取值范围的终止值
+     * @return Integer[] 返回的随机数数组
+     */
     public static Integer[] randomArray(int size, int begin, int end) {
         Integer[] randomArray = new Integer[size];
         Random randomGenerator = new Random(System.currentTimeMillis());
@@ -382,7 +480,13 @@ class ArrayUtil {
         return randomArray;
     }
 
-    //二分查找法
+    /**
+     * 利用二分查找法查找给定数组中指定元素的位置
+     *
+     * @param theArray     给定的要查找的数组
+     * @param targetNumber 指定的要查找的数字
+     * @return int 返回要查找的数字的下标
+     */
     public static int binarySearch(Integer[] theArray, int targetNumber) {
         int left = 0;
         int right = theArray.length - 1;
@@ -398,14 +502,19 @@ class ArrayUtil {
         return -1;
     }
 
-    //利用二维数组实现输出回形数
-    public static void numberOfRounds() {
-        CircularDigitalMatrix circularDigitalMatrix = new CircularDigitalMatrix(5, 5, 56);
+    /**
+     * 输出指定大小的回形数组
+     *
+     * @param dimensionOne 回形数组的宽
+     * @param dimensionTwo 回形数组的长
+     */
+    public static void numberOfRounds(int dimensionOne, int dimensionTwo, int beginNumberOfRounds) {
+        CircularDigitalMatrix circularDigitalMatrix = new CircularDigitalMatrix(dimensionOne, dimensionTwo, beginNumberOfRounds);
         circularDigitalMatrix.showMatrix();
     }
 
-    //找出数组元素中最大的数和最小的数
-    public static void MaxOrMinNumberOfArray() {
+    //找出随机数组元素中最大的数和最小的数
+    private static void MaxOrMinNumberOfArray() {
         Integer[] array = randomArray(10, 10, 99);//返回一个不包含重复元素的随机数组
         System.out.println("数组元素概览：");
         for (int i : array) System.out.print(i + " ");
@@ -418,7 +527,22 @@ class ArrayUtil {
         }
         System.out.println("数组最大元素为：" + max);
         System.out.println("数组最小元素为：" + min);
+    }
 
+    /**
+     * 找到给定数组中最大的元素和最小的元素
+     *
+     * @param array 给定的要查找最大元素和最小元素的数组
+     * @return Integer[] 返回的整型数组，其中第一个元素是给定数组的最小值，第二个元素就是给定数组的最大值
+     */
+    public static Integer[] MaxOrMinNumberOfArray(Integer[] array) {
+        int max = array[0], min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) max = array[i];
+            if (array[i] < min) min = array[i];
+        }
+        Integer[] result = new Integer[]{min, max};
+        return result;
     }
 
     //Arrays工具类的使用
@@ -455,12 +579,19 @@ class ArrayUtil {
 
     }
 
-
 }
 
 
 public class ArrayMain {
     public static void main(String[] args) {
+        ArrayUtil.analysisAlgorithmTime();
+    }
+
+    public static void testArraySorter() {
+        Integer[] theArray = {4, 2, 5, 3, 1, 6};
+        ArraySorter<Integer> sorter = new ArraySorter<>(theArray);
+        sorter.rankSort();
+        ArrayUtil.showArray(theArray);
 
     }
 }
