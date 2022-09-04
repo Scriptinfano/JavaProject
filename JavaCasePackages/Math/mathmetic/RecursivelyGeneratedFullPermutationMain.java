@@ -21,7 +21,6 @@ class permutationsGenerator {
             originalArray[i] = i + 1;
         }
     }
-
     public void run() {
         permutationsBackTrack(originalArray, new ArrayList<Integer>());
     }
