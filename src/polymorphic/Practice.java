@@ -16,7 +16,7 @@ class Sub extends Base {
     }
 }
 
-public class FieldMethodTest {
+public class Practice {
     public static void main(String[] args) {
         Sub s = new Sub();
         System.out.println(s.count);//20

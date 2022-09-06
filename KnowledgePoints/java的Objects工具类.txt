@@ -7,10 +7,10 @@ Java在java.util包中有一个实用程序类Objects用于处理对象。
 以下是类中的方法列表。他们的描述遵循列表。
 
 int compare(T a, T b, Comparator c)
-如果参数相同，则返回0，否则返回c.compare(a，b)。因此，如果两个参数都为null，则返回0。
+如果参数相同或两个参数为null，则返回0，否则返回c.compare(a，b)
 
 boolean deepEquals(Object a, Object b)
-检查两个对象是否相等。如果两个参数都相等，则返回true。否则，它返回false。如果两个参数都为null，则返回true。
+检查两个对象是否相等。如果两个参数都相等，则返回true。否则返回false。如果两个参数都为null，则返回true。
 
 boolean equals(Object a, Object b)
 比较两个对象是否相等。如果两个参数相等，则返回true。否则，它返回false。如果两个参数都为null，则返回true。
