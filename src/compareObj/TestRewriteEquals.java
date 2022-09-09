@@ -1,22 +1,25 @@
 package compareObj;
 
-/**
- * 本程序将演示自定义的类如何通过重写equals函数实现比较对象的内容是否相同*/
+import java.util.Objects;
 
-class Person{
+/**
+ * 本程序将演示自定义的类如何通过重写equals函数实现比较对象的内容是否相同
+ */
+
+class Person {
     private int id;
     private String name;
 
-    public Person(int id,String name)
-    {
+    public Person(int id, String name) {
         this.id=id;
         this.name=name;
     }
 
+/*
     @Override
     public boolean equals(Object obj) {
-        if(obj==null)
-            return false;
+        if(obj==this)
+            return true;
         else{
             if(obj instanceof Person)
             {
@@ -28,11 +31,28 @@ class Person{
         }
         return false;
     }
+*/
 
-    public int getId()
-    {return id;}
-    public String getName()
-    {return name;}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && name.equals(person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 
 }
 
@@ -54,6 +74,7 @@ public class TestRewriteEquals {
         System.out.println(s1==s2);//比较的是字符串对象的地址是否相同
         System.out.println(s1.equals(s2));//比较的是内容是否相同
 
+        String str = "asdasd";
 
 
     }

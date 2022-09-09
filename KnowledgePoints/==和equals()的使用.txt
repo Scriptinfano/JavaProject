@@ -1,5 +1,5 @@
 Object方法equals()方法和==运算符的区别
- 一、对象类型不同
+ 一、本质不相同不同
    1、equals()：是超类Object中的方法。
    2、==：是操作符。
 
@@ -28,3 +28,34 @@ Object方法equals()方法和==运算符的区别
  对==的说明：
    == 比较的是变量(栈)内存中存放的对象的(堆)内存地址，用来判断两个对象的地址是否相同，即是否是指相同一个对象。比较的是真正意义上的指针操作。
    且两边的操作数必须是同一类型的（可以是父子类之间）才能编译通过。
+
+ 如何重写equals()方法比较自定义对象的内容是否相同：
+   @Override
+   public boolean equals(Object obj) {
+        if(this==obj)return true;
+        if (obj instanceof Sheep) {
+            Sheep sheep = (Sheep) obj;
+            return sheep.age == this.age && sheep.name == this.name;
+        } else return false;
+    }
+    重写equals方法是有一套固定的写法的，先比较引用的地址是否相同，如果相同则内容必然相同，
+    返回true即可，然后比较传入的基类引用所指向的对象是否是重写该方法的类的对象，如果是然后再
+    比较内容是否相同，如果不是则直接返回false。无需判断传入的基类引用是否为null，因为执行
+    obj instanceof BaseClass时如果obj为null是可以返回false的
+
+ 注意用==比较两个String对象的内容时，内容相同返回true的原因不是因为比较了两个String对象
+ 的内容，还是比较了地址，String对象不通过new的方式声明时是存放在常量池中，常量池的特点是
+ 如果两个变量的值相同，那么第二个引用仍然指向第一个引用的内存空间，所以下面的两个String比较的
+ 还是地址：
+ String s1="hello";
+ String s2="hello";
+ String s3=new String("hello");
+ String s4=new String("hello");
+ System.out.println(s1==s2);//返回的是true
+ System.out.println(s3==s4);//返回的是false
+ String对象很特殊，在java中大部分类对象都会存在堆空间中，而String可以放在常量池中
+
+
+
+
+

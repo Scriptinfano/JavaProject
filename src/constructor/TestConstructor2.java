@@ -48,8 +48,3 @@ public class TestConstructor2 extends StaticSuper {
         TestConstructor2 mainObj = new TestConstructor2();
     }
 }
-
-
-class DefaultConstructor {
-    //注意：默认的构造器的权限取决于类的权限，如果类是public，则默认构造器的权限就是public；
-}

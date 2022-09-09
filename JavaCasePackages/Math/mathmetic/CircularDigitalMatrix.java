@@ -154,10 +154,25 @@ public class CircularDigitalMatrix {
 
     }
 
+    @Override
+    public String toString() {
+        this.run();//调用私有接口run方法完成赋值操作
+        StringBuilder context = new StringBuilder("");
+        //输出整个回形数组
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                context.append(array[i][j]);
+                context.append("\t");
+            }
+            context.append("\n");
+        }
+        return context.toString();
+    }
+
     /**
      * <code>Obstruction异常类</code>
      * 回形数组无法再继续赋值输出时会抛出此异常，表示整个数组输出完毕，提示中断私有run()方法
      */
-    class Obstruction extends Exception {
+    static class Obstruction extends Exception {
     }
 }

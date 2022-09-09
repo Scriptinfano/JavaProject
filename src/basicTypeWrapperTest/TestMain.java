@@ -3,7 +3,7 @@ package basicTypeWrapperTest;
 
 public class TestMain {
     public static void main(String[] args) {
-        testClass();
+        practice();
     }
 
     public static void testCharacter() {
@@ -14,34 +14,36 @@ public class TestMain {
         char b = Character.toUpperCase('w');//将小写字母转换为大写
     }
 
-    public static void testClass() {
-        String conutry = "America";
-        Class myclass = conutry.getClass();
-        System.out.println(myclass.getName());//输出Class对象表示的类的完全限定名
+    //测试基本数据类型，包装类，String类的相互转化
+    public static void testTransform() {
 
-        //可在不使用new的情况下创建对象，调用Class类的forName()和newInstance()
-        //newInstance()创建类的新实例，返回的是Object，所以需要向下转型为原始类型
-        Class klass = null;
-        try {
-            klass = Class.forName("basicTypeWrapperTest.TestMain");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //基本数据类型转换为包装类
+        int intVariable = 1;
+        Integer intVariableObj = intVariable;//自动装箱
 
-        if (klass != null) {
-            try {
-                TestMain test = (TestMain) klass.newInstance();
-                test.testCharacter();
-            } catch (InstantiationException e) {
+        //包装类转换为基本数据类型
+        int intVariableVal2 = intVariableObj.intValue();//拆箱操作
+        intVariableVal2 = intVariableObj;//自动拆箱操作
 
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        //如果在创建类时不知道类名可以考虑用上面的方式
+        //包装类转换为String类
+        String str = intVariableObj.toString();
+
+        //String类转换为包装类
+        String str2 = "123";
+        Integer intVariableVal3 = Integer.parseInt(str2);
+
+        //String转换为基本数据类型
+        int intVariableVal = Integer.parseInt(str2);
+
+        //基本数据类型转换为String类
+        int intVariable5 = 14;
+        String str3 = String.valueOf(intVariable5);
     }
 
-    public static void testSystem() {
 
+    public static void practice() {
+        //下面两个输出是否相同
+        Object o2 = Integer.valueOf(12);
+        System.out.println(o2);
     }
 }

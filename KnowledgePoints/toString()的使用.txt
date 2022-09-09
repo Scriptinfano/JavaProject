@@ -1,0 +1,11 @@
+1、当输出对象的引用时，实际上就是调用基类Object类的toString()方法，返回对象地址
+2、解析Object类中toString()源码定义：
+     public String toString() {
+         return getClass().getName() + "@" + Integer.toHexString(hashCode());
+     }
+     //getClass().getName()获取调用类的类名，hashCode()返回整型哈希码，然后经过toHexString
+     加工为十六进制，hashCode()返回的并不是真实的内存地址
+3、像String、Date、File、包装类都重写了toString()方法，返回的是实体内容信息，如String返回字符串，
+  Date返回具体的日期
+4、自定义类重写toString方法，实现返回对象的实体内容，以后在自定义类中不需要再写show()方法了，可以
+直接重写toString方法实现输出内部的内容
