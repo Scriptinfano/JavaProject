@@ -8,19 +8,20 @@ import java.util.Scanner;
 /**
  * 全排列生成器类
  */
-class permutationsGenerator {
+class PermutationsGenerator {
     private ArrayList<ArrayList<Integer>> permutationsContainer;
     private Integer[] originalArray;
 
     private int counter = 0;
 
-    public permutationsGenerator(int dimension) {
+    public PermutationsGenerator(int dimension) {
         permutationsContainer = new ArrayList<ArrayList<Integer>>();
         originalArray = new Integer[dimension];
         for (int i = 0; i < dimension; i++) {
             originalArray[i] = i + 1;
         }
     }
+
     public void run() {
         permutationsBackTrack(originalArray, new ArrayList<Integer>());
     }
@@ -80,7 +81,7 @@ public class RecursivelyGeneratedFullPermutationMain {
     public static void main(String[] args) {
         System.out.print("输入一元排列的尾数：");
         int dimension = scanner.nextInt();
-        permutationsGenerator generator = new permutationsGenerator(dimension);
+        PermutationsGenerator generator = new PermutationsGenerator(dimension);
         generator.run();
         int[][] result = generator.getPermutations();
         System.out.println("一共生成" + MathUtil.factorial(dimension) + "种排列");
