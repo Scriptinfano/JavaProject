@@ -17,9 +17,8 @@ class Person {
 public class TestMain {
 
     public static void main(String[] args) {
-        String binaryString = "11011000110";
-        int decimalNum = Integer.parseInt(binaryString, 2);
-        System.out.println(decimalNum);
+
+        Person p = new Person(12, "wang");
 
 
     }

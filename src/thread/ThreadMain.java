@@ -1,14 +1,16 @@
 package thread;
 
 public class ThreadMain implements Runnable {
-    public static final int PERSECONDS_THREAD=1000;//每秒有1000毫秒
+    public static final int PERSECONDS_THREAD = 1000;//每秒有1000毫秒
 
     /**
-     * 声明静态主类对象*/
+     * 声明静态主类对象
+     */
     public static ThreadMain mainObj;
 
     /**
-     * 声明静态线程对象*/
+     * 声明静态线程对象
+     */
     public static Thread mainObjThread;
 
     static {
@@ -31,7 +33,8 @@ public class ThreadMain implements Runnable {
 
 
     /**
-     * 运行主类对象创建的线程要干的事情*/
+     * 运行主类对象创建的线程要干的事情
+     */
     public static void runMainObjThread() {
         mainObjThread = new Thread(mainObj);
         mainObjThread.setName("mainObjThread");
@@ -40,16 +43,15 @@ public class ThreadMain implements Runnable {
     }
 
     /**
-     * 运行main()方法中的线程要干的事情*/
+     * 运行main()方法中的线程要干的事情
+     */
     public static void runMainThread() throws InterruptedException {
         for (int i = 0; i < 100; i++) {
-           if (i % 3 == 0)
-           {
-               System.out.println(Thread.currentThread().getName() + ":" + i);
-                Thread.sleep(3*PERSECONDS_THREAD);
-           }
-            if (i == 20)
-            {
+            if (i % 3 == 0) {
+                System.out.println(Thread.currentThread().getName() + ":" + i);
+                Thread.sleep(3 * PERSECONDS_THREAD);
+            }
+            if (i == 20) {
                 mainObjThread.join();//强行让mainObjThread线程接管CPU运行权，且该线程会一直占有运行权直到线程死亡其他线程才有权力接管运行权
             }
         }
@@ -91,6 +93,7 @@ public class ThreadMain implements Runnable {
         }
     }
 }
+
 class AnonymousThread implements Runnable {
     @Override
     public void run() {

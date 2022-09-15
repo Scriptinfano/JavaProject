@@ -1,1 +1,11 @@
 1、stack容器的push()方法和add()方式作用是一样的，只不过push返回添加元素的类型，add返回boolean值
+
+
+Queue< TreeNode> queue = new LinkedList< TreeNode>() 新建队列
+que.add();//不推荐使用此接口插入元素，失败之后会抛出异常，不想处理异常请使用offer()
+que.offer();//将指定的元素插入此队列，推荐使用
+que.poll();获取并移除此队列的头，如果此队列为空，则返回 null
+que.remove();//获取并移除此队列的头，如果此队列为空，则抛出NoSuchElementException异常
+que.peek();//获取队列的头但不移除此队列的头。如果此队列为空，则返回 null
+que.element();//获取队列的头但不移除此队列的头。如果此队列为空，则将抛出NoSuchElementException异常
+!queue.isEmpty();//判断队列是否为空
