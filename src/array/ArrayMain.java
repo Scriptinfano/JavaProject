@@ -2,12 +2,14 @@
 package array;
 
 import analyzer.AlgorithmAnalyzer;
+import exceptionpackage.SorterUninitializedException;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 import static array.ArrayUtil.binarySearch;
+
 
 
 /**
@@ -38,6 +40,7 @@ class ArraySorter<T extends Comparable<T>> {
         this.array = array;
     }
 
+
     /**
      * 快速排序
      *
@@ -45,7 +48,8 @@ class ArraySorter<T extends Comparable<T>> {
      * @param right 快速排序要指定的右边界
      * @throws IllegalArgumentException 指示左边界或右边界指定错误
      */
-    public void quickSort(int left, int right) {
+    public void quickSort(int left, int right) throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
         if (left < right) {
             int i = left, j = right;
             T standard = array[i];
@@ -77,7 +81,9 @@ class ArraySorter<T extends Comparable<T>> {
      * 将这个元素不断地向后挪，直到该元素比后一个元素小为止，挪的过程中采用将前一个元素覆
      * 写后一个元素的方式实现，不用担心后一个元素被抹掉，因为已经提前保存了这个值
      */
-    public void insertSort() {
+    public void insertSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         for (int i = 1; i < array.length; i++) {
             T value = array[i];
             insert(i, value);
@@ -101,7 +107,9 @@ class ArraySorter<T extends Comparable<T>> {
     /**
      * 对代码进行简化之后的插入排序
      */
-    public void insertionSort() {
+    public void insertionSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         for (int i = 1; i < array.length; i++) {
             T t = array[i];
             int j;
@@ -116,7 +124,9 @@ class ArraySorter<T extends Comparable<T>> {
     /**
      * 最常见的冒泡排序
      */
-    public void bubbleSort() {
+    public void bubbleSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < array.length - 1 - i; j++) {
                 if (array[j].compareTo(array[j + 1]) > 0) {
@@ -130,7 +140,9 @@ class ArraySorter<T extends Comparable<T>> {
     /**
      * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
      */
-    public void betterBubbleSort() {
+    public void betterBubbleSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         for (int i = array.length; i > 1 && betterBubble(i); i--) ;
     }
 
@@ -158,7 +170,9 @@ class ArraySorter<T extends Comparable<T>> {
      * @implNote 该函数通过计算数组中各元素的名次，然后调用交换算法将每个元素转移到正确的位置上
      * 实现从小到大排序
      */
-    public void rankSort() {
+    public void rankSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         Integer[] rankArray = new Integer[array.length];
         Arrays.fill(rankArray, 0);//fill方法可将指定值填充到指定数组
         for (int i = 1; i < array.length; i++) {
@@ -181,7 +195,9 @@ class ArraySorter<T extends Comparable<T>> {
     /**
      * 优化之后的选择排序，可以在已经排好序的前提下提前终止循环
      */
-    public void selectSort() {
+    public void selectSort() throws SorterUninitializedException {
+        if (array == null) throw new SorterUninitializedException();
+
         boolean sorted = false;
         for (int i = array.length; !sorted && (i > 1); i--) {
             int indexOfMax = 0;
@@ -384,7 +400,7 @@ public class ArrayMain {
         testMaxOrMinFunc();
     }
 
-    private static void testArraySorter() {
+    private static void testArraySorter() throws SorterUninitializedException {
         Integer[] theArray = {6, 5, 4, 3, 2, 1};
         ArraySorter<Integer> sorter = new ArraySorter<>(theArray);
         sorter.rankSort();
@@ -507,7 +523,7 @@ public class ArrayMain {
     /**
      * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素检验排序是否正确
      */
-    private static void analysisAlgorithmTime() {
+    private static void analysisAlgorithmTime() throws SorterUninitializedException {
         ArraySorter<Integer> sorter = new ArraySorter<Integer>(null);//实例化排序器对象
         Integer[] arr = ArrayUtil.randomArray(100, 1, 10000);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 6);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝

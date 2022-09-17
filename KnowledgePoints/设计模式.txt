@@ -71,43 +71,47 @@
     6、合成复用原则（Composite Reuse Principle）
     合成复用原则是指：尽量使用合成/聚合的方式，而不是使用继承。
 
-  一、类的单例设计模式
-    1、一个类只能存在一个对象实例，且该类只提供一个取得其对象实例的方法，
-    若要让类在虚拟机中只产生一个对象，则必须将类的构造函数设为private，此
-    时便不能用new操作符在类的外部产生对象，但在类内依然可产生类的对象，因为
-    在类的外部开始还无法获得类的对象，只能调用该类的静态方法获得类内部创建的
-    对象，静态方法只能访问类中的静态成员变量，所以指向类内部产生的该类对象
-    的变量也必须定义为静态的
-    2、实现单例设计模式的两种方式：懒汉式和饿汉式，分别如下
-    class SingletonInHungryStyle //饿汉式实现
-    {
-        private SingletonInHungryStyle() {}//私有化构造器
-        private static SingletonInHungryStyle instance = new SingletonInHungryStyle();//内部实例对象直接在类加载时初始化
-        public static SingletonInHungryStyle getInstance() {
-            return instance;//静态方法返回内部在类加载时已经初始化好的对象引用
-        }
-    }
-    class SingletonInLazyStyle //懒汉式实现
-    {
-        private SingletonInLazyStyle() {}//私有化构造器
-        private static SingletonInLazyStyle instance = null;//在类加载时先不初始化内部实例
-        public static SingletonInLazyStyle getInstance() {
-            if (instance == null)//判断内部是否有实例化的对象
-                instance = new SingletonInLazyStyle();//在静态方法中只有在第一次调用静态方法时才实例化内部对象
-            return instance;//返回内部已经创建好的实例或者返回第一次创建的实例
-        }
-    }
-    3、饿汉式实现的优点是线程安全，懒汉式写法在不进行特殊修改的情况下是线程不安全的
-    4、单例模式的优点：由于只生成一个实例，减少了系统开销，当一个对象需要比较多的资源时，比如读取
-    配置，产生其他依赖对象时，则可以通过子啊应用启动时直接在=产生一个单例对象，然后永久驻留
-    在内存的方式来解决
-    5、单例设计模式的应用场景：
-      1》网站的计数器
-      2》应用程序的日志应用，一般都使用单例模式实现，这一般是由于共享的日志文件一直处于打开
-      状态，因为只有一个实例去操作，否则内容不好追加
-      3》数据库连接池的设计一般也采用单例模式，因为数据库连接是一种数据库资源
-      4》项目中读取配置文件的类，一般也只有一个对象，没必要每次使用配置文件数据都生成一个对象
-      去读
-      5》Windows系统的任务管理器以及回收站也是典型的单例应用，在整个系统运行的过程中，回收站
-      和任务管理器一直维护着仅有的一个实例
+一、类的单例设计模式
+  1、一个类只能存在一个对象实例，且该类只提供一个取得其对象实例的方法，
+  若要让类在虚拟机中只产生一个对象，则必须将类的构造函数设为private，此
+  时便不能用new操作符在类的外部产生对象，但在类内依然可产生类的对象，因为
+  在类的外部开始还无法获得类的对象，只能调用该类的静态方法获得类内部创建的
+  对象，静态方法只能访问类中的静态成员变量，所以指向类内部产生的该类对象
+  的变量也必须定义为静态的
+  2、实现单例设计模式的两种方式：懒汉式和饿汉式，分别如下
+  class SingletonInHungryStyle //饿汉式实现
+  {
+      private SingletonInHungryStyle() {}//私有化构造器
+      private static SingletonInHungryStyle instance = new SingletonInHungryStyle();//内部实例对象直接在类加载时初始化
+      public static SingletonInHungryStyle getInstance() {
+          return instance;//静态方法返回内部在类加载时已经初始化好的对象引用
+      }
+  }
+  class SingletonInLazyStyle //懒汉式实现
+  {
+      private SingletonInLazyStyle() {}//私有化构造器
+      private static SingletonInLazyStyle instance = null;//在类加载时先不初始化内部实例
+      public static SingletonInLazyStyle getInstance() {
+          if (instance == null)//判断内部是否有实例化的对象
+              instance = new SingletonInLazyStyle();//在静态方法中只有在第一次调用静态方法时才实例化内部对象
+          return instance;//返回内部已经创建好的实例或者返回第一次创建的实例
+      }
+  }
+  3、饿汉式实现的优点是线程安全，懒汉式写法在不进行特殊修改的情况下是线程不安全的
+  4、单例模式的优点：由于只生成一个实例，减少了系统开销，当一个对象需要比较多的资源时，比如读取
+  配置，产生其他依赖对象时，则可以通过子啊应用启动时直接在=产生一个单例对象，然后永久驻留
+  在内存的方式来解决
+  5、单例设计模式的应用场景：
+    1》网站的计数器
+    2》应用程序的日志应用，一般都使用单例模式实现，这一般是由于共享的日志文件一直处于打开
+    状态，因为只有一个实例去操作，否则内容不好追加
+    3》数据库连接池的设计一般也采用单例模式，因为数据库连接是一种数据库资源
+    4》项目中读取配置文件的类，一般也只有一个对象，没必要每次使用配置文件数据都生成一个对象
+    去读
+    5》Windows系统的任务管理器以及回收站也是典型的单例应用，在整个系统运行的过程中，回收站
+    和任务管理器一直维护着仅有的一个实例
+
+二、模板方法设计模式
+1、在软件开发中实现一个算法时，整体步骤很固定、通用，这些步骤在父类中写好，但是某些部分易变，易变部分
+可以抽象出来，供不同子类实现，这就是一种模板模式
 

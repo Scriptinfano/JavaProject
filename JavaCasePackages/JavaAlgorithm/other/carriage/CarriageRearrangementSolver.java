@@ -167,6 +167,7 @@ public class CarriageRearrangementSolver {
             //检查每一个缓冲轨道是否符合条件足以让当前处理的车厢进入缓冲轨道
             if (!bufferTrack.get(i).empty() && bufferTrack.get(i).peek() > index) {
                 matchTrack.put(i, bufferTrack.get(i).peek());
+                continue;
             }
             if (bufferTrack.get(i).empty())
                 emptyTrackArray.add(i);
@@ -214,7 +215,7 @@ public class CarriageRearrangementSolver {
      * @param index 当前处理的车厢编号
      */
     private void trackPush(int index) {
-        System.out.println("将编号为" + index + "的车厢放入" + trackInIndex + "号缓冲轨道");
+        System.out.println("将入轨道中编号为" + index + "的车厢移动到" + trackInIndex + "号缓冲轨道");
         bufferTrack.get(trackInIndex).push(index);
 
     }
