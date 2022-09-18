@@ -3,13 +3,19 @@
  */
 package testEverything;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TestMain {
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2003, 4, 29);
-        System.out.printf("%tF", calendar.getTime());
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(1);
+        arr.add(2);
+        arr.add(3);
+        arr.add(4);
+        arr.add(5);
+        System.out.println(arr.toString());
     }
 }
