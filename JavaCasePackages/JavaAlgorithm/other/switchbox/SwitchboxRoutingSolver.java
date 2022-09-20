@@ -1,4 +1,8 @@
+//解决开关盒布线问题
+
 package other.switchbox;
+
+import myscan.ScannerPlus;
 
 import java.util.*;
 
@@ -10,9 +14,10 @@ import java.util.*;
  */
 final public class SwitchboxRoutingSolver {
     private static Scanner scanner = new Scanner(System.in);
-    Stack<Integer> routingStack;//解决开关盒布线问题中必须要用到的栈
-    ArrayList<NetGroup> netGroups;//存储问题所要求的网组
-    ArrayList<Integer> switchBoxLayout;//布线盒的布局
+    private static final ScannerPlus scannerPlus = new ScannerPlus();
+    private final Stack<Integer> routingStack;//解决开关盒布线问题中必须要用到的栈
+    private ArrayList<NetGroup> netGroups;//存储问题所要求的网组
+    private ArrayList<Integer> switchBoxLayout;//布线盒的布局
 
     /**
      * 开关盒布线问题解决器的构造函数
@@ -21,15 +26,6 @@ final public class SwitchboxRoutingSolver {
         routingStack = new Stack<>();
     }
 
-    public static boolean checkRepeat(Object[] array) {
-        Set<Object> set = new HashSet<Object>();
-        Collections.addAll(set, array);
-        if (set.size() != array.length) {
-            return false;//有重复
-        } else {
-            return true;//不重复
-        }
-    }
 
     public static void main(String[] args) {
 
@@ -42,13 +38,42 @@ final public class SwitchboxRoutingSolver {
      */
     public void run() {
         userInput();
-        System.out.println("输入完毕");
-        System.out.println("布线盒的布局如下");
-        System.out.println(switchBoxLayout.toString());
-        System.out.println("网组如下");
-        for (NetGroup group : netGroups) {
-            System.out.println(group.toString());
+        for (Integer pinIndex : switchBoxLayout) {
+            if (routingStack.isEmpty())
+                routingStack.add(pinIndex);
+            else {
+                if (netGroupMatch(pinIndex, routingStack.peek())) {
+                    routingStack.pop();
+                } else {
+                    routingStack.push(pinIndex);
+                }
+            }
         }
+        System.out.println("运行结果：");
+        if (routingStack.isEmpty()) {
+            System.out.print("成功匹配");
+        } else {
+            System.out.print("失败匹配");
+        }
+    }
+
+    /**
+     * 检测当前管脚编号是否和栈顶的编号匹配（两个编号属于一个网组）
+     *
+     * @param currentIndex 当前正在处理的管脚编号
+     * @param stackIndex   栈顶的管脚编号
+     * @return boolean 如果匹配则返回true,不匹配则返回false
+     */
+    private boolean netGroupMatch(Integer currentIndex, Integer stackIndex) {
+        NetGroup self1 = new NetGroup(currentIndex, stackIndex);
+        NetGroup self2 = new NetGroup(stackIndex, currentIndex);
+        for (NetGroup other : netGroups) {
+            if (other.equals(self1))
+                return true;
+            if (other.equals(self2))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -58,40 +83,19 @@ final public class SwitchboxRoutingSolver {
         System.out.println("在该布线盒布线问题中，一共有几个管脚");
         int pinSize;
         while (true) {
-            try {
-                String userInput = scanner.nextLine();
-                pinSize = Integer.parseInt(userInput);
-                if (pinSize % 2 != 0) {
-                    System.out.println("管脚的数量只能是偶数，不能是奇数，在下一行重新输入");
-                    continue;
-                }
-                break;
-            } catch (NumberFormatException e) {
-                System.out.print("输入的数据不合法，请重新输入：");
-            }
-        }
-        int[] pinLayout = new int[pinSize];
-        System.out.println("请以顺时针顺序输入管脚布局（每一个管脚编号中间用空格分开）");
-        {
-            int i = 0;
-            while (i < pinSize) {
-                try {
-                    pinLayout[i] = scanner.nextInt();
-                } catch (InputMismatchException e) {
-                    System.out.print("输入的数据中有非整形数字，请从头开始输入：");
-                    i = 0;
-                    scanner = new Scanner(System.in);
-                    continue;
-                }
-                i++;
-            }
-            scanner = new Scanner(System.in);
+            pinSize = scannerPlus.nextInt();
+            if (pinSize % 2 != 0) {
+                System.out.print("管脚的数量只能是偶数，不能是奇数，请重新输入");
+            } else break;
         }
 
+        System.out.println("请以顺时针顺序输入管脚布局（每一个管脚编号中间用空格分开）");
+        int[] pinLayout = scannerPlus.nextIntArray(pinSize, false, false);
 
         switchBoxLayout = new ArrayList<>(pinLayout.length);
         for (int j : pinLayout) switchBoxLayout.add(j);
 
+        //TODO 输入网组的设计还可以再优化一下，比如说从已经取得的管脚中不断选择两个来组成每一个网组
         int[] netGroupArray = new int[pinLayout.length];
         int netGroupIndex = 0;
         for (int j = 0; j < pinLayout.length / 2; j++) {
