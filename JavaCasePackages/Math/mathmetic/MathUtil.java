@@ -6,4 +6,5 @@ public class MathUtil {
         return value * factorial(value - 1);
     }
 
+
 }

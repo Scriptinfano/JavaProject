@@ -152,25 +152,18 @@ public class ScannerPlus {
         return charData;
     }
 
-    /**
-     * 获取用户输入的字符串，当用户的输入不合法时要求重新输入
-     *
-     * @return {@link String}
-     */
-    public String nextLine() {
-        String lineData;
+    public static void pause() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("敲enter键或键入任意内容以继续：");
         while (true) {
             try {
-                lineData = scanner.nextLine();
-                break;
-            } catch (NoSuchElementException e) {
-                System.out.println("被请求的元素不存在，请重新输入：");
-            } catch (IllegalStateException e) {
-                System.out.print("输入的流被关闭，请重新输入：");
+                String anyKey = scanner.nextLine();
+                if (anyKey.equals("")) throw new NoSuchElementException();//什么也不输入也可以继续
                 scanner = new Scanner(System.in);
+            } catch (NoSuchElementException e) {
+                break;
             }
         }
-        return lineData;
     }
 
     /**
@@ -212,6 +205,28 @@ public class ScannerPlus {
             break;
         }
         return array;
+    }
+
+    /**
+     * 获取用户输入的字符串，当用户的输入不合法时要求重新输入
+     *
+     * @return {@link String}
+     */
+    public String nextLine() {
+        String lineData;
+        while (true) {
+            try {
+                lineData = scanner.nextLine();
+                if (lineData.equals("")) throw new NoSuchElementException("你输入的是一个空行，请重新输入");
+                break;
+            } catch (NoSuchElementException e) {
+                System.err.println(e.getMessage());
+            } catch (IllegalStateException e) {
+                System.out.print("输入的流被关闭，请重新输入：");
+                scanner = new Scanner(System.in);
+            }
+        }
+        return lineData;
     }
 
 }

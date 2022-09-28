@@ -1,9 +1,9 @@
 //约瑟夫环问题升级版
 package other.josephring;
 
+import myscan.ScannerPlus;
+
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class Person {
@@ -79,6 +79,7 @@ class JosephRingManager {
     //单例设计模式的懒汉实现构造过程
     private static JosephRingManager instance = null;
     private static ArrayList<Integer> answer = new ArrayList<Integer>();//永远只有这一个数组来存储每一次求解
+
     private final Scanner scanner = new Scanner(System.in);
     private Person pointer;//指向正在报数的人
     //私有变量部分
@@ -109,15 +110,15 @@ class JosephRingManager {
     //该类为单例设计模式，整个程序只有一个JosephRingManager对象，每一次想要求解约瑟夫问题，都需要用唯一的实例来调用这个runProcess接口设置问题参数
     public void runProcess() {
         System.out.println("请在本轮约瑟夫环问题的解决过程中输入约瑟夫环问题中人的数量：");
-        int personSize = InputChecker.getInt();//人的数量
+        int personSize = scanner.nextInt();
         System.out.println("请在本轮约瑟夫环问题的解决过程中输入约瑟夫环问题中人应该数到几才能停止：");
-        int lastNumber = InputChecker.getInt();//人应该数到几停止
+        int lastNumber = scanner.nextInt();
         instance.setRingList(personSize);
         instance.setLastNumber(lastNumber);
         int winnerIndex = solveProblem();//返回最终结果
         System.out.println("本轮约瑟夫环问题的胜利者是" + winnerIndex);
         answer.add(winnerIndex);
-        ControlUtil.pause();//暂停程序
+        ScannerPlus.pause();
     }
 
     //求解约瑟夫问题的具体细节，返回胜利者的编号
@@ -140,7 +141,7 @@ class JosephRingManager {
     public void showRecord() {
         if (answer.size() == 0) {
             System.out.println("目前没有任何记录");
-            ControlUtil.pause();
+            ScannerPlus.pause();
         } else {
             int i = 0;
             System.out.println("以下是每一次的记录：");
@@ -148,14 +149,13 @@ class JosephRingManager {
                 System.out.println("第" + (i + 1) + "次约瑟夫环问题结果：" + index);
                 i++;
             }
-            ControlUtil.pause();
+            ScannerPlus.pause();
         }
     }
 }
 
 public class JosephRingMain {
-    private static Scanner scanner = new Scanner(System.in);
-
+    private static final ScannerPlus scanner = new ScannerPlus();
     public static void main(String[] args) {
         JosephRingManager manager = JosephRingManager.getInstance();//单例设计模式必须通过静态函数得到内部创建的实例对象
         while (true) {
@@ -163,7 +163,7 @@ public class JosephRingMain {
                 String choice = null;
                 showMenu();
                 System.out.print("请输入你的选择：");
-                choice = InputChecker.getString();
+                choice = scanner.nextLine();
                 if (choice.equals("1")) {
                     manager.runProcess();
                 } else if (choice.equals("2")) {
@@ -191,7 +191,7 @@ public class JosephRingMain {
         String choice = null;
         System.out.println("确定退出吗？输入(y/n):");
         while (true) {
-            choice = InputChecker.getString();
+            choice = scanner.nextLine();
             if (choice.equals("y") || choice.equals("Y"))
                 System.exit(0);
             else if (choice.equals("n") || choice.equals("N")) {
@@ -204,54 +204,3 @@ public class JosephRingMain {
     }
 }
 
-class InputChecker {
-    private static Scanner scanner = new Scanner(System.in);
-
-    //只需要将要输入的数字传入函数，即可检测输入的是否正确
-    public static int getInt() {
-        int data = 0;
-        while (true) {
-            try {
-                data = scanner.nextInt();
-                scanner = new Scanner(System.in);//刷新缓冲
-                return data;
-            } catch (InputMismatchException e) {
-                System.out.println("输入的数据不是整型，请重新输入：");
-                scanner = new Scanner(System.in);//java中通过重新分配Scanner对象来达到刷新缓冲区的目的
-            }
-        }
-    }
-
-    public static String getString() {
-        String data = null;
-        while (true) {
-            try {
-                data = scanner.nextLine();
-                if (data.equals("")) throw new NoSuchElementException("你输入的是一个空行，请重新输入");
-                scanner = new Scanner(System.in);//刷新缓冲
-                return data;
-            } catch (NoSuchElementException e) {
-                System.out.println(e.getMessage());
-                scanner = new Scanner(System.in);
-            }
-        }
-    }
-}
-
-class ControlUtil {
-    private static Scanner scanner = new Scanner(System.in);
-
-    public static void pause() {
-        System.out.println("敲enter键或键入任意内容以继续：");
-        while (true) {
-            try {
-                String anyKey = scanner.nextLine();
-                if (anyKey.equals("")) throw new NoSuchElementException();//什么也不输入也可以继续
-                scanner = new Scanner(System.in);
-            } catch (NoSuchElementException e) {
-                break;
-            }
-        }
-
-    }
-}

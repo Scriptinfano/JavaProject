@@ -23,12 +23,12 @@ class PermutationsGenerator {
     }
 
     public void run() {
-        permutationsBackTrack(originalArray, new ArrayList<Integer>());
+        permutationsBackTrack(originalArray, new ArrayList<>());
     }
 
     private void permutationsBackTrack(Integer[] nums, ArrayList<Integer> current) {
         if (current.size() == nums.length) {
-            permutationsContainer.add(new ArrayList<Integer>(current));
+            permutationsContainer.add(new ArrayList<>(current));
             counter++;
             return;
         }
@@ -88,4 +88,6 @@ public class RecursivelyGeneratedFullPermutationMain {
         generator.showResult();
         System.out.println("递归调用次数=" + generator.getCounter());
     }
+    //计算矩阵行列式的值
+
 }
