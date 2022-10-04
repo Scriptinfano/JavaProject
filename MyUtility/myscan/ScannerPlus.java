@@ -229,4 +229,19 @@ public class ScannerPlus {
         return lineData;
     }
 
+    public String nextMenuSelection(int selectMin, int selectMax) {
+        String[] selectArray = new String[selectMax - selectMin + 1];
+        for (int i = selectMin; i <= selectMax; i++) {
+            selectArray[i - selectMin] = String.valueOf(i);
+        }
+        while (true) {
+            String userIn = nextLine();
+            for (int i = selectMin; i <= selectMax; i++) {
+                if (userIn.equals(selectArray[i - selectMin])) {
+                    return userIn;
+                }
+            }
+            System.out.println("输入错误，请输入正确的选项");
+        }
+    }
 }

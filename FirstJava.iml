@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/JavaAlgorithm" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/KnowledgePoints" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/MyUtility" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/DataStructure" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
