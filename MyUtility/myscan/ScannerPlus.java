@@ -229,19 +229,38 @@ public class ScannerPlus {
         return lineData;
     }
 
-    public String nextMenuSelection(int selectMin, int selectMax) {
-        String[] selectArray = new String[selectMax - selectMin + 1];
-        for (int i = selectMin; i <= selectMax; i++) {
-            selectArray[i - selectMin] = String.valueOf(i);
-        }
+    /**
+     * 用户只能在指定的范围之内输入选择（选择以整数的形式出现时可以使用），并以字符串的形式返回用户的选择
+     *
+     * @param selectMin 最小选择范围
+     * @param selectMax 最大选择范围
+     * @return {@link String} 用户输入的内容，这个内容一定是数字，且以字符串的形式
+     */
+    public String nextSelectionByString(int selectMin, int selectMax) {
         while (true) {
             String userIn = nextLine();
-            for (int i = selectMin; i <= selectMax; i++) {
-                if (userIn.equals(selectArray[i - selectMin])) {
-                    return userIn;
-                }
+            int choice;
+            try {
+                choice = Integer.parseInt(userIn);
+            } catch (NumberFormatException e) {
+                System.out.println("输入错误，请输入正确的选项");
+                continue;
             }
-            System.out.println("输入错误，请输入正确的选项");
+            if (choice < selectMin || choice > selectMax)
+                System.out.println("你输入的内容不在范围之内，请重新输入");
+            else return String.valueOf(choice);
         }
+    }
+
+    /**
+     * 用户只能在指定的范围之内输入选择（选择以整数的形式出现时可以使用），并以整数的形式返回用户的选择
+     *
+     * @param selectMin 最小选择范围
+     * @param selectMax 最大选择范围
+     * @return int 用户输入的整型
+     */
+    public int nextSelectionByInt(int selectMin, int selectMax) {
+        String select = nextSelectionByString(selectMin, selectMax);
+        return Integer.parseInt(select);
     }
 }
