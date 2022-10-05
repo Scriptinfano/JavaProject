@@ -4,6 +4,7 @@ import exceptions.RequiredSettingsNotCalledException;
 import exceptions.UnRunException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author Mingxiang
  */
-public class FullArrangementGenerator {
+public class PermutationGeneratorPlus {
     private List<List<Integer>> arrangementList = new ArrayList<>();//存放n元串的全排列的容器
     private int[][] arrangementArray;
 
@@ -19,38 +20,50 @@ public class FullArrangementGenerator {
 
     private Integer selectSize = null;
 
-    private boolean haveRunned = false;
+    private boolean haveBeenRun = false;
 
+    private int counter = 0;//记录全排列生成的个数
+
+    /**
+     * Sets dimension.
+     *
+     * @param dimension the dimension
+     */
     public void setDimension(int dimension) {
         this.dimension = dimension;
     }
 
+    /**
+     * Sets select size.
+     *
+     * @param selectSize the select size
+     */
     public void setSelectSize(int selectSize) {
         this.selectSize = selectSize;
     }
 
     /**
-     * 以NORMAL模式运行
+     * Gets counter.
      *
-     * @param theDimension 指定排列的阶数
+     * @return the counter
      */
-    private void run(int theDimension) {
-        int[] nums = new int[theDimension];
-        for (int i = 0; i < theDimension; i++) {
-            nums[i] = i + 1;
-        }
-        permuteBackTrace(nums, new ArrayList<>());//首次调用递归函数
-        arrangementArray = toArray();
+    public int getCounter() {
+        return counter;
     }
 
     /**
-     * 以SELECT模式运行
-     *
-     * @param theDimension  指定要从几个数中选择进行组合
-     * @param theSelectSize 指定要选择其中几个数进行全排列
+     * The enum Mode.
      */
-    private void run(int theDimension, int theSelectSize) {
-
+    enum mode//代表运行模式
+    {
+        /**
+         * Normal mode.
+         */
+        NORMAL,//代表常规模式：输出n元串的全排列
+        /**
+         * Select mode.
+         */
+        SELECT//找出从自然数1,2,3...n中任取r个数的所有组合
     }
 
     /**
@@ -63,15 +76,28 @@ public class FullArrangementGenerator {
             case NORMAL -> {
                 if (dimension == null)
                     throw new RequiredSettingsNotCalledException("未调用setDimension()设置dimension属性，无法以NORMAL模式运行");
-                run(dimension);
+                run_NORMAL();
             }
             case SELECT -> {
-                if (dimension == null && selectSize == null)
-                    throw new RequiredSettingsNotCalledException("未调用setSelectSize()设置dimension属性和selectSize属性，无法以SELECT模式运行");
-                run(dimension, selectSize);
+                if (dimension == null || selectSize == null)
+                    throw new RequiredSettingsNotCalledException("未调用setSelectSize()设置dimension属性或selectSize属性，无法以SELECT模式运行");
+                run_SELECT();
             }
         }
-        haveRunned = true;
+        haveBeenRun = true;
+    }
+
+
+    /**
+     * 以NORMAL模式运行
+     */
+    private void run_NORMAL() {
+        int[] nums = new int[dimension];
+        for (int i = 0; i < dimension; i++) {
+            nums[i] = i + 1;
+        }
+        permuteBackTrace(nums, new ArrayList<>());//首次调用递归函数
+        arrangementArray = toArray();
     }
 
     /**
@@ -94,6 +120,21 @@ public class FullArrangementGenerator {
     }
 
     /**
+     * 以SELECT模式运行
+     */
+    private void run_SELECT() {
+        //TODO 找出从自然数1,2,3,...,n中任取r个数的所有组合
+        int[] nums = new int[dimension];
+        for (int i = 0; i < dimension; i++) {
+            nums[i] = i + 1;
+        }
+        permuteBackTrace(selectSize, nums, new ArrayList<>());//首次调用递归函数
+        arrangementArray = toArray();
+
+
+    }
+
+    /**
      * 递归函数求选择性组合排列
      *
      * @param size    深度优先遍历的深度
@@ -101,18 +142,35 @@ public class FullArrangementGenerator {
      * @param current 当前排列
      */
     private void permuteBackTrace(int size, int[] nums, ArrayList<Integer> current) {
-        if (size == current.size()) {
+        if (current.size() == size) {
             arrangementList.add(new ArrayList<>(current));
+            counter++;
             return;
         }
         for (int num : nums) {
-            if (current.contains(num)) continue;
+            if (current.contains(num) || lessThanCurrent(num, current)) continue;
             current.add(num);
             permuteBackTrace(size, nums, current);
             current.remove(current.size() - 1);
         }
 
     }
+
+    /**
+     * 如果num小于current中的所有元素，那么返回true，否则返回false
+     *
+     * @param num     要比较的数字
+     * @param current 被比较的数字组合
+     * @return boolean 返回的判断结果
+     */
+    private boolean lessThanCurrent(int num, ArrayList<Integer> current) {
+        Iterator<Integer> iter = current.iterator();
+        while(iter.hasNext()){
+            if(num<iter.next())return true;
+        }
+        return false;
+    }
+
 
     /**
      * 将内部的List<List<Integer>>转换成int[][]
@@ -138,7 +196,7 @@ public class FullArrangementGenerator {
      */
     @Override
     public String toString() {
-        if (!haveRunned) throw new UnRunException();
+        if (!haveBeenRun) throw new UnRunException();
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -157,29 +215,20 @@ public class FullArrangementGenerator {
      * @return {@link int[][]} 代表返回的结果数组
      */
     public int[][] getArrangementArray() {
-        if (!haveRunned) throw new UnRunException();
+        if (!haveBeenRun) throw new UnRunException();
 
         return arrangementArray;
     }
 
+    /**
+     * Gets arrangement list.
+     *
+     * @return the arrangement list
+     */
     public List<List<Integer>> getArrangementList() {
-        if (!haveRunned) throw new UnRunException();
+        if (!haveBeenRun) throw new UnRunException();
 
         return arrangementList;
     }
 
-    enum mode//代表运行模式
-    {
-        NORMAL,//代表常规模式：输出n元串的全排列
-        SELECT//找出从自然数1,2,3...n中任取r个数的所有组合
-    }
-}
-
-class ArrangementTester {
-    public static void main(String[] args) {
-        FullArrangementGenerator generator = new FullArrangementGenerator();
-        generator.run(FullArrangementGenerator.mode.NORMAL);
-        System.out.println(generator.toString());
-
-    }
 }

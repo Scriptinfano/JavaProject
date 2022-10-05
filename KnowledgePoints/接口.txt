@@ -1,4 +1,91 @@
-接口中可以定义：全局常量，抽象方法，静态方法，默认方法
-在接口中定义变量时，变量默认是public static final的
-在接口中定义的所有变量，都默认是public abstract的
-接口是可以继承接口的，而且可以继承多个接口
+1、接口中可以定义：全局常量，抽象方法，静态方法，默认方法
+2、在接口中定义变量时，默认是public static final的，在实现接口的类中无法修改接口中定义的常量
+3、在接口中定义的所有方法，默认是public abstract的
+4、接口是可以继承接口的，而且可以继承多个接口，接口继承接口时需要使用extends关键字，而且一个接口继承多个接口时需要使用逗号隔开
+5、要在子类中使用接口中定义的常量需要这么写：
+  interface A{
+   int x;
+  }
+  class C{
+   int x;
+  }
+  class B extends C implements A{
+   public void func(){
+     System.out.println(A.x);//调用接口中的变量
+     System.out.println(super.x);//调用父类中的变量
+   }
+  }
+6、在接口中编写默认方法和静态方法
+interface Person{
+    public static void func(){
+    //接口中的静态方法不能被实现了接口的子类对象调用，接口中定义的静态方法只能通过接口直接调用
+    //接口中的静态方法不能被子类重写
+    }
+    public default void func2(){
+    //实现类可以重写接口中的默认方法，调用时调用重写之后的版本
+    //接口中的默认方法必须通过实现了接口的对象来调用
+    }
+    //public关键字在接口中是多余的，随时都可以去掉，因为接口中的方法总是public的
+    //接口中的default方法和类中的默认权限不是一回事
+}
+7、如果子类继承的父类和实现的接口中声明了同名同参数的方法，那么子类在没有重写此方法的情况下，默认调用父类中的同名方法，叫做类优先原则
+8、当类中的两个或多个接口中有同名同参数方法，子类是可以实现的这个同名方法的
+9、当类中的两个或多个接口中有同名同参数的默认方法，子类必须实现该方法，否则会发生接口冲突
+
+interface Person {
+    static void func() {
+        System.out.println("第一个接口中的静态方法");
+    }
+
+    default void func2() {
+        System.out.println("第一个接口中的默认方法");
+    }
+
+    void func3();
+}
+
+interface Animal {
+    static void func() {
+        System.out.println("第二个接口中的静态方法");
+    }
+
+    default void func2() {
+        System.out.println("第二个接口中的默认方法");
+    }
+
+    void func3();
+
+}
+
+class Monster {
+    public void func3() {
+        System.out.println("父类中的普通方法");
+    }
+
+}
+
+class Orc extends Monster implements Person, Animal {
+
+    //优先重写的是类中的同名同参数方法，这是类优先原则
+    @Override
+    public void func3() {
+        System.out.println("重写类中的方法（该方法和接口中的方法同名），体现类优先原则");
+    }
+
+    //当两个接口中有同名同参数的方法时，子类必须重写该默认方法
+    @Override
+    public void func2() {
+        System.out.println("子类可以同时重写两个接口中的同名默认方法");
+    }
+
+    public void myMethod() {
+        System.out.println("进入子类中独有的方法");
+        super.func3();//调用父类中的方法
+        Animal.super.func2();//调用接口中定义的默认方法
+        Person.super.func2();//调用另一个接口中定义的默认方法
+        Animal.func();//调用接口中的静态方法
+        Person.func();//调用另一个接口中的静态方法
+    }
+
+    //接口中的静态方法不允许重写
+}

@@ -9,3 +9,70 @@ que.remove();//获取并移除此队列的头，如果此队列为空，则抛�
 que.peek();//获取队列的头但不移除此队列的头。如果此队列为空，则返回 null
 que.element();//获取队列的头但不移除此队列的头。如果此队列为空，则将抛出NoSuchElementException异常
 !queue.isEmpty();//判断队列是否为空
+
+
+分类
+Collection接口
+List接口，有序可重复。
+ 分类
+ ArrayList:底层是数组，默认大小10每次增加一半，线程不安全，效率高，查询快，增删慢
+ Vector:底层数组，查询快，增删慢，线程安全，效率低，不再使用。
+ 方法
+ add(Object),add(index,Object)添加元素
+ addAll(List<Object> object) 添加列表
+ contains()是否包含元素对象
+ containsAll() 是否包含集合对象
+ remove() 移除元素或集合对象
+ size() 集合大小
+
+Set接口，无序唯一
+ 分类
+ HashSet:底层为哈希表，无序，唯一，保证唯一依赖:hashCode()和equals()
+ LinkedHashSet:底层数据结构是链表和哈希表，有序，唯一。FIFO(先进先出)，链表保证元素有序，哈希表保证元素唯一。
+ TreeSet:底层红黑树，唯一有序。
+ 方法
+ add(Object),add(index,Object)添加元素
+ addAll(List<Object> object) 添加列表
+ contains()是否包含元素对象
+ containsAll() 是否包含集合对象
+ remove() 移除元素或集合对象
+ size() 集合大小
+
+Queue接口
+ 分类
+ Deque 接口双端队列
+  LinkedList:底层双向链表，实现Deque接口和list接口，线程不安全，查询慢，增删快，效率高，FIFO(先进先出)。
+ 不阻塞队列
+ PriorityQueue:实质上维护了一个有序列表。加入Queue的元素根据天然排序（java.util.Comparable 实现）或根据传递给构造函数java.util.Comparator实现定位。
+ ConcurrentLinkedQueue:基于链接节点的、线程安全的队列。并发访问不需要同步，因为它在队列的尾部添加元素并从头部删除它们，所以不需要知道队列的大小，所以获取队列大小慢，需要遍历队列
+  阻塞队列，基于BlockingQueue接口。
+ ArrayBlockingQueue:基于数组，构造时必须指定容量，可选择公平性，使用会有性能损耗，默认FIFO。
+ LinkedBlockingQueue:基于链表，容量默认Inter.MAX_VALUE，基于链表，FIFO先进先出。
+ PriorityBlockingQueue:封装PriorityQueue实现，基于堆内存，理论上无限大，自带优先级，添加的元素具有比较能力。
+ DelayQueue:基于PriorityQueue实现，存放Delayed元素，当延迟期满时才能提取元素，自带优先级算法
+ SynchronousQueue:利用BlockingQueue的简单聚合机制
+ 方法
+ put(e),put(e,time,unit)添加一个元素，如果队列满，则阻塞
+ tak(),take(time,unit)移除并返回队列头部信息，如果队列为空，则阻塞
+ peek，返回队列头部，如果为空，返回null
+ poll，移除并返回队列头部元素，如果队列为空，返回null
+ offer，添加一个元素成功返回true，失败false
+ element，返回队列头部UAN苏，如果队列为空，抛异常NoSuchElementException
+ remove，移除并返回队列头部元素，如果队列为空，抛异常NoSuchElementException
+ add，添加一个元素，如果队列满了，抛出异常IIIegaISlabEepeplian
+
+Map接口
+分类
+Hashtable:底层哈希表，线程安全，效率低，无序。不允许null值，父类Dictionary。
+TreeMap:底层红黑树，默认排序升序排序。有序。
+HashMap:默认大小是16，每次增加两倍，底层哈希表，无序，线程不安全，效率高，key和value允许为null，父类AbstractMap。jdk1.8采用数组+链表+红黑树，在链表过长的时候可以通过转换成红黑树提升访问性能
+LinkedHashMap:底层链表和哈希表，有序。
+方法
+put(key,value) 添加数据
+containsKey(key) key是否有该值
+containsValue(value)value是否有该值
+get(key) 获取key对应value
+keySet() 获取key，set类型。
+size() 集合大小
+remove()移除元素
+values() 获取所有value值，Collection类型。

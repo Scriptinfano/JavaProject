@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * 全排列生成器类
  */
-class PermutationsGenerator {
+public class PermutationsGenerator {
     private ArrayList<ArrayList<Integer>> permutationsContainer;
     private Integer[] originalArray;
 
@@ -75,19 +75,3 @@ class PermutationsGenerator {
 }
 
 
-public class RecursivelyGeneratedFullPermutationMain {
-    private static Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) {
-        System.out.print("输入一元排列的尾数：");
-        int dimension = scanner.nextInt();
-        PermutationsGenerator generator = new PermutationsGenerator(dimension);
-        generator.run();
-        int[][] result = generator.getPermutations();
-        System.out.println("一共生成" + MathUtil.factorial(dimension) + "种排列");
-        generator.showResult();
-        System.out.println("递归调用次数=" + generator.getCounter());
-    }
-    //计算矩阵行列式的值
-
-}

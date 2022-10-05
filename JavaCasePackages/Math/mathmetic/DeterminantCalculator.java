@@ -76,9 +76,9 @@ public class DeterminantCalculator {
      * 返回n阶行列式的运算结果
      */
     public int run() {
-        FullArrangementGenerator generator = new FullArrangementGenerator();
+        PermutationGeneratorPlus generator = new PermutationGeneratorPlus();
         generator.setDimension(dimension);
-        generator.run(FullArrangementGenerator.mode.NORMAL);
+        generator.run(PermutationGeneratorPlus.mode.NORMAL);
         res = generator.getArrangementList();
         int sum = 0;
         for (int count = 0; count < res.size(); count++) {
