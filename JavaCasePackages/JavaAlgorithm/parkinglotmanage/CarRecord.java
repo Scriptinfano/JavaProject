@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 class CarRecord {
-    private final GregorianCalendar arriveTime;//到达时间
-    private GregorianCalendar leftTime;//离去时间
+    private GregorianCalendar arriveTime;//到达时间
+    private final GregorianCalendar leftTime;//离去时间
     private final String CarId;
 
 
@@ -27,8 +27,8 @@ class CarRecord {
         return CarId;
     }
 
-    public void setLeftTime(GregorianCalendar leftTime) {
-        this.leftTime = leftTime;
+    public void setArriveTime(GregorianCalendar arriveTime) {
+        this.arriveTime = arriveTime;
     }
 
     public void output(){
@@ -44,4 +44,6 @@ class CarRecord {
         builder.append(arriveTime.get(Calendar.MINUTE));
         System.out.println("车牌号："+CarId+" 到达时间："+ builder);
     }
+
+
 }

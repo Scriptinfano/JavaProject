@@ -263,4 +263,31 @@ public class ScannerPlus {
         String select = nextSelectionByString(selectMin, selectMax);
         return Integer.parseInt(select);
     }
+
+    /**
+     * 用户输入的整型被要求大于或小于一个数时用到，如果upOrDown为true，则limit表示上界，反之则表示下界，当户
+     * 的输入越界后被要求重新输入
+     *
+     * @param upOrDown upOrDown为true，则limit表示上界，反之则表示下界
+     * @param limit    具体的上界或下界
+     * @param message  要求用户重新输入时显示的消息
+     * @return int 返回用户正确的输入
+     */
+    public int nextIntWithLimit(boolean upOrDown, int limit, String message){
+        int theData;
+        while (true){
+            theData=nextInt();
+            if(upOrDown){
+                if(theData>=limit){
+                    System.out.println(message);
+                }else break;
+            }else {
+                if(theData<=limit){
+                    System.out.println(message);
+                }else break;
+            }
+        }
+        return theData;
+    }
+
 }
