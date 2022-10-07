@@ -2,55 +2,48 @@
  * 这是一个临时的程序，用来测试各种代码
  */
 package testEverything;
-import java.util.*;
 
-class Person {
-    private final int age;
-    private final String name;
+import arrayutil.ArrayUtil;
 
-    public Person(int age, String name) {
-        this.age = age;
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getName() {
-        return name;
-    }
-}
-
-class PersonFact {
-    public static Person getPerson(int age, String name) {
-        return new Person(age, name);
-    }
-}
+import java.util.Arrays;
 
 class TestMain {
     public static void main(String[] args) {
-/*
-        Stack<Person> stack = new Stack<Person>();
-        stack.push(PersonFact.getPerson(12, "小红"));
-        stack.push(PersonFact.getPerson(14, "小明"));
-        stack.push(PersonFact.getPerson(45, "赵国豪"));
-        stack.push(PersonFact.getPerson(34, "建国"));
-        stack.push(PersonFact.getPerson(67, "拜登"));
-        stack.push(PersonFact.getPerson(89, "二货"));
-        stack.push(PersonFact.getPerson(78, "傻叉习近平"));
-        boolean result = stack.stream().anyMatch(person -> person.getAge() > 30);
-        System.out.println(result);
-*/
-
-        Queue<Person> queue = new LinkedList<>();
-        queue.offer(PersonFact.getPerson(12, "小红"));
-        queue.offer(PersonFact.getPerson(14, "小明"));
-        queue.offer(PersonFact.getPerson(45, "赵国豪"));
-        queue.offer(PersonFact.getPerson(34, "建国"));
-        queue.offer(PersonFact.getPerson(67, "拜登"));
-        queue.offer(PersonFact.getPerson(89, "二货"));
-        queue.offer(PersonFact.getPerson(78, "傻叉习近平"));
-        System.out.println(queue.peek().getName());
+        int[] arrayA = ArrayUtil.randomIntArray(10, 1, 100);
+        int[] arrayB = ArrayUtil.randomIntArray(7, 1, 100);
+        System.out.println(arrayA[0] + ", "+arrayB[1] + ", "+arrayA[2] + ", "+arrayB[3])
+        int[] result = mergeSort(arrayA, arrayB);
+        System.out.println(Arrays.toString(result));
     }
+
+
+    /**
+     * 将两个升序表，合并为一个降序表
+     */
+    public static int[] mergeSort(int[] a, int[] b) {
+        int[] merge = new int[a.length + b.length];
+        int i = a.length - 1;
+        int j = b.length - 1;
+        int k = 0;
+        while (k != merge.length) {
+            if (i >= 0 && j >= 0) {
+                if (a[i] >= b[j]) {
+                    merge[k] = a[i];
+                    i--;
+                } else {
+                    merge[k] = b[j];
+                    j--;
+                }
+            } else if (i < 0) {
+                merge[k] = b[j];
+                j--;
+            } else {
+                merge[k] = a[i];
+                i--;
+            }
+            k++;
+        }
+        return merge;
+    }
+
 }

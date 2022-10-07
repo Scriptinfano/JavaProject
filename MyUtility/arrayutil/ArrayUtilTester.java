@@ -34,7 +34,7 @@ class ArrayUtilTester {
     }
 
     private static void testMaxOrMinFunc() {
-        Integer[] array = ArrayUtil.randomArray(20, 1, 10);
+        Integer[] array = ArrayUtil.randomIntegerArray(20, 1, 10);
         //Integer[][] backUpArray = ArrayUtil.getBackUpArrays(array, 2);
 
 
@@ -95,7 +95,7 @@ class ArrayUtilTester {
         String arrayString2 = Arrays.toString(arr);
         System.out.println(arrayString2);
         //4、void sort(int[]a) 对数组进行排序
-        Integer[] randomArray = ArrayUtil.randomArray(50, 0, 100);
+        Integer[] randomArray = ArrayUtil.randomIntegerArray(50, 0, 100);
         Arrays.sort(randomArray);
         String arrayString3 = Arrays.toString(randomArray);
         System.out.println(arrayString3);
@@ -150,7 +150,7 @@ class ArrayUtilTester {
      */
     private static void analysisAlgorithmTime() throws SorterUninitializedException {
         ArraySorter<Integer> sorter = new ArraySorter<Integer>(null);//实例化排序器对象
-        Integer[] arr = ArrayUtil.randomArray(100, 1, 10000);//生成随机数组
+        Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 10000);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 6);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
 
 

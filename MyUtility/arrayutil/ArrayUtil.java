@@ -1,7 +1,9 @@
 package arrayutil;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * 自定义的Array工具类，包含一些对数组的简单操作
@@ -85,14 +87,14 @@ public class ArrayUtil {
     }
 
     /**
-     * 该方法返回一个整型对象数组，其中的元素随机且不重复，范围在begin到end之间
+     * 返回一个随机Integer数组，元素随机且不重复，数组元素个数是size，范围是[begin,end]
      *
      * @param size  随机数组的大小
      * @param begin 随机数组中元素可能取值范围的起始值
      * @param end   随机数组中元素可能取值范围的终止值
-     * @return Integer[] 返回的随机数数组
+     * @return {@link Integer[]} 返回的随机数数组
      */
-    public static Integer[] randomArray(int size, int begin, int end) {
+    public static Integer[] randomIntegerArray(int size, int begin, int end) {
         Integer[] randomArray = new Integer[size];
         Random randomGenerator = new Random(System.currentTimeMillis());
         for (int i = 0; i < randomArray.length; i++) {
@@ -107,6 +109,18 @@ public class ArrayUtil {
             }
         }
         return randomArray;
+    }
+
+    /**
+     * 返回一个随机int数组，元素随机且不重复，数组元素个数是size，范围是[begin,end]
+     *
+     * @param size  随机数组的大小
+     * @param begin 随机数组中元素可能取值范围的起始值
+     * @param end   随机数组中元素可能取值范围的终止值
+     * @return {@link int[]} 返回的随机数数组
+     */
+    public static int[]randomIntArray(int size,int begin,int end){
+        return Arrays.stream(randomIntegerArray(size,begin,end)).mapToInt(Integer::valueOf).toArray();
     }
 
     /**
