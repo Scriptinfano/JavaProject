@@ -10,17 +10,15 @@ public class ParkingLotManager implements ViewManager {
     private static ScannerPlus scanner = new ScannerPlus();
     private final ParkingLot parkinglot = ParkingLot.getInstance();
 
-    public static void main(String[] args) {
-        ParkingLotManager manager = new ParkingLotManager();
-        manager.viewInteraction();
-    }
-
     public void showMenu() {
-        System.out.println("*****************************");
-        System.out.println("*         1、驶入车辆         *");
-        System.out.println("*         2、驶出车辆         *");
-        System.out.println("*         3、退出程序         *");
-        System.out.println("******************************");
+        System.out.println("***************欢迎使用停车场管理系统***********");
+        System.out.println("*                 1、驶出车辆               *");
+        System.out.println("*                 2、驶入车辆               *");
+        System.out.println("*         3、显示目前停车场中车辆的信息         *");
+        System.out.println("*                 4、退出程序               *");
+        System.out.println("*注：本停车场最多停放" + parkinglot.stackSize + "辆汽车                   *");
+        System.out.println("*本停车场目前的车辆数：" + parkinglot.getStackSize() + "                      *");
+        System.out.println("********************************************");
     }
 
     private void showSubMenu() {
@@ -38,15 +36,27 @@ public class ParkingLotManager implements ViewManager {
         while (true) {
             String choice;
             showMenu();
+            //TODO 在此处应该显示停车场中的车辆数量
             System.out.print("请输入你的选择：");
-            choice = scanner.nextSelectionByString(1, 3);
+            choice = scanner.nextSelectionByString(1, 4);
             switch (choice) {
                 case "1" -> driveOutInteraction();
                 case "2" -> driveInInteraction();
-                case "3" -> exitProgram();
+                case "3" -> showInformation();
+                case "4" -> exitProgram();
                 default -> System.out.println("你的输入不合法，请重新输入");
             }
         }
+    }
+
+    /**
+     * 显示目前停车中各个车辆的基本信息
+     */
+    private void showInformation() {
+        if (parkinglot.isEmpty()) {
+            System.out.println("停车场中目前没有任何车辆");
+            ScannerPlus.pause();
+        } else parkinglot.showInformation();
     }
 
     private void viewInteraction2() {
@@ -91,9 +101,11 @@ public class ParkingLotManager implements ViewManager {
      */
     private void driveInInteraction() {
         CarRecord theCar = getBasicInformation();
-        if (parkinglot.getStackSize() == parkinglot.stackSize) {
+        if (parkinglot.getStackSize() + 1 > parkinglot.stackSize) {
             //要驶入的车辆暂时不能进入停车场，要在停车场外的候车道等候（也就是不能进入栈，只能进入队列，等待处理）
             parkinglot.driveInQueue(theCar);
+            System.out.println("温馨提示：停车场已满，请在候车道等候");
+            ScannerPlus.pause();
         } else
             parkinglot.driveInStack(theCar);
     }
@@ -112,7 +124,7 @@ public class ParkingLotManager implements ViewManager {
         int day = scanner.nextSelectionByInt(1, 7);
         System.out.println("小时数（1-24）：");
         int hour = scanner.nextSelectionByInt(1, 24);
-        System.out.println("分钟数（1-24）：");
+        System.out.println("分钟数（1-60）：");
         int minute = scanner.nextSelectionByInt(1, 60);
         theLeftTime.add(Calendar.DAY_OF_MONTH, day);
         theLeftTime.add(Calendar.HOUR, hour);
