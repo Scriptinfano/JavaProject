@@ -3,17 +3,17 @@
  */
 package testEverything;
 
-import arrayutil.ArrayUtil;
-
-import java.util.Arrays;
-
 class TestMain {
     public static void main(String[] args) {
+/*
         int[] arrayA = ArrayUtil.randomIntArray(10, 1, 100);
         int[] arrayB = ArrayUtil.randomIntArray(7, 1, 100);
         System.out.println(arrayA[0] + ", "+arrayB[1] + ", "+arrayA[2] + ", "+arrayB[3]);
         int[] result = mergeSort(arrayA, arrayB);
         System.out.println(Arrays.toString(result));
+*/
+
+
     }
 
 
