@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * 边链表中的边节点
+ * 边链表中的边节点，代表图中的连接节点的边
  *
  * @author Mingxiang
  */
@@ -29,7 +29,7 @@ class LineNode {
 }
 
 /**
- * 表头节点
+ * 表头节点，在邻接表中边链表的头节点，也就是图中的每一个顶点
  *
  * @author Mingxiang
  */
@@ -38,6 +38,12 @@ class HeadNode {
     private String info;//数据域，表头节点的数据域通常是图中每个顶点的名字
     private LinkedList<LineNode> lineList;//每个头节点连接一个边链表
 
+    /**
+     * 构造头节点
+     *
+     * @param theIndex 该头节点在邻接表中的编号
+     * @param theInfo  头节点的权值
+     */
     public HeadNode(int theIndex, String theInfo) {
         index = theIndex;
         info = theInfo;
@@ -55,22 +61,46 @@ class HeadNode {
 
     }
 
+    /**
+     * 输出头节点权值
+     */
     public void output() {
         System.out.print(info + " ");
     }
 
+    /**
+     * 返回该头节点的出度
+     *
+     * @return int 头节点的出度
+     */
     public int getOutDegree() {
         return lineList.size();
     }
 
+    /**
+     * 得到邻接节点
+     *
+     * @param index 想要得到的邻接点对该顶点而言是第几个邻接点
+     * @return {@link HeadNode} 返回邻接点
+     */
     public HeadNode getAdjacencyNode(int index) {
         return lineList.get(index).getAdjacency();
     }
 
+    /**
+     * 返回头节点在邻接表中的编号
+     *
+     * @return int 在邻接表中的编号
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * 判断该顶点的出度是否为0
+     *
+     * @return boolean 为0则返回true，否则返回false
+     */
     public boolean emptyLineList() {
         return lineList.isEmpty();
     }
