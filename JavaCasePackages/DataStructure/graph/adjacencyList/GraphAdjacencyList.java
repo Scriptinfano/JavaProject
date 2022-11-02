@@ -106,13 +106,27 @@ class HeadNode {
     }
 
     /**
-     * 得到该顶点的所有邻接边中指定边的长度（权值）
+     * 如果邻接点A是该顶点的第三个邻接点，则返回该临界点与该顶点之间连线的权值
      *
-     * @param index 该边所连接的邻接点的编号
+     * @param index 该边所连接的邻接点是该顶点的第几个邻接点（注意这里的index从0开始）
      * @return int 返回边的长度
      */
-    public int getLineDistance(int index) {
+    public int getLineDistanceByOrder(int index) {
         return Integer.parseInt(lineList.get(index).getInfo());
+    }
+
+    /**
+     * 如果该顶点的邻接点A的在图中的编号是指定的编号index，则返回A与该顶点之间的边的权值
+     *
+     * @param index 指定的顶点的编号
+     * @return int 返回边的权值，如果编号为index的顶点没有和当前节点相连，则返回-1
+     */
+    public int getLineDistanceByIndex(int index) {
+        for (LineNode lineNode : lineList) {
+            if (lineNode.getAdjacency().getIndex() == index)
+                return Integer.parseInt(lineNode.getInfo());
+        }
+        return -1;
     }
 }
 
@@ -146,12 +160,13 @@ class DijkstraSolver {
         update(startNode, 0, null);
         //将起点纳入路径
         pathCollection.add(startNode);
+        hasVisited[startNode.getIndex()] = true;
 
     }
 
     public void run(ArrayList<HeadNode> headNodeList) {
+        //FIXME 该算法仍然有bug，待修改
         HeadNode currentNode = startNode;
-
 
         int totalDistance = 0;
 
@@ -159,21 +174,20 @@ class DijkstraSolver {
 
             //依次检索所有不在最短路径集合中的且与当前节点相连的顶点，并更新这些节点在三个数组中的信息
             for (int i = 0; i < currentNode.getOutDegree(); i++) {
-                HeadNode theAdjacencyNode = currentNode.getAdjacencyNode(i);
+                HeadNode theAdjacencyNode = currentNode.getAdjacencyNode(i + 1);//当前正在处理的邻接点
                 //检查该邻接点是否已被纳入最短路径集合
                 if (!pathCollection.contains(theAdjacencyNode)) {
-                    int theDistance = currentNode.getLineDistance(i);
-                    if (distance[i] == null || theDistance + totalDistance < distance[i])
-                        update(theAdjacencyNode, currentNode.getLineDistance(i), currentNode);
-                    else update(theAdjacencyNode, distance[i], currentNode);
+                    int theDistance = currentNode.getLineDistanceByOrder(i);//当前顶点与当前邻接点的距离
+                    if (distance[theAdjacencyNode.getIndex()] == null || theDistance + totalDistance < distance[theAdjacencyNode.getIndex()])
+                        update(theAdjacencyNode, theDistance + totalDistance, currentNode);
+                    else update(theAdjacencyNode, distance[theAdjacencyNode.getIndex()], currentNode);
                 }
             }
             int minIndex = scan();//未选顶点中的distance值最小的顶点的编号
-            hasVisited[minIndex] = true;
-            totalDistance += distance[minIndex];
-            HeadNode nextNode = headNodeList.get(minIndex);
-            pathCollection.add(nextNode);
-            currentNode = nextNode;
+            hasVisited[minIndex] = true;//minIndex所对应的顶点是即将添加到最短路径的顶点，所以将hasVisited的对应位置置true
+            totalDistance += currentNode.getLineDistanceByIndex(minIndex);
+            currentNode = headNodeList.get(minIndex);
+            pathCollection.add(currentNode);
 
         }
 
@@ -255,6 +269,9 @@ public class GraphAdjacencyList {
         else throw new RuntimeException("错误初始化");
     }
 
+    /**
+     * 与用户交互录入各个顶点与边的信息
+     */
     private void create_user() {
         System.out.println("开始录入每个顶点的信息...");
         System.out.println("输入图中有多少个顶点：");
@@ -297,12 +314,12 @@ public class GraphAdjacencyList {
      */
     private void createOrientedGraph() {
         HeadNode[] headNodes = new HeadNode[6];
-        headNodes[0] = new HeadNode(1, "A");
-        headNodes[1] = new HeadNode(2, "B");
-        headNodes[2] = new HeadNode(3, "C");
-        headNodes[3] = new HeadNode(4, "D");
-        headNodes[4] = new HeadNode(5, "E");
-        headNodes[5] = new HeadNode(6, "F");
+        headNodes[0] = new HeadNode(0, "A");
+        headNodes[1] = new HeadNode(1, "B");
+        headNodes[2] = new HeadNode(2, "C");
+        headNodes[3] = new HeadNode(3, "D");
+        headNodes[4] = new HeadNode(4, "E");
+        headNodes[5] = new HeadNode(5, "F");
         graphList = new ArrayList<>(headNodes.length);
         hasVisited = new boolean[headNodes.length];
         graphList.addAll(Arrays.asList(headNodes));
@@ -391,7 +408,7 @@ public class GraphAdjacencyList {
      */
     public void depthTraverse() {
         for (int i = 0; i < graphList.size(); i++)
-            traverseRecursion(graphList.get(i), i + 1);//对图中所有的顶点调用深度优先遍历递归函数，因为一次调用只能遍历有向图中的一个连通分量
+            traverseRecursion(graphList.get(i), i);//对图中所有的顶点调用深度优先遍历递归函数，因为一次调用只能遍历有向图中的一个连通分量
         Arrays.fill(hasVisited, 0, hasVisited.length, false);//遍历结束之后将hasVisited置为初始状态以免对下次遍历产生影响
         System.out.println();
     }
@@ -404,10 +421,10 @@ public class GraphAdjacencyList {
      * @param index 正在遍历的节点是邻接表中的第几个节点
      */
     private void traverseRecursion(HeadNode node, int index) {
-        if (!hasVisited[index - 1])//如果当前节点未被访问的情况
+        if (!hasVisited[index])//如果当前节点未被访问的情况
         {
             node.output();
-            hasVisited[index - 1] = true;
+            hasVisited[index] = true;
             if (node.emptyLineList()) return;
             for (int i = 0; i < node.getOutDegree(); i++) {
                 HeadNode theNode = node.getAdjacencyNode(i + 1);
@@ -424,7 +441,7 @@ public class GraphAdjacencyList {
      * @return {@link ArrayList}<{@link HeadNode}> 返回一个由有序顶点组成的ArrayList容器，顶点的顺序就是最短的路径
      */
     public ArrayList<HeadNode> getShortestPathByDijkstra(HeadNode theStartNode, HeadNode theEndNode) {
-        DijkstraSolver dijkstraSolver = new DijkstraSolver(graphList.size(), theEndNode, theEndNode);
+        DijkstraSolver dijkstraSolver = new DijkstraSolver(graphList.size(), theStartNode, theEndNode);
         dijkstraSolver.run(graphList);
         return dijkstraSolver.getPathCollection();
     }
@@ -434,9 +451,9 @@ public class GraphAdjacencyList {
      */
     private void breadthTraverseOnce(HeadNode theNode) {
         Queue<HeadNode> theQueue = new LinkedList<>();
-        if (!hasVisited[theNode.getIndex() - 1]) {
+        if (!hasVisited[theNode.getIndex()]) {
             theNode.output();
-            hasVisited[theNode.getIndex() - 1] = true;
+            hasVisited[theNode.getIndex()] = true;
             theQueue.add(theNode);
         } else return;
         //队列不为空则继续循环
@@ -446,10 +463,10 @@ public class GraphAdjacencyList {
             for (int i = 0; i < currentNode.getOutDegree(); i++) {
                 //循环次数是当前顶点的出度，也就是检查当前顶点的所有邻接点
                 HeadNode adjacencyNode = currentNode.getAdjacencyNode(i + 1);
-                if (!hasVisited[adjacencyNode.getIndex() - 1]) {
+                if (!hasVisited[adjacencyNode.getIndex()]) {
                     //若邻接点在之前未被访问过，则输出其权值，并将其入队
                     adjacencyNode.output();
-                    hasVisited[adjacencyNode.getIndex() - 1] = true;
+                    hasVisited[adjacencyNode.getIndex()] = true;
                     theQueue.add(adjacencyNode);
                 }
             }
@@ -466,6 +483,16 @@ public class GraphAdjacencyList {
         USER_MODE,
         DEFAULT_MODE
     }
+
+    /**
+     * 获得指定的顶点
+     *
+     * @param index 顶点的编号
+     * @return {@link HeadNode} 返回的指定顶点
+     */
+    public HeadNode getHeadNode(int index) {
+        return graphList.get(index);
+    }
 }
 
 /**
@@ -478,10 +505,18 @@ class TestGraphList {
 
     public static void main(String[] args) {
         GraphAdjacencyList graph = new GraphAdjacencyList(GraphAdjacencyList.CREATE_MODE.DEFAULT_MODE);
+        System.out.print("图的深度优先遍历：");
         graph.depthTraverse();
         printer.println();
+        System.out.print("图的广度优先遍历：");
         graph.breadthTraverse();
 
+        printer.println();
+
+        ArrayList<HeadNode> pathList = graph.getShortestPathByDijkstra(graph.getHeadNode(0), graph.getHeadNode(8));
+        for (HeadNode theNode : pathList)
+            printer.print(theNode.getIndex() + " ");
+        printer.println();
 
     }
 }
