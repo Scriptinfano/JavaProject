@@ -3,6 +3,8 @@
  */
 package testEverything;
 
+import java.util.Arrays;
+
 class TestMain {
     public static void main(String[] args) {
 /*
@@ -12,7 +14,10 @@ class TestMain {
         int[] result = mergeSort(arrayA, arrayB);
         System.out.println(Arrays.toString(result));
 */
-
+        boolean[] hasVisited = {false, false, false};
+        Arrays.fill(hasVisited, 0, hasVisited.length, true);
+        for (int i = 0; i < hasVisited.length; i++)
+            System.out.println(hasVisited[i]);
 
     }
 
