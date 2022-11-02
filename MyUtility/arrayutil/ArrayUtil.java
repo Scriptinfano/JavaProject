@@ -3,7 +3,6 @@ package arrayutil;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * 自定义的Array工具类，包含一些对数组的简单操作
@@ -171,5 +170,33 @@ public class ArrayUtil {
         return new Integer[]{array[min], array[max]};
     }
 
+    /**
+     * 将两个升序表，合并为一个降序表
+     */
+    public static int[] mergeSort(int[] a, int[] b) {
+        int[] merge = new int[a.length + b.length];
+        int i = a.length - 1;
+        int j = b.length - 1;
+        int k = 0;
+        while (k != merge.length) {
+            if (i >= 0 && j >= 0) {
+                if (a[i] >= b[j]) {
+                    merge[k] = a[i];
+                    i--;
+                } else {
+                    merge[k] = b[j];
+                    j--;
+                }
+            } else if (i < 0) {
+                merge[k] = b[j];
+                j--;
+            } else {
+                merge[k] = a[i];
+                i--;
+            }
+            k++;
+        }
+        return merge;
+    }
 
 }

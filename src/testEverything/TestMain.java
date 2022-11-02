@@ -3,52 +3,30 @@
  */
 package testEverything;
 
-import java.util.Arrays;
+import java.util.*;
 
-class TestMain {
+public class TestMain {
     public static void main(String[] args) {
-/*
-        int[] arrayA = ArrayUtil.randomIntArray(10, 1, 100);
-        int[] arrayB = ArrayUtil.randomIntArray(7, 1, 100);
-        System.out.println(arrayA[0] + ", "+arrayB[1] + ", "+arrayA[2] + ", "+arrayB[3]);
-        int[] result = mergeSort(arrayA, arrayB);
-        System.out.println(Arrays.toString(result));
-*/
-        boolean[] hasVisited = {false, false, false};
-        Arrays.fill(hasVisited, 0, hasVisited.length, true);
-        for (int i = 0; i < hasVisited.length; i++)
-            System.out.println(hasVisited[i]);
-
-    }
-
-
-    /**
-     * 将两个升序表，合并为一个降序表
-     */
-    public static int[] mergeSort(int[] a, int[] b) {
-        int[] merge = new int[a.length + b.length];
-        int i = a.length - 1;
-        int j = b.length - 1;
-        int k = 0;
-        while (k != merge.length) {
-            if (i >= 0 && j >= 0) {
-                if (a[i] >= b[j]) {
-                    merge[k] = a[i];
-                    i--;
-                } else {
-                    merge[k] = b[j];
-                    j--;
-                }
-            } else if (i < 0) {
-                merge[k] = b[j];
-                j--;
-            } else {
-                merge[k] = a[i];
-                i--;
+        Map<Integer, Integer> sorter = new HashMap<Integer, Integer>();
+        sorter.put(1, 12);
+        sorter.put(2, 41);
+        sorter.put(3, 23);
+        sorter.put(4, 14);
+        sorter.put(5, 5);
+        sorter.put(6, 15);
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(sorter.entrySet());
+        list.sort(new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return Integer.compare(o2.getValue() - o1.getValue(), 0);
             }
-            k++;
-        }
-        return merge;
+        });
+
+        for (Map.Entry<Integer, Integer> entry : list)
+            System.out.println(entry.getKey() + "=" + entry.getValue());
+
+
     }
+
 
 }
