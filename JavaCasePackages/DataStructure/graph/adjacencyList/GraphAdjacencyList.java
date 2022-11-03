@@ -11,8 +11,8 @@ import java.util.*;
  * @author Mingxiang
  */
 class LineNode {
-    private HeadNode Adjacency;//邻接点域，指示与顶点Vi邻接的顶点在图中的位置
-    private String info;//数据域，边链表中的数据域通常为图中边的权值
+    private final HeadNode Adjacency;//邻接点域，该边指向的节点
+    private final String info;//数据域，边链表中的数据域通常为图中边的权值
 
     public LineNode(HeadNode adjacency, String info) {
         Adjacency = adjacency;
@@ -34,9 +34,9 @@ class LineNode {
  * @author Mingxiang
  */
 class HeadNode {
-    private int index;//该头节点在邻接表中的编号，是邻接表中的第几个头节点
-    private String info;//数据域，表头节点的数据域通常是图中每个顶点的名字
-    private LinkedList<LineNode> lineList;//每个头节点连接一个边链表
+    private final int index;//该头节点在邻接表中的编号，是邻接表中的第几个头节点
+    private final String info;//数据域，表头节点的数据域通常是图中每个顶点的名字
+    private final LinkedList<LineNode> lineList;//每个头节点连接一个边链表
 
     /**
      * 构造头节点
@@ -58,7 +58,6 @@ class HeadNode {
      */
     public void addLineNode(HeadNode adjacency, String theInfo) {
         lineList.add(new LineNode(adjacency, theInfo));
-
     }
 
     /**
@@ -78,17 +77,17 @@ class HeadNode {
     }
 
     /**
-     * 得到邻接节点
+     * 得到指定的邻接节点
      *
-     * @param index 想要得到的邻接点对该顶点而言是第几个邻接点
-     * @return {@link HeadNode} 返回邻接点
+     * @param index 想要得到的邻接点对该顶点而言是第几个邻接点（注意编号从0开始）
+     * @return {@link HeadNode} 返回指定的当前顶点的邻接点
      */
     public HeadNode getAdjacencyNode(int index) {
-        return lineList.get(index - 1).getAdjacency();
+        return lineList.get(index).getAdjacency();
     }
 
     /**
-     * 返回头节点在邻接表中的编号
+     * 返回该顶点在邻接表中的编号
      *
      * @return int 在邻接表中的编号
      */
@@ -101,7 +100,7 @@ class HeadNode {
      *
      * @return boolean 为0则返回true，否则返回false
      */
-    public boolean emptyLineList() {
+    public boolean zeroOutDegree() {
         return lineList.isEmpty();
     }
 
@@ -130,6 +129,7 @@ class HeadNode {
     }
 }
 
+
 /**
  * 迪杰斯特拉算法求解器，内含该算法所需的三个数组
  *
@@ -143,6 +143,8 @@ class DijkstraSolver {
     private final HeadNode endNode;
     private ArrayList<HeadNode> pathCollection;//所有进入该集合的顶点，都表示该顶点已经算在最短路径中了
 
+    private int theTotalDistance;
+
     /**
      * dijkstra算法解算器的构造函数
      *
@@ -155,6 +157,7 @@ class DijkstraSolver {
         parent = new HeadNode[size];
         startNode = theStartNode;
         endNode = theEndNode;
+        theTotalDistance = 0;
 
         //更新起点的信息
         update(startNode, 0, null);
@@ -168,26 +171,26 @@ class DijkstraSolver {
         //FIXME 该算法仍然有bug，待修改
         HeadNode currentNode = startNode;
 
-        int totalDistance = 0;
-
         while (currentNode != endNode) {
 
             //依次检索所有不在最短路径集合中的且与当前节点相连的顶点，并更新这些节点在三个数组中的信息
             for (int i = 0; i < currentNode.getOutDegree(); i++) {
-                HeadNode theAdjacencyNode = currentNode.getAdjacencyNode(i + 1);//当前正在处理的邻接点
+                HeadNode theAdjacencyNode = currentNode.getAdjacencyNode(i);//当前正在处理的邻接点
                 //检查该邻接点是否已被纳入最短路径集合
                 if (!pathCollection.contains(theAdjacencyNode)) {
-                    int theDistance = currentNode.getLineDistanceByOrder(i);//当前顶点与当前邻接点的距离
-                    if (distance[theAdjacencyNode.getIndex()] == null || theDistance + totalDistance < distance[theAdjacencyNode.getIndex()])
-                        update(theAdjacencyNode, theDistance + totalDistance, currentNode);
-                    else update(theAdjacencyNode, distance[theAdjacencyNode.getIndex()], currentNode);
+                    int newDistance = distance[currentNode.getIndex()] + currentNode.getLineDistanceByOrder(i);//到达该顶点的最短距离加上目前正在遍历的邻接点到该顶点的距离
+                    int oldDistance = distance[theAdjacencyNode.getIndex()];
+                    if (distance[theAdjacencyNode.getIndex()] == null || newDistance < oldDistance)
+                        update(theAdjacencyNode, newDistance, currentNode);
+                    else update(theAdjacencyNode, oldDistance, currentNode);
                 }
             }
             int minIndex = scan();//未选顶点中的distance值最小的顶点的编号
             hasVisited[minIndex] = true;//minIndex所对应的顶点是即将添加到最短路径的顶点，所以将hasVisited的对应位置置true
-            totalDistance += currentNode.getLineDistanceByIndex(minIndex);
-            currentNode = headNodeList.get(minIndex);
-            pathCollection.add(currentNode);
+
+            //TODO 如何计算路径的总长度，由于现在这个算法算出的最短路径有分叉且有点小问题（到七号节点时应该直接走八号节点，但目前走了六号节点然后才走八号节点）
+            currentNode = headNodeList.get(minIndex);//更新最短路径中的最新节点
+            pathCollection.add(currentNode);//将最新的节点加入已选择的节点集合中
 
         }
 
@@ -206,10 +209,8 @@ class DijkstraSolver {
     private int scan() {
         Map<Integer, Integer> sorter = new HashMap<Integer, Integer>();
         for (int i = 0; i < hasVisited.length; i++) {
-            if (!hasVisited[i]) {
-                if (distance[i] != null) {
-                    sorter.put(i, distance[i]);
-                }
+            if (!hasVisited[i] && distance[i] != null) {
+                sorter.put(i, distance[i]);
             }
         }
         List<Map.Entry<Integer, Integer>> list = new ArrayList<>(sorter.entrySet());
@@ -425,9 +426,9 @@ public class GraphAdjacencyList {
         {
             node.output();
             hasVisited[index] = true;
-            if (node.emptyLineList()) return;
+            if (node.zeroOutDegree()) return;
             for (int i = 0; i < node.getOutDegree(); i++) {
-                HeadNode theNode = node.getAdjacencyNode(i + 1);
+                HeadNode theNode = node.getAdjacencyNode(i);
                 traverseRecursion(theNode, theNode.getIndex());
             }
         }
@@ -462,7 +463,7 @@ public class GraphAdjacencyList {
             //依次检查currentNode的邻接点是否被访问，如果未被访问则输出并将其入队，其将在下一次循环中出队并检查它的所有邻接点
             for (int i = 0; i < currentNode.getOutDegree(); i++) {
                 //循环次数是当前顶点的出度，也就是检查当前顶点的所有邻接点
-                HeadNode adjacencyNode = currentNode.getAdjacencyNode(i + 1);
+                HeadNode adjacencyNode = currentNode.getAdjacencyNode(i);
                 if (!hasVisited[adjacencyNode.getIndex()]) {
                     //若邻接点在之前未被访问过，则输出其权值，并将其入队
                     adjacencyNode.output();
@@ -514,8 +515,9 @@ class TestGraphList {
         printer.println();
 
         ArrayList<HeadNode> pathList = graph.getShortestPathByDijkstra(graph.getHeadNode(0), graph.getHeadNode(8));
-        for (HeadNode theNode : pathList)
+        for (HeadNode theNode : pathList) {
             printer.print(theNode.getIndex() + " ");
+        }
         printer.println();
 
     }
