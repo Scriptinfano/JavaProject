@@ -3,28 +3,21 @@
  */
 package testEverything;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class TestMain {
     public static void main(String[] args) {
-        Map<Integer, Integer> sorter = new HashMap<Integer, Integer>();
-        sorter.put(1, 12);
-        sorter.put(2, 41);
-        sorter.put(3, 23);
-        sorter.put(4, 14);
-        sorter.put(5, 5);
-        sorter.put(6, 15);
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(sorter.entrySet());
-        list.sort(new Comparator<Map.Entry<Integer, Integer>>() {
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                return Integer.compare(o2.getValue() - o1.getValue(), 0);
+        int size = 4;
+        ArrayList<ArrayList<Integer>> list;
+        list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(new ArrayList<>(size));
+            for (int j = 0; j < size; j++) {
+                list.get(i).add(null);
             }
-        });
 
-        for (Map.Entry<Integer, Integer> entry : list)
-            System.out.println(entry.getKey() + "=" + entry.getValue());
-
+        }
+        System.out.println(list.get(0).size());
 
     }
 

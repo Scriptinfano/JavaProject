@@ -11,38 +11,72 @@ import java.util.*;
  * @author Mingxiang
  */
 class LineNode {
-    private final HeadNode Adjacency;//邻接点域，该边指向的节点
-    private final String info;//数据域，边链表中的数据域通常为图中边的权值
+    /**
+     * 邻接点域，该边指向的节点
+     */
+    private final HeadNode Adjacency;
 
+    /**
+     * 数据域，边链表中的数据域通常为图中边的权值
+     */
+    private final String info;
+
+    /**
+     * 构造线节点
+     *
+     * @param adjacency 该边指向的顶点
+     * @param info      边的权值
+     */
     public LineNode(HeadNode adjacency, String info) {
         Adjacency = adjacency;
         this.info = info;
     }
 
+    /**
+     * 得到边的权值
+     *
+     * @return {@link String}
+     */
     public String getInfo() {
         return info;
     }
 
+    /**
+     * 取得边所连接的顶点
+     *
+     * @return {@link HeadNode}
+     */
     public HeadNode getAdjacency() {
         return Adjacency;
     }
 }
 
 /**
- * 表头节点，在邻接表中边链表的头节点，也就是图中的每一个顶点
+ * 代表图中的顶点，在图的邻接表表示法中是边链表的头节点
  *
  * @author Mingxiang
  */
 class HeadNode {
-    private final int index;//该头节点在邻接表中的编号，是邻接表中的第几个头节点
-    private final String info;//数据域，表头节点的数据域通常是图中每个顶点的名字
-    private final LinkedList<LineNode> lineList;//每个头节点连接一个边链表
+    /**
+     * 该顶点在邻接表中的编号
+     */
+    private final int index;
 
     /**
-     * 构造头节点
+     * 数据域，表头节点的数据域通常是图中每个顶点的名字或者是该节点的权值
+     */
+    private final String info;
+
+    /**
+     * 存储所有以该顶点为始点的边节点的链表集合
+     */
+    private final LinkedList<LineNode> lineList;
+
+    /**
+     * 构造顶点
      *
-     * @param theIndex 该头节点在邻接表中的编号
-     * @param theInfo  头节点的权值
+     * @param theIndex 该顶点在邻接表中的编号
+     * @param theInfo  顶点的权值
      */
     public HeadNode(int theIndex, String theInfo) {
         index = theIndex;
@@ -51,9 +85,9 @@ class HeadNode {
     }
 
     /**
-     * 向该头节点对应的边链表中添加边节点
+     * 向该顶点添加与该顶点所关联的边（以该顶点为始点的边）
      *
-     * @param adjacency 边节点所代表的有向边所指向的节点
+     * @param adjacency 要添加的边的终点
      * @param theInfo   边所带的权值
      */
     public void addLineNode(HeadNode adjacency, String theInfo) {
@@ -61,14 +95,14 @@ class HeadNode {
     }
 
     /**
-     * 输出头节点权值
+     * 输出顶点的权值
      */
-    public void output() {
-        System.out.print(info + " ");
+    public void outPutInfo() {
+        System.out.print("<nodeName:" + info + ",nodeIndex:" + index + "> ");
     }
 
     /**
-     * 返回该头节点的出度
+     * 返回该顶点的出度
      *
      * @return int 头节点的出度
      */
@@ -190,6 +224,9 @@ class DijkstraSolver {
 
     }
 
+    /**
+     * 运行求解器
+     */
     public void run() {
         HeadNode currentNode = startNode;
         //从startNode开始依次遍历所有顶点
@@ -203,8 +240,8 @@ class DijkstraSolver {
                 if (!pathCollection.contains(theAdjacencyNode)) {
                     int newDistance = distance[currentNode.getIndex()] + currentNode.getLineDistanceByOrder(i);//到达该顶点的最短距离加上目前正在遍历的邻接点到该顶点的距离
                     if (distance[theAdjacencyNode.getIndex()] == null || newDistance < distance[theAdjacencyNode.getIndex()])
-                        update(theAdjacencyNode, newDistance, currentNode);
-                    else update(theAdjacencyNode, distance[theAdjacencyNode.getIndex()], currentNode);
+                        update(theAdjacencyNode, newDistance, currentNode);//更新邻接点的状态
+                    else update(theAdjacencyNode, distance[theAdjacencyNode.getIndex()], parent[theAdjacencyNode.getIndex()]);//维持该邻接点原有的状态不变
                 }
             }
             int minIndex = scan();//未选顶点中的distance值最小的顶点的编号
@@ -217,6 +254,13 @@ class DijkstraSolver {
 
     }
 
+    /**
+     * 更新指定顶点的信息
+     *
+     * @param theNode     指定的顶点
+     * @param theDistance 新的distance值
+     * @param theParent   新的parent值
+     */
     private void update(HeadNode theNode, int theDistance, HeadNode theParent) {
         distance[theNode.getIndex()] = theDistance;
         parent[theNode.getIndex()] = theParent;
@@ -285,14 +329,69 @@ class DijkstraSolver {
 }
 
 /**
+ * 弗洛伊德算法求解器<br/>
+ * 使用方法：
+ *
+ * @author Mingxiang
+ */
+class FloydSolver {
+
+    /**
+     * 最短路径上顶点Vj的前一顶点的序号
+     */
+    private final ArrayList<ArrayList<Integer>> path;
+
+    /**
+     * 记录顶点Vi和Vj之间的最短路径长度
+     */
+    private final ArrayList<ArrayList<Integer>> distance;
+
+    /**
+     * 弗洛伊德解算器<br>
+     * 该构造器仅适用于图的邻接表表示法，传入邻接表表示法中的邻接表即可构造<br/>
+     *
+     * @param headNodeList 顶点的集合，图的邻接表表示法
+     */
+    public FloydSolver(ArrayList<HeadNode> headNodeList) {
+        //给distance矩阵和path矩阵初始化
+        int size = headNodeList.size();
+        path = new ArrayList<>(size);
+        distance = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            path.add(new ArrayList<>(size));
+            distance.add(new ArrayList<>(size));
+            for (int j = 0; j < size; j++) {
+                path.get(i).add(null);
+                distance.get(i).add(null);
+            }
+        }
+
+        //给distance矩阵和path矩阵赋值
+        for (int i = 0; i < size; i++) {
+            HeadNode currentHeadNode = headNodeList.get(i);
+            for (int j = 0; j < currentHeadNode.getOutDegree(); j++) {
+                HeadNode theAdjacencyNode = headNodeList.get(j);
+                distance.get(i).set(theAdjacencyNode.getIndex(), currentHeadNode.getLineDistanceByOrder(j));
+                path.get(i).set(theAdjacencyNode.getIndex(), i);
+            }
+        }
+
+    }
+
+
+}
+
+
+/**
  * 有向图的邻接表表示法，每个顶点放在数组容器中，每个顶点关联一个边链表，边链表中存放关联于该顶点的所有边的信息
  *
  * @author Mingxiang
  */
 public class GraphAdjacencyList {
+
+    private static final PrintStream printer = System.out;
     private static final ScannerPlus scanner = new ScannerPlus();
     private ArrayList<HeadNode> graphList;//代表整个邻接表
-    private int nodeSize;//代表图中总共有多少个顶点
 
     private boolean[] hasVisited;//标记顶点是否经过了访问，经过默认初始化之后，所有值均为false
 
@@ -324,7 +423,8 @@ public class GraphAdjacencyList {
     private void create_user() {
         System.out.println("开始录入每个顶点的信息...");
         System.out.println("输入图中有多少个顶点：");
-        nodeSize = scanner.nextInt();
+        //代表图中总共有多少个顶点
+        int nodeSize = scanner.nextInt();
         graphList = new ArrayList<HeadNode>(nodeSize);
         hasVisited = new boolean[nodeSize];
         System.out.println("开始录入图中每个顶点的信息...（按照顶点在图中的顺序输入）");
@@ -472,7 +572,7 @@ public class GraphAdjacencyList {
     private void traverseRecursion(HeadNode node, int index) {
         if (!hasVisited[index])//如果当前节点未被访问的情况
         {
-            node.output();
+            node.outPutInfo();
             hasVisited[index] = true;
             if (node.zeroOutDegree()) return;
             for (int i = 0; i < node.getOutDegree(); i++) {
@@ -483,20 +583,31 @@ public class GraphAdjacencyList {
     }
 
     /**
-     * 使用迪杰斯特拉算法求得指定的起始顶点到指定的顶点的最短路径集合
+     * 使用迪杰斯特拉算法输出指定的起始顶点到指定的终点的最短路径（由顶点的编号组成）
      *
      * @param startIndex  路径的起始节点的编号
      * @param targetIndex 指定的顶点的编号
-     * @return {@link ArrayList}<{@link HeadNode}> 返回一个由有序顶点组成的ArrayList容器，顶点的顺序就是最短的路径
      */
-    public ArrayList<HeadNode> getShortestPathCollectionByDijkstra(int startIndex, int targetIndex) {
+    public void outputShortestPathByDijkstra(int startIndex, int targetIndex) {
+        if (startIndex < 0 || targetIndex < 0 || startIndex >= graphList.size() || targetIndex >= graphList.size())
+            throw new IllegalArgumentException("调用outputShortestPathByDijkstra()函数时传入的起始顶点编号和终止顶点编号不符合要求");
+        DijkstraSolver solver = new DijkstraSolver(graphList, graphList.get(startIndex));
+        solver.run();//运行解算器
+        ArrayList<HeadNode> result = solver.getShortestPath(targetIndex);
+        printer.print(startIndex + "号顶点到" + targetIndex + "号顶点的最短路径为：");
+        for (HeadNode theNode : result) {
+            printer.print(theNode.getIndex() + " ");
+        }
+        printer.println();
+    }
+
+    public int getShortestPathByDijkstra(int startIndex, int targetIndex) {
         if (startIndex < 0 || targetIndex < 0 || startIndex >= graphList.size() || targetIndex >= graphList.size())
             throw new IllegalArgumentException("调用getShortestPathByDijkstra()函数时传入的起始顶点编号和终止顶点编号不符合要求");
         DijkstraSolver solver = new DijkstraSolver(graphList, graphList.get(startIndex));
         solver.run();//运行解算器
-        return solver.getShortestPath(targetIndex);
+        return solver.getShortestPathLength(targetIndex);
     }
-
 
     /**
      * 图的一次广度优先遍历，仅遍历一个连通分量
@@ -504,7 +615,7 @@ public class GraphAdjacencyList {
     private void breadthTraverseOnce(HeadNode theNode) {
         Queue<HeadNode> theQueue = new LinkedList<>();
         if (!hasVisited[theNode.getIndex()]) {
-            theNode.output();
+            theNode.outPutInfo();
             hasVisited[theNode.getIndex()] = true;
             theQueue.add(theNode);
         } else return;
@@ -517,7 +628,7 @@ public class GraphAdjacencyList {
                 HeadNode adjacencyNode = currentNode.getAdjacencyNode(i);
                 if (!hasVisited[adjacencyNode.getIndex()]) {
                     //若邻接点在之前未被访问过，则输出其权值，并将其入队
-                    adjacencyNode.output();
+                    adjacencyNode.outPutInfo();
                     hasVisited[adjacencyNode.getIndex()] = true;
                     theQueue.add(adjacencyNode);
                 }
@@ -545,6 +656,23 @@ public class GraphAdjacencyList {
     public HeadNode getHeadNode(int index) {
         return graphList.get(index);
     }
+
+
+    /**
+     * 得到图中顶点的个数
+     *
+     * @return int 顶点的个数
+     */
+    public int getNumberOfHeadNode() {
+        return graphList.size();
+    }
+
+    public int getShortestPathByFloyd() {
+        FloydSolver solver = new FloydSolver(graphList);
+        return 1;
+    }
+
+
 }
 
 /**
@@ -556,20 +684,32 @@ class TestGraphList {
     private static final PrintStream printer = System.out;
 
     public static void main(String[] args) {
+        testFloyd();
+    }
+
+
+    public static void testDijkstra() {
         GraphAdjacencyList graph = new GraphAdjacencyList(GraphAdjacencyList.CREATE_MODE.DEFAULT_MODE);
         System.out.print("图的深度优先遍历：");
         graph.depthTraverse();
         printer.println();
         System.out.print("图的广度优先遍历：");
         graph.breadthTraverse();
-
         printer.println();
 
-        ArrayList<HeadNode> pathList = graph.getShortestPathCollectionByDijkstra(0, 8);
-        for (HeadNode theNode : pathList) {
-            printer.print(theNode.getIndex() + " ");
-        }
-        printer.println();
+        System.out.println("通过Dijkstra算法求解两个点之间的最短路径测试：");
+        System.out.print("输入起始点的编号：");
+        int startIndex = scanner.nextSelectionByInt(0, graph.getNumberOfHeadNode());
+        System.out.print("输入终点的编号：");
+        int endIndex = scanner.nextSelectionByInt(0, graph.getNumberOfHeadNode());
+        graph.outputShortestPathByDijkstra(startIndex, endIndex);
 
     }
+
+    public static void testFloyd() {
+        printer.print("通过弗洛伊德算法求解每一对顶点的最短路径：");
+        GraphAdjacencyList graph = new GraphAdjacencyList(GraphAdjacencyList.CREATE_MODE.DEFAULT_MODE);
+        graph.getShortestPathByFloyd();
+    }
 }
+
