@@ -207,13 +207,13 @@ class DijkstraSolver {
      * @param theStartNode    Dijkstra算法求解的是一个顶点到图中所有顶点的最短路径，所以需要一个起始顶点作为遍历的起始点
      */
     public DijkstraSolver(ArrayList<HeadNode> theHeadNodeList, HeadNode theStartNode) {
+        headNodeList = theHeadNodeList;
         pathCollection = new ArrayList<>();
         int size = theHeadNodeList.size();
         hasVisited = new boolean[size];//java的boolean数组默认初始化时，所有元素均为false
         distance = new Integer[size];
         parent = new HeadNode[size];
         startNode = theStartNode;
-        headNodeList = theHeadNodeList;
 
         if (!theHeadNodeList.isEmpty()) {
             //更新起点的信息
@@ -225,9 +225,27 @@ class DijkstraSolver {
     }
 
     /**
+     * Dijkstra算法不允许有负权边，因为Dijkstra算法在计算最短路径时，不会因为负边的出现而更新已经计算过(收录过)的顶点的路径长度
+     *
+     * @return boolean
+     */
+    private boolean hasNegativeLine() {
+        for (HeadNode node : headNodeList) {
+            for (int j = 0; j < node.getOutDegree(); j++) {
+                if (node.getLineDistanceByOrder(j) < 0)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 运行求解器
      */
-    public void run() {
+    public void run() throws UnsupportedOperationException {
+        if (hasNegativeLine())
+            throw new UnsupportedOperationException("Dijkstra算法不允许有负权边，无法执行运行操作");
+
         HeadNode currentNode = startNode;
         //从startNode开始依次遍历所有顶点
 
@@ -337,48 +355,87 @@ class DijkstraSolver {
 class FloydSolver {
 
     /**
-     * 最短路径上顶点Vj的前一顶点的序号
+     * 最短路径上顶点Vj的前一顶点的序号，Vi到Vj之间无弧，则Path(i,j)=-1;
      */
-    private final ArrayList<ArrayList<Integer>> path;
+    private ArrayList<ArrayList<Integer>> path;
 
     /**
      * 记录顶点Vi和Vj之间的最短路径长度
      */
-    private final ArrayList<ArrayList<Integer>> distance;
+    private ArrayList<ArrayList<Integer>> distance;
+
+    private boolean hasRun = false;
+    private boolean hasSet = false;
 
     /**
      * 弗洛伊德解算器<br>
-     * 该构造器仅适用于图的邻接表表示法，传入邻接表表示法中的邻接表即可构造<br/>
-     *
-     * @param headNodeList 顶点的集合，图的邻接表表示法
+     * 该构造器为空参构造器，仅构造该对象是无法使用该对象的，需要调用set接口设置内部的邻接表<br/>
      */
-    public FloydSolver(ArrayList<HeadNode> headNodeList) {
-        //给distance矩阵和path矩阵初始化
-        int size = headNodeList.size();
-        path = new ArrayList<>(size);
-        distance = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            path.add(new ArrayList<>(size));
-            distance.add(new ArrayList<>(size));
-            for (int j = 0; j < size; j++) {
+    public FloydSolver() {
+    }
+
+    public void set(ArrayList<HeadNode> headNodeList) {
+        int nodeSize = headNodeList.size();//节点数量
+        path = new ArrayList<>(nodeSize);
+        distance = new ArrayList<>(nodeSize);
+        for (int i = 0; i < nodeSize; i++) {
+            path.add(new ArrayList<>(nodeSize));
+            distance.add(new ArrayList<>(nodeSize));
+            for (int j = 0; j < nodeSize; j++) {
                 path.get(i).add(null);
+                path.get(i).set(j, -1);
                 distance.get(i).add(null);
             }
         }
 
         //给distance矩阵和path矩阵赋值
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < nodeSize; i++) {
             HeadNode currentHeadNode = headNodeList.get(i);
             for (int j = 0; j < currentHeadNode.getOutDegree(); j++) {
-                HeadNode theAdjacencyNode = headNodeList.get(j);
+                HeadNode theAdjacencyNode = currentHeadNode.getAdjacencyNode(j);
                 distance.get(i).set(theAdjacencyNode.getIndex(), currentHeadNode.getLineDistanceByOrder(j));
+                distance.get(i).set(currentHeadNode.getIndex(), 0);//自己到自己的最短距离是0
                 path.get(i).set(theAdjacencyNode.getIndex(), i);
             }
         }
-
+        hasSet = true;
     }
 
 
+    public void run() {
+        if (!hasSet) throw new RuntimeException("FloydSolver对象未完成必要设置（未调用set()接口），无法运行run接口");
+        int nodeSize = path.size();
+        for (int k = 0; k < nodeSize; k++) {
+            for (int i = 0; i < nodeSize; i++) {
+                for (int j = 0; j < nodeSize; j++) {
+                    if (distance.get(i).get(k) + distance.get(k).get(j) < distance.get(i).get(j)) {
+                        //由i经过k到j的路径更短
+                        distance.get(i).set(j, distance.get(i).get(k) + distance.get(k).get(j));//更新distance[i][j]
+                        path.get(i).set(j, path.get(k).get(j));//更改j的前驱为k
+                    }
+                }
+            }
+        }
+        hasRun = true;
+    }
+
+    /**
+     * 得到最短路径长度
+     *
+     * @param startIndex 起始节点编号
+     * @param endIndex   终止节点编号
+     * @return int 返回最短路径的长度
+     */
+    public int getShortestPathLength(int startIndex, int endIndex) {
+        if (!hasSet)
+            throw new RuntimeException("未执行set接口，无法执行getShortestPathLength操作");
+        else if (!hasRun)
+            throw new RuntimeException("已正确设置set，但未执行run接口，无法执行getShortestPathLength操作");
+        else {
+            return distance.get(startIndex).get(endIndex);
+        }
+
+    }
 }
 
 
@@ -545,6 +602,15 @@ public class GraphAdjacencyList {
     }
 
     /**
+     * 得到图中节点的个数
+     *
+     * @return int
+     */
+    public int getNodeSize() {
+        return graphList.size();
+    }
+
+    /**
      * 图的广度优先遍历
      */
     public void breadthTraverse() {
@@ -667,9 +733,11 @@ public class GraphAdjacencyList {
         return graphList.size();
     }
 
-    public int getShortestPathByFloyd() {
-        FloydSolver solver = new FloydSolver(graphList);
-        return 1;
+    public int getShortestPathByFloyd(int startIndex, int endIndex) {
+        FloydSolver solver = new FloydSolver();
+        solver.set(graphList);
+        solver.run();
+        return solver.getShortestPathLength(startIndex, endIndex);
     }
 
 
@@ -707,9 +775,18 @@ class TestGraphList {
     }
 
     public static void testFloyd() {
+        //TODO 待测试
+
         printer.print("通过弗洛伊德算法求解每一对顶点的最短路径：");
         GraphAdjacencyList graph = new GraphAdjacencyList(GraphAdjacencyList.CREATE_MODE.DEFAULT_MODE);
-        graph.getShortestPathByFloyd();
+        System.out.print("输入所求最短路径的起始点编号：");
+        int start = scanner.nextSelectionByInt(0, graph.getNodeSize() - 1);
+        System.out.print("输入所求最短路径的终止点编号：");
+        int end;
+        do {
+            end = scanner.nextSelectionByInt(0, graph.getNodeSize() - 1);
+        } while (end == start);
+        graph.getShortestPathByFloyd(start, end);
     }
 }
 

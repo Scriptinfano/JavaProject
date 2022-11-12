@@ -8,7 +8,6 @@ import java.util.Arrays;
  * 排序工具类,包含对数组的一些排序方法
  *
  * @author Mingxiang
- * @date 2022/08/27
  */
 public class ArraySorter<T extends Comparable<T>> {
     /**
