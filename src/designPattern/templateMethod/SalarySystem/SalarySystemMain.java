@@ -15,7 +15,7 @@
 
 package designPattern.templateMethod.SalarySystem;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.util.Calendar;
 

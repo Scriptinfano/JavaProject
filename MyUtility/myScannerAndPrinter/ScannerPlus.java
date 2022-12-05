@@ -1,4 +1,4 @@
-package myscan;
+package myScannerAndPrinter;
 
 import java.util.*;
 

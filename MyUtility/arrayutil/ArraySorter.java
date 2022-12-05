@@ -8,13 +8,12 @@ import java.util.Arrays;
  * 排序工具类,包含对数组的一些排序方法
  *
  * @author Mingxiang
- * @date 2022/08/27
  */
 public class ArraySorter<T extends Comparable<T>> {
     /**
      * 内部要排列的数组
      */
-    T[] array = null;
+   private T[] array = null;
 
     /**
      * 构造ArraySorter对象，将要进行排序的数组作为属性传入ArraySorter对象，以便其调用排序算法对其进行排序

@@ -1,8 +1,6 @@
 package viewManagerPack;
 
-import myscan.ScannerPlus;
-
-import java.util.Scanner;
+import myScannerAndPrinter.ScannerPlus;
 
 public interface ViewManager {
     ScannerPlus scanner=new ScannerPlus();

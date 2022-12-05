@@ -2,7 +2,7 @@
 
 package switchbox;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.util.*;
 

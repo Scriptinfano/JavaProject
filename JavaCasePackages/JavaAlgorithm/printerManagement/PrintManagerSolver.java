@@ -1,6 +1,6 @@
 package printerManagement;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 public class PrintManagerSolver {
     private final PrintTaskManager manager = new PrintTaskManager();

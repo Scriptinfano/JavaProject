@@ -1,7 +1,7 @@
 //约瑟夫环问题升级版
 package josephring;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.util.ArrayList;
 import java.util.Scanner;

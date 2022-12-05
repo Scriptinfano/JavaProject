@@ -149,7 +149,7 @@ class ArrayUtilTester {
      * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素检验排序是否正确
      */
     private static void analysisAlgorithmTime() throws SorterUninitializedException {
-        ArraySorter<Integer> sorter = new ArraySorter<Integer>(null);//实例化排序器对象
+        ArraySorter<Integer> sorter = new ArraySorter<>(null);//实例化排序器对象
         Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 10000);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 6);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
 
@@ -198,7 +198,7 @@ class ArrayUtilTester {
         System.out.println("输入要查找的数字：");
         int userNumber = 0;
         userNumber = scanner.nextInt();
-        int index = binarySearch(backUpArrays[0], userNumber);//注意二分查找的条件是数组是有序的，必须提前排好序
+        int index = binarySearch(backUpArrays[0], userNumber,false);//注意二分查找的条件是数组是有序的，必须提前排好序
         if (index != -1) System.out.println("找到了，下标为：" + index);
         else System.out.println("未找到");
     }

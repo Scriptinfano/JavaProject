@@ -119,18 +119,42 @@ public class ArrayUtil {
      * @param end   随机数组中元素可能取值范围的终止值
      * @return {@link int[]} 返回的随机数数组
      */
-    public static int[]randomIntArray(int size,int begin,int end){
-        return Arrays.stream(randomIntegerArray(size,begin,end)).mapToInt(Integer::valueOf).toArray();
+    public static int[] randomIntArray(int size, int begin, int end) {
+        return Arrays.stream(randomIntegerArray(size, begin, end)).mapToInt(Integer::valueOf).toArray();
     }
 
     /**
-     * 利用二分查找法查找给定数组中指定元素的位置
+     * 利用二分查找法查找给定数组中指定元素的位置，注意此函数要求是否对数组排序，如果找到了元素返回的是未排序时该元素在数组中的位置
      *
      * @param theArray     给定的要查找的数组
      * @param targetNumber 指定的要查找的数字
      * @return int 返回要查找的数字的下标
      */
-    public static int binarySearch(Integer[] theArray, int targetNumber) {
+    public static int binarySearch(Integer[] theArray, int targetNumber, boolean autoSort) {
+        if (autoSort) {
+            Integer[] sortedArray = theArray.clone();
+            Arrays.sort(sortedArray);
+            int address = binarySearchDetail(sortedArray, targetNumber);
+            if (address != -1)
+                return sequenceSearch(theArray, targetNumber);
+            else return -1;
+        } else {
+            return binarySearchDetail(theArray, targetNumber);
+        }
+
+
+    }
+
+    private static int sequenceSearch(Integer[] theArray, int targetNumber) {
+        for (int i = 0; i < theArray.length; i++) {
+            if (theArray[i] == targetNumber)
+                return i;
+        }
+        return -1;
+    }
+
+
+    private static int binarySearchDetail(Integer[] theArray, int targetNumber) {
         int left = 0;
         int right = theArray.length - 1;
         while (left <= right) {
