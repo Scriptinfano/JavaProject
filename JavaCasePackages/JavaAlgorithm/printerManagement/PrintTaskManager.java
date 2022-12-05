@@ -12,7 +12,10 @@ public class PrintTaskManager {
     }
 
     /**
-     * 将
+     * 添加任务进入打印队列
+     *
+     * @param theId   任务id
+     * @param theText 要打印的文本
      */
     public void addTask(int theId, String theText) {
         PrintTask task = new PrintTask(theId, theText);

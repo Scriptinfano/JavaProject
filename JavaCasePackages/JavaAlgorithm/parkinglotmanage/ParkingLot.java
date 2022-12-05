@@ -1,6 +1,7 @@
 package parkinglotmanage;
 
-import java.lang.reflect.GenericSignatureFormatError;
+import myscan.ScannerPlus;
+
 import java.util.*;
 
 class ParkingLot {
@@ -72,6 +73,7 @@ class ParkingLot {
 
     /**
      * 将车驶入停车场
+     *
      * @param theCar 指定的车
      */
     public void driveInStack(CarRecord theCar) {
@@ -96,5 +98,18 @@ class ParkingLot {
             theCar.setArriveTime(new GregorianCalendar());//更新车辆进入停车场的时间
             parkingStack.push(parkingQueue.poll());
         }
+    }
+
+    /**
+     * 显示停车场中所有车辆的信息
+     */
+    public void showInformation() {
+        Iterator<CarRecord> iter = parkingStack.iterator();
+        while (iter.hasNext()) {
+            CarRecord theRecord = iter.next();
+            System.out.println(theRecord.toString());
+        }
+        System.out.println("已输出全部信息");
+        ScannerPlus.pause();
     }
 }

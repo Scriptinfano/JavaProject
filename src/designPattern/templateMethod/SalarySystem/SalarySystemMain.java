@@ -30,7 +30,6 @@ public class SalarySystemMain {
         employees[0] = new SalariedEmployee("小明", 12, 2002, 3 - 1, 29);
         employees[1] = new SalariedEmployee("马森", 23, 2004, 5 - 1, 12);
         employees[2] = new HourlyEmployee("小王", 31, 1998, 8 - 1, 14, 100, 240);
-        //TODO 根据输入的月份增加相应的工资
         System.out.println("所有员工的信息如下");
         for (Employee e : employees) {
             System.out.print(e.toString());
