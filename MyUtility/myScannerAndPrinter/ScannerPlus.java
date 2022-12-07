@@ -273,21 +273,40 @@ public class ScannerPlus {
      * @param message  要求用户重新输入时显示的消息
      * @return int 返回用户正确的输入
      */
-    public int nextIntWithLimit(boolean upOrDown, int limit, String message){
+    public int nextIntWithLimit(boolean upOrDown, int limit, String message) {
         int theData;
-        while (true){
-            theData=nextInt();
-            if(upOrDown){
-                if(theData>=limit){
+        while (true) {
+            theData = nextInt();
+            if (upOrDown) {
+                if (theData >= limit) {
                     System.out.println(message);
-                }else break;
-            }else {
-                if(theData<=limit){
+                } else break;
+            } else {
+                if (theData <= limit) {
                     System.out.println(message);
-                }else break;
+                } else break;
             }
         }
         return theData;
+    }
+
+    /**
+     * 该函数询问用户是否需要更多输入，当用户回答是的时候不做任何操作，当回答不的时候抛出异常指示外界程序执行某些特殊操作停止录入数据
+     *
+     * @throws NoMoreScanException 没有更多扫描异常
+     */
+    public void noMoreScan() throws NoMoreScanException {
+        Iotransformer.printer.print("你是否还需要继续输入，继续输入请按y，不想输入了请按n：");
+        while (true) {
+            String message = nextLine();
+            if (message.equals("y")) {
+                break;
+            } else if (message.equals("n")) {
+                throw new NoMoreScanException();
+            } else {
+                Iotransformer.printer.print("你的输入不合要求，请重新输入：");
+            }
+        }
     }
 
 }

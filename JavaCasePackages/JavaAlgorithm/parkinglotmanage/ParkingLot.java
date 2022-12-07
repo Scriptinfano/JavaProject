@@ -1,6 +1,6 @@
 package parkinglotmanage;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
 package graph.adjacencyList;
 
-import myscan.ScannerPlus;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.io.PrintStream;
 import java.util.*;
