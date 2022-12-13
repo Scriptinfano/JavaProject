@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/MyUtility" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/DataStructure" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/testFile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/CourseDesign" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

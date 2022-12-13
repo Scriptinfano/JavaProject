@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 class ListNode {
     int val;
     ListNode next;
@@ -18,6 +16,7 @@ class ListNode {
 }
 
 class Solution {
+/*
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         while (list1 != null && list2 != null) {
             if (list2.val >= list1.val && list2.val < list1.next.val)
@@ -25,6 +24,7 @@ class Solution {
 
         }
     }
+*/
 
     /**
      * 将node2插入到node1节点之后

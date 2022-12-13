@@ -1,4 +1,4 @@
-package graph.adjacencyList;
+package graph.baseOnAdjacencyList;
 
 import myScannerAndPrinter.ScannerPlus;
 

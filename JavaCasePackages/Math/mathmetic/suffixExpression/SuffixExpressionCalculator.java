@@ -4,8 +4,10 @@
 package mathmetic.suffixExpression;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Stack;
+
 /**
  * 中缀表达式类，内部提供方法可直接计算该中缀表达式的结果
  * <p>运算中缀表达式的全过程如下：</p>
@@ -31,25 +33,28 @@ import java.util.Stack;
  * 两个操作数栈的栈顶元素并执行相关运算，运算结果再压回栈顶）
  * </p>
  */
-public class SuffixExpressionCalculatorA {
+public class SuffixExpressionCalculator {
     /**
      * 操作数栈
      */
-    private Stack<String> numberStack;
+    private final Stack<String> numberStack;
     /**
      * 运算符栈
      */
-    private Stack<String> operatorStack;
+    private final Stack<String> operatorStack;
 
+    /**
+     * 表达式数组
+     */
     private ArrayList<String> expressionArray;
 
-    public SuffixExpressionCalculatorA() {
+    public SuffixExpressionCalculator() {
         numberStack = new Stack<String>();
         operatorStack = new Stack<String>();
     }
 
     /**
-     * 该函数用在{@link SuffixExpressionCalculatorA#setExpressionArray(ArrayList<String>)}中，目的
+     * 该函数用在{@link SuffixExpressionCalculator#setExpressionArray(String[])}中，目的
      * 是检测传入的中缀表达式是否均由小数或整数或运算符组成
      *
      * @param expressionArray 代表待检测的中缀表达式
@@ -57,31 +62,45 @@ public class SuffixExpressionCalculatorA {
      */
     private static boolean verifyExpression(ArrayList<String> expressionArray) {
         for (String s : expressionArray) {
-            if (!s.equals("+") && !s.equals("-") && !s.equals("*") && !s.equals("/") && !s.equals("(") && !s.equals(")")) {
-                try {
-                    double test = Double.parseDouble(s);//如果在这里转换失败会抛出一个异常
-                } catch (NumberFormatException e) {
-                    return false;//转换失败说明其中包含有非法字符
-                }
-            }
+            if (!isNumber(s) && !isBracket(s) && !isOperator(s))
+                return false;//如果该符号既不是数字，也不是括号，也不是四则运算符号则返回false，说明该表达式不符合要求
         }
         return true;
     }
 
     /**
+     * 判断是否是数字，如果是则返回true，如果不是则返回false
+     *
      * @param element 表示传入的符号
-     * @implNote 判断是否是数字，如果是则返回true，如果不是则返回false
+     * @return boolean 若为true则是，否则不是
      */
     private static boolean isNumber(String element) {
-        return !element.equals("+") && !element.equals("-") && !element.equals("*") && !element.equals("/") && !element.equals("(") && !element.equals(")");
+        try {
+            double test = Double.parseDouble(element);//如果在这里转换失败会抛出一个异常
+        } catch (NumberFormatException e) {
+            return false;//转换失败说明该字符不是数字，可能是其他字符
+        }
+        return true;
     }
 
     /**
+     * 判断是不是括号，如果是则返回true，如果不是则返回false。
+     *
      * @param element 表示传入的符号
-     * @implNote 判断是不是括号，如果是则返回true，如果不是则返回false。
+     * @return boolean 若为true则是，否则不是
      */
     private static boolean isBracket(String element) {
         return element.equals("(") || element.equals(")");
+    }
+
+    /**
+     * 判断该符号是否是四则运算符号
+     *
+     * @param element 待判断的符号
+     * @return boolean 若为true则是，否则不是
+     */
+    private static boolean isOperator(String element) {
+        return element.equals("+") || element.equals("-") || element.equals("*") || element.equals("/");
     }
 
     /**
@@ -91,15 +110,13 @@ public class SuffixExpressionCalculatorA {
      * @implNote 对两个操作数执行运算操作
      */
     private static double operateTwoNumbers(double numA, double numB, String theOperator) {
-        if (theOperator.equals("+"))
-            return numA + numB;
-        else if (theOperator.equals("-"))
-            return numA - numB;
-        else if (theOperator.equals("*"))
-            return numA * numB;
-        else if (theOperator.equals("/"))
-            return numA / numB;
-        else throw new IllegalArgumentException();
+        return switch (theOperator) {
+            case "+" -> numA + numB;
+            case "-" -> numA - numB;
+            case "*" -> numA * numB;
+            case "/" -> numA / numB;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     /**
@@ -117,11 +134,14 @@ public class SuffixExpressionCalculatorA {
     }
 
     /**
+     * 设置表达式数组
      * InfixExpression类的setter方法，主要用途将传入容器的引用赋给内部的中缀表达式容器
+     * 每次使用该类对象计算表达式，调用此方法重置内部的表达式
      *
-     * @param expressionArray 代表传入的内部存储中缀表达式各个符号的容器的引用
+     * @param stringArr 传入的字符串数组，代表传入的中缀表达式
      */
-    public void setExpressionArray(ArrayList<String> expressionArray) {
+    public void setExpressionArray(String[] stringArr) {
+        ArrayList<String> expressionArray = new ArrayList<String>(Arrays.stream(stringArr).toList());
         if (!verifyExpression(expressionArray)) throw new IllegalStateException("传入的中缀表达式中有非法符号");
         this.expressionArray = expressionArray;
     }
@@ -153,6 +173,7 @@ public class SuffixExpressionCalculatorA {
                             double numB = Double.parseDouble(numberStack.pop());
                             Double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());//将结果包装成对象，可以调用其中的函数再次将其转换为String类型
                             numberStack.push(resultObj.toString());
+
                         }
                         operatorStack.pop();//不要忘记弹出此时栈顶的左括号
                     }
@@ -174,8 +195,8 @@ public class SuffixExpressionCalculatorA {
                         }
                         double numA = Double.parseDouble(numberStack.pop());
                         double numB = Double.parseDouble(numberStack.pop());
-                        Double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
-                        numberStack.push(resultObj.toString());
+                        double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
+                        numberStack.push(Double.toString(resultObj));
                         operatorStack.push(symbol);
                     } else {
                         operatorStack.push(symbol);
@@ -195,3 +216,15 @@ public class SuffixExpressionCalculatorA {
     }
 }
 
+class TestSuffixCalculator {
+    public static void main(String[] args) {
+        SuffixExpressionCalculator calculator = new SuffixExpressionCalculator();
+        String[] expression = {"2", "+", "3", "-", "4", "*", "3", "/", "4", "+", "7"};
+        String[] expressions2 = {"85", "+", "14", "*", "(", "14", "/", "208", "+", "26", ")", "*", "21", "+", "(", "327", "-", "23", ")", "/", "19"};
+        String[] expression3 = {"1.2", "+", "(", "2.7", "-", "3.4", ")", "*", "4.4", "+", "4.1", "/", "2.8"};
+        calculator.setExpressionArray(expression3);
+        double result = calculator.result();
+        System.out.println("结果=" + result);
+    }
+
+}
