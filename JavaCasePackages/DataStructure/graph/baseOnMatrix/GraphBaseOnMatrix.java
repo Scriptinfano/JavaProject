@@ -122,8 +122,9 @@ public class GraphBaseOnMatrix {
                 60, 63, 56, 72, 48, 84, 32, 50, 47, 97
         };
         GraphBaseOnMatrix graph = new GraphBaseOnMatrix(edges);
-        graph.generateMst();
-        graph.outputMst();
+        graph.outputMatrix();//输出生成的邻接矩阵
+        graph.generateMst();//生成最小生成树
+        graph.outputMst();//输出最小生成树中的每一条边
     }
 
     /**
@@ -148,8 +149,10 @@ public class GraphBaseOnMatrix {
                 if (!Objects.equals(marks[head], marks[tail])) {
                     //如果这条边在两个不同的连通分量上，则一定不会构成环
                     mst.add(edges[i]);//将这条符合条件的边放入最小生成树中
-                    for (int j = 0; j < edges.length; j++) {
-                        if (Objects.equals(marks[j], marks[tail]))
+                    int standardValue = marks[tail];//一定要提前保存该值，否则如果mark[tail]被修改，那么标准值（代表已有的连通分量）就会改变
+                    for (int j = 0; j < adjacentMatrix.length; j++) {
+                        //adjacentMatrix.length是点的个数
+                        if (Objects.equals(marks[j], standardValue))
                             marks[j] = marks[head];
                     }
                 }
@@ -161,7 +164,8 @@ public class GraphBaseOnMatrix {
      * 输出最小生成树中的每一条边
      */
     public void outputMst() {
-        for (int i = 0; i < edges.length; i++) {
+        System.out.println("输出最小生成树中的每一条边");
+        for (int i = 0; i < mst.size(); i++) {
             mst.get(i).output();
         }
         System.out.println("");
