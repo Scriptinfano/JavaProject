@@ -63,13 +63,13 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
                 }
                 break;
             }
-            graph = new GraphBaseOnMatrix(Arrays.stream(arr).boxed().toArray(Integer[]::new));
+            graph = new GraphBaseOnMatrix();
+            graph.setGraph(Arrays.stream(arr).boxed().toArray(Integer[]::new));
         } else {
             printer.print("图的邻接矩阵已设定，是否重新设定（输入0表示不再设定，输入1表示继续设定：）");
             int choice = scanner.nextSelectionByInt(0, 1);
-            if(choice==1)
-            {
-                graph=null;//解除图当前的引用绑定，重新设定
+            if (choice == 1) {
+                graph = null;//解除图当前的引用绑定，重新设定
                 setNewGraph();
             }
         }
@@ -79,7 +79,7 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
      * 输出当前图的邻接矩阵
      */
     private void outputCurrentMatrix() {
-        if(graph==null)
+        if (graph == null)
             printer.println("图未设定，请先设定再执行其他操作");
         else {
             graph.outputMatrix();
@@ -90,7 +90,7 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
      * 输出最小生成树和最小的代价之和
      */
     private void outputTreeAndValue() {
-        if(graph==null)
+        if (graph == null)
             printer.println("图未设定，请先设定再执行其他操作");
         else {
             graph.generateMst();
@@ -104,8 +104,9 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
      *
      * @param arr 新图的邻接矩阵的上三角部分的行主次序序列数组
      */
-    public void setNewGraphDirect(int []arr){
-        graph=new GraphBaseOnMatrix(Arrays.stream(arr).boxed().toArray(Integer[]::new));
+    public void setNewGraphDirect(int[] arr) {
+        graph = new GraphBaseOnMatrix();
+        graph.setGraph(Arrays.stream(arr).boxed().toArray(Integer[]::new));
     }
 
     /**
@@ -113,30 +114,43 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
      *
      * @param arr 新图的邻接矩阵的上三角部分的行主次序序列数组
      */
-    public void setNewGraphDirect(Integer []arr){
-        graph=new GraphBaseOnMatrix(arr);
+    public void setNewGraphDirect(Integer[] arr) {
+        graph = new GraphBaseOnMatrix();
+        graph.setGraph(arr);
     }
+
+
 
 }
 
 
 class TestSystem {
     public static void main(String[] args) {
+        interactTest();
+    }
+
+    /**
+     * 默认测试
+     */
+    public static void defaultTest() {
         Integer[] edges = new Integer[]{
                 60, 63, 56, 72, 48, 84, 32, 50, 47, 97
         };
-        GraphBaseOnMatrix graph=new GraphBaseOnMatrix(edges);
+        GraphBaseOnMatrix graph = new GraphBaseOnMatrix();
+        graph.setGraph(edges);
         graph.generateMst();
         graph.outputMst();
         graph.outputValue();
     }
 
-    private void defaultTest() {
+    /**
+     * 交互测试
+     */
+    public static void interactTest() {
         Integer[] edges = new Integer[]{
                 60, 63, 56, 72, 48, 84, 32, 50, 47, 97
-        };
-        MinimumSpanningTreeGenerateSystem system=new MinimumSpanningTreeGenerateSystem();
+        };//参考此数组输入数据
+        MinimumSpanningTreeGenerateSystem system = new MinimumSpanningTreeGenerateSystem();
         system.run();
-
     }
 }

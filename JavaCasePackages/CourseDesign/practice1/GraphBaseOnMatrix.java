@@ -2,6 +2,7 @@ package practice1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IllegalFormatCodePointException;
 import java.util.Objects;
 
 /**
@@ -49,7 +50,7 @@ class Edge implements Comparable<Edge> {
      * 输出这条边的具体信息
      */
     public void output() {
-        System.out.print("[起点序号：" + head + "，终点序号：" + tail + "，权值：" + value + "]  ");
+        System.out.print("[起点序号：" + head + "，终点序号：" + tail + "，权值：" + value + "] ");
     }
 
     @Override
@@ -68,43 +69,73 @@ public class GraphBaseOnMatrix {
     /**
      * 邻接矩阵，方便根据两个点的编号找到边的信息
      */
-    private final Integer[][] adjacentMatrix;
+    private Integer[][] adjacentMatrix;
 
     /**
      * 代表最小生成树，其中的每个边都是最小生成树的边
      */
-    private final ArrayList<Edge> mst;
+    private ArrayList<Edge> mst;
 
     /**
      * 存储所有边信息的数组
      */
-    private final Edge[] edges;
+    private Edge[] edges;
 
     /**
      * 连通分量标记，数组中的每个元素代表图中的顶点，元素的序号就是顶点在邻接矩阵中的行号或列号，起初每个元素的值各不相同，在构造最小生成树时改变元素的值，直到所有元素都属于一个连通分量
      */
-    private final Integer[] marks;
+    private Integer[] marks;
 
     /**
      * 最小生成树的所有边的权值之和
      */
     private int totalValue = 0;
 
+    private int pointSize = 0;
+
     /**
      * 构造函数
-     *
-     * @param values 该整型数组依次按照行主次序存储各边权值，例如有五个点的全连通图（依次名为A,B,C,D,E），那么该数组中存储的权值依次是{AB,AC,AD,AE,BC,BD,BE,CD,CE,DE}
-     *               其中AB意思是A点和B点之间的权值，确保此数组一定是正确的，否则无法构造出正确的邻接矩阵
      */
-    public GraphBaseOnMatrix(Integer[] values) {
+    public GraphBaseOnMatrix() {
+    }
+
+    /**
+     * 验证传入的邻接矩阵上三角部分的行主次序序列是否符合要求，若符合要求同时初始化内部代表点的个数的变量
+     * @param arr 该整型数组依次按照行主次序存储各边权值，例如有五个点的全连通图（依次名为A,B,C,D,E），
+     *            那么该数组中存储的权值依次是{AB,AC,AD,AE,BC,BD,BE,CD,CE,DE}
+     *            其中AB意思是A点和B点之间的权值，确保此数组一定是正确的，否则无法构造出正确的邻接矩阵
+     * @return boolean 返回true时说明数组的长度符合要求，同时计算出的正确的点的个数会赋给内部表示图的顶点个数的变量
+     */
+    private boolean verifyArr(Integer[] arr) {
+        double pointSize = (1 + Math.sqrt(1 + 8 * arr.length)) / 2;
+        if (pointSize - Math.floor(pointSize) == 0) {
+            this.pointSize = (int) pointSize;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 设置图的邻接矩阵
+     *
+     * @param values 代表图的邻接矩阵的上三角部分的行主次序的有序序列
+     * @throws IllegalFormatCodePointException 非法的参数，表示该有序序列不符合要求
+     */
+    public void setGraph(Integer[] values)throws IllegalFormatCodePointException {
+        if (!verifyArr(values)) {
+            throw new IllegalArgumentException("传入的邻接矩阵上三角部分的行主次序的长度不符合要求");
+        }
+        //实例化存储边信息的数组，
         edges = new Edge[values.length];
 
-        int pointSize = (1 + (int) Math.sqrt(1 + 8 * values.length)) / 2;//根据公式计算出点的个数
+        //实例化联通分量标记数组
         marks = new Integer[pointSize];
         for (int i = 0; i < pointSize; i++) {
             marks[i] = i;
         }
 
+        //实例化邻接矩阵
         adjacentMatrix = new Integer[pointSize][pointSize];
         for (int i = 0; i < adjacentMatrix.length; i++) {
             for (int j = 0; j < adjacentMatrix[i].length; j++) {
@@ -118,19 +149,25 @@ public class GraphBaseOnMatrix {
                 } else adjacentMatrix[i][j] = adjacentMatrix[j][i];
             }
         }
+
+        //实例化存储最小生成树边的容器
         mst = new ArrayList<>();
 
     }
-
 
     /**
      * 输出该图所代表的邻接矩阵
      */
     public void outputMatrix() {
+        if(adjacentMatrix==null){
+            System.out.println("图未设定，请先使用setGraph接口设定图的邻接矩阵");
+            return;
+        }
         System.out.println("输出邻接矩阵");
         for (Integer[] arr : adjacentMatrix) {
             System.out.println(Arrays.toString(Arrays.stream(arr).mapToInt(Integer::valueOf).toArray()));
         }
+        System.out.println("邻接矩阵输出完成");
     }
 
     /**
@@ -170,6 +207,7 @@ public class GraphBaseOnMatrix {
         System.out.println("输出最小生成树中的每一条边");
         for (Edge edge : mst) {
             edge.output();
+            System.out.println();
         }
         System.out.println("输出完成");
     }

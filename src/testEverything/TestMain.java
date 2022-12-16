@@ -14,7 +14,14 @@ public class TestMain {
     }
 
     public void test() {
-       String str=cin.nextLine();
+        double size = 12;
+        if (function(size)) {
+            System.out.println("是不带小数部分的小数");
+        }
+    }
+
+    private static boolean function(double value) {
+        return value - Math.floor(value) == 0;
     }
 
 }

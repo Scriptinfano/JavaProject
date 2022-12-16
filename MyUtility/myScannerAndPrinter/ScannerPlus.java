@@ -6,7 +6,6 @@ import java.util.*;
  * Scanner升级版，增加类型输入不正确时可自动报错的功能
  *
  * @author Mingxiang
- * @date 2022/09/18
  */
 public class ScannerPlus {
     private Scanner scanner = new Scanner(System.in);
@@ -18,7 +17,7 @@ public class ScannerPlus {
      * @return boolean 若为true则说明没有重复的元素，反之则有重复的元素
      */
     private static boolean checkRepeat(Object[] array) {
-        Set<Object> set = new HashSet<Object>();
+        Set<Object> set = new HashSet<>();
         Collections.addAll(set, array);
         return set.size() == array.length;
     }
