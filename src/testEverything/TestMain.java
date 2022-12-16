@@ -3,12 +3,18 @@
  */
 package testEverything;
 
+import myScannerAndPrinter.ScannerPlus;
+
 public class TestMain {
+    private ScannerPlus cin = new ScannerPlus();
+
     public static void main(String[] args) {
-        String str = "13";
-        int result = str.compareTo("fr");
-        System.out.println(result);
+        TestMain main = new TestMain();
+        main.test();
     }
 
+    public void test() {
+       String str=cin.nextLine();
+    }
 
 }

@@ -171,7 +171,7 @@ public class GraphBaseOnMatrix {
         for (Edge edge : mst) {
             edge.output();
         }
-        System.out.println("");
+        System.out.println("输出完成");
     }
 
     /**
@@ -183,6 +183,7 @@ public class GraphBaseOnMatrix {
             return;
         }
         System.out.println("最小权值之和=" + totalValue);
+        System.out.println("输出完成");
     }
 
 

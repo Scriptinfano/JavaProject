@@ -34,7 +34,7 @@ public class ParkingLotManageSystem extends ViewManager {
 
     }
 
-    public void viewInteraction() {
+    public void run() {
         while (true) {
             String choice;
             showMenu();
@@ -57,7 +57,7 @@ public class ParkingLotManageSystem extends ViewManager {
     private void showInformation() {
         if (parkinglot.isEmpty()) {
             System.out.println("停车场中目前没有任何车辆");
-            ScannerPlus.pause();
+            scanner.pause();
         } else parkinglot.showInformation();
     }
 
@@ -67,7 +67,7 @@ public class ParkingLotManageSystem extends ViewManager {
             if (parkinglot.isEmpty()) {
                 //停车场中没有车辆，无法驶出
                 System.out.println("停车场中目前没有任何车辆，无法驶出");
-                ScannerPlus.pause();
+                scanner.pause();
                 return;
             }
             while (true) {

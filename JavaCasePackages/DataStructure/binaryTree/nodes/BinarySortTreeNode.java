@@ -1,6 +1,5 @@
 package binaryTree.nodes;
 
-import com.sun.security.auth.UnixNumericGroupPrincipal;
 
 public class BinarySortTreeNode<T extends Comparable<T>> {
     private BinarySortTreeNode<T> parent;
