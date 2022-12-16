@@ -93,11 +93,17 @@ class ParkingLot {
      * 检查候车道上是否有等待的汽车，如果有再检查停车场中是否有空出来的位置，如果有则将候车道中的车移动到停车场
      */
     public void inputWaitingCar() {
+        int totalCar = 0;
+        boolean hasIn = false;
         while (!parkingQueue.isEmpty() && parkingStack.size() < stackSize) {
             CarRecord theCar = parkingQueue.peek();
             theCar.setArriveTime(new GregorianCalendar());//更新车辆进入停车场的时间
             parkingStack.push(parkingQueue.poll());
+            totalCar++;
+            hasIn = true;
         }
+        if (hasIn)
+            System.out.println("通知：目前的停车场又驶入了" + totalCar + "辆车，停车场目前总共有" + parkingStack.size() + "辆车");
     }
 
     /**
@@ -111,5 +117,21 @@ class ParkingLot {
         }
         System.out.println("已输出全部信息");
         ScannerPlus.pause();
+    }
+
+    /**
+     * 验证车辆的车牌号是否和停车场或者候车道上的车牌号重复
+     *
+     * @param theId 待验证的车牌号
+     * @return boolean 验证成功返回true，否则返回false
+     */
+    public boolean verifyCarId(String theId) {
+        Iterator<CarRecord> iter = parkingStack.iterator();
+        while (iter.hasNext()) {
+            CarRecord theRecord = iter.next();
+            if (theRecord.getCarId().equals(theId))
+                return false;
+        }
+        return true;
     }
 }

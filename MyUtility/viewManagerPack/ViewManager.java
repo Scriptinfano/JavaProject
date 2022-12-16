@@ -2,12 +2,13 @@ package viewManagerPack;
 
 import myScannerAndPrinter.ScannerPlus;
 
-public interface ViewManager {
-    ScannerPlus scanner=new ScannerPlus();
+public abstract class ViewManager {
+    protected static final ScannerPlus scanner = new ScannerPlus();
 
-    void showMenu();
+    protected void showMenu() {
+    }
 
-    default void exitProgram(){
+    protected void exitProgram() {
         String choice = null;
         System.out.println("确定退出吗？输入(y/n):");
         while (true) {
@@ -23,5 +24,6 @@ public interface ViewManager {
 
     }
 
-    void viewInteraction();
+    protected void viewInteraction() {
+    }
 }

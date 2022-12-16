@@ -126,7 +126,7 @@ public class SuffixExpressionCalculator {
      * @implNote 比较两个运算符的优先级
      */
     private static boolean priorityComparison(String operatorA, String operatorB) {
-        if (operatorA.equals("+") || operatorB.equals("-"))
+        if (operatorA.equals("+") || operatorA.equals("-"))
             return true;//此时operatorA的优先级一定比较低，所以代表了扫描到的当前运算符的优先级低于或等于运算符栈中的运算符
         else {
             return operatorB.equals("*") || operatorB.equals("/");//此时operatorA是×或÷，如果operatorB也是×或÷，那么说明此时operatorA的优先级满足小于或等于operatorB的优先级，可以返回true
@@ -171,34 +171,31 @@ public class SuffixExpressionCalculator {
                             //各基本类型包装器中有一个静态方法可以将字符串转换为自己所代表的基本类型，比如下面的Double.parseDouble()可以将传入函数的String值转换为double值
                             double numA = Double.parseDouble(numberStack.pop());//注意java中的pop和C++中的pop不一样，java中的pop可以直接返回弹出的元素但C++中的不行
                             double numB = Double.parseDouble(numberStack.pop());
-                            Double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());//将结果包装成对象，可以调用其中的函数再次将其转换为String类型
-                            numberStack.push(resultObj.toString());
+                            double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());//将结果包装成对象，可以调用其中的函数再次将其转换为String类型
+                            numberStack.push(Double.toString(resultObj));
 
                         }
                         operatorStack.pop();//不要忘记弹出此时栈顶的左括号
                     }
 
                 } else {
-                    //当前扫描到的是运算符，则依次弹出运算符栈中优先级高于或等于当前运算符的所有运算符，每弹出一个运算符就弹出两个操作数做一次运算
-                    //如果遇到左括号或运算符栈空时则停止，停止后将扫描到的当前运算符压入运算符栈
-                    if (!operatorStack.empty())//先判断当前运算符栈是否为空，如果不为空则进入运算，为空则直接将当前运算符栈压栈，然后返回
-                    {
+                    //当前扫描到的是运算符
+                    if (!operatorStack.empty()) {
+                        //运算符栈不为空，可能有三种情况：1、运算符栈顶是左括号，此时直接压栈 2、运算符栈顶的运算符的优先级小于当前运算符的优先级，此时直接压栈 3、运算符栈顶的运算符优先级大于等于当前运算符的优先级，不断执行构建过程，每次执行前都要判断栈顶运算符优先级和当前操作符优先级，只有满足要求时才能继续执行
                         if (operatorStack.peek().equals("(") || !priorityComparison(symbol, operatorStack.peek())) {
-                            //遇到了左括号或者优先级不满足条件的情况，扫描到的运算符比当前栈顶的运算符的优先级高
-                            if (operatorStack.peek().equals("(")) {
-                                operatorStack.push(symbol);
-                            } else {
-                                //遇到了优先级不满足的运算符，直接将当前运算符压栈
-                                operatorStack.push(symbol);
+                            //第一种情况和第二种情况的操作相同
+                            operatorStack.push(symbol);
+                        } else {
+                            while (!operatorStack.isEmpty() && priorityComparison(symbol, operatorStack.peek())) {
+                                double numA = Double.parseDouble(numberStack.pop());
+                                double numB = Double.parseDouble(numberStack.pop());
+                                double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
+                                numberStack.push(Double.toString(resultObj));
                             }
-                            continue;//两种情况处理之后重新开始最外侧的for循环
+                            operatorStack.push(symbol);
                         }
-                        double numA = Double.parseDouble(numberStack.pop());
-                        double numB = Double.parseDouble(numberStack.pop());
-                        double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
-                        numberStack.push(Double.toString(resultObj));
-                        operatorStack.push(symbol);
                     } else {
+                        //如果此时运算符栈中没有任何运算符，直接将当前扫描到的运算符压入运算符栈
                         operatorStack.push(symbol);
                     }
                 }
@@ -208,8 +205,8 @@ public class SuffixExpressionCalculator {
         while (!operatorStack.empty()) {
             double numA = Double.parseDouble(numberStack.pop());
             double numB = Double.parseDouble(numberStack.pop());
-            Double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
-            numberStack.push(resultObj.toString());
+            double resultObj = operateTwoNumbers(numB, numA, operatorStack.pop());
+            numberStack.push(Double.toString(resultObj));
         }
         //最后运算结果一定会在操作数栈底，只需将其弹出即可得到结果
         return Double.parseDouble(numberStack.pop());

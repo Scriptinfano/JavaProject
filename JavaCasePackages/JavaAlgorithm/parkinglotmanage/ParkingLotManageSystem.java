@@ -6,8 +6,12 @@ import viewManagerPack.ViewManager;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class ParkingLotManager implements ViewManager {
-    private static ScannerPlus scanner = new ScannerPlus();
+/**
+ * 停车场管理系统
+ *
+ * @author Mingxiang
+ */
+public class ParkingLotManageSystem extends ViewManager {
     private final ParkingLot parkinglot = ParkingLot.getInstance();
 
     public void showMenu() {
@@ -30,9 +34,7 @@ public class ParkingLotManager implements ViewManager {
 
     }
 
-    @Override
     public void viewInteraction() {
-        //TODO 测试此处的双重while循环是否合理
         while (true) {
             String choice;
             showMenu();
@@ -61,6 +63,7 @@ public class ParkingLotManager implements ViewManager {
 
     private void viewInteraction2() {
         while (true) {
+            //该交互界面要选择驶出车辆的方式，每一次驶出都要判断停车场中是否还有车辆
             if (parkinglot.isEmpty()) {
                 //停车场中没有车辆，无法驶出
                 System.out.println("停车场中目前没有任何车辆，无法驶出");
@@ -92,8 +95,8 @@ public class ParkingLotManager implements ViewManager {
      * 驶出过程中与用户的交互
      */
     private void driveOutInteraction() {
-        viewInteraction2();
-        parkinglot.inputWaitingCar();
+        viewInteraction2();//选择驶出方式
+        parkinglot.inputWaitingCar();//驶出结束后，可以将候车道中的车驶入停车场
     }
 
     /**
@@ -101,6 +104,10 @@ public class ParkingLotManager implements ViewManager {
      */
     private void driveInInteraction() {
         CarRecord theCar = getBasicInformation();
+        if (theCar == null) {
+            System.out.println("抱歉，您的车牌号与停车场中的某辆车车牌号重复，请到车管局更换你的车牌号，请责骂你所在的车管局");
+            return;
+        }
         if (parkinglot.getStackSize() + 1 > parkinglot.stackSize) {
             //要驶入的车辆暂时不能进入停车场，要在停车场外的候车道等候（也就是不能进入栈，只能进入队列，等待处理）
             parkinglot.driveInQueue(theCar);
@@ -118,6 +125,9 @@ public class ParkingLotManager implements ViewManager {
     private CarRecord getBasicInformation() {
         System.out.println("输入该车的车牌号:");
         String carId = scanner.nextLine();
+        //不能有重复的车牌号，检查当前输入的车牌号是否和已有的车牌号重复
+        if (!parkinglot.verifyCarId(carId))
+            return null;//验证失败
         GregorianCalendar theLeftTime = new GregorianCalendar();//车辆离开的时间
         System.out.println("你想停多长时间（停车场最多停一周）");
         System.out.println("天数（1-7）：");

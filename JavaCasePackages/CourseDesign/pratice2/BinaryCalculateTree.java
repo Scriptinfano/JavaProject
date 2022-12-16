@@ -14,10 +14,6 @@ import java.util.Stack;
  */
 public class BinaryCalculateTree {
     /**
-     * 树中的节点个数
-     */
-    private final Integer treeSize = 0;
-    /**
      * 在将表达式转换为表达式树时所要用到的存储数字的栈
      */
     private final Stack<BinaryTreeNode<String>> numberStack = new Stack<>();
@@ -133,13 +129,14 @@ public class BinaryCalculateTree {
      *
      * @param operatorA 扫描到的当前运算符
      * @param operatorB 从操作符栈中弹出的运算符
-     * @return boolean 返回为true时，第一个参数所代表的运算符优先级小于或等于第二个参数所代表的运算符的优先级，否则返回false
+     * @return boolean 返回为true时，第一个参数所代表的运算符优先级小于第二个参数所代表的运算符的优先级，也就是操作符栈顶
+     * 的运算符的优先级大于等于当前扫描到的运算符优先级，否则返回false
      */
     private static boolean priorityComparison(String operatorA, String operatorB) {
-        if (operatorA.equals("+") || operatorB.equals("-"))
-            return true;//此时operatorA的优先级一定比较低，所以代表了扫描到的当前运算符的优先级低于或等于运算符栈中的运算符
+        if (operatorA.equals("+") || operatorA.equals("-"))
+            return true;//此时operatorA的优先级一定比较低，即运算符栈顶的操作符的优先级一定大于或等于当前扫描到的运算符的优先级，即符合要求
         else {
-            return operatorB.equals("*") || operatorB.equals("/");//此时operatorA是×或÷，如果operatorB也是×或÷，那么说明此时operatorA的优先级满足小于或等于operatorB的优先级，可以返回true
+            return operatorB.equals("*") || operatorB.equals("/");//此时operatorA是×或÷，如果operatorB也是×或÷，那么说明此时栈顶的操作符的优先级一定等于当前扫描到的运算符的优先级，也满足要求
         }
     }
 
@@ -217,12 +214,14 @@ public class BinaryCalculateTree {
                 } else {
                     //如果当前扫描到的是运算符
                     if (!operatorStack.isEmpty()) {
-                        //运算符栈不为空，可能有三种情况：1、运算符栈顶是左括号，此时直接压栈 2、运算符栈顶的运算符的优先级小于当前运算符的优先级，此时直接压栈 3、运算符栈顶的运算符优先级大于等于当前运算符的优先级，执行一次构建二叉运算树
+                        //运算符栈不为空，可能有三种情况：1、运算符栈顶是左括号，此时直接压栈 2、运算符栈顶的运算符的优先级小于当前运算符的优先级，此时直接压栈 3、运算符栈顶的运算符优先级大于等于当前运算符的优先级，不断执行构建过程，每次执行前都要判断栈顶运算符优先级和当前操作符优先级，只有满足要求时才能继续执行
                         if (operatorStack.peek().getElement().equals("(") || !priorityComparison(symbol, operatorStack.peek().getElement())) {
                             //第一种情况和第二种情况执行的操作相同
                             operatorStack.push(new BinaryTreeNode<>(symbol));
                         } else {
-                            operateTwoNode();
+                            while (!operatorStack.isEmpty() && priorityComparison(symbol, operatorStack.peek().getElement())) {
+                                operateTwoNode();
+                            }
                             operatorStack.push(new BinaryTreeNode<>(symbol));
                         }
                     } else {
@@ -257,10 +256,10 @@ class TestBinaryCalculateTree {
         String[] expression = {"2", "+", "3", "-", "4", "*", "3", "/", "4", "+", "7"};
         String[] expression2 = {"85", "+", "14", "*", "(", "15", "+", "8", "*", "9", "/", "2", "+", "14", "/", "208", "+", "26", ")", "*", "21", "+", "(", "327", "-", "23", ")", "/", "19"};
         String[] expression3 = {"1.2", "+", "(", "2.7", "-", "3.4", ")", "*", "4.4", "+", "4.1", "/", "2.8"};
-
-        if (calculateTree.setExpression(expression2)) {
+        if (calculateTree.setExpression(expression)) {
             double result = calculateTree.calculate();
             System.out.println(result);
         }
+
     }
 }

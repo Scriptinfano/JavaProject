@@ -1,4 +1,4 @@
-package graph.baseOnMatrix;
+package practice1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -188,16 +188,3 @@ public class GraphBaseOnMatrix {
 
 }
 
-class TestGraph {
-    public static void main(String[] args) {
-        Integer[] edges = new Integer[]{
-                60, 63, 56, 72, 48, 84, 32, 50, 47, 97
-        };
-        GraphBaseOnMatrix graph = new GraphBaseOnMatrix(edges);//实例化图对象
-        graph.outputMatrix();//输出生成的邻接矩阵
-        graph.generateMst();//生成最小生成树
-        graph.outputMst();//输出最小生成树中的每一条边
-        graph.outputValue();//输出最小权值之和
-
-    }
-}
