@@ -43,9 +43,20 @@ public class BinaryCalculateTree {
      * @return boolean 如果符合规则则返回true否则返回false
      */
     private static boolean verifyExpression(String[] expressionArray) {
-        for (String s : expressionArray) {
-            if (!isNumber(s) && !isBracket(s) && !isOperator(s))
-                return false;//如果该符号既不是数字，也不是括号，也不是四则运算符号则返回false，说明该表达式不符合要求
+        //运算符之前可以跟右括号和数字，运算符之后可以跟左括号和数字，运算符不能放在首部和尾部，左括号和右括号必须匹配，数字之前和数字之后必须紧跟运算符
+        if(!isNumber(expressionArray[0]))
+        for (int i=0;i<expressionArray.length;i++) {
+            String s=expressionArray[i];
+            if (isNumber(s)){
+
+            }else if(isOperator(s)){
+
+            }else if(isBracket(s)){
+
+            }else {
+                return false;//遇到非法符号说明此表达式一定不符合要求
+            }
+
         }
         return true;
     }
@@ -145,8 +156,17 @@ public class BinaryCalculateTree {
      *
      * @return boolean 为true则表示树是空树，否则不为空树
      */
-    public boolean isEmpty() {
+    public boolean treeIsEmpty() {
         return root == null;
+    }
+
+    /**
+     * 检查表达式是否已设定
+     *
+     * @return boolean
+     */
+    public boolean expressionIsEmpty() {
+        return inOrderContainer.isEmpty();
     }
 
     /**
@@ -177,11 +197,12 @@ public class BinaryCalculateTree {
     }
 
     /**
-     * 计算表达式的值
+     * 在内部生成表达式树并计算表达式的值，若未设定表达式则会抛出异常
      *
      * @return double
+     * @throws RuntimeException 发生运行时错误，未设置表达式，无法计算，
      */
-    public double calculate() {
+    public double calculate() throws RuntimeException {
         //先构造一颗表达式树，然后根据表达式树计算结果
         if (inOrderContainer.isEmpty())
             throw new RuntimeException("发生运行时错误，未设置表达式，无法计算");
@@ -248,18 +269,20 @@ public class BinaryCalculateTree {
         operator.setRightChild(numberNodeA);
         numberStack.push(operator);
     }
-}
 
-class TestBinaryCalculateTree {
-    public static void main(String[] args) {
-        BinaryCalculateTree calculateTree = new BinaryCalculateTree();
-        String[] expression = {"2", "+", "3", "-", "4", "*", "3", "/", "4", "+", "7"};
-        String[] expression2 = {"85", "+", "14", "*", "(", "15", "+", "8", "*", "9", "/", "2", "+", "14", "/", "208", "+", "26", ")", "*", "21", "+", "(", "327", "-", "23", ")", "/", "19"};
-        String[] expression3 = {"1.2", "+", "(", "2.7", "-", "3.4", ")", "*", "4.4", "+", "4.1", "/", "2.8"};
-        if (calculateTree.setExpression(expression)) {
-            double result = calculateTree.calculate();
-            System.out.println(result);
+    /**
+     * 取得内部存储的表达式
+     *
+     * @return {@link String} 若内部存储表达式序列的容器不为空，则返回表达式字符串，否则返回空引用
+     */
+    public String getExpression() {
+        if (inOrderContainer.isEmpty())
+            return null;
+        StringBuilder builder = new StringBuilder();
+        for (String str : inOrderContainer) {
+            builder.append(str);
         }
-
+        return builder.toString();
     }
 }
+
