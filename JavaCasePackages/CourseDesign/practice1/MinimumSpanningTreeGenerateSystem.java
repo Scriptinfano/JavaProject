@@ -31,7 +31,6 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
         while (true) {
             String choice;
             showMenu();
-            //TODO 在此处应该显示停车场中的车辆数量
             System.out.print("请输入你的选择：");
             choice = scanner.nextSelectionByString(1, 4);
             switch (choice) {

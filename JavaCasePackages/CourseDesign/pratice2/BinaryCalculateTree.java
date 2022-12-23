@@ -43,17 +43,35 @@ public class BinaryCalculateTree {
      * @return boolean 如果符合规则则返回true否则返回false
      */
     private static boolean verifyExpression(String[] expressionArray) {
-        //运算符之前可以跟右括号和数字，运算符之后可以跟左括号和数字，运算符不能放在首部和尾部，左括号和右括号必须匹配，数字之前和数字之后必须紧跟运算符
-        if(!isNumber(expressionArray[0]))
-        for (int i=0;i<expressionArray.length;i++) {
-            String s=expressionArray[i];
-            if (isNumber(s)){
+        //运算符之前可以跟右括号和数字，之后可以跟左括号和数字，不能放在首部和尾部，
+        //左括号和右括号必须匹配
+        //左括号之前可以是左括号和运算符，之后可以是左括号和数字，可以放在首部，不能放在尾部
+        //右括号之前可以是数字和右括号，之后可以是右括号和运算符，可以放在尾部，不能放在首部
+        //数字之前可以是左括号和运算符，之后可以是运算符和右括号，可以放在首部和尾部
+        if (isOperator(expressionArray[0]) || expressionArray[0].equals(")") || isOperator(expressionArray[expressionArray.length - 1]) ||
+                expressionArray[expressionArray.length - 1].equals("("))
+            return false;
+        for (int i = 1; i < expressionArray.length - 1; i++) {
+            String s = expressionArray[i];
+            if (isNumber(s)) {
+                if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || !expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1]))
+                    return false;
+            } else if (isOperator(s)) {
+                if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || !expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1]))
+                    return false;
+            } else if (isBracket(s)) {
+                if(s.equals("("))
+                {
+                    //左括号
+                    if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || !expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1]))
+                        return false;
+                }else {
+                    //右括号
+                    if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || !expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1]))
+                        return false;
+                }
 
-            }else if(isOperator(s)){
-
-            }else if(isBracket(s)){
-
-            }else {
+            } else {
                 return false;//遇到非法符号说明此表达式一定不符合要求
             }
 
