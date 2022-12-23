@@ -13,7 +13,7 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 内部要排列的数组
      */
-   private T[] array = null;
+    private T[] array = null;
 
     /**
      * 构造ArraySorter对象，将要进行排序的数组作为属性传入ArraySorter对象，以便其调用排序算法对其进行排序
@@ -66,7 +66,7 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 插入排序<p>
+     * 直接插入排序<p>
      * 插入排序的思想:从数组的第二个元素开始遍历数组，比较该元素与前一个元素，如果该元素
      * 比前一个元素大，则继续遍历下一个元素，如果该元素比前一个元素小，则保存这个元素的值，
      * 将这个元素不断地向后挪，直到该元素比后一个元素小为止，挪的过程中采用将前一个元素覆
@@ -84,12 +84,12 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 表示插入排序每一次遍历并且插入的过程
      *
-     * @param rightIndex 代表要插入的元素的下标
-     * @param value      代表要插入的元素的值
+     * @param index 代表要插入的元素的下标
+     * @param value 代表要插入的元素的值
      */
-    private void insert(int rightIndex, T value) {
+    private void insert(int index, T value) {
         int i;
-        for (i = rightIndex - 1; i >= 0 && value.compareTo(array[i]) < 0; i--) {
+        for (i = index - 1; i >= 0 && value.compareTo(array[i]) < 0; i--) {
             array[i + 1] = array[i];
         }
         array[i + 1] = value;
@@ -112,6 +112,34 @@ public class ArraySorter<T extends Comparable<T>> {
 
     }
 
+    /**
+     * 折半插入排序
+     *
+     * @throws SorterUninitializedException 排序器未初始化异常
+     */
+    public void binaryInsertSort() throws SorterUninitializedException {
+        if (array == null)throw new SorterUninitializedException();
+        for(int i=1;i<array.length;i++){
+            T temp=array[i];
+            int low=0,high=i-1;
+            while(low<=high){
+                int mid=(low + high)/2;
+                if(temp.compareTo(array[mid])<0)
+                    high=mid-1;
+                else low=mid+1;
+            }
+            for(int j=i-1;j>=high+1;j--)
+                array[j+1]=array[j];
+            array[high+1]=temp;
+        }
+    }
+
+    public static void main(String[] args) throws SorterUninitializedException {
+        Integer[]arr=ArrayUtil.randomIntegerArray(10,1,100);
+        ArrayUtil.showArray(arr);
+        ArraySorter<Integer>sorter=new ArraySorter<>(arr);
+        sorter.binaryInsertSort();
+    }
     /**
      * 最常见的冒泡排序
      */
