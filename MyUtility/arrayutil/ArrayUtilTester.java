@@ -2,7 +2,6 @@
 package arrayutil;
 
 import analyzer.AlgorithmAnalyzer;
-import exceptions.SorterUninitializedException;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -25,7 +24,7 @@ class ArrayUtilTester {
         testMaxOrMinFunc();
     }
 
-    private static void testArraySorter() throws SorterUninitializedException {
+    private static void testArraySorter() {
         Integer[] theArray = {6, 5, 4, 3, 2, 1};
         ArraySorter<Integer> sorter = new ArraySorter<>(theArray);
         sorter.rankSort();
@@ -148,7 +147,7 @@ class ArrayUtilTester {
     /**
      * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素检验排序是否正确
      */
-    private static void analysisAlgorithmTime() throws SorterUninitializedException {
+    private static void analysisAlgorithmTime() {
         ArraySorter<Integer> sorter = new ArraySorter<>(null);//实例化排序器对象
         Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 10000);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 6);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
