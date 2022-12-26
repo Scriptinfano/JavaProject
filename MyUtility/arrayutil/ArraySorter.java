@@ -1,8 +1,8 @@
 package arrayutil;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 排序工具类,包含对数组的一些排序方法
@@ -13,7 +13,10 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 内部要排列的数组
      */
-    private T[] array;
+    private List<T> targetList;
+
+    private T[] theArr;
+
 
     /**
      * 构造ArraySorter对象，将要进行排序的数组作为属性传入ArraySorter对象，以便其调用排序算法对其进行排序
@@ -21,14 +24,21 @@ public class ArraySorter<T extends Comparable<T>> {
      * @param theArray 表示要进行排序的数组
      */
     public ArraySorter(T[] theArray) {
-        this.array = theArray;
+        theArr = theArray;
+        targetList = new ArrayList<>(Arrays.asList(theArray));
+    }
+
+    private void transform() {
+        for (int i = 0; i < targetList.size(); i++) {
+            theArr[i] = targetList.get(i);
+        }
     }
 
     /**
      * 重设要排序的数组，一般用法是仅声明一个ArraySorter对象，调用该方法重设排序数组即可对其他数组进行排序
      */
-    public void resetArray(T[] array) {
-        this.array = array;
+    public void resetArray(T[] theArray) {
+        targetList = new ArrayList<>(Arrays.asList(theArray));
     }
 
     /**
@@ -49,16 +59,16 @@ public class ArraySorter<T extends Comparable<T>> {
          * 4、随机选取轴值*/
         if (left < right) {
             int i = left, j = right;
-            T standard = array[i];
+            T standard = targetList.get(i);
             while (i < j) {
-                while (array[j].compareTo(standard) >= 0 && i < j) {
+                while (targetList.get(j).compareTo(standard) >= 0 && i < j) {
                     j--;
                 }
                 if (i < j) {
                     swap(i, j);
                     i++;
                 }
-                while (array[i].compareTo(standard) <= 0 && i < j) {
+                while (targetList.get(i).compareTo(standard) <= 0 && i < j) {
                     i++;
                 }
                 if (i < j) {
@@ -70,6 +80,7 @@ public class ArraySorter<T extends Comparable<T>> {
             quickSort(left, i - 1);
             quickSort(i + 1, right);
         }
+        transform();
     }
 
     /**
@@ -80,14 +91,11 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private void insert(int index, T value) {
         int i;
-        for (i = index - 1; i >= 0 && value.compareTo(array[i]) < 0; i--) {
-            array[i + 1] = array[i];
+        for (i = index - 1; i >= 0 && value.compareTo(targetList.get(i)) < 0; i--) {
+            targetList.set(i + 1, targetList.get(i));
         }
-        array[i + 1] = value;
+        targetList.set(i + 1, value);
     }
-
-
-
     /*
     public void insertionSort() {
         for (int i = 1; i < array.length; i++) {
@@ -100,7 +108,6 @@ public class ArraySorter<T extends Comparable<T>> {
         }
     }
     */
-
 
     /**
      * 直接插入排序<p>
@@ -115,10 +122,11 @@ public class ArraySorter<T extends Comparable<T>> {
      * 3、适合初始基本有序且数组元素个数较小的情况<p>
      */
     public void insertSort() {
-        for (int i = 1; i < array.length; i++) {
-            T value = array[i];
+        for (int i = 1; i < targetList.size(); i++) {
+            T value = targetList.get(i);
             insert(i, value);
         }
+        transform();
     }
 
     /**
@@ -132,19 +140,20 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、适合初始记录无序，数组元素个数较大时的情况<p>
      */
     public void shellSort() {
-        int size = array.length;
+        int size = targetList.size();
         for (int d = size / 2; d >= 1; d = d / 2) {
             for (int i = d + 1; i <= size; i++) {
-                T temp = array[i];
+                T temp = targetList.get(i);
                 int j = i - d;
-                while (j > 0 && temp.compareTo(array[j]) < 0) {
-                    array[j + d] = array[j];
+                while (j > 0 && temp.compareTo(targetList.get(j)) < 0) {
+                    targetList.set(j + d, targetList.get(j));
+
                     j = j - d;
                 }
-                array[j + d] = temp;
-
+                targetList.set(j + d, temp);
             }
         }
+        transform();
     }
 
     /**
@@ -156,13 +165,14 @@ public class ArraySorter<T extends Comparable<T>> {
      * 3、适用于初始记录有序，数组元素个数较小的情况
      */
     public void bubbleSort() {
-        for (int i = 0; i < array.length - 1; i++) {
-            for (int j = 0; j < array.length - 1 - i; j++) {
-                if (array[j].compareTo(array[j + 1]) > 0) {
+        for (int i = 0; i < targetList.size() - 1; i++) {
+            for (int j = 0; j < targetList.size() - 1 - i; j++) {
+                if (targetList.get(j).compareTo(targetList.get(j + 1)) > 0) {
                     swap(j, j + 1);
                 }
             }
         }
+        transform();
     }
 
     /**
@@ -173,7 +183,7 @@ public class ArraySorter<T extends Comparable<T>> {
     private boolean betterBubble(int n) {
         boolean swapped = false;
         for (int i = 0; i < n - 1; i++) {
-            if (array[i].compareTo(array[i + 1]) > 0) {
+            if (targetList.get(i).compareTo(targetList.get(i + 1)) > 0) {
                 swap(i, i + 1);
                 swapped = true;
             }
@@ -185,7 +195,8 @@ public class ArraySorter<T extends Comparable<T>> {
      * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
      */
     public void betterBubbleSort() {
-        for (int i = array.length; i > 1 && betterBubble(i); i--) ;
+        for (int i = targetList.size(); i > 1 && betterBubble(i); i--) ;
+        transform();
     }
 
     /**
@@ -199,19 +210,20 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     public void binaryInsertSort() {
 
-        for (int i = 1; i < array.length; i++) {
-            T temp = array[i];
+        for (int i = 1; i < targetList.size(); i++) {
+            T temp = targetList.get(i);
             int low = 0, high = i - 1;
             while (low <= high) {
                 int mid = (low + high) / 2;
-                if (temp.compareTo(array[mid]) < 0)
+                if (temp.compareTo(targetList.get(mid)) < 0)
                     high = mid - 1;
                 else low = mid + 1;
             }
             for (int j = i - 1; j >= high + 1; j--)
-                array[j + 1] = array[j];
-            array[high + 1] = temp;
+                targetList.set(j + 1, targetList.get(j));
+            targetList.set(high + 1, temp);
         }
+        transform();
     }
 
     /**
@@ -223,23 +235,24 @@ public class ArraySorter<T extends Comparable<T>> {
      * 实现从小到大排序
      */
     public void rankSort() {
-        Integer[] rankArray = new Integer[array.length];
+        Integer[] rankArray = new Integer[targetList.size()];
         Arrays.fill(rankArray, 0);//fill方法可将指定值填充到指定数组
-        for (int i = 1; i < array.length; i++) {
+        for (int i = 1; i < targetList.size(); i++) {
             for (int j = 0; j < i; j++) {
-                if (array[j].compareTo(array[i]) <= 0)//注意这里是小于等于号，因为名次的定义是所有比它小的元素个数加在其左边出现的与它相同的元素个数
+                if (targetList.get(j).compareTo(targetList.get(i)) <= 0)//注意这里是小于等于号，因为名次的定义是所有比它小的元素个数加在其左边出现的与它相同的元素个数
                     rankArray[i]++;
                 else rankArray[j]++;
             }
         }
         ArraySorter<Integer> sorter = new ArraySorter<>(rankArray);
 
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < targetList.size(); i++) {
             while (!rankArray[i].equals(i)) {
                 swap(i, rankArray[i]);
-                sorter.swap(i, rankArray[i]);
             }
         }
+
+        transform();
     }
 
     /**
@@ -250,14 +263,15 @@ public class ArraySorter<T extends Comparable<T>> {
      * 3、适用于移动记录次数较少，每一记录占用空间较多时的情况
      */
     public void simpleSelectionSort() {
-        for (int i = 0; i < array.length - 1; i++) {
+        for (int i = 0; i < targetList.size() - 1; i++) {
             int min = i;
-            for (int j = i + 1; j < array.length; j++)
-                if (array[j].compareTo(array[min]) < 0)
+            for (int j = i + 1; j < targetList.size(); j++)
+                if (targetList.get(j).compareTo(targetList.get(min)) < 0)
                     min = j;
             if (min != i)
                 swap(i, min);
         }
+        transform();
     }
 
     /**
@@ -265,69 +279,128 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     public void selectSort() {
         boolean sorted = false;
-        for (int i = array.length; !sorted && (i > 1); i--) {
+        for (int i = targetList.size(); !sorted && (i > 1); i--) {
             int indexOfMax = 0;
             sorted = true;
             //找出未排列区间谁的值最大，就将该值和该区间最后一个元素（i指向的元素之前的一个元素）交换，然后不断缩小区间，不断交换直到排好序
             for (int j = 1; j < i; j++) {
-                if (array[indexOfMax].compareTo(array[j]) <= 0) indexOfMax = j;
+                if (targetList.get(indexOfMax).compareTo(targetList.get(j)) <= 0) indexOfMax = j;
                 else sorted = false;
             }
             swap(indexOfMax, i - 1);
         }
+        transform();
     }
 
-    private static void swapArr(Integer[] array, int i, int j) {
-        Integer temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
 
     /**
      * 堆排序
-     *
-     * @param theArr 待排序的数组
+     * <p>算法特点<p>
+     * 1、不稳定排序<p>
+     * 2、只能用于顺序结构<p>
+     * 3、时间复杂度O(nlogn)<p>
+     * 4、适合初始无序且数据元素较多的情况使用
      */
-    public static void heapSort(Integer @NotNull [] theArr) {
-        Integer[] newArray = new Integer[theArr.length + 1];
-        System.arraycopy(theArr, 0, newArray, 1, theArr.length);
-        for (int k = theArr.length / 2; k >= 1; k--)
-            biggerHeapAdjust(newArray, k, theArr.length);
-        for (int k = 1; k < theArr.length; k++) {
-            swapArr(newArray, 1, theArr.length - k + 1);
-            biggerHeapAdjust(newArray, 1, theArr.length - k);
+    public void heapSort() {
+
+        for (int k = (targetList.size() - 1) / 2; k >= 0; k--)
+            biggerHeapAdjust(k, targetList.size() - 1);
+        for (int k = 0; k < targetList.size(); k++) {
+            swap(0, targetList.size() - k - 1);
+            biggerHeapAdjust(1, targetList.size() - k - 2);
         }
+        transform();
     }
 
     /**
      * 大根堆调整函数，将整个无序数组视为完全二叉树后，对其进行调整，使其符合大根堆的定义
      * 大根堆是每个节点的值都大于或等于其左右孩子节点的值的完全二叉树，小根堆相反
      *
-     * @param theArr 大根堆的原始数组
-     * @param begin  待调整节点在整个堆中按照层序遍历的编号
-     * @param end    整个堆最后一个节点的层序遍历编号
+     * @param begin 待调整节点在整个堆中按照层序遍历的编号
+     * @param end   整个堆最后一个节点的层序遍历编号
      */
-    private static void biggerHeapAdjust(Integer[] theArr, int begin, int end) {
-        int i = begin, j = 2 * i;
+    private void biggerHeapAdjust(int begin, int end) {
+        int i = begin;
+        int j;
+        if (begin == 0) {
+            j = 1;
+        } else
+            j = 2 * i;
+
         while (j <= end) {
 
             //j<end实际是在判断i所指节点有没有右子树，如果有右子树，则必然满足此条件，则说明有右子树
-            if (j < end && theArr[j].compareTo(theArr[j + 1]) < 0)
+            if (j < end && targetList.get(j).compareTo(targetList.get(j + 1)) < 0)
                 j++;
-            if (theArr[i].compareTo(theArr[j]) < 0)
-                swapArr(theArr, i, j);
+            if (targetList.get(i).compareTo(targetList.get(j)) < 0)
+                swap(i, j);
             //如果此时子树又不符合堆的定义，那么更新i,j的值去调整子树
             i = j;
             j = 2 * i;
         }
     }
 
-    public static void main(String[] args) {
-        /*Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 1000);
-        System.out.println(Arrays.toString(arr));
-        ArraySorter<Integer> sorter = new ArraySorter<>(arr);
-        sorter.simpleSelectionSort();
-        System.out.println(Arrays.toString(arr));*/
+
+    /**
+     * 归并排序
+     * <p>算法特点<p>
+     * 1、稳定排序<p>
+     * 2、可用于链式结构<p>
+     * 3、适合于数据量大且初始无序的情况<p>
+     * 4、时间复杂度：O(nlogn)
+     */
+    public void mergeSort() {
+        mergeSortPri(0, targetList.size());
+        transform();
+    }
+
+    /**
+     * 归并排序的递归函数
+     *
+     * @param begin 归并排序分割的左边界
+     * @param end   归并排序分割的右边界
+     */
+    private void mergeSortPri(int begin, int end) {
+        if (end - begin <= 1) return;
+        int mid = (begin + end) / 2;
+        mergeSortPri(begin, mid);
+        mergeSortPri(mid, end);
+        merge(begin, mid, end);
+    }
+
+
+    /**
+     * 归并排序中归并的过程
+     *
+     * @param begin 归并第一段的起始编号
+     * @param mid   归并第一段的终止编号
+     * @param end   归并第二段的终止编号
+     */
+    private void merge(int begin, int mid, int end) {
+        int i = begin, j = mid;
+        ArrayList<T> tempList = new ArrayList<>();
+        while (i < mid && j < end) {
+            if (targetList.get(i).compareTo(targetList.get(j)) < 0) {
+                tempList.add(targetList.get(i++));
+            } else {
+                tempList.add(targetList.get(j++));
+            }
+        }
+        while (i < mid) {
+            tempList.add(targetList.get(i++));
+        }
+        while (j < end) {
+            tempList.add(targetList.get(j++));
+        }
+        for (int k = 0; k < tempList.size(); k++) {
+            targetList.set(begin + k, tempList.get(k));
+        }
+    }
+
+    /**
+     * 基数排序
+     */
+    public void radixSort() {
 
     }
 
@@ -338,8 +411,8 @@ public class ArraySorter<T extends Comparable<T>> {
      * @param j 要交换的第二个元素的下标
      */
     private void swap(int i, int j) {
-        T temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+        T temp = targetList.get(i);
+        targetList.set(i, targetList.get(j));
+        targetList.set(j, temp);
     }
 }
