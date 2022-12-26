@@ -1,5 +1,7 @@
 package arrayutil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
 /**
@@ -99,13 +101,6 @@ public class ArraySorter<T extends Comparable<T>> {
     }
     */
 
-    public static void main(String[] args) {
-        Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 1000);
-        System.out.println(Arrays.toString(arr));
-        ArraySorter<Integer> sorter = new ArraySorter<>(arr);
-        sorter.simpleSelectionSort();
-        System.out.println(Arrays.toString(arr));
-    }
 
     /**
      * 直接插入排序<p>
@@ -282,25 +277,25 @@ public class ArraySorter<T extends Comparable<T>> {
         }
     }
 
-    /**
-     * 在排序的诸多算法中涉及交换数组中的两个元素，故有此交换函数<p>
-     * @param i 要交换的第一个元素的下标
-     * @param j 要交换的第二个元素的下标
-     */
-    private void swap(int i, int j) {
-        T temp = array[i];
+    private static void swapArr(Integer[] array, int i, int j) {
+        Integer temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
 
     /**
      * 堆排序
+     *
+     * @param theArr 待排序的数组
      */
-    public void heapSort() {
-        for (int k = array.length / 2; k >= 1; k--)
-            biggerHeapAdjust(k, array.length - 1);
-        for (int k = 0; k < array.length; k++) {
-            swap(0, array.length - k + 1);
+    public static void heapSort(Integer @NotNull [] theArr) {
+        Integer[] newArray = new Integer[theArr.length + 1];
+        System.arraycopy(theArr, 0, newArray, 1, theArr.length);
+        for (int k = theArr.length / 2; k >= 1; k--)
+            biggerHeapAdjust(newArray, k, theArr.length);
+        for (int k = 1; k < theArr.length; k++) {
+            swapArr(newArray, 1, theArr.length - k + 1);
+            biggerHeapAdjust(newArray, 1, theArr.length - k);
         }
     }
 
@@ -308,21 +303,43 @@ public class ArraySorter<T extends Comparable<T>> {
      * 大根堆调整函数，将整个无序数组视为完全二叉树后，对其进行调整，使其符合大根堆的定义
      * 大根堆是每个节点的值都大于或等于其左右孩子节点的值的完全二叉树，小根堆相反
      *
-     * @param begin 待调整节点在整个堆中按照层序遍历的编号
-     * @param end   整个堆最后一个节点的层序遍历编号
+     * @param theArr 大根堆的原始数组
+     * @param begin  待调整节点在整个堆中按照层序遍历的编号
+     * @param end    整个堆最后一个节点的层序遍历编号
      */
-    private void biggerHeapAdjust(int begin, int end) {
+    private static void biggerHeapAdjust(Integer[] theArr, int begin, int end) {
         int i = begin, j = 2 * i;
         while (j <= end) {
 
             //j<end实际是在判断i所指节点有没有右子树，如果有右子树，则必然满足此条件，则说明有右子树
-            if (j < end && array[j].compareTo(array[j + 1]) < 0)
+            if (j < end && theArr[j].compareTo(theArr[j + 1]) < 0)
                 j++;
-            if (array[i].compareTo(array[j]) < 0)
-                swap(i, j);
+            if (theArr[i].compareTo(theArr[j]) < 0)
+                swapArr(theArr, i, j);
             //如果此时子树又不符合堆的定义，那么更新i,j的值去调整子树
             i = j;
             j = 2 * i;
         }
+    }
+
+    public static void main(String[] args) {
+        /*Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 1000);
+        System.out.println(Arrays.toString(arr));
+        ArraySorter<Integer> sorter = new ArraySorter<>(arr);
+        sorter.simpleSelectionSort();
+        System.out.println(Arrays.toString(arr));*/
+
+    }
+
+    /**
+     * 在排序的诸多算法中涉及交换数组中的两个元素，故有此交换函数<p>
+     *
+     * @param i 要交换的第一个元素的下标
+     * @param j 要交换的第二个元素的下标
+     */
+    private void swap(int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
