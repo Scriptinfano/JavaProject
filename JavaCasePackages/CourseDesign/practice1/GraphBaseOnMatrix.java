@@ -11,9 +11,18 @@ import java.util.Objects;
  * @author Mingxiang
  */
 class Edge implements Comparable<Edge> {
+    /**
+     * 边的起始点
+     */
     private Integer head;
+    /**
+     * 边的终点
+     */
     private Integer tail;
 
+    /**
+     * 边在图中的权值
+     */
     private Integer value;
 
     public Edge(Integer head, Integer tail, Integer value) {
@@ -91,6 +100,9 @@ public class GraphBaseOnMatrix {
      */
     private int totalValue = 0;
 
+    /**
+     * 图中顶点的个数
+     */
     private int pointSize = 0;
 
     /**
@@ -107,11 +119,13 @@ public class GraphBaseOnMatrix {
      * @return boolean 返回true时说明数组的长度符合要求，同时计算出的正确的点的个数会赋给内部表示图的顶点个数的变量
      */
     private boolean verifyArr(Integer[] arr) {
-        double pointSize = (1 + Math.sqrt(1 + 8 * arr.length)) / 2;
+        double pointSize = (1 + Math.sqrt(1 + 8 * arr.length)) / 2;//根据公式计算出顶点的个数，如果传入的序列的个数不符合要求，那么该值将会是有小数部分的小数，否则就是没有小数部分的小数
         if (pointSize - Math.floor(pointSize) == 0) {
+            //算出来的pointSize是整数，说明传入的序列符合要求
             this.pointSize = (int) pointSize;
             return true;
         } else {
+            //算出的顶点个数是小数，说明传入的序列不符合要求
             return false;
         }
     }
@@ -120,13 +134,13 @@ public class GraphBaseOnMatrix {
      * 设置图的邻接矩阵
      *
      * @param values 代表图的邻接矩阵的上三角部分的行主次序的有序序列
-     * @throws IllegalFormatCodePointException 非法的参数，表示该有序序列不符合要求
+     * @throws IllegalArgumentException 非法的参数，表示该有序序列不符合要求
      */
-    public void setGraph(Integer[] values)throws IllegalFormatCodePointException {
+    public void setGraph(Integer[] values)throws IllegalArgumentException {
         if (!verifyArr(values)) {
             throw new IllegalArgumentException("传入的邻接矩阵上三角部分的行主次序的长度不符合要求");
         }
-        //实例化存储边信息的数组，
+        //实例化存储边信息的数组
         edges = new Edge[values.length];
 
         //实例化联通分量标记数组
@@ -135,7 +149,7 @@ public class GraphBaseOnMatrix {
             marks[i] = i;
         }
 
-        //实例化邻接矩阵
+        //实例化邻接矩阵，用合法的邻接矩阵上三角部分序列填充邻接矩阵
         adjacentMatrix = new Integer[pointSize][pointSize];
         for (int i = 0; i < adjacentMatrix.length; i++) {
             for (int j = 0; j < adjacentMatrix[i].length; j++) {
@@ -174,7 +188,7 @@ public class GraphBaseOnMatrix {
      * 使用克鲁斯卡尔算法生成最小生成树，将最小生成树的每个边放入内部的容器
      */
     public void generateMst() {
-        if (mst.size() == 0) {
+        if (mst.isEmpty()) {
             Arrays.sort(edges);//对edges中的边按照边的权值大小进行排序
             for (int i = 0; i < edges.length; i++) {
                 Integer head = edges[i].getHead();

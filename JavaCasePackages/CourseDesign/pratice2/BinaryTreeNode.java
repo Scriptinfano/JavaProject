@@ -1,5 +1,8 @@
 package pratice2;
 
+/**
+ * 二叉树节点
+ */
 public class BinaryTreeNode<T extends Comparable<T>> {
     private T element;//二叉树节点权值
     private BinaryTreeNode<T> leftChild;//二叉树左孩子指针

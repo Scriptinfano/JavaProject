@@ -5,10 +5,19 @@ import viewManagerPack.ViewManager;
 import java.util.Objects;
 
 
+/**
+ * 二叉计算树的管理系统类，维护管理二叉计算树并向用户提供交互操作界面
+ *
+ * @author localuser
+ */
 public class CalculateTreeSystem extends ViewManager {
+    //printer和scanner是ViewManger已经封装好的输入输出对象
     private final BinaryCalculateTree tree = new BinaryCalculateTree();
 
 
+    /**
+     * 显示菜单
+     */
     @Override
     protected void showMenu() {
         printer.println("**********欢迎使用表达式计算交互系统************");
@@ -20,6 +29,9 @@ public class CalculateTreeSystem extends ViewManager {
     }
 
 
+    /**
+     * 运行整个系统，启动交互
+     */
     @Override
     protected void run() {
         while (true) {
@@ -32,17 +44,23 @@ public class CalculateTreeSystem extends ViewManager {
                 case "1" -> setNewExpression();
                 case "2" -> calculateExpression();
                 case "3" -> outputExpression();
-                case "4" -> exitProgram();
+                case "4" -> exitProgram();//该接口的默认实现已经被ViewManager封装，此处直接调用表示退出程序
                 default -> printer.println("你的输入不合法，请重新输入");
             }
         }
     }
 
+    /**
+     * 输出表达式
+     */
     private void outputExpression() {
         String theExpression = tree.getExpression();
         printer.println(Objects.requireNonNullElse(theExpression, "表达式为空，请先设定表达式"));//Objects.requireNonNullElse判断第一个参数是否为空，若不为空则返回第一个参数，否则返回第二个参数
     }
 
+    /**
+     * 计算表达式的值，输出计算结果
+     */
     private void calculateExpression() {
         double result;
         try {
@@ -56,6 +74,9 @@ public class CalculateTreeSystem extends ViewManager {
 
     }
 
+    /**
+     * 设立新表达式
+     */
     private void setNewExpression() {
         while (true) {
             printer.print("输入新的待计算的表达式（每个符号用空格分开）：");
@@ -75,9 +96,12 @@ public class CalculateTreeSystem extends ViewManager {
 
 class TestBinaryCalculateTree {
     public static void main(String[] args) {
-        test1();
+        test2();
     }
 
+    /**
+     * test1直接使用给定的表达式进行计算
+     */
     private static void test1() {
         BinaryCalculateTree calculateTree = new BinaryCalculateTree();
         String[]expression4={"12","3","4"};
@@ -90,6 +114,9 @@ class TestBinaryCalculateTree {
         }
     }
 
+    /**
+     * test2使用交互界面录入表达式
+     */
     private static void test2() {
         CalculateTreeSystem calculateTreeSystem = new CalculateTreeSystem();
         calculateTreeSystem.run();

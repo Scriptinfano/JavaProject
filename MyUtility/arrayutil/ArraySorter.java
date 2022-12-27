@@ -1,8 +1,6 @@
 package arrayutil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 排序工具类,包含对数组的一些排序方法
@@ -15,7 +13,7 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private List<T> targetList;
 
-    private T[] theArr;
+    private final T[] theArr;
 
 
     /**
@@ -23,9 +21,13 @@ public class ArraySorter<T extends Comparable<T>> {
      *
      * @param theArray 表示要进行排序的数组
      */
-    public ArraySorter(T[] theArray) {
+    private ArraySorter(T[] theArray) {
         theArr = theArray;
         targetList = new ArrayList<>(Arrays.asList(theArray));
+    }
+
+    public static <T extends Comparable<T>> ArraySorter<T> createArraySorter(T[] theArray) {
+        return new ArraySorter<>(theArray);
     }
 
     private void transform() {
@@ -244,8 +246,6 @@ public class ArraySorter<T extends Comparable<T>> {
                 else rankArray[j]++;
             }
         }
-        ArraySorter<Integer> sorter = new ArraySorter<>(rankArray);
-
         for (int i = 0; i < targetList.size(); i++) {
             while (!rankArray[i].equals(i)) {
                 swap(i, rankArray[i]);
@@ -399,10 +399,50 @@ public class ArraySorter<T extends Comparable<T>> {
 
     /**
      * 基数排序
+     * <p>算法特点<p>
+     *     1、基数排序是对桶排序的扩展，速度快<p>
+     *     2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<p>
+     *     3、基数排序是稳定排序
+     *     4、基数排序不能对含有负数的数组进行排序
      */
     public void radixSort() {
+        //创建十个桶
+        ArrayList<ArrayList<T>> lists = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            lists.add(new ArrayList<>());
+        //找出所有数字中最大的数，然后以该数的位数作为基数排序的轮数
+        Optional<T>maxOptional= targetList.stream().max(new Comparator<>() {
+            @Override
+            public int compare(T o1, T o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        if(maxOptional.isPresent()){
+            T maxElement=maxOptional.get();
+            int maxDigit=String.valueOf(maxElement).toCharArray().length;
+
+            //maxDigit是所有数字中最大的位数，是基数排序的轮数
+            for (int k = 0; k < maxDigit; k++) {
+                for (T t : targetList) {
+                    char[] chars = String.valueOf(t).toCharArray();
+                    int result = Integer.parseInt(String.valueOf(chars[k]));
+                    lists.get(result).add(t);//放入到对应的桶中
+                }
+                targetList.clear();
+                for (ArrayList<T> list : lists) {
+                    if (!list.isEmpty()) {
+                        targetList.addAll(list);
+                    }
+                }
+                System.out.println("第" + k + "轮排序结果：" + targetList.toString());
+            }
+            transform();
+        }else {
+            System.err.println("基数排序中出现了问题");
+        }
 
     }
+
 
     /**
      * 在排序的诸多算法中涉及交换数组中的两个元素，故有此交换函数<p>
@@ -414,5 +454,9 @@ public class ArraySorter<T extends Comparable<T>> {
         T temp = targetList.get(i);
         targetList.set(i, targetList.get(j));
         targetList.set(j, temp);
+    }
+
+    public void test() {
+
     }
 }

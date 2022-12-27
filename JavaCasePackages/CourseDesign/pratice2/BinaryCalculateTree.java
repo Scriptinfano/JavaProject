@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Stack;
 
 /**
- * 用于计算表达式的二叉树
+ * 用于计算表达式的二叉树，二叉计算树
  *
  * @author Mingxiang
  */
@@ -37,13 +37,13 @@ public class BinaryCalculateTree {
     }
 
     /**
-     * 检测传入的中缀表达式是否均由小数或整数或运算符组成
+     * 检测传入的中缀表达式字符串是否符合一个表达式的要求，例如是否有其他非法字符或者是否符合表达式的特定组合要求
      *
      * @param expressionArray 代表待检测的中缀表达式
      * @return boolean 如果符合规则则返回true否则返回false
      */
     private static boolean verifyExpression(String[] expressionArray) {
-        //运算符之前可以跟右括号和数字，之后可以跟左括号和数字，不能放在首部和尾部，
+        //运算符之前可以跟右括号和数字，之后可以跟左括号和数字，不能放在首部和尾部
         //左括号和右括号必须匹配
         //左括号之前可以是左括号和运算符，之后可以是左括号和数字，可以放在首部，不能放在尾部
         //右括号之前可以是数字和右括号，之后可以是右括号和运算符，可以放在尾部，不能放在首部
@@ -82,7 +82,7 @@ public class BinaryCalculateTree {
     /**
      * 判断是否是数字，如果是则返回true，如果不是则返回false
      *
-     * @param element 表示传入的符号
+     * @param element 待判断的符号
      * @return boolean 若为true则是，否则不是
      */
     private static boolean isNumber(String element) {
@@ -97,7 +97,7 @@ public class BinaryCalculateTree {
     /**
      * 判断是不是括号，如果是则返回true，如果不是则返回false。
      *
-     * @param element 表示传入的符号
+     * @param element 待判断的符号
      * @return boolean 若为true则是，否则不是
      */
     private static boolean isBracket(String element) {
@@ -115,10 +115,10 @@ public class BinaryCalculateTree {
     }
 
     /**
-     * 计算表达式树的递归函数
+     * 计算表达式树的递归函数，返回子树的计算结果
      *
-     * @param theNode 节点
-     * @return double
+     * @param theNode 从该节点开始计算表达式树的结果
+     * @return double 子树的计算结果
      */
     private static double calculateExpressionTree(BinaryTreeNode<String> theNode) {
         double leftValue = 0, rightValue = 0;
@@ -194,6 +194,7 @@ public class BinaryCalculateTree {
      * @return boolean 若为true，表示设置成功，否则设置失败
      */
     public boolean setExpression(String[] theExpression) {
+        //检查表达式是否已设置，如果没有则返回false通知外部程序要求用户设定表达式
         if (!inOrderContainer.isEmpty()) {
             while (true) {
                 Iotransformer.printer.print("表达式已设置，是否重设表达式？（Y/N）:");
@@ -207,8 +208,9 @@ public class BinaryCalculateTree {
                 }
             }
         }
+        //在表达式已经设置的情况下，验证传入的表达式是否符合要求
         if (verifyExpression(theExpression)) {
-            //表达式符合要求，执行转换
+            //表达式符合要求，执行转换，将表达式存入内部的容器中便于维护管理
             inOrderContainer = new ArrayList<String>(Arrays.asList(theExpression));//将String[]转换为ArrayList<String>
             return true;
         } else return false;
