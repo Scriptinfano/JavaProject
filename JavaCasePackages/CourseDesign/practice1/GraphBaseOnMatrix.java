@@ -2,13 +2,11 @@ package practice1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.IllegalFormatCodePointException;
 import java.util.Objects;
 
 /**
  * 代表图中的边，用起点和终点表示
  *
- * @author Mingxiang
  */
 class Edge implements Comparable<Edge> {
     /**

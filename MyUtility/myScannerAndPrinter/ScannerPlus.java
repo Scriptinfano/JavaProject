@@ -169,15 +169,17 @@ public class ScannerPlus {
     }
 
     /**
+     * 下一个int数组
      * 要求用户输入一串数字（每输入一个数字按一次换行），并将这些数字保存到内部创建的数组中，并返回这个数组
      *
      * @param size        用户需要输入多少个数字
      * @param hasNegative 是否允许用户的输入存在负数，为true时允许有负数，反之则不允许
      * @param hasRepeat   是否允许用户的输入有重复，为true时允许有重复，反之则不允许有重复
      * @return {@link int[]}
+     * @throws IllegalArgumentException 非法参数异常，说明数组的大小传入有误
      */
-    public int[] nextIntArray(int size, boolean hasNegative, boolean hasRepeat) {
-        if(size<=0)
+    public int[] nextIntArray(int size, boolean hasNegative, boolean hasRepeat) throws IllegalArgumentException {
+        if (size <= 0)
             throw new IllegalArgumentException("数组的大小不能小于等于0，请重新输入");
         int[] array = new int[size];
         while (true) {

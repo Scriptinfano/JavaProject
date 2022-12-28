@@ -6,16 +6,12 @@ import java.io.PrintStream;
 
 /**
  * 表示视图管理器的抽象类，封装了输入输出对象以及是否退出程序的代码，规定了几个要设计交互系统必须要重写的函数
- *
- * @author localuser
- * @date 2022/12/27
  */
 public abstract class ViewManager {
     protected static final ScannerPlus scanner = new ScannerPlus();
     protected static final PrintStream printer = new PrintStream(System.out);
 
-    protected void showMenu() {
-    }
+    protected abstract void showMenu();
 
     /**
      * 询问用户是否退出，并执行退出程序的代码
@@ -40,8 +36,7 @@ public abstract class ViewManager {
     /**
      * 表示运行此交互系统
      */
-    protected void run() {
-    }
+    protected abstract void run();
 
     /**
      * 暂停程序的运行，按任意键继续

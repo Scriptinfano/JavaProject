@@ -10,23 +10,29 @@ import java.util.Arrays;
  * @author Mingxiang
  */
 public class MinimumSpanningTreeGenerateSystem extends ViewManager {
+
+    /**
+     * 基于邻接矩阵存储的无向全联通图，该交互系统维护管理该变量
+     */
     private GraphBaseOnMatrix graph;
 
     /**
      * 显示主菜单
      */
+    @Override
     protected void showMenu() {
-        System.out.println("**********欢迎使用最小生成树集成交互系统************");
-        System.out.println("*         1、设定新图                          *");
-        System.out.println("*         2、查看当前图的邻接矩阵                *");
-        System.out.println("*         3、生成最小生成树并输出其边和最小权值之和  *");
-        System.out.println("*         4、退出程序                          *");
-        System.out.println("**********************************************");
+        printer.println("**********欢迎使用最小生成树集成交互系统************");
+        printer.println("*         1、设定新图                          *");
+        printer.println("*         2、查看当前图的邻接矩阵                *");
+        printer.println("*         3、生成最小生成树并输出其边和最小权值之和  *");
+        printer.println("*         4、退出程序                          *");
+        printer.println("**********************************************");
     }
 
     /**
      * 运行系统，首先调用此接口启动交互
      */
+    @Override
     public void run() {
         while (true) {
             String choice;
@@ -49,14 +55,16 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
      */
     private void setNewGraph() {
         if (graph == null) {
-            printer.print("请输入该图的邻接矩阵上三角部分的元素个数：");
-            int size = scanner.nextInt();
-            printer.println("请输入该图的邻接矩阵上三角部分的行主次序（输入时每输入一个数字键入一个回车）");
             int[] arr;
             while (true) {
+                printer.print("请输入该图的邻接矩阵上三角部分的元素个数：");
+                int size = scanner.nextInt();
+                //double arrSize = scanner.nextWithLimit(false, 0, "数组的大小不能小于0");//使用该接口直接避免用户输入小于0的数，不使用异常捕捉机制也可以
+                printer.println("请输入该图的邻接矩阵上三角部分的行主次序（输入时每输入一个数字键入一个回车）");
                 try {
                     arr = scanner.nextIntArray(size, false, true);
                 } catch (IllegalArgumentException e) {
+                    //元素个数的输入有误，要求重新输入
                     System.out.println(e.getMessage());
                     continue;
                 }
@@ -66,10 +74,10 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
             graph.setGraph(Arrays.stream(arr).boxed().toArray(Integer[]::new));
         } else {
             printer.print("图的邻接矩阵已设定，是否重新设定（输入0表示不再设定，输入1表示继续设定：）");
-            int choice = scanner.nextSelectionByInt(0, 1);
+            int choice = scanner.nextSelectionByInt(0, 1);//要求用户只能输入两个数字表示确认还是否定
             if (choice == 1) {
                 graph = null;//解除图当前的引用绑定，重新设定
-                setNewGraph();
+                setNewGraph();//重新调用本函数设置新图
             }
         }
     }
@@ -119,7 +127,6 @@ public class MinimumSpanningTreeGenerateSystem extends ViewManager {
     }
 
 
-
 }
 
 
@@ -148,7 +155,7 @@ class TestSystem {
     public static void interactTest() {
         Integer[] edges = new Integer[]{
                 60, 63, 56, 72, 48, 84, 32, 50, 47, 97
-        };//参考此数组输入数据
+        };//参考此数组输入数据，此数据表示的图在本文件夹中
         MinimumSpanningTreeGenerateSystem system = new MinimumSpanningTreeGenerateSystem();
         system.run();
     }
