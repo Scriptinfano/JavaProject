@@ -9,11 +9,14 @@ import java.util.*;
  */
 public class ArraySorter<T extends Comparable<T>> {
     /**
-     * 内部要排列的数组
+     * 内部要排列的数组会被复制到该容器中，便于操作维护
      */
     private List<T> targetList;
 
-    private final T[] theArr;
+    /**
+     * 和传入该对象的数组持有同一引用，当targetList已经有序时，调用transform()接口将容器中已经有序的元素重新填回该数组，则达到了对外部数组进行排序的目的
+     */
+    private T[] theArr;
 
 
     /**
@@ -23,7 +26,13 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private ArraySorter(T[] theArray) {
         theArr = theArray;
-        targetList = new ArrayList<>(Arrays.asList(theArray));
+        targetList = new ArrayList<>();
+        if(theArray!=null){
+            targetList.add(null);
+            targetList.addAll(Arrays.asList(theArray));
+        }
+
+
     }
 
     public static <T extends Comparable<T>> ArraySorter<T> createArraySorter(T[] theArray) {
@@ -31,8 +40,9 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     private void transform() {
-        for (int i = 0; i < targetList.size(); i++) {
-            theArr[i] = targetList.get(i);
+        int bounds=targetList.size()-1;
+        for (int i = 0; i < bounds; i++) {
+            theArr[i] = targetList.get(i + 1);
         }
     }
 
@@ -40,7 +50,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 重设要排序的数组，一般用法是仅声明一个ArraySorter对象，调用该方法重设排序数组即可对其他数组进行排序
      */
     public void resetArray(T[] theArray) {
-        targetList = new ArrayList<>(Arrays.asList(theArray));
+        theArr = theArray;
+        targetList.add(null);
+        targetList.addAll(Arrays.asList(theArray));
     }
 
     /**
@@ -48,10 +60,11 @@ public class ArraySorter<T extends Comparable<T>> {
      * <p>算法特点<p>
      * 1、不稳定排序<p>
      * 2、排序时需要定位表的上下界，所以适合于顺序结构<p>
-     * 3、适合初始记录无序，数组元素个数较大的情况
+     * 3、适合初始记录无序，数组元素个数较大的情况<p>
+     * 4、快速排序的时间复杂度：O(nlogn)~o(n^2)
      *
-     * @param left  快速排序要指定的左边界，在调用此函数时默认填写0
-     * @param right 快速排序要指定的右边界，在调用此函数时默认填写数组最后一个下标
+     * @param left  快速排序要指定的左边界，在调用此函数时默认填写1
+     * @param right 快速排序要指定的右边界，在调用此函数时默认填写数组的元素个数
      */
     public void quickSort(int left, int right) {
         /*如何选取轴值
@@ -85,19 +98,7 @@ public class ArraySorter<T extends Comparable<T>> {
         transform();
     }
 
-    /**
-     * 表示插入排序每一次遍历并且插入的过程
-     *
-     * @param index 代表要插入的元素的下标
-     * @param value 代表要插入的元素的值
-     */
-    private void insert(int index, T value) {
-        int i;
-        for (i = index - 1; i >= 0 && value.compareTo(targetList.get(i)) < 0; i--) {
-            targetList.set(i + 1, targetList.get(i));
-        }
-        targetList.set(i + 1, value);
-    }
+
     /*
     public void insertionSort() {
         for (int i = 1; i < array.length; i++) {
@@ -122,17 +123,22 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、稳定排序<p>
      * 2、适合链式存储结构<p>
      * 3、适合初始基本有序且数组元素个数较小的情况<p>
+     * 4、时间复杂度：O(n^2)
      */
     public void insertSort() {
         for (int i = 1; i < targetList.size(); i++) {
             T value = targetList.get(i);
-            insert(i, value);
+            int k;
+            for (k = i - 1; k >= 1 && value.compareTo(targetList.get(k)) < 0; k--)
+                targetList.set(k + 1, targetList.get(k));
+            targetList.set(k + 1, value);
         }
         transform();
     }
 
     /**
-     * 希尔排序
+     * 希尔排序<p>
+     * 希尔排序是插入排序的一种，是针对直接插入排序算法的改进，又称缩小增量排序
      * <p>
      * 算法特点
      * <p>
@@ -140,16 +146,17 @@ public class ArraySorter<T extends Comparable<T>> {
      * 2、只能用于顺序结构<p>
      * 3、增量序列可以有各种取法，但应该使增量序列中的值没有除1之外的公因子，并且最后一个增量值必须等于1<p>
      * 4、适合初始记录无序，数组元素个数较大时的情况<p>
+     * 5、时间复杂度：O(n^(1.3~2))
      */
     public void shellSort() {
-        int size = targetList.size();
+        int size = targetList.size() - 1;
         for (int d = size / 2; d >= 1; d = d / 2) {
-            for (int i = d + 1; i <= size; i++) {
+            //d是希尔排序的增量
+            for (int i = d; i <= size; i++) {
                 T temp = targetList.get(i);
                 int j = i - d;
                 while (j > 0 && temp.compareTo(targetList.get(j)) < 0) {
                     targetList.set(j + d, targetList.get(j));
-
                     j = j - d;
                 }
                 targetList.set(j + d, temp);
@@ -165,10 +172,11 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、排序稳定<p>
      * 2、可用于链式存储结构<p>
      * 3、适用于初始记录有序，数组元素个数较小的情况
+     * 4、时间复杂度：O(n^2)
      */
     public void bubbleSort() {
-        for (int i = 0; i < targetList.size() - 1; i++) {
-            for (int j = 0; j < targetList.size() - 1 - i; j++) {
+        for (int i = 1; i < targetList.size(); i++) {
+            for (int j = 1; j < targetList.size() - i; j++) {
                 if (targetList.get(j).compareTo(targetList.get(j + 1)) > 0) {
                     swap(j, j + 1);
                 }
@@ -184,7 +192,7 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private boolean betterBubble(int n) {
         boolean swapped = false;
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 1; i < n - 1; i++) {
             if (targetList.get(i).compareTo(targetList.get(i + 1)) > 0) {
                 swap(i, i + 1);
                 swapped = true;
@@ -197,7 +205,7 @@ public class ArraySorter<T extends Comparable<T>> {
      * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
      */
     public void betterBubbleSort() {
-        for (int i = targetList.size(); i > 1 && betterBubble(i); i--) ;
+        for (int i = targetList.size(); i > 2 && betterBubble(i); i--) ;
         transform();
     }
 
@@ -209,12 +217,13 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、排序稳定<p>
      * 2、只能用于顺序结构<p>
      * 3、适合初始记录无序，数组元素数较大的情况<p>
+     * 4、相对于直接插入排序，减少了元素的比较次数，但是相对于直接插入排序元素的移动次数不变
      */
     public void binaryInsertSort() {
 
-        for (int i = 1; i < targetList.size(); i++) {
+        for (int i = 2; i < targetList.size(); i++) {
             T temp = targetList.get(i);
-            int low = 0, high = i - 1;
+            int low = 1, high = i - 1;
             while (low <= high) {
                 int mid = (low + high) / 2;
                 if (temp.compareTo(targetList.get(mid)) < 0)
@@ -229,41 +238,15 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     * 名次排序<p>
-     * 数组中元素的名次是什么：一个元素在一个序列中的名次是所有比它小的元素个数加上
-     * 在它左边出现的与它相同的元素个数
-     *
-     * @implNote 该函数通过计算数组中各元素的名次，然后调用交换算法将每个元素转移到正确的位置上
-     * 实现从小到大排序
-     */
-    public void rankSort() {
-        Integer[] rankArray = new Integer[targetList.size()];
-        Arrays.fill(rankArray, 0);//fill方法可将指定值填充到指定数组
-        for (int i = 1; i < targetList.size(); i++) {
-            for (int j = 0; j < i; j++) {
-                if (targetList.get(j).compareTo(targetList.get(i)) <= 0)//注意这里是小于等于号，因为名次的定义是所有比它小的元素个数加在其左边出现的与它相同的元素个数
-                    rankArray[i]++;
-                else rankArray[j]++;
-            }
-        }
-        for (int i = 0; i < targetList.size(); i++) {
-            while (!rankArray[i].equals(i)) {
-                swap(i, rankArray[i]);
-            }
-        }
-
-        transform();
-    }
-
-    /**
      * 简单选择排序
      * <p>算法特点<p>
      * 1、不稳定排序<p>
      * 2、可用于链式存储结构<p>
-     * 3、适用于移动记录次数较少，每一记录占用空间较多时的情况
+     * 3、适用于移动记录次数较少，每一记录占用空间较多时的情况<p>
+     * 4、时间复杂度：O(n^2)
      */
-    public void simpleSelectionSort() {
-        for (int i = 0; i < targetList.size() - 1; i++) {
+    public void simpleSelectSort() {
+        for (int i = 1; i < targetList.size() - 1; i++) {
             int min = i;
             for (int j = i + 1; j < targetList.size(); j++)
                 if (targetList.get(j).compareTo(targetList.get(min)) < 0)
@@ -277,13 +260,13 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 优化之后的选择排序，可以在已经排好序的前提下提前终止循环
      */
-    public void selectSort() {
+    public void betterSelectSort() {
         boolean sorted = false;
-        for (int i = targetList.size(); !sorted && (i > 1); i--) {
-            int indexOfMax = 0;
+        for (int i = targetList.size()-1; !sorted && (i > 1); i--) {
+            int indexOfMax = 1;
             sorted = true;
             //找出未排列区间谁的值最大，就将该值和该区间最后一个元素（i指向的元素之前的一个元素）交换，然后不断缩小区间，不断交换直到排好序
-            for (int j = 1; j < i; j++) {
+            for (int j = 2; j < i; j++) {
                 if (targetList.get(indexOfMax).compareTo(targetList.get(j)) <= 0) indexOfMax = j;
                 else sorted = false;
             }
@@ -302,11 +285,20 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、适合初始无序且数据元素较多的情况使用
      */
     public void heapSort() {
+        /*
+        * 如果大根堆的根的编号从1开始，则满足以下性质
+        * 1、下标为i的节点的父节点下标：i/2
+        * 2、下标为i的节点的左孩子下标：2*i
+        * 3、下标为i的节点的右孩子下标：2*i+1
+        * 本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
+        * */
 
-        for (int k = (targetList.size() - 1) / 2; k >= 0; k--)
+
+        //k的初始值是堆最后一个节点的父节点的编号
+        for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
             biggerHeapAdjust(k, targetList.size() - 1);
-        for (int k = 0; k < targetList.size(); k++) {
-            swap(0, targetList.size() - k - 1);
+        for (int k = 0; k < targetList.size()-2; k++) {
+            swap(1, targetList.size() - k - 1);
             biggerHeapAdjust(1, targetList.size() - k - 2);
         }
         transform();
@@ -321,11 +313,9 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private void biggerHeapAdjust(int begin, int end) {
         int i = begin;
-        int j;
-        if (begin == 0) {
-            j = 1;
-        } else
-            j = 2 * i;
+        int j=2*i;
+
+        //此时i是待调整节点的编号，j是待调整节点的左子节点的编号
 
         while (j <= end) {
 
@@ -347,7 +337,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、稳定排序<p>
      * 2、可用于链式结构<p>
      * 3、适合于数据量大且初始无序的情况<p>
-     * 4、时间复杂度：O(nlogn)
+     * 4、时间复杂度：O(nlogn)。分析：将子区间划分为只剩一个元素需要划分logn次，对每一层来说
+     * 在合并所有子区间的过程中，n个元素都会被操作一次，每一层的时间复杂度是O(n)，所以归并排序的
+     * 时间复杂度是O(nlogn)
      */
     public void mergeSort() {
         mergeSortPri(0, targetList.size());
@@ -400,10 +392,10 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 基数排序
      * <p>算法特点<p>
-     *     1、基数排序是对桶排序的扩展，速度快<p>
-     *     2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<p>
-     *     3、基数排序是稳定排序
-     *     4、基数排序不能对含有负数的数组进行排序
+     * 1、基数排序是对桶排序的扩展，速度快<p>
+     * 2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<p>
+     * 3、基数排序是稳定排序
+     * 4、基数排序不能对含有负数的数组进行排序
      */
     public void radixSort() {
         //创建十个桶
@@ -411,15 +403,15 @@ public class ArraySorter<T extends Comparable<T>> {
         for (int i = 0; i < 10; i++)
             lists.add(new ArrayList<>());
         //找出所有数字中最大的数，然后以该数的位数作为基数排序的轮数
-        Optional<T>maxOptional= targetList.stream().max(new Comparator<>() {
+        Optional<T> maxOptional = targetList.stream().max(new Comparator<>() {
             @Override
             public int compare(T o1, T o2) {
                 return o1.compareTo(o2);
             }
         });
-        if(maxOptional.isPresent()){
-            T maxElement=maxOptional.get();
-            int maxDigit=String.valueOf(maxElement).toCharArray().length;
+        if (maxOptional.isPresent()) {
+            T maxElement = maxOptional.get();
+            int maxDigit = String.valueOf(maxElement).toCharArray().length;
 
             //maxDigit是所有数字中最大的位数，是基数排序的轮数
             for (int k = 0; k < maxDigit; k++) {
@@ -437,7 +429,7 @@ public class ArraySorter<T extends Comparable<T>> {
                 System.out.println("第" + k + "轮排序结果：" + targetList.toString());
             }
             transform();
-        }else {
+        } else {
             System.err.println("基数排序中出现了问题");
         }
 
