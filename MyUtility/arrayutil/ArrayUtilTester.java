@@ -6,14 +6,11 @@ import analyzer.AlgorithmAnalyzer;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static arrayutil.ArrayUtil.binarySearch;
-
 
 /**
  * 该类仅用于测试ArrayUtil工具类，不要在其他地方调用
  *
  * @author Mingxiang
- * @date 2022/09/03
  */
 class ArrayUtilTester {
     private static final Scanner scanner = new Scanner(System.in);
@@ -23,14 +20,6 @@ class ArrayUtilTester {
         //testArraySorter();
         //testMaxOrMinFunc();
         analysisAlgorithmTime();
-    }
-
-    private static void testArraySorter() {
-        Integer[] theArray = {6, 5, 4, 3, 2, 1};
-        ArraySorter<Integer> sorter = ArraySorter.createArraySorter(theArray);
-        sorter.insertSort();
-        ArrayUtil.showArray(theArray);
-
     }
 
     private static void testMaxOrMinFunc() {
@@ -152,62 +141,60 @@ class ArrayUtilTester {
         int arrSize=10000;//要排序的数组中总共有多少个元素
         int begin=1;//随机数生成的范围的起始
         int end=100000;//随机数生成范围的终止
-        ArraySorter<Integer> sorter = ArraySorter.createArraySorter(null);//实例化排序器对象
+
         Integer[] arr = ArrayUtil.randomIntegerArray(arrSize, begin, end);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 8);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
-
+        ArraySorter<Integer> sorter = new ArraySorter<>();//实例化排序器对象
 
         long beginMillis1 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
-        sorter.resetArray(backUpArrays[0]);
+        sorter.setSortArray(backUpArrays[0]);
         sorter.betterBubbleSort();//排序器调用bubbleSort算法对数组进行排序
         long endMillis1 = AlgorithmAnalyzer.getCurrentTime();
+        System.out.println("优化冒泡排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis1, endMillis1) + "毫秒");
 
-        //TODO 找到数组越界的原因
-        /*long beginMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
-        sorter.resetArray(backUpArrays[1]);
-        sorter.quickSort(1, arr.length);//排序器调用快速排序法对数组排序
-        long endMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间*/
+        long beginMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
+        sorter.setSortArray(backUpArrays[1]);
+        sorter.quickSort(1, backUpArrays[1].length);//排序器调用快速排序法对数组排序
+        long endMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
+        System.out.println("快速排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis2, endMillis2) + "毫秒");
 
         long beginMillis3 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
-        sorter.resetArray(backUpArrays[2]);
+        sorter.setSortArray(backUpArrays[2]);
         sorter.bubbleSort();//排序器调用快速排序法对数组排序
         long endMillis3 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
+        System.out.println("普通冒泡排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis3, endMillis3) + "毫秒");
 
         long beginMillis4 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
-        sorter.resetArray(backUpArrays[3]);
+        sorter.setSortArray(backUpArrays[3]);
         sorter.insertSort();//排序器调用快速排序法对数组排序
         long endMillis4 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
+        System.out.println("插入排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis4, endMillis4) + "毫秒");
 
         long beginMillis5 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
-        sorter.resetArray(backUpArrays[4]);
+        sorter.setSortArray(backUpArrays[4]);
         sorter.betterSelectSort();//排序器调用选择排序法对数组排序
         long endMillis5 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
+        System.out.println("选择排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis5, endMillis5) + "毫秒");
 
         long beginMillis6=AlgorithmAnalyzer.getCurrentTime();
-        sorter.resetArray(backUpArrays[5]);
+        sorter.setSortArray(backUpArrays[5]);
         sorter.heapSort();
         long endMillis6=AlgorithmAnalyzer.getCurrentTime();
+        System.out.println("堆排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis6, endMillis6) + "毫秒");
 
         long beginMillis7=AlgorithmAnalyzer.getCurrentTime();
-        sorter.resetArray(backUpArrays[6]);
+        sorter.setSortArray(backUpArrays[6]);
         sorter.shellSort();
         long endMillis7=AlgorithmAnalyzer.getCurrentTime();
+        System.out.println("希尔排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis7, endMillis7) + "毫秒");
 
         long beginMillis8=AlgorithmAnalyzer.getCurrentTime();
-        sorter.resetArray(backUpArrays[7]);
+        sorter.setSortArray(backUpArrays[7]);
         sorter.mergeSort();
         long endMillis8=AlgorithmAnalyzer.getCurrentTime();
+        System.out.println("归并排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis8, endMillis8) + "毫秒");
 
         //ArrayUtil.showBothArray(arr, backUpArrays[4]);
-
-        System.out.println("优化冒泡排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis1, endMillis1) + "毫秒");
-        //System.out.println("快速排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis2, endMillis2) + "毫秒");
-        System.out.println("普通冒泡排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis3, endMillis3) + "毫秒");
-        System.out.println("插入排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis4, endMillis4) + "毫秒");
-        System.out.println("选择排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis5, endMillis5) + "毫秒");
-        System.out.println("堆排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis6, endMillis6) + "毫秒");
-        System.out.println("希尔排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis7, endMillis7) + "毫秒");
-        System.out.println("归并排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis8, endMillis8) + "毫秒");
 
         /*System.out.println("输入要查找的数字：");
         int userNumber = 0;

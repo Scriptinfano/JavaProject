@@ -139,11 +139,11 @@ public class ScannerPlus {
         while (true) {
             try {
                 String userInput = scanner.nextLine();
-                if(userInput.length()>1){
+                if (userInput.length() > 1) {
                     System.out.println("请输入字符，不要输入字符串");
                     continue;
                 }
-                charData=userInput.charAt(0);
+                charData = userInput.charAt(0);
                 break;
             } catch (NoSuchElementException e) {
                 System.out.print("你没有输入任何数据，请重新输入");
@@ -155,7 +155,7 @@ public class ScannerPlus {
     }
 
     public static void pause() {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("敲enter键或键入任意内容以继续：");
         while (true) {
             try {
@@ -271,7 +271,7 @@ public class ScannerPlus {
      * @param message  要求用户重新输入时显示的消息
      * @return double 返回用户正确的输入
      */
-    public double nextWithLimit(boolean upOrDown, int limit, String message) {
+    public double nextDoubleWithLimit(boolean upOrDown, int limit, String message) {
         double theData;
         while (true) {
             theData = nextDouble();
@@ -287,6 +287,24 @@ public class ScannerPlus {
         }
         return theData;
     }
+
+    public int nextIntWithLimit(boolean upOrDown, int limit, String message) {
+        int theData;
+        while (true) {
+            theData = nextInt();
+            if (upOrDown) {
+                if (theData >= limit) {
+                    System.out.println(message);
+                } else break;
+            } else {
+                if (theData <= limit) {
+                    System.out.println(message);
+                } else break;
+            }
+        }
+        return theData;
+    }
+
 
     /**
      * 该函数询问用户是否需要更多输入，当用户回答是的时候不做任何操作，当回答不的时候抛出异常指示外界程序执行某些特殊操作停止录入数据
@@ -310,7 +328,7 @@ public class ScannerPlus {
     /**
      * 清除缓冲区中所有数据
      */
-    public void flush(){
+    public void flush() {
         scanner = new Scanner(System.in);
     }
 

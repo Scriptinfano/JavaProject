@@ -11,7 +11,7 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 内部要排列的数组会被复制到该容器中，便于操作维护
      */
-    private List<T> targetList;
+    private final List<T> targetList;
 
     /**
      * 和传入该对象的数组持有同一引用，当targetList已经有序时，调用transform()接口将容器中已经有序的元素重新填回该数组，则达到了对外部数组进行排序的目的
@@ -20,27 +20,18 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 构造ArraySorter对象，将要进行排序的数组作为属性传入ArraySorter对象，以便其调用排序算法对其进行排序
-     *
-     * @param theArray 表示要进行排序的数组
+     * 构造ArraySorter对象，构造之后尚不能排序，调用resetArray接口设定待排序数组
      */
-    private ArraySorter(T[] theArray) {
-        theArr = theArray;
+    public ArraySorter() {
         targetList = new ArrayList<>();
-        if(theArray!=null){
-            targetList.add(null);
-            targetList.addAll(Arrays.asList(theArray));
-        }
-
-
     }
 
-    public static <T extends Comparable<T>> ArraySorter<T> createArraySorter(T[] theArray) {
-        return new ArraySorter<>(theArray);
-    }
 
+    /**
+     * 将容器中已经排好序的元素重新装回原数组
+     */
     private void transform() {
-        int bounds=targetList.size()-1;
+        int bounds = targetList.size() - 1;
         for (int i = 0; i < bounds; i++) {
             theArr[i] = targetList.get(i + 1);
         }
@@ -49,8 +40,10 @@ public class ArraySorter<T extends Comparable<T>> {
     /**
      * 重设要排序的数组，一般用法是仅声明一个ArraySorter对象，调用该方法重设排序数组即可对其他数组进行排序
      */
-    public void resetArray(T[] theArray) {
+    public void setSortArray(T[] theArray) {
         theArr = theArray;
+        if (!targetList.isEmpty())
+            targetList.clear();
         targetList.add(null);
         targetList.addAll(Arrays.asList(theArray));
     }
@@ -67,6 +60,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * @param right 快速排序要指定的右边界，在调用此函数时默认填写数组的元素个数
      */
     public void quickSort(int left, int right) {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         /*如何选取轴值
          * 1、使用第一个记录的关键码
          * 2、选取序列中间记录的关键码
@@ -99,19 +95,6 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
 
-    /*
-    public void insertionSort() {
-        for (int i = 1; i < array.length; i++) {
-            T t = array[i];
-            int j;
-            for (j = i - 1; j >= 0 && array[j].compareTo(t) > 0; j--) {
-                array[j + 1] = array[j];
-            }
-            array[j + 1] = t;
-        }
-    }
-    */
-
     /**
      * 直接插入排序<p>
      * 插入排序的思想:从数组的第二个元素开始遍历数组，比较该元素与前一个元素，如果该元素
@@ -126,6 +109,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、时间复杂度：O(n^2)
      */
     public void insertSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         for (int i = 1; i < targetList.size(); i++) {
             T value = targetList.get(i);
             int k;
@@ -149,6 +135,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 5、时间复杂度：O(n^(1.3~2))
      */
     public void shellSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         int size = targetList.size() - 1;
         for (int d = size / 2; d >= 1; d = d / 2) {
             //d是希尔排序的增量
@@ -175,6 +164,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、时间复杂度：O(n^2)
      */
     public void bubbleSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         for (int i = 1; i < targetList.size(); i++) {
             for (int j = 1; j < targetList.size() - i; j++) {
                 if (targetList.get(j).compareTo(targetList.get(j + 1)) > 0) {
@@ -205,6 +197,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
      */
     public void betterBubbleSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         for (int i = targetList.size(); i > 2 && betterBubble(i); i--) ;
         transform();
     }
@@ -220,7 +215,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、相对于直接插入排序，减少了元素的比较次数，但是相对于直接插入排序元素的移动次数不变
      */
     public void binaryInsertSort() {
-
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         for (int i = 2; i < targetList.size(); i++) {
             T temp = targetList.get(i);
             int low = 1, high = i - 1;
@@ -246,6 +243,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、时间复杂度：O(n^2)
      */
     public void simpleSelectSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         for (int i = 1; i < targetList.size() - 1; i++) {
             int min = i;
             for (int j = i + 1; j < targetList.size(); j++)
@@ -261,8 +261,11 @@ public class ArraySorter<T extends Comparable<T>> {
      * 优化之后的选择排序，可以在已经排好序的前提下提前终止循环
      */
     public void betterSelectSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         boolean sorted = false;
-        for (int i = targetList.size()-1; !sorted && (i > 1); i--) {
+        for (int i = targetList.size() - 1; !sorted && (i > 1); i--) {
             int indexOfMax = 1;
             sorted = true;
             //找出未排列区间谁的值最大，就将该值和该区间最后一个元素（i指向的元素之前的一个元素）交换，然后不断缩小区间，不断交换直到排好序
@@ -286,18 +289,20 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     public void heapSort() {
         /*
-        * 如果大根堆的根的编号从1开始，则满足以下性质
-        * 1、下标为i的节点的父节点下标：i/2
-        * 2、下标为i的节点的左孩子下标：2*i
-        * 3、下标为i的节点的右孩子下标：2*i+1
-        * 本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
-        * */
-
+         * 如果大根堆的根的编号从1开始，则满足以下性质
+         * 1、下标为i的节点的父节点下标：i/2
+         * 2、下标为i的节点的左孩子下标：2*i
+         * 3、下标为i的节点的右孩子下标：2*i+1
+         * 本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
+         * */
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
 
         //k的初始值是堆最后一个节点的父节点的编号
         for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
             biggerHeapAdjust(k, targetList.size() - 1);
-        for (int k = 0; k < targetList.size()-2; k++) {
+        for (int k = 0; k < targetList.size() - 2; k++) {
             swap(1, targetList.size() - k - 1);
             biggerHeapAdjust(1, targetList.size() - k - 2);
         }
@@ -313,7 +318,7 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private void biggerHeapAdjust(int begin, int end) {
         int i = begin;
-        int j=2*i;
+        int j = 2 * i;
 
         //此时i是待调整节点的编号，j是待调整节点的左子节点的编号
 
@@ -342,7 +347,10 @@ public class ArraySorter<T extends Comparable<T>> {
      * 时间复杂度是O(nlogn)
      */
     public void mergeSort() {
-        mergeSortPri(0, targetList.size());
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
+        mergeSortPri(1, targetList.size());
         transform();
     }
 
@@ -398,39 +406,57 @@ public class ArraySorter<T extends Comparable<T>> {
      * 4、基数排序不能对含有负数的数组进行排序
      */
     public void radixSort() {
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
         //创建十个桶
         ArrayList<ArrayList<T>> lists = new ArrayList<>();
         for (int i = 0; i < 10; i++)
             lists.add(new ArrayList<>());
         //找出所有数字中最大的数，然后以该数的位数作为基数排序的轮数
-        Optional<T> maxOptional = targetList.stream().max(new Comparator<>() {
-            @Override
-            public int compare(T o1, T o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        ArrayList<T> newTargetList = new ArrayList<>();
+        for (int i = 1; i < targetList.size(); i++) {
+            newTargetList.add(targetList.get(i));
+        }
+        Optional<T> maxOptional = newTargetList.stream().max(Comparable::compareTo);
         if (maxOptional.isPresent()) {
             T maxElement = maxOptional.get();
             int maxDigit = String.valueOf(maxElement).toCharArray().length;
 
             //maxDigit是所有数字中最大的位数，是基数排序的轮数
             for (int k = 0; k < maxDigit; k++) {
-                for (T t : targetList) {
+                for (T t : newTargetList) {
+
                     char[] chars = String.valueOf(t).toCharArray();
-                    int result = Integer.parseInt(String.valueOf(chars[k]));
+                    Character[] characters = new Character[chars.length];
+                    for (int i = 0; i < chars.length; i++) {
+                        characters[i] = chars[i];
+                    }
+                    Collections.reverse(Arrays.asList(characters));
+                    int result;
+                    try {
+                        result = Integer.parseInt(String.valueOf(characters[k]));
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        result = 0;
+                    }
+
                     lists.get(result).add(t);//放入到对应的桶中
                 }
-                targetList.clear();
+                newTargetList.clear();
                 for (ArrayList<T> list : lists) {
                     if (!list.isEmpty()) {
-                        targetList.addAll(list);
+                        newTargetList.addAll(list);
+                        list.clear();
                     }
                 }
-                System.out.println("第" + k + "轮排序结果：" + targetList.toString());
+
             }
+            targetList.clear();
+            targetList.add(null);
+            targetList.addAll(newTargetList);
             transform();
         } else {
-            System.err.println("基数排序中出现了问题");
+            throw new RuntimeException("待排序的容器为空");
         }
 
     }
@@ -448,7 +474,4 @@ public class ArraySorter<T extends Comparable<T>> {
         targetList.set(j, temp);
     }
 
-    public void test() {
-
-    }
 }
