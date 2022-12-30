@@ -11,6 +11,13 @@ class Point {
 }
 
 /**
+ * 碎墙器，负责生成迷宫时在迷宫中凿墙，生成迷宫路径
+ *
+ * @author localuser
+ */
+
+
+/**
  * 迷宫类
  *
  * @author localuser
@@ -30,12 +37,16 @@ public class Maze {
     /**
      * 起点
      */
-    private Point startPoint;
+    private final Point startPoint;
 
     /**
      * 终点
      */
-    private Point endPoint;
+    private final Point endPoint;
+
+    public Point getStartPoint(){
+        return startPoint;
+    }
 
     /**
      * 迷宫类的构造器
@@ -63,26 +74,32 @@ public class Maze {
         //在迷宫的中间放上可以打破的墙
         for (int i = 1; i < length - 1; i++) {
             for (int j = 1; j < width - 1; j++) {
-                maze[i][j]=new PathPoint(i,j);
-                if((i==startPoint.x&&j==startPoint.y)||(i==endPoint.x && j == endPoint.y)){
+                maze[i][j] = new PathPoint(i, j);
+                //TODO 此处关于是否应该在初始化时在迷宫的起点和终点放墙，有待讨论
+                if ((i == startPoint.x && j == startPoint.y) || (i == endPoint.x && j == endPoint.y)) {
                     //在迷宫的起点和终点不放置墙
                     continue;
                 }
                 maze[i][j].setWall(true);
+                if(i%2==0||j%2==0){
+                    maze[i][j].setPathOrWallPoint(false);
+                }else{
+                    maze[i][j].setPathOrWallPoint(true);
+                }
+
             }
         }
-        ball=new Ball(startPoint.x,startPoint.y);//将球放到迷宫的起点
+        ball = new Ball(startPoint.x, startPoint.y);//将球放到迷宫的起点
     }
 
     /**
-     * 使用算法为全是墙的迷宫生成路径，打通迷宫里的墙形成可以走的通路
+     * 验证指定的坐标组是否符合加入候选队列的条件，返回符合要求的点的数组
+     * @param point 传入的一系列待检测的点
+     * @return {@link Point[]} 返回合法的可以加入候选队列的点的数组
      */
-    public void setRandomPath(MazeCreator.CreateMode mode) {
-        if (mode == MazeCreator.CreateMode.DEPTH) {
-            //TODO 使用深度优先算法打通迷宫中的通路
-        } else if (mode == MazeCreator.CreateMode.RECURSE) {
-
-        }
+    public Point[] verifyPoint(Point[] point){
 
     }
+
+
 }

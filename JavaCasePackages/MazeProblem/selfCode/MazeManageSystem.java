@@ -74,9 +74,9 @@ public class MazeManageSystem extends ViewManager {
     private void generateNewMaze() {
         if (solver == null) {
             //执行生成新迷宫的接口
-            System.out.print("请输入迷宫的长度：");
+            System.out.print("请输入迷宫的长度(长度至少为10)：");
             int length = scanner.nextIntWithLimit(false, 0, "迷宫的长不能为负数");
-            System.out.print("请输入迷宫的宽度：");
+            System.out.print("请输入迷宫的宽度（宽度至少为10）：");
             int width = scanner.nextIntWithLimit(false, 0, "迷宫的宽不能为负数");
             solver.generateNewMaze(length, width);
         } else {
