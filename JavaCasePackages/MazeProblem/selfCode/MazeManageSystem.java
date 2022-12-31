@@ -1,6 +1,25 @@
 package MazeProblem.selfCode;
 
 import viewManagerPack.ViewManager;
+/**
+ * 迷宫求解类
+ *
+ * @author localuser
+ */
+class MazeSolver {
+    /**
+     * 迷宫
+     */
+    private Maze maze;
+    /**
+     * 负责调用迷宫生成算法，返回迷宫给maze引用
+     */
+    private final MazeCreator creator=new MazeCreator();
+
+    public void generateNewMaze(int length,int width){
+        maze=creator.getNewMaze(length,width);
+    }
+}
 
 /**
  * 求解迷宫的用户交互系统类
