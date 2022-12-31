@@ -1,6 +1,65 @@
 package MazeProblem.selfCode;
 
 import viewManagerPack.ViewManager;
+
+class Ball {
+    /**
+     * 球在迷宫中的横坐标
+     */
+    private int x;
+    /**
+     * 球在迷宫中的纵坐标
+     */
+    private int y;
+
+    /**
+     * 球
+     *
+     * @param x 初始化时球的横坐标
+     * @param y 初始化时球的纵坐标
+     */
+    public Ball(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * 取得球的横坐标
+     *
+     * @return int
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * 设置球的横坐标
+     *
+     * @param x x
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * 取得球的纵坐标
+     *
+     * @return int
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * 设置球的纵坐标
+     *
+     * @param y y
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+}
+
 /**
  * 迷宫求解类
  *
@@ -11,13 +70,29 @@ class MazeSolver {
      * 迷宫
      */
     private Maze maze;
+
+    private Ball ball;
+
+
     /**
      * 负责调用迷宫生成算法，返回迷宫给maze引用
      */
-    private final MazeCreator creator=new MazeCreator();
+    private final MazeCreator creator = new MazeCreator();
 
-    public void generateNewMaze(int length,int width){
-        maze=creator.getNewMaze(length,width);
+    public void generateNewMaze(int length, int width) {
+        maze = creator.getNewMaze(length, width);
+        ball = new Ball(maze.getStartPoint().x, maze.getStartPoint().y);
+    }
+
+    /**
+     * 球在迷宫中找路径的过程
+     */
+    public void solveMaze() {
+
+    }
+
+    public void showMaze() {
+        maze.showMaze();
     }
 }
 
@@ -30,7 +105,7 @@ public class MazeManageSystem extends ViewManager {
     /**
      * 迷宫求解对象，封装迷宫对象并调用内置迷宫求解算法求解迷宫
      */
-    private MazeSolver solver;
+    private MazeSolver solver = new MazeSolver();
 
     /**
      * 显示菜单
@@ -72,7 +147,7 @@ public class MazeManageSystem extends ViewManager {
         if (solver == null)
             printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
         else {
-
+            solver.solveMaze();
         }
     }
 
@@ -83,7 +158,7 @@ public class MazeManageSystem extends ViewManager {
         if (solver == null)
             printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
         else {
-
+            solver.showMaze();
         }
     }
 
