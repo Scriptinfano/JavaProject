@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * 墙类
- *
- * @param breakable 标识该墙是否是可以打破的
+ * 墙类，代表迷宫中的墙，迷宫中的墙分为两种，迷宫的边界上都是不可打破的墙，边界之内是可以打破的墙
  */
 record Wall(boolean breakable) {
 
     /**
      * 判断该墙是否可打破
      *
-     * @return boolean
+     * @return boolean 返回true时则可以打破
      */
     @Override
     public boolean breakable() {
@@ -21,23 +19,36 @@ record Wall(boolean breakable) {
     }
 }
 
+/**
+ * 坐标点类，封装横坐标和纵坐标，方便传递迷宫中的位置信息
+ */
 class Point {
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * 横坐标
+     */
     public int x;
+    /**
+     * 纵坐标
+     */
     public int y;
 }
 
 /**
- * 路径点类，迷宫的组成部分
- *
- * @author localuser
+ * 路径点类，迷宫的基本组成部分，代表迷宫中的路径点
  */
 class PathPoint {
+    /**
+     * 路径点的横坐标
+     */
     private final int x;
+    /**
+     * 路径点的纵坐标
+     */
     private final int y;
 
     /**
@@ -50,7 +61,7 @@ class PathPoint {
     private Boolean pathOrWallPoint;
 
     /**
-     * 当该引用为空引用时，说明该路径点上不存在墙，当该路径点上有墙时，可以判断墙是否是可以打通的
+     * 当该引用为空引用时，说明该路径点上不存在墙
      */
     private Wall wall;
 
@@ -116,7 +127,7 @@ class PathPoint {
     /**
      * 判断该路径点上是否有墙
      *
-     * @return boolean
+     * @return boolean 为true则代表有墙
      */
     public boolean hasWall() {
         return wall != null;
@@ -139,11 +150,14 @@ class PathPoint {
     }
 }
 
+/**
+ * 非法路径点异常，指示哪个路径点发生了错误
+ */
 class IllegalPathPointException extends RuntimeException {
     /**
      * 仅传递是哪个路径点出错了
      *
-     * @param point 点
+     * @param point 出错的路径点
      */
     public IllegalPathPointException(PathPoint point) {
         super("错误点坐标：");
@@ -153,8 +167,8 @@ class IllegalPathPointException extends RuntimeException {
     /**
      * 传递额外的错误信息
      *
-     * @param msg   味精
-     * @param point 点
+     * @param msg   额外的错误信息
+     * @param point 出错的路径点
      */
     public IllegalPathPointException(String msg, PathPoint point) {
         super(msg + "，错误点坐标：");
@@ -168,7 +182,7 @@ class IllegalPathPointException extends RuntimeException {
     /**
      * 仅传递错误信息
      *
-     * @param s 年代
+     * @param s 错误信息
      */
     public IllegalPathPointException(String s) {
         super(s);
@@ -210,7 +224,7 @@ class Maze {
     /**
      * 得到该迷宫的起点坐标
      *
-     * @return {@link Point}
+     * @return {@link Point} 返回的坐标
      */
     public Point getStartPoint() {
         return startPoint;
@@ -224,7 +238,7 @@ class Maze {
     }
 
     /**
-     * 返回迷宫的除了边界部分长和宽，如果迷宫的高度和宽度原本都是10，则会返回一个坐标为(9,9)的点
+     * 返回迷宫的除了边界部分的长和宽，如果迷宫的高度和宽度原本都是10，则会返回一个坐标为(9,9)的点
      *
      * @return {@link Point} 返回的两个边界值组成的点坐标
      */
@@ -234,6 +248,7 @@ class Maze {
 
     /**
      * 输入正确的坐标得到非空的路径点引用，只能取得迷宫四周墙壁之内的路径点引用，否则将返回空引用
+     * 注意在PathPoint类填满迷宫之后，不得使用其他方式获取内部路径点，仅使用该接口获取路径点
      *
      * @param x x 指定的横坐标
      * @param y y 指定的纵坐标
@@ -248,29 +263,29 @@ class Maze {
     /**
      * 迷宫类的构造器
      *
-     * @param length 迷宫的长度
-     * @param width  迷宫的宽度
+     * @param mazeSize 正方形迷宫的边长
      */
-    public Maze(int length, int width) {
-        maze = new PathPoint[length][width];//初始化迷宫矩阵
+    public Maze(int mazeSize) {
+        //FIXME 设置迷宫有问题
+        maze = new PathPoint[mazeSize][mazeSize];//初始化迷宫矩阵
         startPoint = new Point(1, 1);//设定迷宫的起点
-        endPoint = new Point(length - 2, width - 2);//设定迷宫的终点
+        endPoint = new Point(mazeSize - 2, mazeSize - 2);//设定迷宫的终点
         //在迷宫的四周放上不可打破的墙
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < mazeSize; i++) {
             maze[0][i] = new PathPoint(0, i);
             maze[0][i].setWall(false);
-            maze[length - 1][i] = new PathPoint(length - 1, i);
-            maze[length - 1][i].setWall(false);
+            maze[mazeSize - 1][i] = new PathPoint(mazeSize - 1, i);
+            maze[mazeSize - 1][i].setWall(false);
         }
-        for (int i = 1; i < length - 1; i++) {
+        for (int i = 1; i < mazeSize - 1; i++) {
             maze[i][0] = new PathPoint(i, 0);
             maze[i][0].setWall(false);
-            maze[i][width - 1] = new PathPoint(i, width - 1);
-            maze[i][width - 1].setWall(false);
+            maze[i][mazeSize - 1] = new PathPoint(i, mazeSize - 1);
+            maze[i][mazeSize - 1].setWall(false);
         }
         //在迷宫的中间放上可以打破的墙
-        for (int i = 1; i < length - 1; i++) {
-            for (int j = 1; j < width - 1; j++) {
+        for (int i = 1; i < mazeSize - 1; i++) {
+            for (int j = 1; j < mazeSize - 1; j++) {
                 maze[i][j] = new PathPoint(i, j);
                 maze[i][j].setWall(true);
                 maze[i][j].setPathOrWallPoint(i % 2 != 0 && j % 2 != 0);//在迷宫的路径点上标记路点和墙点
@@ -279,8 +294,9 @@ class Maze {
     }
 
     /**
-     * 验证指定的坐标点能否加入候选列表，由于迷宫边界信息以及路径集合还有路径点是否是墙点的
-     * 信息由迷宫类本身管理，所以在碎墙器检查了是否在候选列表中的点的条件之后，该接口只需要再检查三个条件即可<p>
+     * 验证指定的坐标点能否加入候选列表，由于传入函数的{@link PathPoint}路径点均由{@link MazeProblem.selfCode.Maze#getPathPoint(int, int)}接口获得
+     * 所以传入函数的PathPoint对象只要不是null，则都在迷宫边界之内，所以无需检查是否在边界之内且
+     * 候选点是否已经在候选列表中出现已经由{@link WallBreaker}类对象检查，所以该接口只需要再检查两个条件即可，以下是所有条件，此接口仅检查部分条件<p>
      * 什么样的点可以加入候选点容器:<p>
      * 1、不在迷宫边界上以及之外的点（所有待验证的路径点经过getPathPoint的过滤，一定不会出现坐标在迷宫之外的路径点）<p>
      * 2、不在已经加入路径集合中的点<p>
@@ -291,14 +307,14 @@ class Maze {
      * @return boolean 返回true时若点不在候选列表中时就代表可以加入候选列表，返回false时则代表一定不能加入候选列表
      */
     public boolean verifyCandidatePoint(PathPoint point) {
-        return !pathList.contains(point) && onRoadPoint(point);
+        return !inPathList(point) && onRoadPoint(point);
     }
 
     /**
      * 验证待检测的点是否已经在路径集合中
      *
-     * @param point 点
-     * @return boolean
+     * @param point 待检测的路径点
+     * @return boolean 返回true时则说明已经在路径集合中了，反之则不在路径集合中
      */
     public boolean inPathList(PathPoint point) {
         return pathList.contains(point);
@@ -320,14 +336,15 @@ class Maze {
 
     /**
      * 得到指定路径点四周的四个路点，其中可能有空引用，说明传入点的某个方向超出了迷宫的边界
+     * 注意取四周的路径点是取四周的路点，所以要保证传入的路径点也是路点
      *
-     * @param point 点
-     * @return {@link PathPoint[]}
+     * @param point 该接口以该点为中心返回四周的四个路径点引用
+     * @return {@link PathPoint[]} 返回的存储周围四个路径点引用的数组，其中有一些可能是空引用，原因是超出了迷宫的边界
      */
     public PathPoint[] getPointGround(PathPoint point) {
         PathPoint[] points = new PathPoint[4];
-        points[0] = getPathPoint(point.getX() + 2, point.getY());//上侧坐标点
-        points[1] = getPathPoint(point.getX() - 2, point.getY());//下侧坐标点
+        points[0] = getPathPoint(point.getX() + 2, point.getY());//下侧坐标点
+        points[1] = getPathPoint(point.getX() - 2, point.getY());//上侧坐标点
         points[2] = getPathPoint(point.getX(), point.getY() - 2);//左侧坐标点
         points[3] = getPathPoint(point.getX(), point.getY() + 2);//右侧坐标点
         return points;
@@ -336,13 +353,12 @@ class Maze {
     /**
      * 在屏幕上输出迷宫的形状
      */
-    public void showMaze(){
-        for(int i =0;i<maze.length;i++){
-            for(int j=0;j<maze[i].length;j++)
-            {
-                if(maze[i][j].hasWall())
-                    System.out.print("*");
-                else System.out.print(" ");
+    public void showMaze() {
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze[i].length; j++) {
+                if (maze[i][j].hasWall())
+                    System.out.print(" * ");
+                else System.out.print("   ");
             }
             System.out.println();
         }
@@ -353,6 +369,9 @@ class Maze {
  * 碎墙器类，负责生成迷宫时在迷宫中凿墙，生成迷宫路径
  */
 class WallBreaker {
+    /**
+     * 与碎墙器暂时关联的路径点引用，当碎墙器执行碎墙操作时，碎的就是这个引用代表的墙
+     */
     private PathPoint breakingPoint;
 
     /**
@@ -384,9 +403,10 @@ class WallBreaker {
     /**
      * 从候选的可走路径点的列表中得到随机的路径点坐标
      *
-     * @return {@link Point}
+     * @return {@link PathPoint} 在候选列表中返回的随机的候选路径点引用
      */
     private PathPoint getRandomPoint() {
+        randomGenerator.setSeed(System.currentTimeMillis());
         int index = randomGenerator.nextInt(0, candidateList.size());
         return candidateList.get(index);
     }
@@ -399,13 +419,11 @@ class WallBreaker {
             if (point != null && !candidateList.contains(point) && maze.verifyCandidatePoint(point)) {
                 candidateList.add(point);
             }
-
         }
     }
 
     /**
-     * 移动碎墙器，根据传入的坐标将其移动到指定位置，指定的位置坐标只允许在迷宫除了四周墙壁的内部
-     * 由于所有PathPoint引用均来自Maze.getPathPoint接口，该接口返回的非空引用一定代表迷宫内部的合法路径点
+     * 移动碎墙器，根据传入的坐标将其移动到指定位置，指定的位置坐标只允许在迷宫中除了四周墙壁的内部
      *
      * @param position 指定的位置坐标路径点
      * @throws IllegalArgumentException 抛出不受查异常，指示碎墙器在移动时取得了未知的坐标
@@ -434,7 +452,7 @@ class WallBreaker {
     }
 
     /**
-     * 打破该路径点上的允许被打破的墙
+     * 碎墙器执行碎墙操作，打碎碎墙器目前所在位置上的墙
      */
     private void breakWall() {
         if (breakingPoint != null && breakingPoint.hasWall() && breakingPoint.getWall().breakable()) {
@@ -448,23 +466,24 @@ class WallBreaker {
     }
 
     /**
-     * 将传入的该点与最邻近的通路之间的路径打通，并将打通的墙以及当前点加入路径集合
+     * 将传入的该路径点与最邻近的通路之间的路径打通，并将打通的墙以及当前点加入路径集合
+     * 请确保碎墙器已经处于传入的路径点引用所代表的路径点上
      *
-     * @param point 点
+     * @param point 该路径点即将和离其最近的通路之间联通
      */
     private void breakThrough(PathPoint point) {
-        //TODO 考虑如何做到将该点与最近的通路之间的墙打通
-        candidateList.remove(point);//已经选中了该候选点，该候选点即将加入路径，所以从候选点集合中删除它，确保其不再出现
+
+        candidateList.remove(point);//已经选中了该候选点，该候选点即将加入路径集合，所以从候选点集合中删除它，确保其不再出现
         breakWall();//打碎候选点所在的墙
         maze.addPointToPath(point);//将候选点所在的路径点加入迷宫的通路中
         ArrayList<PathPoint> pointList = new ArrayList<>();//候选点四周可能有多个在路径集合中的点，可以打通选中的候选点可以任意的其中之一的点之间的墙壁
         for (PathPoint thePoint : maze.getPointGround(point)) {
-            if (thePoint != null && maze.inPathList(point))
+            if (thePoint != null && maze.inPathList(thePoint))
                 pointList.add(thePoint);
         }
         randomGenerator.setSeed(System.currentTimeMillis());
         int randomIndex = randomGenerator.nextInt(0, pointList.size());
-        PathPoint adjacentPoint = pointList.get(randomIndex);
+        PathPoint adjacentPoint = pointList.get(randomIndex);//从候选点四周多个在路径集合中的点随机选一个
         PathPoint wallPoint;//候选坐标点和最近路径点之间的墙
         if (point.getX() == adjacentPoint.getX()) {
             if (point.getY() > adjacentPoint.getY())
@@ -516,22 +535,15 @@ class WallBreaker {
  * @author localuser
  */
 public class MazeCreator {
-
-
     /**
      * 具体的打通迷宫的操作由此碎墙器完成
      */
     private WallBreaker breaker;
 
     /**
-     * 要求生成的迷宫的长度最小不能小于这个值
+     * 要求生成的正方形迷宫的边长不能小于这个值
      */
-    private static final int minimumLength = 10;
-
-    /**
-     * 要求生成的迷宫的宽度最小不能小于这个值
-     */
-    private static final int minimumWidth = 10;
+    private static final int MinimumSize = 11;
 
     /**
      * 获得新迷宫，在内部创建好Maze类，然后返回符合要求的Maze对象。
@@ -539,10 +551,10 @@ public class MazeCreator {
      *
      * @return {@link Maze}
      */
-    public Maze getNewMaze(int length, int width) {
-        if (length < minimumLength || width < minimumWidth)
+    public Maze getNewMaze(int mazeSize) {
+        if (mazeSize < MinimumSize || mazeSize % 2 == 0)
             return null;//要求制造的迷宫不符合要求
-        Maze maze = new Maze(length, width);
+        Maze maze = new Maze(mazeSize);
         breaker = new WallBreaker(maze.getStartPoint(), maze);
         //利用本类的枚举类实现迷宫的多算法生成
         breaker.runPrim();

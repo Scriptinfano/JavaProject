@@ -61,6 +61,20 @@ class Ball {
 }
 
 /**
+ * 要求创建的迷宫不符合要求时，抛出此异常
+ */
+class MazeCreateErrorException extends Exception {
+    /**
+     * 迷宫创建错误异常类构造器
+     *
+     * @param message 错误消息
+     */
+    public MazeCreateErrorException(String message) {
+        super(message);
+    }
+}
+
+/**
  * 迷宫求解类
  *
  * @author localuser
@@ -79,8 +93,10 @@ class MazeSolver {
      */
     private final MazeCreator creator = new MazeCreator();
 
-    public void generateNewMaze(int length, int width) {
-        maze = creator.getNewMaze(length, width);
+    public void generateNewMaze(int mazeSize) throws MazeCreateErrorException {
+        maze = creator.getNewMaze(mazeSize);
+        if (maze == null)
+            throw new MazeCreateErrorException("要求创建的迷宫的大小不合要求，正方形迷宫的边长必须大于或等于11且必须为奇数");
         ball = new Ball(maze.getStartPoint().x, maze.getStartPoint().y);
     }
 
@@ -93,6 +109,15 @@ class MazeSolver {
 
     public void showMaze() {
         maze.showMaze();
+    }
+
+    /**
+     * 判断内部的迷宫是否已经生成
+     *
+     * @return boolean
+     */
+    public boolean hasMaze() {
+        return maze != null;
     }
 }
 
@@ -144,10 +169,10 @@ public class MazeManageSystem extends ViewManager {
      * 求解迷宫的用户接口
      */
     private void solveMaze() {
-        if (solver == null)
-            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
-        else {
+        if (solver.hasMaze())
             solver.solveMaze();
+        else {
+            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
         }
     }
 
@@ -155,10 +180,10 @@ public class MazeManageSystem extends ViewManager {
      * 显示迷宫
      */
     private void showMaze() {
-        if (solver == null)
-            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
-        else {
+        if (solver.hasMaze())
             solver.showMaze();
+        else {
+            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
         }
     }
 
@@ -166,19 +191,26 @@ public class MazeManageSystem extends ViewManager {
      * 生成新迷宫
      */
     private void generateNewMaze() {
-        if (solver == null) {
-            //执行生成新迷宫的接口
-            System.out.print("请输入迷宫的长度(长度至少为10)：");
-            int length = scanner.nextIntWithLimit(false, 0, "迷宫的长不能为负数");
-            System.out.print("请输入迷宫的宽度（宽度至少为10）：");
-            int width = scanner.nextIntWithLimit(false, 0, "迷宫的宽不能为负数");
-            solver.generateNewMaze(length, width);
-        } else {
+        if (solver.hasMaze()) {
             printer.print("迷宫已生成，是否重新生成（输入0表示不再设定，输入1表示继续设定：）");
             int choice = scanner.nextSelectionByInt(0, 1);//要求用户只能输入两个数字表示确认还是否定
             if (choice == 1) {
                 solver = null;//解除图当前的引用绑定，重新设定
                 generateNewMaze();//重新调用本函数设置新图
+            }
+        } else {
+            //执行生成新迷宫的接口
+            while(true){
+                System.out.print("请输入正方形迷宫的边长(大小至少为11且必须是奇数)：");
+                int mazeSize = scanner.nextInt();
+                try {
+                    solver.generateNewMaze(mazeSize);
+                } catch (MazeCreateErrorException e) {
+                    System.err.println(e.getMessage());
+                    System.out.println("请重新输入迷宫的长度和宽度");
+                    continue;
+                }
+                break;
             }
         }
     }
