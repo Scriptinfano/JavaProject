@@ -2,6 +2,11 @@ package MazeProblem.selfCode;
 
 import viewManagerPack.ViewManager;
 
+/**
+ * 球类，在迷宫中走的球
+ *
+ * @author Mingxiang
+ */
 class Ball {
     /**
      * 球在迷宫中的横坐标
