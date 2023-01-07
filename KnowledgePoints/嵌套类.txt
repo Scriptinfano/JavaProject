@@ -22,7 +22,7 @@
                   Father.Inner inner= father.new Inner();
  6、在外部类成员函数中访问内部类的成员必须先实例化内部类对象，然后通过对象名.成员名的方式访问
 
-class Person {
+class testResources.Person {
 
     private static boolean isAlive = true;
     private String name;
@@ -87,7 +87,7 @@ class Person {
         }
     }
 
-    public Person() {
+    public testResources.Person() {
         System.out.println("在外部类构造器中定义内部类");
         class InOuterConstructor {
             public int y = 10;
@@ -103,10 +103,10 @@ class Person {
 }
 public class TestMain {
     public static void main(String[] args) {
-        Person man = new Person();
+        testResources.Person man = new testResources.Person();
         man.printInfo();
-        Person.Leg son = man.new Leg();//在其他类方法中实例化非静态内部类
-        Person.Hand hand = new Person.Hand();//在其他类方法中实例化静态内部类
+        testResources.Person.Leg son = man.new Leg();//在其他类方法中实例化非静态内部类
+        testResources.Person.Hand hand = new testResources.Person.Hand();//在其他类方法中实例化静态内部类
     }
 }
 

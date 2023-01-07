@@ -35,7 +35,7 @@ Javadoc选项说明
 -encoding    <名称> 源文件编码名称
 -quiet    不显示状态消息
 -J<标志>    直接将 <标志> 传递给运行时系统
--X    输出非标准选项的提要
+-lamada.X    输出非标准选项的提要
 
 标准doclet选项    说明
 -d    <directory>输出文件的目标目录

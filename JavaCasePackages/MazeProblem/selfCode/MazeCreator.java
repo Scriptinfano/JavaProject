@@ -341,7 +341,7 @@ class Maze {
      * @param point 该接口以该点为中心返回四周的四个路径点引用
      * @return {@link PathPoint[]} 返回的存储周围四个路径点引用的数组，其中有一些可能是空引用，原因是超出了迷宫的边界
      */
-    public PathPoint[] getPointGround(PathPoint point) {
+    public PathPoint[] getPathPointGround(PathPoint point) {
         PathPoint[] points = new PathPoint[4];
         points[0] = getPathPoint(point.getX() + 2, point.getY());//下侧坐标点
         points[1] = getPathPoint(point.getX() - 2, point.getY());//上侧坐标点
@@ -413,7 +413,7 @@ class WallBreaker {
 
     private void updateCandidateList() {
         //根据碎墙器当前所处位置以及周围墙的状态更新候选的路径列表
-        PathPoint[] points = maze.getPointGround(breakingPoint);
+        PathPoint[] points = maze.getPathPointGround(breakingPoint);
         for (PathPoint point : points) {
             //point有可能是空引用
             if (point != null && !candidateList.contains(point) && maze.verifyCandidatePoint(point)) {
@@ -477,7 +477,7 @@ class WallBreaker {
         breakWall();//打碎候选点所在的墙
         maze.addPointToPath(point);//将候选点所在的路径点加入迷宫的通路中
         ArrayList<PathPoint> pointList = new ArrayList<>();//候选点四周可能有多个在路径集合中的点，可以打通选中的候选点可以任意的其中之一的点之间的墙壁
-        for (PathPoint thePoint : maze.getPointGround(point)) {
+        for (PathPoint thePoint : maze.getPathPointGround(point)) {
             if (thePoint != null && maze.inPathList(thePoint))
                 pointList.add(thePoint);
         }

@@ -1,3 +1,5 @@
+package lamada;
+
 interface Callable {
     void call(String s);
 }
@@ -9,7 +11,7 @@ class Describe {
 }
 class X{
     String f(){
-        return "X::f()";
+        return "lamada.X::f()";
     }
 }
 interface MakeString{
@@ -44,7 +46,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-//MakeString ms=X::f;
+//lamada.MakeString ms=lamada.X::f;
 TransformX sp=X::f;
 X x=new X() ;
 System.out.println(sp.transform(x));
@@ -86,6 +88,6 @@ System.out.println(x.f());
 
 class Go{
     static void go(){
-        System.out.println("Go::go()");
+        System.out.println("lamada.Go::go()");
     }
 }

@@ -16,7 +16,7 @@
    }
   }
 6、在接口中编写默认方法和静态方法
-interface Person{
+interface testResources.Person{
     public static void func(){
     //接口中的静态方法不能被实现了接口的子类对象调用，接口中定义的静态方法只能通过接口直接调用
     //接口中的静态方法不能被子类重写
@@ -32,7 +32,7 @@ interface Person{
 8、当类中的两个或多个接口中有同名同参数方法，子类是可以实现的这个同名方法的
 9、当类中的两个或多个接口中有同名同参数的默认方法，子类必须实现该方法，否则会发生接口冲突
 
-interface Person {
+interface testResources.Person {
     static void func() {
         System.out.println("第一个接口中的静态方法");
     }
@@ -64,7 +64,7 @@ class Monster {
 
 }
 
-class Orc extends Monster implements Person, Animal {
+class Orc extends Monster implements testResources.Person, Animal {
 
     //优先重写的是类中的同名同参数方法，这是类优先原则
     @Override
@@ -82,9 +82,9 @@ class Orc extends Monster implements Person, Animal {
         System.out.println("进入子类中独有的方法");
         super.func3();//调用父类中的方法
         Animal.super.func2();//调用接口中定义的默认方法
-        Person.super.func2();//调用另一个接口中定义的默认方法
+        testResources.Person.super.func2();//调用另一个接口中定义的默认方法
         Animal.func();//调用接口中的静态方法
-        Person.func();//调用另一个接口中的静态方法
+        testResources.Person.func();//调用另一个接口中的静态方法
     }
 
     //接口中的静态方法不允许重写

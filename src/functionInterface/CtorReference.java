@@ -1,13 +1,18 @@
-class Dog{
+package functionInterface;
+
+class Dog {
     String name;
-    int age=-1;
-    Dog(){
-        name="stray";
+    int age = -1;
+
+    Dog() {
+        name = "stray";
     }
-    Dog(String name){
+
+    Dog(String name) {
         this.name = name;
     }
-    Dog(String name,int years){
+
+    Dog(String name, int years){
         this.name=name;
         age=years;
     }
