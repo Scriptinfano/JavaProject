@@ -3,70 +3,6 @@ package MazeProblem.selfCode;
 import viewManagerPack.ViewManager;
 
 /**
- * 在迷宫中走的球，球会记录下自己走过的正确的通路
- *
- * @author localuser
- * @date 2023/01/01
- */
-class Ball {
-    /**
-     * 球在迷宫中的横坐标
-     */
-    private int x;
-    /**
-     * 球在迷宫中的纵坐标
-     */
-    private int y;
-
-    /**
-     * 球
-     *
-     * @param x 初始化时球的横坐标
-     * @param y 初始化时球的纵坐标
-     */
-    public Ball(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    /**
-     * 取得球的横坐标
-     *
-     * @return int
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * 设置球的横坐标
-     *
-     * @param x x
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * 取得球的纵坐标
-     *
-     * @return int
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * 设置球的纵坐标
-     *
-     * @param y y
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-}
-
-/**
  * 要求创建的迷宫不符合要求时，抛出此异常
  */
 class MazeCreateErrorException extends Exception {
@@ -81,18 +17,13 @@ class MazeCreateErrorException extends Exception {
 }
 
 /**
- * 迷宫求解类
- *
- * @author localuser
+ * 迷宫管理类，内部封装迷宫生成器和迷宫以及球，负责三者之间的数据交换
  */
-class MazeSolver {
+class MazeManager {
     /**
      * 迷宫
      */
     private Maze maze;
-
-    private Ball ball;
-
 
     /**
      * 负责调用迷宫生成算法，返回迷宫给maze引用
@@ -103,22 +34,21 @@ class MazeSolver {
         maze = creator.getNewMaze(mazeSize);
         if (maze == null)
             throw new MazeCreateErrorException("要求创建的迷宫的大小不合要求，正方形迷宫的边长必须大于或等于11且必须为奇数");
-        ball = new Ball(maze.getStartPoint().x, maze.getStartPoint().y);
     }
 
     /**
-     * 球在迷宫中找路径的过程
+     * 调用迷宫maze的求解迷宫起点到终点的最短路径的接口
      */
     public void solveMaze() throws MazeCreateErrorException {
         if (hasMaze()) {
-            ball = new Ball(maze.getStartPoint().x, maze.getStartPoint().y);//将球放在迷宫的入口处
+
 
         } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
     }
 
     public void showMaze() throws MazeCreateErrorException {
         if (hasMaze()) {
-            showMaze();
+            maze.showMaze();
         } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
     }
 
@@ -129,6 +59,10 @@ class MazeSolver {
      */
     public boolean hasMaze() {
         return maze != null;
+    }
+
+    public void clearMaze(){
+        maze=null;
     }
 }
 
@@ -141,7 +75,7 @@ public class MazeManageSystem extends ViewManager {
     /**
      * 迷宫求解对象，封装迷宫对象并调用内置迷宫求解算法求解迷宫
      */
-    private MazeSolver solver = new MazeSolver();
+    private MazeManager mazeManager = new MazeManager();
 
     /**
      * 显示菜单
@@ -181,7 +115,7 @@ public class MazeManageSystem extends ViewManager {
      */
     private void solveMaze() {
         try {
-            solver.solveMaze();
+            mazeManager.solveMaze();
         } catch (MazeCreateErrorException e) {
             System.err.println(e.getMessage());
         }
@@ -192,7 +126,7 @@ public class MazeManageSystem extends ViewManager {
      */
     private void showMaze() {
         try {
-            solver.showMaze();
+            mazeManager.showMaze();
         } catch (MazeCreateErrorException e) {
             System.err.println(e.getMessage());
         }
@@ -202,12 +136,12 @@ public class MazeManageSystem extends ViewManager {
      * 生成新迷宫
      */
     private void generateNewMaze() {
-        if (solver.hasMaze()) {
+        if (mazeManager.hasMaze()) {
             printer.print("迷宫已生成，是否重新生成（输入0表示不再设定，输入1表示继续设定：）");
             int choice = scanner.nextSelectionByInt(0, 1);//要求用户只能输入两个数字表示确认还是否定
             if (choice == 1) {
-                solver = null;//解除图当前的引用绑定，重新设定
-                generateNewMaze();//重新调用本函数设置新图
+                mazeManager.clearMaze();
+                generateNewMaze();
             }
         } else {
             //执行生成新迷宫的接口
@@ -215,7 +149,7 @@ public class MazeManageSystem extends ViewManager {
                 System.out.print("请输入正方形迷宫的边长(大小至少为11且必须是奇数)：");
                 int mazeSize = scanner.nextInt();
                 try {
-                    solver.generateNewMaze(mazeSize);
+                    mazeManager.generateNewMaze(mazeSize);
                 } catch (MazeCreateErrorException e) {
                     System.err.println(e.getMessage());
                     System.out.println("请重新输入迷宫的长度和宽度");

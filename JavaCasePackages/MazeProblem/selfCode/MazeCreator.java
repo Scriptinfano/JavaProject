@@ -209,12 +209,12 @@ class Maze {
     /**
      * 起点
      */
-    private final Point startPoint;
+    private final PathPoint startPoint;
 
     /**
      * 终点
      */
-    private final Point endPoint;
+    private final PathPoint endPoint;
 
     /**
      * 已经打通的路径集合，所有在该容器中的点都是已经被打通的通路
@@ -224,9 +224,9 @@ class Maze {
     /**
      * 得到该迷宫的起点坐标
      *
-     * @return {@link Point} 返回的坐标
+     * @return {@link PathPoint} 返回的坐标
      */
-    public Point getStartPoint() {
+    public PathPoint getStartPoint() {
         return startPoint;
     }
 
@@ -268,8 +268,6 @@ class Maze {
     public Maze(int mazeSize) {
         //FIXME 设置迷宫有问题
         maze = new PathPoint[mazeSize][mazeSize];//初始化迷宫矩阵
-        startPoint = new Point(1, 1);//设定迷宫的起点
-        endPoint = new Point(mazeSize - 2, mazeSize - 2);//设定迷宫的终点
         //在迷宫的四周放上不可打破的墙
         for (int i = 0; i < mazeSize; i++) {
             maze[0][i] = new PathPoint(0, i);
@@ -291,6 +289,8 @@ class Maze {
                 maze[i][j].setPathOrWallPoint(i % 2 != 0 && j % 2 != 0);//在迷宫的路径点上标记路点和墙点
             }
         }
+        startPoint = maze[1][1];
+        endPoint = maze[mazeSize-2][mazeSize-2];
     }
 
     /**
@@ -363,6 +363,14 @@ class Maze {
             System.out.println();
         }
     }
+
+    public void solveMaze() {
+        ArrayList<PathPoint> openList = new ArrayList<>();
+        ArrayList<PathPoint> closeLise = new ArrayList<>();
+        PathPoint currentPoint = getStartPoint();
+
+    }
+
 }
 
 /**
@@ -395,8 +403,8 @@ class WallBreaker {
      * @param maze       要接管的迷宫类引用
      * @param startPoint 迷宫的起点坐标
      */
-    public WallBreaker(Point startPoint, Maze maze) {
-        breakingPoint = maze.getPathPoint(startPoint.x, startPoint.y);
+    public WallBreaker(PathPoint startPoint, Maze maze) {
+        breakingPoint = startPoint;
         this.maze = maze;
     }
 
