@@ -535,10 +535,6 @@ class WallBreaker {
  * @author localuser
  */
 public class MazeCreator {
-    /**
-     * 具体的打通迷宫的操作由此碎墙器完成
-     */
-    private WallBreaker breaker;
 
     /**
      * 要求生成的正方形迷宫的边长不能小于这个值
@@ -555,11 +551,9 @@ public class MazeCreator {
         if (mazeSize < MinimumSize || mazeSize % 2 == 0)
             return null;//要求制造的迷宫不符合要求
         Maze maze = new Maze(mazeSize);
-        breaker = new WallBreaker(maze.getStartPoint(), maze);
+        WallBreaker breaker = new WallBreaker(maze.getStartPoint(), maze);
         //利用本类的枚举类实现迷宫的多算法生成
         breaker.runPrim();
         return maze;
     }
-
-
 }

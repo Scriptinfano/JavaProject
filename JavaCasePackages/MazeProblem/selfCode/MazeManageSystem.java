@@ -3,9 +3,10 @@ package MazeProblem.selfCode;
 import viewManagerPack.ViewManager;
 
 /**
- * 球类，在迷宫中走的球
+ * 在迷宫中走的球，球会记录下自己走过的正确的通路
  *
- * @author Mingxiang
+ * @author localuser
+ * @date 2023/01/01
  */
 class Ball {
     /**
@@ -108,12 +109,17 @@ class MazeSolver {
     /**
      * 球在迷宫中找路径的过程
      */
-    public void solveMaze() {
+    public void solveMaze() throws MazeCreateErrorException {
+        if (hasMaze()) {
+            ball = new Ball(maze.getStartPoint().x, maze.getStartPoint().y);//将球放在迷宫的入口处
 
+        } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
     }
 
-    public void showMaze() {
-        maze.showMaze();
+    public void showMaze() throws MazeCreateErrorException {
+        if (hasMaze()) {
+            showMaze();
+        } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
     }
 
     /**
@@ -174,10 +180,10 @@ public class MazeManageSystem extends ViewManager {
      * 求解迷宫的用户接口
      */
     private void solveMaze() {
-        if (solver.hasMaze())
+        try {
             solver.solveMaze();
-        else {
-            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
+        } catch (MazeCreateErrorException e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -185,10 +191,10 @@ public class MazeManageSystem extends ViewManager {
      * 显示迷宫
      */
     private void showMaze() {
-        if (solver.hasMaze())
+        try {
             solver.showMaze();
-        else {
-            printer.println("迷宫未生成，请先生成迷宫再执行其他操作");
+        } catch (MazeCreateErrorException e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -205,7 +211,7 @@ public class MazeManageSystem extends ViewManager {
             }
         } else {
             //执行生成新迷宫的接口
-            while(true){
+            while (true) {
                 System.out.print("请输入正方形迷宫的边长(大小至少为11且必须是奇数)：");
                 int mazeSize = scanner.nextInt();
                 try {
