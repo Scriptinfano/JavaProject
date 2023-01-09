@@ -1,7 +1,12 @@
 package MazeProblem.selfCode;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.*;
+
+/**
+ * 墙类，代表迷宫中的墙，迷宫中的墙分为两种，迷宫的边界上都是不可打破的墙，边界之内是可以打破的墙
+ */
 record Wall(boolean breakable) {
 
     /**
@@ -27,6 +32,7 @@ class Point {
      * 纵坐标
      */
     public int y;
+
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -57,37 +63,9 @@ public class Maze {
     private PathPoint[][] maze;
 
     /**
-     * 迷宫类的构造器
-     *
-     * @param mazeSize 正方形迷宫的边长
+     * 标识该迷宫是否已被解决
      */
-    public Maze(int mazeSize) {
-
-        maze = new PathPoint[mazeSize][mazeSize];//初始化迷宫矩阵
-        //在迷宫的四周放上不可打破的墙
-        for (int i = 0; i < mazeSize; i++) {
-            maze[0][i] = new PathPoint(0, i);
-            maze[0][i].setWall(false);
-            maze[mazeSize - 1][i] = new PathPoint(mazeSize - 1, i);
-            maze[mazeSize - 1][i].setWall(false);
-        }
-        for (int i = 1; i < mazeSize - 1; i++) {
-            maze[i][0] = new PathPoint(i, 0);
-            maze[i][0].setWall(false);
-            maze[i][mazeSize - 1] = new PathPoint(i, mazeSize - 1);
-            maze[i][mazeSize - 1].setWall(false);
-        }
-        //在迷宫的中间放上可以打破的墙
-        for (int i = 1; i < mazeSize - 1; i++) {
-            for (int j = 1; j < mazeSize - 1; j++) {
-                maze[i][j] = new PathPoint(i, j);
-                maze[i][j].setWall(true);
-                maze[i][j].setPathOrWallPoint(i % 2 != 0 && j % 2 != 0);//在迷宫的路径点上标记路点和墙点
-            }
-        }
-        startPoint = maze[1][1];
-        endPoint = maze[mazeSize - 2][mazeSize - 2];
-    }
+    private boolean hasSolved = false;
 
     /**
      * 得到该迷宫的起点坐标
@@ -157,11 +135,45 @@ public class Maze {
     }
 
     /**
-     * 得到指定路径点四周的四个路点，其中可能有空引用，说明传入点的某个方向超出了迷宫的边界
-     * 注意取四周的路径点是取四周的路点，所以要保证传入的路径点也是路点
+     * 迷宫类的构造器
      *
-     * @param point 该接口以该点为中心返回四周的四个路径点引用
-     * @return {@link PathPoint[]} 返回的存储周围四个路径点引用的数组，其中有一些可能是空引用，原因是超出了迷宫的边界
+     * @param mazeSize 正方形迷宫的边长
+     */
+    public Maze(int mazeSize) {
+
+        maze = new PathPoint[mazeSize][mazeSize];//初始化迷宫矩阵
+        //在迷宫的四周放上不可打破的墙
+        for (int i = 0; i < mazeSize; i++) {
+            maze[0][i] = new PathPoint(0, i);
+            maze[0][i].setWall(false);
+            maze[mazeSize - 1][i] = new PathPoint(mazeSize - 1, i);
+            maze[mazeSize - 1][i].setWall(false);
+        }
+        for (int i = 1; i < mazeSize - 1; i++) {
+            maze[i][0] = new PathPoint(i, 0);
+            maze[i][0].setWall(false);
+            maze[i][mazeSize - 1] = new PathPoint(i, mazeSize - 1);
+            maze[i][mazeSize - 1].setWall(false);
+        }
+        //在迷宫的中间放上可以打破的墙
+        for (int i = 1; i < mazeSize - 1; i++) {
+            for (int j = 1; j < mazeSize - 1; j++) {
+                maze[i][j] = new PathPoint(i, j);
+                maze[i][j].setWall(true);
+                maze[i][j].setPathOrWallPoint(i % 2 != 0 && j % 2 != 0);//在迷宫的路径点上标记路点和墙点
+            }
+        }
+        //TODO 在实现寻路算法之后考虑让用户指定起点和终点
+        startPoint = maze[1][1];
+        endPoint = maze[mazeSize - 2][mazeSize - 2];
+    }
+
+    /**
+     * 得到指定路径点四周的四个路点，其中可能有空引用，说明传入点的某个方向超出了迷宫的边界
+     * 注意要保证传入的路径点也是路点。
+     *
+     * @param point 该接口以该点为中心返回四周的四个路点引用
+     * @return {@link PathPoint[]} 返回的存储周围四个路点引用的数组，其中有一些可能是空引用，原因是超出了迷宫的边界
      */
     public PathPoint[] getPathPointGround(PathPoint point) {
         PathPoint[] points = new PathPoint[4];
@@ -173,14 +185,14 @@ public class Maze {
     }
 
     /**
-     * 在屏幕上输出迷宫的形状
+     * 在屏幕上输出迷宫的形状，墙点用*标识，迷宫中起点到终点的唯一一条路径用+号标识，通路不用任何符号标识（用空格标识）
      */
     public void showMaze() {
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[i].length; j++) {
-                if (maze[i][j].hasWall())
+        for (PathPoint[] pathPoints : maze) {
+            for (PathPoint pathPoint : pathPoints) {
+                if (pathPoint.hasWall())
                     System.out.print(" * ");
-                else if (maze[i][j].isPathWay()) {
+                else if (pathPoint.isPathWay()) {
                     System.out.print(" + ");
                 } else {
                     System.out.print("   ");
@@ -191,20 +203,105 @@ public class Maze {
     }
 
     /**
+     * 解决迷宫
      * 使用A*寻路算法求解唯一的一条通路
+     *
+     * @throws MazeHasSolvedException 迷宫解决异常
      */
-    public void solveMaze() {
-        //TODO
-        ArrayList<PathPoint> openList = new ArrayList<>();
-        ArrayList<PathPoint> closeLise = new ArrayList<>();
-        PathPoint currentPoint = getStartPoint();
-
+    public void solveMaze() throws MazeHasSolvedException {
+        if (hasSolved)
+            throw new MazeHasSolvedException();
+        MazeSolver solver = new MazeSolver();
+        solver.run();
     }
 
     /**
-     * 路径点类，迷宫的基本组成部分，代表迷宫中的路径点
+     * 检查迷宫是否已被解决
+     *
+     * @return boolean 为true则标识已被解决，否则未被解决
      */
-    static class PathPoint {
+    public boolean hasSolved() {
+        return hasSolved;
+    }
+
+    /**
+     * 路径点类，迷宫的基本组成部分，代表迷宫中的路径点。实现了<{@link Comparable}><{@link PathPoint}>接口之后,
+     * 如果将该类对象保存到{@link Set}容器中，那么该容器就可以实现根据路径点在A*寻路算法中的消耗排序。如果保存在{@link ArrayList}容器中，在调用{@link Collections#sort(List)}
+     * 方法后，也能完成对容器中路径点按照F值大小进行排序
+     */
+    static class PathPoint implements Comparable<PathPoint> {
+        /**
+         * A*寻路算法中要设定父节点以便从终点开始遍历该字段找到唯一的一条通路
+         */
+        private PathPoint fatherPoint;
+        /**
+         * A*寻路算法公式F=G+H中的G值
+         */
+        private Double distanceToStart;
+        /**
+         * A*寻路算法公式F=G+H中的H值
+         */
+        private Double distanceToEnd;
+        /**
+         * 标识该路径点是否是最后求解完迷宫之后，迷宫起点到终点的唯一一条路径，该字段有三种情况：<p>
+         * 1、null: 该路径点上有墙<p>
+         * 2、true: 该路经点属于起点到终点的通路<p>
+         * 3、false: 该路径点不属于起点到终点的通路
+         * 设定该字段的目的：在输出迷宫的时候，若该标识符为true，则就可以输出另外一个符号标识该路径点属于起点到终点通路的路径
+         */
+        private Boolean pathWay;
+
+        //TODO 检查compareTo函数是否正确，确保调用Collections.sort（）之后，容器中是按照F值从小到大排列
+        @Override
+        public int compareTo(@NotNull Maze.PathPoint o) {
+            return (int) ((distanceToStart + distanceToEnd) - (o.distanceToStart + o.distanceToEnd));
+        }
+
+        /**
+         * 得到当前节点的父节点
+         *
+         * @return {@link PathPoint} 返回当前的父节点
+         */
+        public PathPoint getFatherPoint() {
+            return fatherPoint;
+        }
+
+        /**
+         * 设置当前节点的父节点
+         *
+         * @param fatherPoint 即将成为该节点父节点的节点
+         */
+        public void setFatherPoint(PathPoint fatherPoint) {
+            this.fatherPoint = fatherPoint;
+        }
+
+        /**
+         * 返回A星算法中的G值，即起点到该路径点的消耗
+         *
+         * @return {@link Double} A星算法中的G值
+         */
+        public Double getDistanceToStart() {
+            return distanceToStart;
+        }
+
+        /**
+         * 设定该路径点在A星算法中的G值，即起点到该路径点的消耗
+         *
+         * @param distanceToStart 起点到该路径点的消耗
+         */
+        public void setDistanceToStart(Double distanceToStart) {
+            this.distanceToStart = distanceToStart;
+        }
+
+        /**
+         * 得到该路径点到终点的直线距离
+         *
+         * @return {@link Double} 该路径点到终点的直线距离
+         */
+        public Double getDistanceToEnd() {
+            return distanceToEnd;
+        }
+
         /**
          * 路径点的横坐标
          */
@@ -227,13 +324,15 @@ public class Maze {
          * 当该引用为空引用时，说明该路径点上不存在墙
          */
         private Wall wall;
+
         /**
-         * 标识该路径点是否是最后求解完迷宫之后，迷宫起点到终点的唯一一条路径，该字段有三种情况：<p>
-         * 1、null: 该路径点上有墙<p>
-         * 2、true: 该路经点属于起点到终点的通路<p>
-         * 3、false: 该路径点不属于起点到终点的通路
+         * 设定该路径点到终点的直线距离
+         *
+         * @param distanceToEnd 该路径点到终点的直线距离
          */
-        private Boolean pathWay;
+        public void setDistanceToEnd(Double distanceToEnd) {
+            this.distanceToEnd = distanceToEnd;
+        }
 
         /**
          * PathPoint构造器，初始化路径点的坐标
@@ -317,16 +416,141 @@ public class Maze {
             wall = null;
         }
 
+        /**
+         * 判断该路径点是否属于通路
+         *
+         * @return boolean 判断结果
+         */
         public boolean isPathWay() {
             if (pathWay != null)
                 return pathWay;
             else return false;
         }
 
+        /**
+         * 设置迷宫通路标识
+         *
+         * @param pathWay 标识值，若为true，表示该节点属于通路，否则不属于
+         */
         public void setPathWay(Boolean pathWay) {
             this.pathWay = pathWay;
         }
+    }
 
+    class MazeHasSolvedException extends Exception {
+        public MazeHasSolvedException() {
+            super("迷宫已经被求解，不能重复求解迷宫，请调用输出接口查看结果");
+        }
+    }
 
+    /**
+     * 内部类迷宫求解器类，内含指向外部对象的引用，便于直接对迷宫类中的字段进行操作
+     *
+     * @author Mingxiang
+     */
+    private class MazeSolver {
+        /**
+         * A*寻路算法中的开放列表
+         */
+        private final List<PathPoint> openList = new ArrayList<>();
+        /**
+         * A*寻路算法中的闭合列表
+         */
+        private final Set<PathPoint> closeList = new HashSet<>();
+
+        /**
+         * 计算指定A*寻路算法中节点的G值和H值
+         *
+         * @param point 指定要计算的节点
+         */
+        private void calculateCost(PathPoint point) {
+            //先判断该节点是否有父节点，因为g值要根据父节点的g值进行计算。只有起点没有父节点，所以其g值是0。
+            if (point.getDistanceToStart() == null && point.getDistanceToEnd() == null) {
+                double g = point.getFatherPoint() != null ? point.getFatherPoint().getDistanceToStart() + 1 : 0;
+                point.setDistanceToStart(g);
+                point.setDistanceToEnd(distanceToEnd(point));
+            }
+        }
+
+        /**
+         * 使用直线距离（勾股定理）直接计算当前路径点到终点的直线距离，也就是计算A*寻路算法公式中的h值
+         * 其他可以作为h值的值：曼哈顿距离
+         *
+         * @param point 要计算的点
+         * @return double 当前点到终点的直线距离，A*寻路算法公式中的h值
+         */
+        private double distanceToEnd(PathPoint point) {
+            return Math.sqrt(Math.pow(point.getX() - endPoint.getX(), 2) + Math.pow(point.getY() - endPoint.getY(), 2));
+        }
+
+        /**
+         * 使用A*寻路算法具体求解的过程
+         *
+         * @throws MazeHasSolvedException 迷宫无法重复求解异常
+         */
+        public void run() throws MazeHasSolvedException {
+            if (!hasSolved) {
+                openList.add(startPoint);
+                while (!openList.isEmpty()) {
+                    Collections.sort(openList);
+                    processOpenNode(openList.get(0));//选择开放列表中F值最小的节点，由于openList已经根据节点的F值排过序了，此时openList前面的元素是F值较小的节点
+                }
+                PathPoint pointer = endPoint;
+                while (pointer.getFatherPoint() != null) {
+                    pointer.setPathWay(true);
+                    pointer = pointer.getFatherPoint();
+                }
+                hasSolved = true;
+            } else throw new MazeHasSolvedException();
+            //TODO 创建异常类MazeHasSolvedException标识该迷宫已经解决了，不需要再执行算法求解了
+        }
+
+        /**
+         * 返回指定路径点四周所有没有墙的节点
+         *
+         * @param point 指定的路径点
+         * @return {@link ArrayList}<{@link PathPoint}> 返回的没有墙的路径点的集合
+         */
+        private ArrayList<PathPoint> getGroundPathPoints(PathPoint point) {
+            PathPoint[] groundPoints = new PathPoint[4];
+            int currX = point.getX();
+            int currY = point.getY();
+            groundPoints[0] = maze[currX - 1][currY].hasWall() ? null : maze[currX - 1][currY];//当前节点上边的节点
+            groundPoints[1] = maze[currX + 1][currY].hasWall() ? null : maze[currX + 1][currY];//当前节点下边的节点
+            groundPoints[2] = maze[currX][currY - 1].hasWall() ? null : maze[currX][currY - 1];//当前节点左边的节点
+            groundPoints[3] = maze[currX][currY + 1].hasWall() ? null : maze[currX][currY + 1];//当前节点右边的节点
+            ArrayList<PathPoint> points = new ArrayList<>();
+            for (PathPoint thePoint : groundPoints) {
+                if (thePoint != null)
+                    points.add(thePoint);
+            }
+            return points;
+        }
+
+        /**
+         * 当选中了开放列表中F值最小的节点之后，对该节点以及周边节点做相关处理
+         *
+         * @param point 已经选中的在openList中的节点，且该节点是openList中F值最小的节点
+         */
+        private void processOpenNode(PathPoint point) {
+            //确保处理的节点都是迷宫中的路，pathList中存储了迷宫中所有为路的节点
+            if (pathList.contains(point) && openList.contains(point)) {
+                openList.remove(point);
+                closeList.add(point);
+                ArrayList<PathPoint> groundPathPoints = getGroundPathPoints(point);
+                for (PathPoint thePathpoint : groundPathPoints) {
+                    if (!closeList.contains(point)) {
+                        if (!openList.contains(thePathpoint)) {
+                            openList.add(thePathpoint);
+                        } else {
+                            if (point.getDistanceToStart() + 1 > thePathpoint.getDistanceToStart())
+                                continue;
+                        }
+                        thePathpoint.setFatherPoint(point);
+                        calculateCost(thePathpoint);
+                    }
+                }
+            }
+        }
     }
 }

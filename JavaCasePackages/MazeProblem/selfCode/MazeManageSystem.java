@@ -2,19 +2,6 @@ package MazeProblem.selfCode;
 
 import viewManagerPack.ViewManager;
 
-/**
- * 要求创建的迷宫不符合要求时，抛出此异常
- */
-class MazeCreateErrorException extends Exception {
-    /**
-     * 迷宫创建错误异常类构造器
-     *
-     * @param message 错误消息
-     */
-    public MazeCreateErrorException(String message) {
-        super(message);
-    }
-}
 
 /**
  * 迷宫管理类，内部封装迷宫生成器和迷宫以及球，负责三者之间的数据交换
@@ -30,26 +17,38 @@ class MazeManager {
      */
     private final MazeCreator creator = new MazeCreator();
 
+    /**
+     * 生成新迷宫
+     *
+     * @param mazeSize 正方形迷宫的边长
+     * @throws MazeCreateErrorException 迷宫创建错误异常
+     */
     public void generateNewMaze(int mazeSize) throws MazeCreateErrorException {
         maze = creator.getNewMaze(mazeSize);
-        if (maze == null)
-            throw new MazeCreateErrorException("要求创建的迷宫的大小不合要求，正方形迷宫的边长必须大于或等于11且必须为奇数");
     }
 
     /**
-     * 调用迷宫maze的求解迷宫起点到终点的最短路径的接口
+     * 求解迷宫，调用迷宫maze的求解迷宫起点到终点的最短路径的接口
+     *
+     * @throws MazeNotFoundException       迷宫尚未创建异常
+     * @throws Maze.MazeHasSolvedException 迷宫无法重复求解异常
      */
-    public void solveMaze() throws MazeCreateErrorException {
+    public void solveMaze() throws MazeNotFoundException, Maze.MazeHasSolvedException {
         if (hasMaze()) {
 
-
-        } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
+            maze.solveMaze();
+        } else throw new MazeNotFoundException();
     }
 
-    public void showMaze() throws MazeCreateErrorException {
+    /**
+     * 在屏幕上输出迷宫的形状，墙点用*标识，迷宫中起点到终点的唯一一条路径用+号标识，通路不用任何符号标识（用空格标识）
+     *
+     * @throws MazeNotFoundException 迷宫尚未创建异常
+     */
+    public void showMaze() throws MazeNotFoundException {
         if (hasMaze()) {
             maze.showMaze();
-        } else throw new MazeCreateErrorException("迷宫未创建，请先生成迷宫");
+        } else throw new MazeNotFoundException();
     }
 
     /**
@@ -61,8 +60,11 @@ class MazeManager {
         return maze != null;
     }
 
-    public void clearMaze(){
-        maze=null;
+    /**
+     * 清除当前迷宫以便生成新迷宫
+     */
+    public void clearMaze() {
+        maze = null;
     }
 }
 
@@ -75,7 +77,7 @@ public class MazeManageSystem extends ViewManager {
     /**
      * 迷宫求解对象，封装迷宫对象并调用内置迷宫求解算法求解迷宫
      */
-    private MazeManager mazeManager = new MazeManager();
+    private final MazeManager mazeManager = new MazeManager();
 
     /**
      * 显示菜单
@@ -116,7 +118,7 @@ public class MazeManageSystem extends ViewManager {
     private void solveMaze() {
         try {
             mazeManager.solveMaze();
-        } catch (MazeCreateErrorException e) {
+        } catch (MazeNotFoundException | Maze.MazeHasSolvedException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -127,7 +129,7 @@ public class MazeManageSystem extends ViewManager {
     private void showMaze() {
         try {
             mazeManager.showMaze();
-        } catch (MazeCreateErrorException e) {
+        } catch (MazeNotFoundException e) {
             System.err.println(e.getMessage());
         }
     }

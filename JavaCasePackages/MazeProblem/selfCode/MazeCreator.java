@@ -3,9 +3,15 @@ package MazeProblem.selfCode;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 /**
- * 墙类，代表迷宫中的墙，迷宫中的墙分为两种，迷宫的边界上都是不可打破的墙，边界之内是可以打破的墙
+ * 迷宫尚未创建异常，迷宫在未创建之前不能执行任何操作
  */
+class MazeNotFoundException extends Exception {
+    public MazeNotFoundException() {
+        super("迷宫未创建，请先生成迷宫之后再进行其他操作");
+    }
+}
 
 /**
  * 非法路径点异常，指示哪个路径点发生了错误
@@ -72,6 +78,7 @@ class WallBreaker {
      * 随机数生成器
      */
     private final Random randomGenerator = new Random(System.currentTimeMillis());
+
     /**
      * 与碎墙器暂时关联的路径点引用，当碎墙器执行碎墙操作时，碎的就是这个引用代表的墙
      */
@@ -125,18 +132,16 @@ class WallBreaker {
     /**
      * 运行普利姆算法生成迷宫
      */
-    public void runPrim() {
+    public void run() {
         breakWall();//开始时碎墙器在起点位置，先打通起点的墙
         maze.addPointToPathList(maze.getPathPoint(getXPosition(), getYPosition()));//将起点加入路径集合
         updateCandidateList();//第一次更新候选列表，此时碎墙器就在迷宫的起点，不需要移动
-
         while (!candidateList.isEmpty()) {
             Maze.PathPoint randomPoint = getRandomPoint();//从候选列表中得到随机的一个路径点
             move(randomPoint);//将碎墙器移动到选中的候选点上
             updateCandidateList();//根据新选中的候选点更新候选列表
             breakThrough(randomPoint);//将该点和最近的已打通的路径之间的墙壁打通，并将打通的墙所在的路径点以及已经选中的候选点加入路径集合，从候选列表中删除刚选中的候选点
         }
-
     }
 
     /**
@@ -218,9 +223,21 @@ class WallBreaker {
 }
 
 /**
- * 迷宫生成器类，负责创造符号要求的迷宫类{@link Maze}，此类采用普利姆算法生成迷宫
- *
- * @author localuser
+ * 要求创建的迷宫的大小不符合要求时，抛出此异常
+ */
+class MazeCreateErrorException extends Exception {
+    /**
+     * 迷宫创建错误异常类构造器
+     *
+     * @param message 错误消息
+     */
+    public MazeCreateErrorException(String message) {
+        super(message);
+    }
+}
+
+/**
+ * 迷宫生成器类，负责创造符合要求的迷宫类对象{@link Maze}，此类采用普利姆算法生成迷宫
  */
 public class MazeCreator {
 
@@ -230,18 +247,20 @@ public class MazeCreator {
     private static final int MinimumSize = 11;
 
     /**
-     * 获得新迷宫，在内部创建好Maze类，然后返回符合要求的Maze对象。
-     * 迷宫生成器要求生成的迷宫至少是10*10的，如果要求生成的迷宫小于这个值则不予生成，直接返回空引用
+     * 生成新迷宫，然后返回符合要求的Maze对象。
+     * 迷宫生成器要求生成的正方形迷宫的边长大小至少为11且必须是奇数，如果传入的参数不符合这个要求，则会抛出异常。
      *
-     * @return {@link Maze}
+     * @param mazeSize 正方形迷宫的边长
+     * @return {@link Maze} 返回的迷宫类引用，此时迷宫中的通路已经生成
+     * @throws MazeCreateErrorException 迷宫创建错误异常
      */
-    public Maze getNewMaze(int mazeSize) {
+    public Maze getNewMaze(int mazeSize) throws MazeCreateErrorException {
         if (mazeSize < MinimumSize || mazeSize % 2 == 0)
-            return null;//要求制造的迷宫不符合要求
+            throw new MazeCreateErrorException("要求创建的迷宫的大小不合要求，正方形迷宫的边长必须大于或等于11且必须为奇数");
         Maze maze = new Maze(mazeSize);
         WallBreaker breaker = new WallBreaker(maze.getStartPoint(), maze);
         //利用本类的枚举类实现迷宫的多算法生成
-        breaker.runPrim();
+        breaker.run();
         return maze;
     }
 }
