@@ -14,6 +14,20 @@ class MazeNotFoundException extends Exception {
 }
 
 /**
+ * 要求创建的迷宫的大小不符合要求时，抛出此异常
+ */
+class MazeCreateErrorException extends Exception {
+    /**
+     * 迷宫创建错误异常类构造器
+     *
+     * @param message 错误消息
+     */
+    public MazeCreateErrorException(String message) {
+        super(message);
+    }
+}
+
+/**
  * 非法路径点异常，指示哪个路径点发生了错误
  */
 class IllegalPathPointException extends RuntimeException {
@@ -56,9 +70,6 @@ class IllegalPathPointException extends RuntimeException {
         return super.getMessage() + "(" + errorPoint.getX() + "," + errorPoint.getY() + ")";
     }
 }
-
-
-
 
 /**
  * 碎墙器类，负责生成迷宫时在迷宫中凿墙，生成迷宫路径
@@ -222,19 +233,6 @@ class WallBreaker {
 
 }
 
-/**
- * 要求创建的迷宫的大小不符合要求时，抛出此异常
- */
-class MazeCreateErrorException extends Exception {
-    /**
-     * 迷宫创建错误异常类构造器
-     *
-     * @param message 错误消息
-     */
-    public MazeCreateErrorException(String message) {
-        super(message);
-    }
-}
 
 /**
  * 迷宫生成器类，负责创造符合要求的迷宫类对象{@link Maze}，此类采用普利姆算法生成迷宫

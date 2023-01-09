@@ -1,38 +1,16 @@
-class TestMain {
-    private Boolean mark;
-    private int x;
-
-    public TestMain(Boolean mark, int x) {
-        this.mark = mark;
-        this.x = x;
-    }
-
-    public void showMark() {
-        System.out.println(mark);
-    }
-
-    public boolean getMark() {
-        return mark;
-    }
-
-    public void fun(TestMain main) {
-        x = main.x;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-}
-
 class TestMain2 {
     public static void main(String[] args) {
-        TestMain main1 = new TestMain(true, 12);
-        TestMain main2 = new TestMain(false, 14);
-        main1.fun(main2);
-        System.out.println(main1.getX());
+        /*ArrayList<Person> persons=new ArrayList<>();
+        for (int i=0;i<20;i++){
+            Person newPerson=new Person();
+            newPerson.setRandomAge();
+            persons.add(newPerson);
+        }
+        Collections.sort(persons);
+        for(Person person:persons){
+            person.output();
+        }*/
+        System.out.format("\33[31;1m*\33[0m%n");
+
     }
 }

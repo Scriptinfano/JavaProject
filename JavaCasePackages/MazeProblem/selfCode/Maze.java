@@ -185,15 +185,20 @@ public class Maze {
     }
 
     /**
+     * 显示迷宫
      * 在屏幕上输出迷宫的形状，墙点用*标识，迷宫中起点到终点的唯一一条路径用+号标识，通路不用任何符号标识（用空格标识）
+     *
+     * @param originOrSolved 是否查看原图还是查看已经求解的迷宫的图，若为true则标识查看原图，否则查看已经求解之后的图像
      */
-    public void showMaze() {
+    public void showMaze(boolean originOrSolved) {
+        if (!hasSolved && !originOrSolved)
+            throw new IllegalArgumentException("输出迷宫图像时参数设置错误，在未解决迷宫之前不能查看解决迷宫之后的图像");
         for (PathPoint[] pathPoints : maze) {
             for (PathPoint pathPoint : pathPoints) {
                 if (pathPoint.hasWall())
                     System.out.print(" * ");
-                else if (pathPoint.isPathWay()) {
-                    System.out.print(" + ");
+                else if (pathPoint.isPathWay() && !originOrSolved) {
+                    System.out.format(" \33[31;1m+\33[0m ");
                 } else {
                     System.out.print("   ");
                 }
@@ -251,11 +256,14 @@ public class Maze {
          */
         private Boolean pathWay;
 
-        //TODO 检查compareTo函数是否正确，确保调用Collections.sort（）之后，容器中是按照F值从小到大排列
-        @Override
-        public int compareTo(@NotNull Maze.PathPoint o) {
-            return (int) ((distanceToStart + distanceToEnd) - (o.distanceToStart + o.distanceToEnd));
-        }
+        /**
+         * 标识该点是路点还是墙点，什么是路点和墙点：<p>
+         * 如果按照普利姆算法生成迷宫，我们将除了迷宫四周不可打破的墙壁之外的中间空白区域用
+         * 网格划分，这些网格组成墙点，剩下的留白处是路点，注意在一开始所有的路点和墙点都有墙
+         * 详情请参考视频：【scratch实现-prim算法生成迷宫重制优化版】
+         * <a href="https://www.bilibili.com/video/BV1xp4y1r7Ng/?p=3&share_source=copy_web&vd_source=ecaf67eab86977249adc291d11e7fa19">视频链接</a>
+         */
+        private Boolean pathOrWallPoint;
 
         /**
          * 得到当前节点的父节点
@@ -311,14 +319,13 @@ public class Maze {
          */
         private final int y;
 
-        /**
-         * 标识该点是路点还是墙点，什么是路点和墙点：
-         * 如果按照普利姆算法生成迷宫，我们将除了迷宫四周不可打破的墙壁之外的中间空白区域用
-         * 网格划分，这些网格组成墙点，剩下的留白处是路点，注意在一开始所有的路点和墙点都有墙
-         * 详情请参考视频：【scracth实现-prim算法生成迷宫重制优化版】
-         * <a href="https://www.bilibili.com/video/BV1xp4y1r7Ng/?p=3&share_source=copy_web&vd_source=ecaf67eab86977249adc291d11e7fa19">视频链接</a>
-         */
-        private Boolean pathOrWallPoint;
+        //TODO 检查compareTo函数是否正确，确保调用Collections.sort（）之后，容器中是按照F值从小到大排列
+        @Override
+        public int compareTo(@NotNull Maze.PathPoint o) {
+            double value1 = distanceToStart + distanceToEnd;
+            double value2 = o.distanceToStart + o.distanceToEnd;
+            return Double.compare(value1, value2);
+        }
 
         /**
          * 当该引用为空引用时，说明该路径点上不存在墙
@@ -491,6 +498,8 @@ public class Maze {
         public void run() throws MazeHasSolvedException {
             if (!hasSolved) {
                 openList.add(startPoint);
+                calculateCost(startPoint);
+                startPoint.setPathWay(true);
                 while (!openList.isEmpty()) {
                     Collections.sort(openList);
                     processOpenNode(openList.get(0));//选择开放列表中F值最小的节点，由于openList已经根据节点的F值排过序了，此时openList前面的元素是F值较小的节点
@@ -502,7 +511,6 @@ public class Maze {
                 }
                 hasSolved = true;
             } else throw new MazeHasSolvedException();
-            //TODO 创建异常类MazeHasSolvedException标识该迷宫已经解决了，不需要再执行算法求解了
         }
 
         /**
@@ -539,7 +547,7 @@ public class Maze {
                 closeList.add(point);
                 ArrayList<PathPoint> groundPathPoints = getGroundPathPoints(point);
                 for (PathPoint thePathpoint : groundPathPoints) {
-                    if (!closeList.contains(point)) {
+                    if (!closeList.contains(thePathpoint)) {
                         if (!openList.contains(thePathpoint)) {
                             openList.add(thePathpoint);
                         } else {
@@ -551,6 +559,14 @@ public class Maze {
                     }
                 }
             }
+        }
+
+        /**
+         * 重置求解器
+         */
+        public void resetSolver() {
+            openList.clear();
+            closeList.clear();
         }
     }
 }

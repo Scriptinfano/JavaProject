@@ -35,7 +35,6 @@ class MazeManager {
      */
     public void solveMaze() throws MazeNotFoundException, Maze.MazeHasSolvedException {
         if (hasMaze()) {
-
             maze.solveMaze();
         } else throw new MazeNotFoundException();
     }
@@ -45,9 +44,9 @@ class MazeManager {
      *
      * @throws MazeNotFoundException 迷宫尚未创建异常
      */
-    public void showMaze() throws MazeNotFoundException {
+    public void showMaze(boolean originOrSolved) throws MazeNotFoundException {
         if (hasMaze()) {
-            maze.showMaze();
+            maze.showMaze(originOrSolved);
         } else throw new MazeNotFoundException();
     }
 
@@ -84,12 +83,12 @@ public class MazeManageSystem extends ViewManager {
      */
     @Override
     protected void showMenu() {
-        printer.println("**********欢迎使用迷宫求解系统****************");
-        printer.println("*         1、生成新迷宫                     *");
-        printer.println("*         2、查看当前生成的迷宫（*表示迷宫的墙）*");
-        printer.println("*         3、求解当前迷宫并输出迷宫走法        *");
-        printer.println("*         4、退出程序                       *");
-        printer.println("*******************************************");
+        printer.println("****************欢迎使用迷宫求解系统***************");
+        printer.println("* 1、生成新迷宫                                 *");
+        printer.println("* 2、显示迷宫原图（*表示迷宫的墙）                 *");
+        printer.println("* 3、求解当前迷宫并输出走法（图中的+号是唯一的最短路径）*");
+        printer.println("* 4、退出程序                                  *");
+        printer.println("***********************************************");
     }
 
     /**
@@ -104,7 +103,7 @@ public class MazeManageSystem extends ViewManager {
             choice = scanner.nextSelectionByString(1, 4);
             switch (choice) {
                 case "1" -> generateNewMaze();
-                case "2" -> showMaze();
+                case "2" -> showMaze(true);
                 case "3" -> solveMaze();
                 case "4" -> exitProgram();
                 default -> printer.println("你的输入不合法，请重新输入");
@@ -118,19 +117,22 @@ public class MazeManageSystem extends ViewManager {
     private void solveMaze() {
         try {
             mazeManager.solveMaze();
+            printer.println("迷宫成功求解，下面输出结果：");
+            showMaze(false);
         } catch (MazeNotFoundException | Maze.MazeHasSolvedException e) {
-            System.err.println(e.getMessage());
+            printer.println(e.getMessage());
         }
+
     }
 
     /**
      * 显示迷宫
      */
-    private void showMaze() {
+    private void showMaze(boolean originOrSolved) {
         try {
-            mazeManager.showMaze();
+            mazeManager.showMaze(originOrSolved);
         } catch (MazeNotFoundException e) {
-            System.err.println(e.getMessage());
+            printer.println(e.getMessage());
         }
     }
 
@@ -148,13 +150,13 @@ public class MazeManageSystem extends ViewManager {
         } else {
             //执行生成新迷宫的接口
             while (true) {
-                System.out.print("请输入正方形迷宫的边长(大小至少为11且必须是奇数)：");
+                printer.print("请输入正方形迷宫的边长(大小至少为11且必须是奇数)：");
                 int mazeSize = scanner.nextInt();
                 try {
                     mazeManager.generateNewMaze(mazeSize);
                 } catch (MazeCreateErrorException e) {
-                    System.err.println(e.getMessage());
-                    System.out.println("请重新输入迷宫的长度和宽度");
+                    printer.println(e.getMessage());
+                    printer.println("请重新输入迷宫的长度和宽度");
                     continue;
                 }
                 break;
