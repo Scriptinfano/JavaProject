@@ -444,7 +444,7 @@ public class Maze {
         }
     }
 
-    class MazeHasSolvedException extends Exception {
+    static class MazeHasSolvedException extends Exception {
         public MazeHasSolvedException() {
             super("迷宫已经被求解，不能重复求解迷宫，请调用输出接口查看结果");
         }
