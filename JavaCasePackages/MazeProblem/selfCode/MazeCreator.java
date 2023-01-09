@@ -231,42 +231,12 @@ class Maze {
     }
 
     /**
-     * 将没有墙的路径点加入路径容器，确保该路径点一定在迷宫中
-     */
-    public void addPointToPath(PathPoint point) {
-        pathList.add(point);
-    }
-
-    /**
-     * 返回迷宫的除了边界部分的长和宽，如果迷宫的高度和宽度原本都是10，则会返回一个坐标为(9,9)的点
-     *
-     * @return {@link Point} 返回的两个边界值组成的点坐标
-     */
-    private Point getBoundary() {
-        return new Point(maze.length - 1, maze[0].length - 1);
-    }
-
-    /**
-     * 输入正确的坐标得到非空的路径点引用，只能取得迷宫四周墙壁之内的路径点引用，否则将返回空引用
-     * 注意在PathPoint类填满迷宫之后，不得使用其他方式获取内部路径点，仅使用该接口获取路径点
-     *
-     * @param x x 指定的横坐标
-     * @param y y 指定的纵坐标
-     * @return {@link PathPoint} 返回的路径点引用，若为null，则说明超出了可取的范围
-     */
-    public PathPoint getPathPoint(int x, int y) {
-        if (x < getBoundary().x && x > 0 && y < getBoundary().y && y > 0)
-            return maze[x][y];
-        else return null;
-    }
-
-    /**
      * 迷宫类的构造器
      *
      * @param mazeSize 正方形迷宫的边长
      */
     public Maze(int mazeSize) {
-        //FIXME 设置迷宫有问题
+
         maze = new PathPoint[mazeSize][mazeSize];//初始化迷宫矩阵
         //在迷宫的四周放上不可打破的墙
         for (int i = 0; i < mazeSize; i++) {
@@ -294,6 +264,36 @@ class Maze {
     }
 
     /**
+     * 返回迷宫的除了边界部分的长和宽，如果迷宫的高度和宽度原本都是10，则会返回一个坐标为(9,9)的点
+     *
+     * @return {@link Point} 返回的两个边界值组成的点坐标
+     */
+    private Point getBoundary() {
+        return new Point(maze.length - 1, maze[0].length - 1);
+    }
+
+    /**
+     * 输入正确的坐标得到非空的路径点引用，只能取得迷宫四周墙壁之内的路径点引用，否则将返回空引用
+     * 注意在PathPoint类填满迷宫之后，不得使用其他方式获取内部路径点，仅使用该接口获取路径点
+     *
+     * @param x x 指定的横坐标
+     * @param y y 指定的纵坐标
+     * @return {@link PathPoint} 返回的路径点引用，若为null，则说明超出了可取的范围
+     */
+    public PathPoint getPathPoint(int x, int y) {
+        if (x < getBoundary().x && x > 0 && y < getBoundary().y && y > 0)
+            return maze[x][y];
+        else return null;
+    }
+
+    /**
+     * 将没有墙的路径点加入路径容器，确保该路径点一定在迷宫中
+     */
+    public void addPointToPathList(PathPoint point) {
+        pathList.add(point);
+    }
+
+    /**
      * 验证指定的坐标点能否加入候选列表，由于传入函数的{@link PathPoint}路径点均由{@link MazeProblem.selfCode.Maze#getPathPoint(int, int)}接口获得
      * 所以传入函数的PathPoint对象只要不是null，则都在迷宫边界之内，所以无需检查是否在边界之内且
      * 候选点是否已经在候选列表中出现已经由{@link WallBreaker}类对象检查，所以该接口只需要再检查两个条件即可，以下是所有条件，此接口仅检查部分条件<p>
@@ -307,7 +307,7 @@ class Maze {
      * @return boolean 返回true时若点不在候选列表中时就代表可以加入候选列表，返回false时则代表一定不能加入候选列表
      */
     public boolean verifyCandidatePoint(PathPoint point) {
-        return !inPathList(point) && onRoadPoint(point);
+        return !pathList.contains(point) && point.isPathOrWallPoint();
     }
 
     /**
@@ -318,20 +318,6 @@ class Maze {
      */
     public boolean inPathList(PathPoint point) {
         return pathList.contains(point);
-    }
-
-
-    /**
-     * 验证传入的坐标是否在迷宫中的路点上
-     *
-     * @param point 待检测的坐标
-     * @return boolean 如果为true则说明迷宫中该坐标上的路径点是路点
-     */
-    public boolean onRoadPoint(PathPoint point) {
-        Boolean result = point.isPathOrWallPoint();
-        if (result != null)
-            return result;
-        else return false;
     }
 
     /**
@@ -447,7 +433,7 @@ class WallBreaker {
      */
     public void runPrim() {
         breakWall();//开始时碎墙器在起点位置，先打通起点的墙
-        maze.addPointToPath(maze.getPathPoint(getXPosition(), getYPosition()));//将起点加入路径集合
+        maze.addPointToPathList(maze.getPathPoint(getXPosition(), getYPosition()));//将起点加入路径集合
         updateCandidateList();//第一次更新候选列表，此时碎墙器就在迷宫的起点，不需要移动
 
         while (!candidateList.isEmpty()) {
@@ -483,7 +469,7 @@ class WallBreaker {
 
         candidateList.remove(point);//已经选中了该候选点，该候选点即将加入路径集合，所以从候选点集合中删除它，确保其不再出现
         breakWall();//打碎候选点所在的墙
-        maze.addPointToPath(point);//将候选点所在的路径点加入迷宫的通路中
+        maze.addPointToPathList(point);//将候选点所在的路径点加入迷宫的通路中
         ArrayList<PathPoint> pointList = new ArrayList<>();//候选点四周可能有多个在路径集合中的点，可以打通选中的候选点可以任意的其中之一的点之间的墙壁
         for (PathPoint thePoint : maze.getPathPointGround(point)) {
             if (thePoint != null && maze.inPathList(thePoint))
@@ -503,7 +489,7 @@ class WallBreaker {
             else wallPoint = maze.getPathPoint(point.getX() + 1, point.getY());
         } else throw new RuntimeException("在打通候选点和路径点之间的墙时发生了错误");
         moveAndBreak(wallPoint);//移动到墙上并碎墙
-        maze.addPointToPath(wallPoint);//将墙所在的路径点加入路径点集合
+        maze.addPointToPathList(wallPoint);//将墙所在的路径点加入路径点集合
     }
 
     /**
