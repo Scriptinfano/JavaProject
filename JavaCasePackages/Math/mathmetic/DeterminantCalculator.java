@@ -10,9 +10,6 @@ import java.util.List;
  * 行列式计算器,按照行列式定义公式进行计算，n阶行列式是n!个多项式的代数和，其中每一个多项式
  * 是位于不同行和不同列的n个元素的乘积，把这n个元素以行指标为自然序列排好位置，当列指标构成
  * 的排列是偶排列时，该项带正号；是奇排列时，该项带负号
- *
- * @author Mingxiang
- * @date 2022/10/04
  */
 public class DeterminantCalculator {
     private int[][] determinant;//存放n阶行列式的二维数组

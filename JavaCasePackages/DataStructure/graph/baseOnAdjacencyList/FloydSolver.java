@@ -2,6 +2,11 @@ package graph.baseOnAdjacencyList;
 
 import java.util.ArrayList;
 
+/**
+ * 弗洛伊德求解器，仅构造该对象是无法使用该对象的，需要调用set接口设置内部的邻接表
+ *
+ * @author Mingxiang
+ */
 public class FloydSolver {
 
     /**
@@ -16,13 +21,6 @@ public class FloydSolver {
 
     private boolean hasRun = false;
     private boolean hasSet = false;
-
-    /**
-     * 弗洛伊德解算器<br>
-     * 该构造器为空参构造器，仅构造该对象是无法使用该对象的，需要调用set接口设置内部的邻接表<br/>
-     */
-    public FloydSolver() {
-    }
 
     public void set(ArrayList<HeadNode> headNodeList) {
         int nodeSize = headNodeList.size();//节点数量
