@@ -53,4 +53,8 @@ public class Person implements Comparable<Person> {
     public void setRandomAge() {
         age = randomGenerator.nextInt(1, 100);
     }
+
+    public String outputHash() {
+        return toString();
+    }
 }

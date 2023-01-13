@@ -3,7 +3,6 @@
 package mathmetic;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * 全排列生成器类
