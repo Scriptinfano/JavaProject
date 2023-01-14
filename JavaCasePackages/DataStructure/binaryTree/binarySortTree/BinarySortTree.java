@@ -1,8 +1,8 @@
-package binaryTree.binarySortTree;
+package DataStructure.binaryTree.binarySortTree;
 
+import DataStructure.binaryTree.nodes.BinarySortTreeNode;
 import arrayutil.ArrayUtil;
-import binaryTree.nodes.BinarySortTreeNode;
-import myScannerAndPrinter.Iotransformer;
+import myScannerAndPrinter.IOTransformer;
 import myScannerAndPrinter.NoMoreScanException;
 import myScannerAndPrinter.ScannerPlus;
 
@@ -220,16 +220,16 @@ class TestBinarySortTree<T> {
 
     private static void testSearch(BinarySortTree<Integer> theSortTree) {
         while (true) {
-            Iotransformer.printer.print("输入要查找的数字：");
-            int theNum = Iotransformer.scanner.nextInt();
+            IOTransformer.printer.print("输入要查找的数字：");
+            int theNum = IOTransformer.scanner.nextInt();
             BinarySortTreeNode<Integer> theNode = theSortTree.searchNode(theNum);
             if (theNode != null) {
-                Iotransformer.printer.println("找到了位于" + theNode + "的节点");
+                IOTransformer.printer.println("找到了位于" + theNode + "的节点");
             } else {
-                Iotransformer.printer.println("没找到");
+                IOTransformer.printer.println("没找到");
             }
             try {
-                Iotransformer.scanner.noMoreScan();//询问用户是否还需要输入
+                IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
             } catch (NoMoreScanException e) {
                 break;
             }
@@ -240,16 +240,16 @@ class TestBinarySortTree<T> {
     //TODO 测试删除功能未完成
     private static void testDelete(BinarySortTree<Integer> theSortTree) {
         while (true) {
-            Iotransformer.printer.println("输入要删除的数字");
-            int theNum = Iotransformer.scanner.nextInt();
+            IOTransformer.printer.println("输入要删除的数字");
+            int theNum = IOTransformer.scanner.nextInt();
             if (theSortTree.searchNode(theNum) != null) {
                 //找到了该节点，可以删除
                 theSortTree.deleteNode(theNum);
             } else {
-                Iotransformer.printer.println("没有找到节点，无法删除");
+                IOTransformer.printer.println("没有找到节点，无法删除");
             }
             try {
-                Iotransformer.scanner.noMoreScan();//询问用户是否还需要输入
+                IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
             } catch (NoMoreScanException e) {
                 break;
             }

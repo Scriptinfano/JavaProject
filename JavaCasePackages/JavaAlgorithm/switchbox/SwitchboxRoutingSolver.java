@@ -1,6 +1,6 @@
 //解决开关盒布线问题
 
-package switchbox;
+package JavaAlgorithm.switchbox;
 
 import myScannerAndPrinter.ScannerPlus;
 
@@ -12,7 +12,7 @@ import java.util.*;
  * @author Mingxiang
  * @date 2022/09/18
  */
-final public class SwitchboxRoutingSolver {
+final public class SwitchBoxRoutingSolver {
     private static Scanner scanner = new Scanner(System.in);
     private static final ScannerPlus scannerPlus = new ScannerPlus();
     private final Stack<Integer> routingStack;//解决开关盒布线问题中必须要用到的栈
@@ -22,7 +22,7 @@ final public class SwitchboxRoutingSolver {
     /**
      * 开关盒布线问题解决器的构造函数
      */
-    public SwitchboxRoutingSolver() {
+    public SwitchBoxRoutingSolver() {
         routingStack = new Stack<>();
     }
 

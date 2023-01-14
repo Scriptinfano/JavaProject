@@ -1,12 +1,12 @@
 /*
  * 解决打印机任务管理问题，设计一个不带头结点的链队列作为打印任务管理器的数据结构，当新来一个打印任务，则将它加入队尾；当打印机空闲时
  * ，从队头取出新的打印任务进行打印*/
-package printerManagement;
+package JavaAlgorithm.printerManagement;
 
 import java.util.LinkedList;
 
 public class PrintTaskManager {
-    private final LinkedList<PrintTask> printQueue = new LinkedList<PrintTask>();
+    private final LinkedList<PrintTask> printQueue = new LinkedList<>();
 
     PrintTaskManager() {
     }
@@ -31,7 +31,7 @@ public class PrintTaskManager {
             return;
         }
         PrintTask task = printQueue.poll();
-        System.out.println(task.getPrintId() + " " + task.getText());
+        System.out.println(task.printId() + " " + task.text());
     }
 
     /**

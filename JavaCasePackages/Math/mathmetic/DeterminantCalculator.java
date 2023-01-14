@@ -1,7 +1,7 @@
 /**
  * 本程序可以计算任意阶数的二阶行列式的结果
  */
-package mathmetic;
+package Math.mathmetic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class DeterminantCalculator {
     private int[][] determinant;//存放n阶行列式的二维数组
     private int dimension;//n阶行列式的阶数
 
-    private List<List<Integer>> res = new ArrayList<List<Integer>>();//存放n元串的全排列的容器
+    private List<List<Integer>> res = new ArrayList<>();//存放n元串的全排列的容器
 
     /**
      * 构造器
@@ -66,7 +66,7 @@ public class DeterminantCalculator {
         this.determinant = determinant;
         this.dimension = determinant.length;
         if (res.size() != 0)
-            res = new ArrayList<List<Integer>>();
+            res = new ArrayList<>();
     }
 
     /**
@@ -78,11 +78,11 @@ public class DeterminantCalculator {
         generator.run(PermutationGeneratorPlus.mode.NORMAL);
         res = generator.getArrangementList();
         int sum = 0;
-        for (int count = 0; count < res.size(); count++) {
-            int reverseOrderNum = getT(res.get(count));//算出逆序数
+        for (List<Integer> re : res) {
+            int reverseOrderNum = getT(re);//算出逆序数
             int coefficient = (reverseOrderNum % 2 == 0) ? 1 : -1;//当列标符合偶排列时，多项式的符号是正的，否则是负的
             for (int i = 0; i < this.dimension; i++) {
-                coefficient *= determinant[i][res.get(count).get(i)];
+                coefficient *= determinant[i][re.get(i)];
             }
             sum += coefficient;
         }

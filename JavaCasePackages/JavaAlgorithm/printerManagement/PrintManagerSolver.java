@@ -1,10 +1,10 @@
-package printerManagement;
+package JavaAlgorithm.printerManagement;
 
 import myScannerAndPrinter.ScannerPlus;
 
 public class PrintManagerSolver {
     private final PrintTaskManager manager = new PrintTaskManager();
-    private ScannerPlus scanner = new ScannerPlus();
+    private final ScannerPlus scanner = new ScannerPlus();
 
     public static void main(String[] args) {
         PrintManagerSolver solver = new PrintManagerSolver();
@@ -17,25 +17,12 @@ public class PrintManagerSolver {
             showMenu();
             userSelection = scanner.nextLine();
             switch (userSelection) {
-                case "1":
-                    printFirstTask();
-                    break;
-                case "2":
-                    addNewTask();
-                    break;
-
-                case "3":
-                    printAllTask();
-                    break;
-                case "4":
-                    clearAllTask();
-                    break;
-
-                case "5":
-                    exitProgram();
-                    break;
-                default:
-                    System.out.println("请输入正确的选项");
+                case "1" -> printFirstTask();
+                case "2" -> addNewTask();
+                case "3" -> printAllTask();
+                case "4" -> clearAllTask();
+                case "5" -> exitProgram();
+                default -> System.out.println("请输入正确的选项");
             }
         }
 

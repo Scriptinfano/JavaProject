@@ -1,4 +1,4 @@
-package binaryTree.nodes;
+package DataStructure.binaryTree.nodes;
 
 
 public class BinarySortTreeNode<T extends Comparable<T>> {

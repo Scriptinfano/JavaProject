@@ -1,8 +1,9 @@
+package FamilyAccount;
 public class FinanceDetails {
-    private int cash;
-    private String info;
+    private final int cash;
+    private final String info;
 
-    private boolean incomeOrOutcome;
+    private final boolean incomeOrOutcome;
 
     public FinanceDetails(int cash, String info, boolean type) {
         this.cash = cash;

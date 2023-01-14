@@ -1,4 +1,4 @@
-package parkinglotmanage;
+package JavaAlgorithm.parkinglotmanage;
 
 import myScannerAndPrinter.ScannerPlus;
 import viewManagerPack.ViewManager;
@@ -57,7 +57,7 @@ public class ParkingLotManageSystem extends ViewManager {
     private void showInformation() {
         if (parkinglot.isEmpty()) {
             System.out.println("停车场中目前没有任何车辆");
-            scanner.pause();
+            ScannerPlus.pause();
         } else parkinglot.showInformation();
     }
 
@@ -67,24 +67,27 @@ public class ParkingLotManageSystem extends ViewManager {
             if (parkinglot.isEmpty()) {
                 //停车场中没有车辆，无法驶出
                 System.out.println("停车场中目前没有任何车辆，无法驶出");
-                scanner.pause();
+                ScannerPlus.pause();
                 return;
             }
+            label:
             while (true) {
                 String choice;
                 showSubMenu();
                 System.out.print("请输入你的选择：");
                 choice = scanner.nextSelectionByString(1, 3);
-                if (choice.equals("1")) {
-                    driveOutByIndex();
-                    break;
-                } else if (choice.equals("2")) {
-                    driveOutById();
-                    break;
-                } else if (choice.equals("3")) {
-                    return;
-                } else {
-                    System.out.println("你的输入不合法，请重新输入");
+                switch (choice) {
+                    case "1":
+                        driveOutByIndex();
+                        break label;
+                    case "2":
+                        driveOutById();
+                        break label;
+                    case "3":
+                        return;
+                    default:
+                        System.out.println("你的输入不合法，请重新输入");
+                        break;
                 }
             }
         }

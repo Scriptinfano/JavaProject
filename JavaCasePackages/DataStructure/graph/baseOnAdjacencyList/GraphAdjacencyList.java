@@ -1,24 +1,9 @@
-package graph.baseOnAdjacencyList;
+package DataStructure.graph.baseOnAdjacencyList;
 
 import myScannerAndPrinter.ScannerPlus;
 
 import java.io.PrintStream;
 import java.util.*;
-
-
-/**
- * 迪杰斯特拉算法求解器，内含该算法所需的三个数组，使用方法是传入存储所有顶点的容器和该算法所需的起始点然后调用接口run()
- *
- * @author Mingxiang
- */
-
-/**
- * 弗洛伊德算法求解器<br/>
- * 使用方法：
- *
- * @author Mingxiang
- */
-
 
 /**
  * 有向图的邻接表表示法，每个顶点放在数组容器中，每个顶点关联一个边链表，边链表中存放关联于该顶点的所有边的信息
@@ -63,7 +48,7 @@ public class GraphAdjacencyList {
         System.out.println("输入图中有多少个顶点：");
         //代表图中总共有多少个顶点
         int nodeSize = scanner.nextInt();
-        graphList = new ArrayList<HeadNode>(nodeSize);
+        graphList = new ArrayList<>(nodeSize);
         hasVisited = new boolean[nodeSize];
         System.out.println("开始录入图中每个顶点的信息...（按照顶点在图中的顺序输入）");
         for (int i = 0; i < nodeSize; i++) {
@@ -75,7 +60,7 @@ public class GraphAdjacencyList {
         for (int i = 0; i < nodeSize; i++) {
             System.out.println("请输入第" + (i + 1) + "个顶点的出度：");
             int theOutDegree = scanner.nextInt();
-            ArrayList<Integer> hasRepeat = new ArrayList<Integer>();
+            ArrayList<Integer> hasRepeat = new ArrayList<>();
             for (int j = 0; j < theOutDegree; j++) {
                 System.out.println("请输入该顶点所关联的第" + (j + 1) + "条有向边指向了图中的第几个顶点：");
                 int theIndex = i + 1;

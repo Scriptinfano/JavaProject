@@ -3,11 +3,11 @@ package MazeProblem.reference.referenceA;
 import java.util.*;
 
 public class AStar {
-    public static int[][] dir = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    static List<Pos> openList = new ArrayList<>();
-    static Set<Pos> closeSet = new HashSet<>();
+    public static final int[][] dir = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    static final List<Pos> openList = new ArrayList<>();
+    static final Set<Pos> closeSet = new HashSet<>();
     //  地图数据 0:路 1：障碍
-    static int[][] map = {
+    static final int[][] map = {
             {0, 0, 0, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 1, 0, 0, 0},
@@ -21,9 +21,9 @@ public class AStar {
     /**
      * 判断一个节点是不是能走（必须是地图内的点，并且不是障碍）
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x 节点横坐标
+     * @param y 节点纵坐标
+     * @return boolean 返回true则表示可以走，反之不能
      */
     public static boolean canWalk(int x, int y) {
         int col = map[0].length;
@@ -33,17 +33,14 @@ public class AStar {
             return false;
         }
         //是障碍
-        if (map[x][y] == 1) {
-            return false;
-        }
-        return true;
+        return map[x][y] != 1;
     }
 
     /**
-     * 找到邻接点，遍历周边的点，没有访问过的点
+     * 找到以该点为中心的附近能走的且不在closeList中的点
      *
-     * @param remove
-     * @return
+     * @param remove 找到以该点为中心的附近能走的且不在closeList中的点
+     * @return List<Pos> 返回一个符合要求的点的列表
      */
     private static List<Pos> findLink(Pos remove) {
         int x = remove.getX();

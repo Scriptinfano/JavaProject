@@ -1,4 +1,4 @@
-package linklist.queueByLinkList;
+package DataStructure.linklist.queueByLinkList;
 
 public class Node<T> {
     private T element;

@@ -1,4 +1,4 @@
-package palindrome;
+package JavaAlgorithm.palindrome;
 
 import java.util.Stack;
 
@@ -9,12 +9,12 @@ import java.util.Stack;
  * @date 2022/10/04
  */
 public class PalindromeJudge {
-    String str;//待扫描的序列
-    Stack<Character> characters;
+    final String str;//待扫描的序列
+    final Stack<Character> characters;
 
     PalindromeJudge(String theStr) {
         this.str = theStr;
-        characters = new Stack<Character>();
+        characters = new Stack<>();
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,5 @@
 //约瑟夫环问题升级版
-package josephring;
+package JavaAlgorithm.josephring;
 
 import myScannerAndPrinter.ScannerPlus;
 
@@ -36,9 +36,9 @@ class Person {
 }
 
 class JosephRingList {
-    private Person head = null;//循环链表的头指针
+    private final Person head;//循环链表的头指针
 
-    private int listSize = 0;//循环链表中元素的个数
+    private int listSize;//循环链表中元素的个数
 
     public JosephRingList(int theListSize) {
         this.listSize = theListSize;
@@ -78,7 +78,7 @@ class JosephRingList {
 class JosephRingManager {
     //单例设计模式的懒汉实现构造过程
     private static JosephRingManager instance = null;
-    private static ArrayList<Integer> answer = new ArrayList<Integer>();//永远只有这一个数组来存储每一次求解
+    private static final ArrayList<Integer> answer = new ArrayList<>();//永远只有这一个数组来存储每一次求解
 
     private final Scanner scanner = new Scanner(System.in);
     private Person pointer;//指向正在报数的人
@@ -156,24 +156,19 @@ class JosephRingManager {
 
 public class JosephRingMain {
     private static final ScannerPlus scanner = new ScannerPlus();
+
     public static void main(String[] args) {
         JosephRingManager manager = JosephRingManager.getInstance();//单例设计模式必须通过静态函数得到内部创建的实例对象
         while (true) {
-            while (true) {
-                String choice = null;
-                showMenu();
-                System.out.print("请输入你的选择：");
-                choice = scanner.nextLine();
-                if (choice.equals("1")) {
-                    manager.runProcess();
-                } else if (choice.equals("2")) {
-                    manager.showRecord();
-                } else if (choice.equals("3")) {
-                    exitProgram();
-                } else {
-                    System.out.println("你的输入不合法，请重新输入");
-                }
-
+            String choice;
+            showMenu();
+            System.out.print("请输入你的选择：");
+            choice = scanner.nextLine();
+            switch (choice) {
+                case "1" -> manager.runProcess();
+                case "2" -> manager.showRecord();
+                case "3" -> exitProgram();
+                default -> System.out.println("你的输入不合法，请重新输入");
             }
 
         }
@@ -188,7 +183,7 @@ public class JosephRingMain {
     }
 
     public static void exitProgram() {
-        String choice = null;
+        String choice;
         System.out.println("确定退出吗？输入(y/n):");
         while (true) {
             choice = scanner.nextLine();

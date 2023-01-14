@@ -1,7 +1,7 @@
 /**
  * 本程序可以计算中缀表达式
  */
-package mathmetic.suffixExpression;
+package Math.mathmetic.suffixExpression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,8 +49,8 @@ public class SuffixExpressionCalculator {
     private ArrayList<String> expressionArray;
 
     public SuffixExpressionCalculator() {
-        numberStack = new Stack<String>();
-        operatorStack = new Stack<String>();
+        numberStack = new Stack<>();
+        operatorStack = new Stack<>();
     }
 
     /**
@@ -141,7 +141,7 @@ public class SuffixExpressionCalculator {
      * @param stringArr 传入的字符串数组，代表传入的中缀表达式
      */
     public void setExpressionArray(String[] stringArr) {
-        ArrayList<String> expressionArray = new ArrayList<String>(Arrays.stream(stringArr).toList());
+        ArrayList<String> expressionArray = new ArrayList<>(Arrays.stream(stringArr).toList());
         if (!verifyExpression(expressionArray)) throw new IllegalStateException("传入的中缀表达式中有非法符号");
         this.expressionArray = expressionArray;
     }

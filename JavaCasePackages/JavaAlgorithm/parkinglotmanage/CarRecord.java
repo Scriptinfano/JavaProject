@@ -1,4 +1,4 @@
-package parkinglotmanage;
+package JavaAlgorithm.parkinglotmanage;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,16 +32,15 @@ class CarRecord {
     }
 
     public void output() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(arriveTime.get(Calendar.YEAR));
-        builder.append("年");
-        builder.append(arriveTime.get(Calendar.MONTH));
-        builder.append("月");
-        builder.append(arriveTime.get(Calendar.DATE));
-        builder.append("日");
-        builder.append(arriveTime.get(Calendar.HOUR_OF_DAY));
-        builder.append(":");
-        builder.append(arriveTime.get(Calendar.MINUTE));
+        String builder = arriveTime.get(Calendar.YEAR) +
+                "年" +
+                arriveTime.get(Calendar.MONTH) +
+                "月" +
+                arriveTime.get(Calendar.DATE) +
+                "日" +
+                arriveTime.get(Calendar.HOUR_OF_DAY) +
+                ":" +
+                arriveTime.get(Calendar.MINUTE);
         System.out.println("车牌号：" + CarId + " 到达时间：" + builder);
     }
 

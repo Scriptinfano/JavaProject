@@ -1,4 +1,4 @@
-package graph.baseOnAdjacencyList;
+package DataStructure.graph.baseOnAdjacencyList;
 
 import java.util.*;
 
@@ -130,7 +130,7 @@ public class DijkstraSolver {
      * @return int
      */
     private int scan() {
-        Map<Integer, Integer> sorter = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> sorter = new HashMap<>();
         for (int i = 0; i < hasVisited.length; i++) {
             if (!hasVisited[i] && distance[i] != null) {
                 sorter.put(i, distance[i]);
@@ -138,12 +138,7 @@ public class DijkstraSolver {
         }
         List<Map.Entry<Integer, Integer>> list = new ArrayList<>(sorter.entrySet());
 
-        list.sort(new Comparator<>() {
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                return Integer.compare(o1.getValue() - o2.getValue(), 0);
-            }
-        });
+        list.sort((o1, o2) -> Integer.compare(o1.getValue() - o2.getValue(), 0));
 
         return list.get(0).getKey();
 
@@ -172,7 +167,7 @@ public class DijkstraSolver {
         if (index < 0 || index >= distance.length) {
             throw new IllegalArgumentException("得到起始顶点到指定顶点的最短路径序列时指定的顶点编号不存在");
         }
-        ArrayList<HeadNode> shortestPathCollection = new ArrayList<HeadNode>();
+        ArrayList<HeadNode> shortestPathCollection = new ArrayList<>();
         shortestPathCollection.add(headNodeList.get(index));
         HeadNode currentParentNode = parent[index];
         shortestPathCollection.add(currentParentNode);

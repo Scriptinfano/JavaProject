@@ -1,6 +1,6 @@
-package array;
+package DataStructure.array;
 
-import dataStructureInterfaces.MyQueue;
+import DataStructure.dataStructureInterfaces.MyQueue;
 import exception.CollectionEmptyException;
 import exception.CollectionFullException;
 

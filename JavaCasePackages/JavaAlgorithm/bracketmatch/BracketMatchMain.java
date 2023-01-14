@@ -1,4 +1,4 @@
-package bracketmatch;
+package JavaAlgorithm.bracketmatch;
 
 import java.util.Stack;
 import java.util.Vector;
@@ -11,7 +11,7 @@ import java.util.Vector;
  * @date 2022/09/12
  */
 class BracketMatcher {
-    private Stack<Character> matchStack;
+    private final Stack<Character> matchStack;
     private Vector<Character> bracketStack;
 
     private boolean isInitialized = false;
@@ -22,7 +22,7 @@ class BracketMatcher {
         bracketStack = new Stack<>();
         for (char bracket : brackets) {
             //检查每一个符号是否是括号
-            if (!isBracket(bracket)) throw new InvalidCharArrayException();
+            if (isBracket(bracket)) throw new InvalidCharArrayException();
             bracketStack.add(bracket);
         }
         isInitialized = true;
@@ -42,7 +42,7 @@ class BracketMatcher {
         if (brackets.length == 0) throw new EmptyCharArrayException();
         bracketStack = new Stack<>();
         for (char bracket : brackets) {
-            if (!isBracket(bracket)) throw new InvalidCharArrayException();
+            if (isBracket(bracket)) throw new InvalidCharArrayException();
             bracketStack.add(bracket);
         }
         isInitialized = true;
@@ -68,23 +68,17 @@ class BracketMatcher {
      * @return boolean 返回true则代表是，返回false则代表不是
      */
     private boolean isBracket(char bracket) {
-        if (bracket == '{' || bracket == '}' || bracket == '[' || bracket == ']' || bracket == '(' || bracket == ')')
-            return true;
-        else return false;
+        return bracket != '{' && bracket != '}' && bracket != '[' && bracket != ']' && bracket != '(' && bracket != ')';
     }
 
     private boolean bracketMatch(char matchElement, char bracketElement) {
 
-        switch (matchElement) {
-            case '{':
-                return bracketElement == '}';
-            case '(':
-                return bracketElement == ')';
-            case '[':
-                return bracketElement == ']';
-            default:
-                throw new IllegalArgumentException("有非括号的字符出现在匹配序列中");
-        }
+        return switch (matchElement) {
+            case '{' -> bracketElement == '}';
+            case '(' -> bracketElement == ')';
+            case '[' -> bracketElement == ']';
+            default -> throw new IllegalArgumentException("有非括号的字符出现在匹配序列中");
+        };
     }
 }
 

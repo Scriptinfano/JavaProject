@@ -1,7 +1,7 @@
-package linklist.queueByLinkList;
+package DataStructure.linklist.queueByLinkList;
 
-import array.QueueWithTag;
-import exception.CollectionEmptyException;
+import DataStructure.array.QueueWithTag;
+import DataStructure.exception.CollectionEmptyException;
 
 public class Tester {
     public static void main(String[] args) {
@@ -9,7 +9,7 @@ public class Tester {
     }
 
     public static void testQueueWithRear() {
-        QueueWithRear<Integer> list = new QueueWithRear();
+        QueueWithRear<Integer> list = new QueueWithRear<>();
         list.push(12);
         list.push(41);
         list.push(6253);

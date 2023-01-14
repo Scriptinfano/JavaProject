@@ -27,11 +27,11 @@ class Point {
     /**
      * 横坐标
      */
-    public int x;
+    public final int x;
     /**
      * 纵坐标
      */
-    public int y;
+    public final int y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -60,7 +60,7 @@ public class Maze {
      * 代表迷宫的二维矩阵，假设该矩阵的大小是length*width，且该矩阵的四周都是不可打破的墙壁，
      * 迷宫的起点一般是(1,1)，终点一般是(length-2,width-2)也就是矩阵除去四周中间留白区域的右下角
      */
-    private PathPoint[][] maze;
+    private final PathPoint[][] maze;
 
     /**
      * 标识该迷宫是否已被解决
@@ -429,9 +429,7 @@ public class Maze {
          * @return boolean 判断结果
          */
         public boolean isPathWay() {
-            if (pathWay != null)
-                return pathWay;
-            else return false;
+            return Objects.requireNonNullElse(pathWay, false);
         }
 
         /**

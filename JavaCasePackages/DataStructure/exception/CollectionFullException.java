@@ -1,4 +1,4 @@
-package exception;
+package DataStructure.exception;
 
 public class CollectionFullException extends RuntimeException {
     public CollectionFullException() {

@@ -1,4 +1,4 @@
-package dataStructureInterfaces;
+package DataStructure.dataStructureInterfaces;
 
 public interface MyQueue<T> {
     void push(T element);

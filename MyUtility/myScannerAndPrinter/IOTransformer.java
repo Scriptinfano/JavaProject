@@ -8,7 +8,7 @@ import java.io.PrintStream;
  * @author localuser
  * @date 2022/12/05
  */
-public class Iotransformer {
+public class IOTransformer {
     public static final ScannerPlus scanner=new ScannerPlus();
     public static final PrintStream printer=new PrintStream(System.out);
 }

@@ -1,4 +1,4 @@
-package parkinglotmanage;
+package JavaAlgorithm.parkinglotmanage;
 
 import myScannerAndPrinter.ScannerPlus;
 
@@ -110,9 +110,7 @@ class ParkingLot {
      * 显示停车场中所有车辆的信息
      */
     public void showInformation() {
-        Iterator<CarRecord> iter = parkingStack.iterator();
-        while (iter.hasNext()) {
-            CarRecord theRecord = iter.next();
+        for (CarRecord theRecord : parkingStack) {
             System.out.println(theRecord.toString());
         }
         System.out.println("已输出全部信息");
@@ -126,9 +124,7 @@ class ParkingLot {
      * @return boolean 验证成功返回true，否则返回false
      */
     public boolean verifyCarId(String theId) {
-        Iterator<CarRecord> iter = parkingStack.iterator();
-        while (iter.hasNext()) {
-            CarRecord theRecord = iter.next();
+        for (CarRecord theRecord : parkingStack) {
             if (theRecord.getCarId().equals(theId))
                 return false;
         }

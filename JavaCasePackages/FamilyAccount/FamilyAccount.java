@@ -1,34 +1,24 @@
+package FamilyAccount;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class FamilyAccount {
-    private static ArrayList<FinanceDetails> detailList;
+    private static final ArrayList<FinanceDetails> detailList;
 
     static {
-        detailList = new ArrayList<FinanceDetails>();
+        detailList = new ArrayList<>();
     }
 
     public static void main(String[] args) {
-        FamilyAccount accountManager = new FamilyAccount();
         String userSelection;
         while (true) {
             showMenu();
             userSelection = Utility.readMenuSelection();
             switch (userSelection) {
-                case "1":
-                    showDetails();
-                    break;
-                case "2":
-                    registeredIncome();
-                    break;
-
-                case "3":
-                    registeredOutcome();
-                    break;
-
-                case "4":
-                    exitProgram();
-                    break;
+                case "1" -> showDetails();
+                case "2" -> registeredIncome();
+                case "3" -> registeredOutcome();
+                case "4" -> exitProgram();
             }
         }
     }

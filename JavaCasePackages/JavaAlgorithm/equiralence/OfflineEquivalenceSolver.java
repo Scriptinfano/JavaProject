@@ -16,13 +16,13 @@
  * • 当且仅当 (b, a) € R时(a, b) €R（即关系是对称的）。
  * • 若(a, b) €R且(b, c) €R，则有(a, c) € R（即关系是传递的）。
  * 在给出等价关系 R时，我们通常会忽略其中的某些关系，这些关系可以利用等价关系的反身、对称和传递属性来获得。
- * 在离线等价类（ offline equiralence class）问题中，已知 n 和R，确定所有的等价类。注意每个元素只能属于某一个等价类。
+ * 在离线等价类（ offline equivalence class）问题中，已知 n 和R，确定所有的等价类。注意每个元素只能属于某一个等价类。
  */
 
-package equiralence;
+package JavaAlgorithm.equiralence;
 
 //TODO 解决离线等价类问题
-public class OfflineEquiralenceSolver {
+public class OfflineEquivalenceSolver {
     //离线等价类问题解决
     public static void main(String[] args) {
     }

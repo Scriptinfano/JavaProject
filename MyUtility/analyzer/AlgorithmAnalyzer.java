@@ -9,8 +9,7 @@ public class AlgorithmAnalyzer {
      * @return {@link double} 返回时间间隔，时间单位是毫秒
      */
     public static double getAlgorithmTime(long begin, long end) {
-        double time = (end - begin) / 1000000d;
-        return time;
+        return (end - begin) / 1000000d;
     }
 
     public static long getCurrentTime() {

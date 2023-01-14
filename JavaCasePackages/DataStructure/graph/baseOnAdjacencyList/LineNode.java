@@ -1,4 +1,4 @@
-package graph.baseOnAdjacencyList;
+package DataStructure.graph.baseOnAdjacencyList;
 
 /**
  * 边链表中的边节点，代表图中的连接节点的边

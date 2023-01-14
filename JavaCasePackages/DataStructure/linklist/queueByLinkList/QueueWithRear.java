@@ -1,7 +1,7 @@
-package linklist.queueByLinkList;
+package DataStructure.linklist.queueByLinkList;
 
-import dataStructureInterfaces.MyQueue;
-import exception.CollectionEmptyException;
+import DataStructure.dataStructureInterfaces.MyQueue;
+import DataStructure.exception.CollectionEmptyException;
 
 /**
  * 链表实现的队列，仅有尾指针

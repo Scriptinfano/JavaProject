@@ -1,5 +1,5 @@
 //自动求解列车车厢重排列问题
-package carriage;
+package JavaAlgorithm.carriage;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -15,13 +15,17 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class CarriageRearrangementSolver {
     private final int[] inputOrder;//记录车厢初始排列顺序的数组，索引从入轨道的右端到左端依次递增，车厢的初始顺序:[1,numberOfTracks]
-    private ArrayList<Stack<Integer>> bufferTrack;//缓冲轨道数组
+    private final ArrayList<Stack<Integer>> bufferTrack;//缓冲轨道数组
     private int nextCarToOutTrack = 0;//出轨道最左端车厢的编号
 
     private int trackInIndex;//应该进入的轨道的编号
     private int itsTrack = 0;//当所有缓冲轨道为空时，此属性代表默认的车厢待入轨道的编号
 
-    private ArrayBlockingQueue<Integer> outTrack;//代表出轨道的队列集合
+    private final ArrayBlockingQueue<Integer> outTrack;//代表出轨道的队列集合
+    /**
+     * 这是一个关于车厢数量和能重排车厢序列所要求的缓冲轨道数量之间的一个函数关系，目前尚不得知该函数关系，因此目前设定该轨道常量数为3以解决9个车厢的车厢重排问题
+     */
+    private final static int NUMOFTRACKS = 3;
 
     /**
      * 设定列车的车厢数以及缓冲轨道的数量
@@ -30,9 +34,9 @@ public class CarriageRearrangementSolver {
      */
     public CarriageRearrangementSolver(int[] theInputOrder) {
         //列车的缓冲轨道和一开始的列车数量有一定的关系，目前尚不得知，所以暂时先以9个车厢和3个缓冲轨道来计算，尚不能任意指定车厢的数量
-        bufferTrack = new ArrayList<Stack<Integer>>(getNumOfTracks());//为什么要加一：因为要使得缓冲轨道的编号从1开始
-        for (int i = 0; i < getNumOfTracks(); i++) {
-            bufferTrack.add(new Stack<Integer>());
+        bufferTrack = new ArrayList<>(NUMOFTRACKS);//为什么要加一：因为要使得缓冲轨道的编号从1开始
+        for (int i = 0; i < NUMOFTRACKS; i++) {
+            bufferTrack.add(new Stack<>());
         }
         inputOrder = new int[theInputOrder.length + 1];//为什么要加一：因为车厢的初始顺序:[1,numberOfTracks]，下标从1开始比较方便
         System.arraycopy(theInputOrder, 0, inputOrder, 1, theInputOrder.length);
@@ -47,14 +51,6 @@ public class CarriageRearrangementSolver {
         solver.run();
     }
 
-    /**
-     * 这是一个关于车厢数量和能重排车厢序列所要求的缓冲轨道数量之间的一个函数关系，目前尚不得知该函数关系，因此目前默认返回3以解决9个车厢的车厢重排问题
-     *
-     * @return int 返回根据车厢数量计算得出的需要多少缓冲轨道来计算此重排问题
-     */
-    private int getNumOfTracks() {
-        return 3;
-    }
 
     /**
      * 整个求解过程的主流程控制函数
@@ -142,13 +138,8 @@ public class CarriageRearrangementSolver {
      * @return int
      */
     private int minTrack(HashMap<Integer, Integer> theMatchTrack) {
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(theMatchTrack.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                return o1.getValue().compareTo(o2.getValue());
-            }
-        });
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(theMatchTrack.entrySet());
+        list.sort(Map.Entry.comparingByValue());
         return list.get(0).getKey();
     }
 
@@ -191,8 +182,8 @@ public class CarriageRearrangementSolver {
      * @return boolean
      */
     private boolean allTrackIsEmpty() {
-        for (int i = 0; i < bufferTrack.size(); i++) {
-            if (!bufferTrack.get(i).isEmpty()) return false;
+        for (Stack<Integer> integers : bufferTrack) {
+            if (!integers.isEmpty()) return false;
         }
         return true;
     }
@@ -243,7 +234,7 @@ public class CarriageRearrangementSolver {
      *
      * @see CarriageRearrangementSolver#judgeWhichTrackOut()
      */
-    class NoTrackOutException extends RuntimeException {
+    private static class NoTrackOutException extends RuntimeException {
         public NoTrackOutException() {
             super();
         }

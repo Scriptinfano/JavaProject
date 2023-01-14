@@ -1,4 +1,4 @@
-package mathmetic;
+package Math.mathmetic;
 
 /**
  * 回形数字矩阵类
@@ -13,7 +13,7 @@ public class CircularDigitalMatrix {
     private int y;//数组元素纵坐标
     private int beginNumber;//从beginNumber这个数字开始输出回形数
 
-    private int[][] array;//内置的二维数组
+    private final int[][] array;//内置的二维数组
 
     /**
      * 这个构造函数可以指定从哪开始输出，并从多少开始输出
@@ -145,9 +145,9 @@ public class CircularDigitalMatrix {
         this.run();//调用私有接口run方法完成赋值操作
 
         //输出整个回形数组
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                System.out.print(array[i][j] + "\t");
+        for (int[] ints : array) {
+            for (int anInt : ints) {
+                System.out.print(anInt + "\t");
             }
             System.out.println();
         }
@@ -157,11 +157,11 @@ public class CircularDigitalMatrix {
     @Override
     public String toString() {
         this.run();//调用私有接口run方法完成赋值操作
-        StringBuilder context = new StringBuilder("");
+        StringBuilder context = new StringBuilder();
         //输出整个回形数组
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                context.append(array[i][j]);
+        for (int[] ints : array) {
+            for (int anInt : ints) {
+                context.append(anInt);
                 context.append("\t");
             }
             context.append("\n");

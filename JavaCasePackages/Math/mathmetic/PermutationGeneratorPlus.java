@@ -1,11 +1,11 @@
-package mathmetic;
+package Math.mathmetic;
 
 import exceptions.RequiredSettingsNotCalledException;
 import exceptions.UnRunException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * 全排列生成器
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Mingxiang
  */
 public class PermutationGeneratorPlus {
-    private List<List<Integer>> arrangementList = new ArrayList<>();//存放n元串的全排列的容器
+    private final List<List<Integer>> arrangementList = new ArrayList<>();//存放n元串的全排列的容器
     private int[][] arrangementArray;
 
     private Integer dimension = null;
@@ -164,9 +164,8 @@ public class PermutationGeneratorPlus {
      * @return boolean 返回的判断结果
      */
     private boolean lessThanCurrent(int num, ArrayList<Integer> current) {
-        Iterator<Integer> iter = current.iterator();
-        while(iter.hasNext()){
-            if(num<iter.next())return true;
+        for (Integer integer : current) {
+            if (num < integer) return true;
         }
         return false;
     }
@@ -200,9 +199,9 @@ public class PermutationGeneratorPlus {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < arrangementArray.length; i++) {
-            for (int j = 0; j < arrangementArray[i].length; j++) {
-                stringBuilder.append(arrangementArray[i][j]).append(" ");
+        for (int[] ints : arrangementArray) {
+            for (int anInt : ints) {
+                stringBuilder.append(anInt).append(" ");
             }
             stringBuilder.append("\n");
         }
@@ -231,4 +230,34 @@ public class PermutationGeneratorPlus {
         return arrangementList;
     }
 
+}
+class PermutationGeneratorTester {
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        test2();
+
+    }
+
+    public static void test() {
+        System.out.print("输入一元排列的尾数：");
+        int dimension = scanner.nextInt();
+       PermutationsGenerator generator = new PermutationsGenerator(dimension);
+        generator.run();
+        int[][] result = generator.getPermutations();
+        System.out.println("一共生成" + MathUtil.factorial(dimension) + "种排列");
+        generator.showResult();
+        System.out.println("递归调用次数=" + generator.getCounter());
+
+    }
+
+    public static void test2() {
+        PermutationGeneratorPlus generator = new PermutationGeneratorPlus();
+        generator.setDimension(5);
+        generator.setSelectSize(3);
+        generator.run(PermutationGeneratorPlus.mode.SELECT);
+        System.out.println(generator.toString());
+        System.out.println("一共生成了"+generator.getCounter()+"种排列");
+
+    }
 }

@@ -1,9 +1,8 @@
 //该程序演示使用递归法生成数列的全排列组合
 
-package mathmetic;
+package Math.mathmetic;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * 全排列生成器类
@@ -15,7 +14,7 @@ public class PermutationsGenerator {
     private int counter = 0;
 
     public PermutationsGenerator(int dimension) {
-        permutationsContainer = new ArrayList<ArrayList<Integer>>();
+        permutationsContainer = new ArrayList<>();
         originalArray = new Integer[dimension];
         for (int i = 0; i < dimension; i++) {
             originalArray[i] = i + 1;
@@ -32,9 +31,9 @@ public class PermutationsGenerator {
             counter++;
             return;
         }
-        for (int i = 0; i < nums.length; i++) {
-            if (current.contains(nums[i])) continue;
-            current.add(nums[i]);
+        for (Integer num : nums) {
+            if (current.contains(num)) continue;
+            current.add(num);
             permutationsBackTrack(nums, current);
             current.remove(current.size() - 1);
         }
@@ -52,10 +51,10 @@ public class PermutationsGenerator {
     }
 
     public void showResult() {
-        for (int i = 0; i < permutationsContainer.size(); i++) {
+        for (ArrayList<Integer> integers : permutationsContainer) {
             for (int j = 0; j < permutationsContainer.get(j).size(); j++) {
 
-                System.out.print(permutationsContainer.get(i).get(j) + " ");
+                System.out.print(integers.get(j) + " ");
             }
             System.out.println();
         }

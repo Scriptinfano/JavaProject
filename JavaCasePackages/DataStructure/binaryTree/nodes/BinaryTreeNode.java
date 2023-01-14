@@ -1,4 +1,4 @@
-package binaryTree.nodes;
+package DataStructure.binaryTree.nodes;
 
 public class BinaryTreeNode<T extends Comparable<T>> {
     private T element;//二叉树节点权值

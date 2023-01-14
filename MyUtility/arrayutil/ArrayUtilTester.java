@@ -41,28 +41,6 @@ class ArrayUtilTester {
 
     }
 
-    //测试数组元素的默认初始化
-    private static void defaultArrayElement() {
-        //各元素数组的默认值
-        //char数组的默认元素不是'0',而是asc码的0，
-        char[] charArray = new char[10];
-        System.out.println(charArray);
-
-        //当数组元素是boolean型时，默认值为false
-        boolean[] boolArray = new boolean[10];
-        System.out.println(boolArray[0]);
-
-        //当二维数组的两个维度都指定时，则说明声明之后就初始化了，输出arr[0]时输出的就是地址
-        int[][] arr = new int[3][3];
-        System.out.println(arr[0]);//输出地址值
-        //当二维数组仅指定了第一维度的值时，由于二维未指定导致二维维数组中的每个元素作为一维数组是未初始化的，即null
-        int[][] arr2 = new int[3][];
-        System.out.println(arr2[0]);//输出null
-        int[][] arr3 = new int[3][];
-        System.out.println(arr3[0][2]);//会抛出异常NullPointerException，因为无法根据null找到地址，报空指针异常
-
-    }
-
     //Arrays工具类的使用
     private static void testArraysUtil() {
         //Arrays中常见的方法
@@ -101,9 +79,9 @@ class ArrayUtilTester {
     private static void copyArray() {
         //拷贝数组的第一种方法是使用System类的低层级arrayCopy()方法
         String[] names = new String[3];
-        names[0] = new String("操");
-        names[1] = new String("你");
-        names[2] = new String("妈");
+        names[0] = "操";
+        names[1] = "你";
+        names[2] = "妈";
         String[] tempArray = new String[2 * names.length];
         System.arraycopy(names, 0, tempArray, 0, names.length);//将names数组的元素拷贝到新数组tempArray中
         names = tempArray;//names只是充当一个引用作用，随时可以引用其他数组对象，只要原来的数组对象不存在引用，那么原来的数组对象所占有的空间将在下一轮垃圾回收中被回收
@@ -126,9 +104,8 @@ class ArrayUtilTester {
         //拷贝二维数组
         int[][] numbers = {{1, 2, 3, 4}, {45, 48}};
         int[][] numbers_copy = numbers.clone();
-        for (int i = 0; i < numbers_copy.length; i++) {
-            for (int j = 0; j < numbers_copy[i].length; j++)
-                System.out.print(numbers_copy[i][j] + " ");
+        for (int[] ints : numbers_copy) {
+            for (int anInt : ints) System.out.print(anInt + " ");
             System.out.println();
         }
 

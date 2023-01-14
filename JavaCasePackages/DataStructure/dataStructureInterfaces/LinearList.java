@@ -1,4 +1,4 @@
-package dataStructureInterfaces;
+package DataStructure.dataStructureInterfaces;
 
 public interface LinearList<T> {
 

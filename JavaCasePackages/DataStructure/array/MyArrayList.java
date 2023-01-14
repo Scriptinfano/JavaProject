@@ -1,6 +1,6 @@
-package array;
+package DataStructure.array;
 
-import dataStructureInterfaces.LinearList;
+import DataStructure.dataStructureInterfaces.LinearList;
 import interfaces.IndexCheckable;
 
 public class MyArrayList<T> implements LinearList<T>, IndexCheckable {
@@ -56,20 +56,16 @@ public class MyArrayList<T> implements LinearList<T>, IndexCheckable {
         } else if (actionType.equals("get") || actionType.equals("erase") || actionType.equals("replace")) {
             String message = "";
             if (index <= 0) {
-                if (actionType.equals("get")) {
-                    message += "取得元素时，取得位置不得<=0";
-                } else if (actionType.equals("erase")) {
-                    message += "删除元素时，删除位置不得<=0";
-                } else if (actionType.equals("replace")) {
-                    message += "替换元素时，替换位置不得<=0";
+                switch (actionType) {
+                    case "get" -> message += "取得元素时，取得位置不得<=0";
+                    case "erase" -> message += "删除元素时，删除位置不得<=0";
+                    case "replace" -> message += "替换元素时，替换位置不得<=0";
                 }
             } else if (index > size()) {
-                if (actionType.equals("get")) {
-                    message += "取得元素时，取得位置不得>数组元素个数";
-                } else if (actionType.equals("erase")) {
-                    message += "删除元素时，删除位置不得>数组元素个数";
-                } else if (actionType.equals("replace")) {
-                    message += "替换元素时，替换位置不得>数组元素个数";
+                switch (actionType) {
+                    case "get" -> message += "取得元素时，取得位置不得>数组元素个数";
+                    case "erase" -> message += "删除元素时，删除位置不得>数组元素个数";
+                    case "replace" -> message += "替换元素时，替换位置不得>数组元素个数";
                 }
             }
             throw new IndexOutOfBoundsException(message);
@@ -185,8 +181,7 @@ public class MyArrayList<T> implements LinearList<T>, IndexCheckable {
     }
     //重写clone方法
 
-    @Override
-    protected MyArrayList<T> clone() throws CloneNotSupportedException {
+    public MyArrayList<T> myClone() {
         MyArrayList<T> newArray = new MyArrayList<>(arrayLength);
         Object[] newContainer = new Object[this.arrayLength];
         System.arraycopy(container, 0, newContainer, 0, size());

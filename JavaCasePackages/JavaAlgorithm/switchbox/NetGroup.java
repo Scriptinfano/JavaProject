@@ -1,4 +1,4 @@
-package switchbox;
+package JavaAlgorithm.switchbox;
 
 /**
  * 网组记录类，私有成员是两个管脚

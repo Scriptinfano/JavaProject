@@ -312,7 +312,7 @@ public class ScannerPlus {
      * @throws NoMoreScanException 指示没有更多输入的异常
      */
     public void noMoreScan() throws NoMoreScanException {
-        Iotransformer.printer.print("你是否还需要继续输入，继续输入请按y，不想输入了请按n：");
+        IOTransformer.printer.print("你是否还需要继续输入，继续输入请按y，不想输入了请按n：");
         while (true) {
             String message = nextLine();
             if (message.equals("y")) {
@@ -320,7 +320,7 @@ public class ScannerPlus {
             } else if (message.equals("n")) {
                 throw new NoMoreScanException();
             } else {
-                Iotransformer.printer.print("你的输入不合要求，请重新输入：");
+                IOTransformer.printer.print("你的输入不合要求，请重新输入：");
             }
         }
     }

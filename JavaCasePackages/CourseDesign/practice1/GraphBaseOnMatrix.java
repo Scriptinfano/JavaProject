@@ -1,4 +1,4 @@
-package practice1;
+package CourseDesign.practice1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -188,13 +188,13 @@ public class GraphBaseOnMatrix {
     public void generateMst() {
         if (mst.isEmpty()) {
             Arrays.sort(edges);//对edges中的边按照边的权值大小进行排序
-            for (int i = 0; i < edges.length; i++) {
-                Integer head = edges[i].getHead();
-                Integer tail = edges[i].getTail();
+            for (Edge edge : edges) {
+                Integer head = edge.getHead();
+                Integer tail = edge.getTail();
                 if (!Objects.equals(marks[head], marks[tail])) {
                     //如果这条边在两个不同的连通分量上，则一定不会构成环
-                    mst.add(edges[i]);//将这条符合条件的边放入最小生成树中
-                    totalValue += edges[i].getValue();
+                    mst.add(edge);//将这条符合条件的边放入最小生成树中
+                    totalValue += edge.getValue();
                     int standardValue = marks[tail];//一定要提前保存该值，否则如果mark[tail]被修改，那么标准值（代表已有的连通分量）就会改变
                     for (int j = 0; j < adjacentMatrix.length; j++) {
                         //adjacentMatrix.length是点的个数

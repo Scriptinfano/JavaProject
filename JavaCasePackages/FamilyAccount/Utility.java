@@ -1,7 +1,9 @@
+package FamilyAccount;
+
 import java.util.Scanner;
 
 public class Utility {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * 返回用户输入的菜单选项*/

@@ -1,4 +1,4 @@
-package parkinglotmanage;
+package JavaAlgorithm.parkinglotmanage;
 
 public class ParkingSystemMain {
     public static void main(String[] args) {

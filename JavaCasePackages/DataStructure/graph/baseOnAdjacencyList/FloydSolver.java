@@ -1,4 +1,4 @@
-package graph.baseOnAdjacencyList;
+package DataStructure.graph.baseOnAdjacencyList;
 
 import java.util.ArrayList;
 

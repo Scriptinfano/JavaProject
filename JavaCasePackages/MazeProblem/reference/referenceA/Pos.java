@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Pos implements Comparable<Pos> {
     //x坐标
-    private int x;
+    private final int x;
     //y坐标
-    private int y;
+    private final int y;
     //当前的消耗
     private double g;
     //预估的消耗

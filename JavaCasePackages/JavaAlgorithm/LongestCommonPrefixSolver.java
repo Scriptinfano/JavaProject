@@ -1,3 +1,5 @@
+package JavaAlgorithm;
+
 /**
  * 寻找最长公共前缀
  *

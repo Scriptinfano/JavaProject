@@ -1,4 +1,4 @@
-package practice1;
+package CourseDesign.practice1;
 
 import viewManagerPack.ViewManager;
 

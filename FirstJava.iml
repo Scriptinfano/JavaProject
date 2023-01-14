@@ -3,16 +3,11 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/FamilyAccount" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/MySnake" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/Snake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/Math" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/JavaAlgorithm" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MyUtility" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/DataStructure" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/testFile" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages/CourseDesign" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -21,6 +16,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/annotations-23.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://G:/Connector J 8.0/mysql-connector-j-8.0.31.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

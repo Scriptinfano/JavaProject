@@ -1,8 +1,8 @@
-package mathmetic;
+package Math.mathmetic;
 
 public class PascalTriangle {
 
-    int[][] pascalTriangle;
+    final int[][] pascalTriangle;
 
     /**
      * 帕斯卡三角形构造器
@@ -36,9 +36,9 @@ public class PascalTriangle {
      * 显示内部生成的帕斯卡三角
      */
     public void show() {
-        for (int i = 0; i < pascalTriangle.length; i++) {
-            for (int j = 0; j < pascalTriangle[i].length; j++) {
-                System.out.print(pascalTriangle[i][j] + "\t");
+        for (int[] ints : pascalTriangle) {
+            for (int anInt : ints) {
+                System.out.print(anInt + "\t");
             }
             System.out.println();
         }

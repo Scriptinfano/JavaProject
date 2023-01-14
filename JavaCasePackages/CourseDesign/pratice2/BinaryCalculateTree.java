@@ -1,6 +1,6 @@
-package pratice2;
+package CourseDesign.pratice2;
 
-import myScannerAndPrinter.Iotransformer;
+import myScannerAndPrinter.IOTransformer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,7 +121,7 @@ public class BinaryCalculateTree {
      * @return double 子树的计算结果
      */
     private static double calculateExpressionTree(BinaryTreeNode<String> theNode) {
-        double leftValue = 0, rightValue = 0;
+        double leftValue, rightValue;
         if (theNode.getLeftChild() == null && theNode.getRightChild() == null)
             return Double.parseDouble(theNode.getElement());
         else {
@@ -140,17 +140,13 @@ public class BinaryCalculateTree {
      * @return double
      */
     private static double operateTwoValue(double theLeftValue, String theOperator, double theRightValue) {
-        if (theOperator.equals("+")) {
-            return theLeftValue + theRightValue;
-        } else if (theOperator.equals("-")) {
-            return theLeftValue - theRightValue;
-        } else if (theOperator.equals("*")) {
-            return theLeftValue * theRightValue;
-        } else if (theOperator.equals("/")) {
-            return theLeftValue / theRightValue;
-        } else {
-            throw new RuntimeException("未知的运算符");
-        }
+        return switch (theOperator) {
+            case "+" -> theLeftValue + theRightValue;
+            case "-" -> theLeftValue - theRightValue;
+            case "*" -> theLeftValue * theRightValue;
+            case "/" -> theLeftValue / theRightValue;
+            default -> throw new RuntimeException("未知的运算符");
+        };
     }
 
     /**
@@ -197,8 +193,8 @@ public class BinaryCalculateTree {
         //检查表达式是否已设置，如果没有则返回false通知外部程序要求用户设定表达式
         if (!inOrderContainer.isEmpty()) {
             while (true) {
-                Iotransformer.printer.print("表达式已设置，是否重设表达式？（Y/N）:");
-                char selection = Iotransformer.scanner.nextChar();
+                IOTransformer.printer.print("表达式已设置，是否重设表达式？（Y/N）:");
+                char selection = IOTransformer.scanner.nextChar();
                 if (selection == 'N')
                     return false;
                 else if (selection == 'Y') {
@@ -211,7 +207,7 @@ public class BinaryCalculateTree {
         //在表达式已经设置的情况下，验证传入的表达式是否符合要求
         if (verifyExpression(theExpression)) {
             //表达式符合要求，执行转换，将表达式存入内部的容器中便于维护管理
-            inOrderContainer = new ArrayList<String>(Arrays.asList(theExpression));//将String[]转换为ArrayList<String>
+            inOrderContainer = new ArrayList<>(Arrays.asList(theExpression));//将String[]转换为ArrayList<String>
             return true;
         } else return false;
     }

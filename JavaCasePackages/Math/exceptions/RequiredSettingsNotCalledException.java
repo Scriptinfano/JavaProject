@@ -1,4 +1,4 @@
-package exceptions;
+package Math.exceptions;
 
 /**
  * 当类中的某些设置没有完成时，就执行某操作可能会造成某些未知错误，故设置此异常类

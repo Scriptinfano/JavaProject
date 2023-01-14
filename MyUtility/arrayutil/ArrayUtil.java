@@ -127,45 +127,48 @@ public class ArrayUtil {
      *
      * @param theArray     给定的要查找的数组
      * @param targetNumber 指定的要查找的数字
-     * @return int 返回要查找的数字的下标
+     * @param autoSort     是否先对数组进行排序，此排序排的是该数组的克隆，不会改变原数组的内容，因为二分查找要求数组有序
+     * @return boolean 找到了则返回true，否则返回false
      */
-    public static int binarySearch(Integer[] theArray, int targetNumber, boolean autoSort) {
+    public static boolean binarySearch(Integer[] theArray, int targetNumber, boolean autoSort) {
         if (autoSort) {
             Integer[] sortedArray = theArray.clone();
             Arrays.sort(sortedArray);
-            int address = binarySearchDetail(sortedArray, targetNumber);
-            if (address != -1)
-                return sequenceSearch(theArray, targetNumber);
-            else return -1;
+            return binarySearchDetail(sortedArray, targetNumber);
         } else {
             return binarySearchDetail(theArray, targetNumber);
         }
-
-
     }
 
-    private static int sequenceSearch(Integer[] theArray, int targetNumber) {
-        for (int i = 0; i < theArray.length; i++) {
-            if (theArray[i] == targetNumber)
-                return i;
+    /**
+     * 顺序查找
+     *
+     * @param theArray     待查找的数组
+     * @param targetNumber 要查找的数字
+     * @return 返回
+     */
+    private static boolean sequenceSearch(Integer[] theArray, int targetNumber) {
+        for (Integer integer : theArray) {
+            if (integer == targetNumber)
+                return true;
         }
-        return -1;
+        return false;
     }
 
 
-    private static int binarySearchDetail(Integer[] theArray, int targetNumber) {
-        int left = 0;
-        int right = theArray.length - 1;
-        while (left <= right) {
-            int mid = (left + right) / 2;
+    private static boolean binarySearchDetail(Integer[] theArray, int targetNumber) {
+        int left = -1;
+        int right = theArray.length;
+        while (left + 1 != right) {
+            int mid = (int) Math.floor((left + right) / (double) 2);
 
             if (targetNumber > theArray[mid])//比较运算符两边只要有一个是基本类型，右边的包装器会自动拆箱
-                left = mid + 1;
+                left = mid;
             else if (targetNumber < theArray[mid])
-                right = mid - 1;
-            else return mid;
+                right = mid;
+            else return true;
         }
-        return -1;
+        return false;
     }
 
     /**

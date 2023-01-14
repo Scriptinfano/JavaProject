@@ -1,6 +1,6 @@
-package binaryTree.nodes;
+package DataStructure.binaryTree.nodes;
 
-public class ClueTreeNode extends BinaryTreeNode {
+public class ClueTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
     private boolean leftTag;//在线索化二叉树时指示左指针指向左孩子还是前驱，若为true指向前驱
     private boolean rightTag;//在线索化二叉树时指示右指针指向右孩子还是后驱，若为true指向后继
 
@@ -14,7 +14,7 @@ public class ClueTreeNode extends BinaryTreeNode {
      *
      * @param theElement 元素
      */
-    public ClueTreeNode(char theElement) {
+    public ClueTreeNode(T theElement) {
         super(theElement);
         leftTag = rightTag = false;
     }
