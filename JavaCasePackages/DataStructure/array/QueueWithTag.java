@@ -1,8 +1,8 @@
 package DataStructure.array;
 
 import DataStructure.dataStructureInterfaces.MyQueue;
-import exception.CollectionEmptyException;
-import exception.CollectionFullException;
+import DataStructure.exception.CollectionEmptyException;
+import DataStructure.exception.CollectionFullException;
 
 import java.lang.reflect.Array;
 

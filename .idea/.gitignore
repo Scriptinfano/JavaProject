@@ -1,3 +1,9 @@
 # 默认忽略的文件
 /shelf/
 /workspace.xml
+/dataSources/66c890ba-0664-4e4c-8f87-4bf892fdf2fd.xml
+/dataSources.local.xml
+/dataSources/66c890ba-0664-4e4c-8f87-4bf892fdf2fd/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
+/dataSources/66c890ba-0664-4e4c-8f87-4bf892fdf2fd/storage_v2/_src_/schema/mysql.osA4Bg.meta
+/dataSources/66c890ba-0664-4e4c-8f87-4bf892fdf2fd/storage_v2/_src_/schema/performance_schema.kIw0nw.meta
+/dataSources/66c890ba-0664-4e4c-8f87-4bf892fdf2fd/storage_v2/_src_/schema/sys.zb4BAA.meta

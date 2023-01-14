@@ -1,7 +1,7 @@
 package Math.mathmetic;
 
-import exceptions.RequiredSettingsNotCalledException;
-import exceptions.UnRunException;
+import Math.exceptions.RequiredSettingsNotCalledException;
+import Math.exceptions.UnRunException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,6 +231,7 @@ public class PermutationGeneratorPlus {
     }
 
 }
+
 class PermutationGeneratorTester {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -242,7 +243,7 @@ class PermutationGeneratorTester {
     public static void test() {
         System.out.print("输入一元排列的尾数：");
         int dimension = scanner.nextInt();
-       PermutationsGenerator generator = new PermutationsGenerator(dimension);
+        PermutationsGenerator generator = new PermutationsGenerator(dimension);
         generator.run();
         int[][] result = generator.getPermutations();
         System.out.println("一共生成" + MathUtil.factorial(dimension) + "种排列");
@@ -257,7 +258,7 @@ class PermutationGeneratorTester {
         generator.setSelectSize(3);
         generator.run(PermutationGeneratorPlus.mode.SELECT);
         System.out.println(generator.toString());
-        System.out.println("一共生成了"+generator.getCounter()+"种排列");
+        System.out.println("一共生成了" + generator.getCounter() + "种排列");
 
     }
 }

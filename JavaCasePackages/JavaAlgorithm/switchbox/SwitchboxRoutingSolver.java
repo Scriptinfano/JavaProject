@@ -29,7 +29,7 @@ final public class SwitchBoxRoutingSolver {
 
     public static void main(String[] args) {
 
-        SwitchboxRoutingSolver solver = new SwitchboxRoutingSolver();
+        SwitchBoxRoutingSolver solver = new SwitchBoxRoutingSolver();
         solver.run();
     }
 
