@@ -1,6 +1,8 @@
 package DataStructure.hashTable;
 
 import Math.mathmetic.MathUtil;
+import myScannerAndPrinter.NoMoreScanException;
+import myScannerAndPrinter.ScannerPlus;
 
 import java.util.ArrayList;
 
@@ -16,8 +18,8 @@ public class HashTable {
     private final int remainder;
 
     static class FullHashTableException extends Exception {
-        FullHashTableException() {
-            super("哈希表已经满了，无法再插入了");
+        FullHashTableException(int num) {
+            super("在插入" + num + "时，哈希表已经满了，无法再插入了");
         }
     }
 
@@ -83,9 +85,10 @@ public class HashTable {
                     hashArray[newAddress] = num;
                     newCounter.setCount(i + 1);
                     counters.add(newCounter);
+                    return;
                 }
             }
-            throw new FullHashTableException();//哈希表已经满了，无法再插入了
+            throw new FullHashTableException(num);//哈希表已经满了，无法再插入了
         }
     }
 
@@ -97,14 +100,23 @@ public class HashTable {
      */
     public boolean hashSearch(int num) {
         int address = hashFunction(num);
+
         if (hashArray[address] == null)
             return false;
-        for (int i = 1; i <= hashArray.length - 1; i++) {
-            int newAddress = (address + i) % hashArray.length;
-            if (hashArray[newAddress] == num)
-                return true;
+        else if(hashArray[address]==num)
+            return true;
+        else {
+            //需要继续向后线性探测查找待查元素
+            for (int i = 1; i <= hashArray.length - 1; i++) {
+                int newAddress = (address + i) % hashArray.length;
+                if(hashArray[newAddress]==null)
+                    return false;
+                if (hashArray[newAddress] == num)
+                    return true;
+            }
+            return false;
         }
-        return false;
+
     }
 
 
@@ -114,7 +126,7 @@ public class HashTable {
      * @return int 返回的地址
      */
     public int hashFunction(int element) {
-        return element % remainder;
+        return (3*element) % remainder;
     }
 
     /**
@@ -138,21 +150,53 @@ public class HashTable {
     public double failureASL() {
         int outerSum = 0;
         for (int i = 0; i <= remainder - 1; i++) {
-            int j = i, sum = 0,k=0;
-            while (hashArray[j] != null&&j+1!=i) {
+            int j = i, sum = 0, k = 0;
+            while (hashArray[j] != null && j + 1 != i) {
                 sum++;
                 k++;
-                j=(i+k)%hashArray.length;
+                j = (i + k) % hashArray.length;
             }
             outerSum += (sum + 1);
         }
-        return outerSum/(double)remainder;
+        return outerSum / (double) remainder;
     }
 
 }
 
-class HashTest{
+class HashTest {
+    private static final ScannerPlus scanner = new ScannerPlus();
+
     public static void main(String[] args) {
+        HashTable hashTable = new HashTable(10);
+        try {
+            hashTable.add(7);
+            hashTable.add(8);
+            hashTable.add(30);
+            hashTable.add(11);
+            hashTable.add(18);
+            hashTable.add(9);
+            hashTable.add(14);
+        } catch (HashTable.FullHashTableException e) {
+            System.out.println(e.getMessage());
+        }
+        while (true) {
+            System.out.println("输入你想要查找的数字：");
+            int num = scanner.nextInt();
+
+            if (hashTable.hashSearch(num)) {
+                System.out.println("找到了");
+            } else System.out.println("未找到");
+            try {
+                scanner.noMoreScan();
+            } catch (NoMoreScanException e) {
+                break;
+            }
+        }
+
+        System.out.printf("查找成功的平均查找长度=%.2f",hashTable.successASL());
+        System.out.printf("查找失败的平均查找长度=%.2f",hashTable.failureASL());
+
+
 
     }
 }

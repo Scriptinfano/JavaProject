@@ -147,7 +147,7 @@ public class ArrayUtil {
      * @param targetNumber 要查找的数字
      * @return 返回
      */
-    private static boolean sequenceSearch(Integer[] theArray, int targetNumber) {
+    public static boolean sequenceSearch(Integer[] theArray, int targetNumber) {
         for (Integer integer : theArray) {
             if (integer == targetNumber)
                 return true;
@@ -169,6 +169,28 @@ public class ArrayUtil {
             else return true;
         }
         return false;
+    }
+
+    /**
+     * 二分查找的递归算法
+     *
+     * @param theArray 待查找的数组
+     * @param num      待查找的数字
+     * @param left     左边界，建议此处写-1
+     * @param right    右边界，建议此处写待排序数组的长度
+     * @return boolean 找到了则返回true否则返回false
+     */
+    public static boolean binarySearchRecursion(Integer[]theArray,int num,int left,int right){
+        if(left+1==right)
+            return false;
+        else {
+            int mid=(int) Math.floor((left + right) / (double) 2);
+            if(theArray[mid]>num)
+                return binarySearchRecursion(theArray,num,left,mid);
+            else if(theArray[mid]<num)
+                return binarySearchRecursion(theArray,num,mid,right);
+            else return true;
+        }
     }
 
     /**

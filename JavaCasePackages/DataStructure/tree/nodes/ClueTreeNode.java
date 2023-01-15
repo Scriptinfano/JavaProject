@@ -1,6 +1,6 @@
-package DataStructure.binaryTree.nodes;
+package DataStructure.tree.nodes;
 
-public class ClueTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
+public class ClueTreeNode extends BinaryTreeNode {
     private boolean leftTag;//在线索化二叉树时指示左指针指向左孩子还是前驱，若为true指向前驱
     private boolean rightTag;//在线索化二叉树时指示右指针指向右孩子还是后驱，若为true指向后继
 
@@ -14,7 +14,7 @@ public class ClueTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
      *
      * @param theElement 元素
      */
-    public ClueTreeNode(T theElement) {
+    public ClueTreeNode(Integer theElement) {
         super(theElement);
         leftTag = rightTag = false;
     }
@@ -55,4 +55,23 @@ public class ClueTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
         this.rightTag = rightTag;
     }
 
+    @Override
+    public ClueTreeNode getLeftChild() {
+        return (ClueTreeNode)super.getLeftChild();
+    }
+
+    @Override
+    public void setLeftChild(BinaryTreeNode leftChild) {
+        super.setLeftChild(leftChild);
+    }
+
+    @Override
+    public ClueTreeNode getRightChild() {
+        return (ClueTreeNode)super.getRightChild();
+    }
+
+    @Override
+    public void setRightChild(BinaryTreeNode rightChild) {
+        super.setRightChild(rightChild);
+    }
 }

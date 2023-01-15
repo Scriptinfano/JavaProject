@@ -6,7 +6,7 @@ package myScannerAndPrinter;
  * @author localuser
  * @date 2022/12/06
  */
-public class NoMoreScanException extends RuntimeException{
+public class NoMoreScanException extends Exception{
     public NoMoreScanException() {}
     public NoMoreScanException(String msg){
         super(msg);

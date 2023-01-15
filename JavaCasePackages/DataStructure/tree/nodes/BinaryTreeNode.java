@@ -1,33 +1,32 @@
-package DataStructure.binaryTree.nodes;
+package DataStructure.tree.nodes;
 
-public class BinaryTreeNode<T extends Comparable<T>> {
-    private T element;//二叉树节点权值
-    private BinaryTreeNode<T> leftChild;//二叉树左孩子指针
-    private BinaryTreeNode<T> rightChild;//二叉树右孩子指针
+public class BinaryTreeNode {
+    private Integer element;//二叉树节点权值
+    private BinaryTreeNode leftChild;//二叉树左孩子指针
+    private BinaryTreeNode rightChild;//二叉树右孩子指针
 
     /**
-     * 默认初始化二叉树节点
+     * 默认初始化二叉树节点，两个指针域均置空
      */
     public BinaryTreeNode() {
         leftChild = rightChild = null;
     }
 
     /**
-     * 以指定的权值初始化二叉树节点
+     * 以指定的权值初始化二叉树节点，然后将指针域置空
      *
      * @param theElement 元素
      */
-    public BinaryTreeNode(T theElement) {
+    public BinaryTreeNode(Integer theElement) {
         element = theElement;
         leftChild = rightChild = null;
     }
 
     /**
-     * 获取元素
-     *
-     * @return char
+     * 获取该节点的权值
+     * @return Integer 返回
      */
-    public T getElement() {
+    public Integer getElement() {
         return element;
     }
 
@@ -36,7 +35,7 @@ public class BinaryTreeNode<T extends Comparable<T>> {
      *
      * @param element 给定的权值
      */
-    public void setElement(T element) {
+    public void setElement(Integer element) {
         this.element = element;
     }
 
@@ -45,7 +44,7 @@ public class BinaryTreeNode<T extends Comparable<T>> {
      *
      * @return {@link BinaryTreeNode}
      */
-    public BinaryTreeNode<T> getLeftChild() {
+    public BinaryTreeNode getLeftChild() {
         return leftChild;
     }
 
@@ -54,7 +53,7 @@ public class BinaryTreeNode<T extends Comparable<T>> {
      *
      * @param leftChild 给定的左孩子
      */
-    public void setLeftChild(BinaryTreeNode<T> leftChild) {
+    public void setLeftChild(BinaryTreeNode leftChild) {
         this.leftChild = leftChild;
     }
 
@@ -63,7 +62,7 @@ public class BinaryTreeNode<T extends Comparable<T>> {
      *
      * @return {@link BinaryTreeNode}
      */
-    public BinaryTreeNode<T> getRightChild() {
+    public BinaryTreeNode getRightChild() {
         return rightChild;
     }
 
@@ -72,7 +71,7 @@ public class BinaryTreeNode<T extends Comparable<T>> {
      *
      * @param rightChild 给定的右孩子
      */
-    public void setRightChild(BinaryTreeNode<T> rightChild) {
+    public void setRightChild(BinaryTreeNode rightChild) {
         this.rightChild = rightChild;
     }
 
