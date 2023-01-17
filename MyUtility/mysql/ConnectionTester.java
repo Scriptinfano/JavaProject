@@ -12,7 +12,7 @@ public class ConnectionTester {
     public static void main(String[] args) {
         Connection con;
         try {
-            Class.forName(driver);
+            Class.forName(driver);//driver是一个字符串，代表JDBC驱动类的地址
             con = DriverManager.getConnection(url, user, password);
             if (!con.isClosed()) {
                 System.out.println("数据库连接成功");

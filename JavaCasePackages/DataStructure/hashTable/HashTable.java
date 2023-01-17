@@ -9,19 +9,13 @@ import java.util.ArrayList;
 /**
  * 存储数据元素为Integer的线性定长哈希表，支持查找，插入。采用线性探测法处理冲突，哈希函数采用除留余数法（余数设定为不大于表长的最大质数）
  */
-public class HashTable {
+public class HashTable implements HashTableInterFace{
     private final Integer[] hashArray;
 
     /**
      * 除留余数法中的余数，在构造器中计算一次节省性能
      */
     private final int remainder;
-
-    static class FullHashTableException extends Exception {
-        FullHashTableException(int num) {
-            super("在插入" + num + "时，哈希表已经满了，无法再插入了");
-        }
-    }
 
     /**
      * 插入哈希表的元素在比较了几次才插入哈希表，这个类对象表示一种二元关系，表示num在插入哈希表时比较了count次才插入哈希表。
@@ -58,6 +52,7 @@ public class HashTable {
     private final ArrayList<ConflictCounter> counters = new ArrayList<>();
 
     public HashTable(int size) {
+        if(size<2)throw new IllegalArgumentException("采用除留余数法的哈希表长不能小于2");
         hashArray = new Integer[size];
         remainder = MathUtil.maxPrime(size);
     }

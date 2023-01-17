@@ -4,8 +4,6 @@ import java.util.*;
 
 /**
  * 排序工具类,包含对数组的一些排序方法
- *
- * @author Mingxiang
  */
 public class ArraySorter<T extends Comparable<T>> {
     /**
@@ -44,7 +42,7 @@ public class ArraySorter<T extends Comparable<T>> {
         theArr = theArray;
         if (!targetList.isEmpty())
             targetList.clear();
-        targetList.add(null);
+        targetList.add(null);//targetList中的元素从下标序号为1的单元开始存储
         targetList.addAll(Arrays.asList(theArray));
     }
 
@@ -472,6 +470,23 @@ public class ArraySorter<T extends Comparable<T>> {
         T temp = targetList.get(i);
         targetList.set(i, targetList.get(j));
         targetList.set(j, temp);
+    }
+
+}
+
+
+
+class ArraySorterTester {
+    private ArraySorterTester(){}
+    public static void main(String[] args) {
+        Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 200);
+        //Integer[] arr ={121,9,182,501,493,213,45,732,314,46,697,6,81,316,75};
+        System.out.println(Arrays.toString(arr));
+        ArraySorter<Integer> sorter = new ArraySorter<>();
+        sorter.setSortArray(arr);
+        sorter.quickSort(1,arr.length);
+        System.out.println(Arrays.toString(arr));
+        System.out.println();
     }
 
 }
