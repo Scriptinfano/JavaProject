@@ -47,15 +47,15 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     * 快速排序
-     * <p>算法特点<p>
+     * <strong>快速排序</strong><br/><br/>
+     * 算法特点<p>
      * 1、不稳定排序<p>
      * 2、排序时需要定位表的上下界，所以适合于顺序结构<p>
      * 3、适合初始记录无序，数组元素个数较大的情况<p>
-     * 4、快速排序的时间复杂度：O(nlogn)~o(n^2)
+     * 4、快速排序的时间复杂度：最好情况下：O(nlogn) 最坏情况下：o(n^2)
      *
-     * @param left  快速排序要指定的左边界，在调用此函数时默认填写1
-     * @param right 快速排序要指定的右边界，在调用此函数时默认填写数组的元素个数
+     * @param left  快速排序要指定的左边界，在调用此函数时请填写1
+     * @param right 快速排序要指定的右边界，在调用此函数时请填写数组的元素个数
      */
     public void quickSort(int left, int right) {
         if (theArr == null) {
@@ -94,12 +94,12 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 直接插入排序<p>
+     * <strong>直接插入排序</strong><br/><br/>
      * 插入排序的思想:从数组的第二个元素开始遍历数组，比较该元素与前一个元素，如果该元素
      * 比前一个元素大，则继续遍历下一个元素，如果该元素比前一个元素小，则保存这个元素的值，
      * 将这个元素不断地向后挪，直到该元素比后一个元素小为止，挪的过程中采用将前一个元素覆
-     * 写后一个元素的方式实现，不用担心后一个元素被抹掉，因为已经提前保存了这个值
-     * <p>
+     * 写后一个元素的方式实现，不用担心后一个元素被抹掉，因为已经提前保存了这个值<p>
+     * 如何改进插入排序：1、若待排序序列基本有序，则直接插入排序的效率可以提高 2、由于直接插入排序算法简单，则当n较小时效率也很高<p>
      * 算法特点：<p>
      * 1、稳定排序<p>
      * 2、适合链式存储结构<p>
@@ -121,22 +121,27 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     * 希尔排序<p>
-     * 希尔排序是插入排序的一种，是针对直接插入排序算法的改进，又称缩小增量排序
-     * <p>
+     * <strong>希尔排序</strong><br/><br/>
+     * 希尔排序是插入排序的一种，是针对直接插入排序算法的改进，又称缩小增量排序。<br/>
+     * 算法思想：将整个待排序记录分割成若干个子序列，在子序列中分别进行直接插入排序，待整个序列中的记录
+     * 基本有序时，对全体记录进行直接插入排序<br/>
      * 算法特点
      * <p>
      * 1、排序不稳定<p>
      * 2、只能用于顺序结构<p>
      * 3、增量序列可以有各种取法，但应该使增量序列中的值没有除1之外的公因子，并且最后一个增量值必须等于1<p>
      * 4、适合初始记录无序，数组元素个数较大时的情况<p>
-     * 5、时间复杂度：O(n^(1.3~2))
+     * 5、时间复杂度：O(n^(1.3~2))<br/>
+     * 时间复杂度分析：希尔排序开始时增量比较大，每个子序列中的记录个数较少，从而排序速度较快；当
+     * 增量较小时，虽然每个子序列中记录个数较多，但整个序列已经基本有序，排序速度也比较快。希尔排序
+     * 算法的时间性能还与增量函数有关系
      */
     public void shellSort() {
         if (theArr == null) {
             throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
         }
         int size = targetList.size() - 1;
+        //当d变为1的时候也就是对一个基本有序的序列进行直接插入排序，大大减少了移动比较的次数
         for (int d = size / 2; d >= 1; d = d / 2) {
             //d是希尔排序的增量
             for (int i = d; i <= size; i++) {
@@ -153,8 +158,7 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     * 冒泡排序
-     * <p>
+     * <strong>冒泡排序</strong><br/><br/>
      * 算法特点<p>
      * 1、排序稳定<p>
      * 2、可用于链式存储结构<p>
@@ -176,37 +180,30 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
+     * <strong>优化之后的冒泡排序</strong><br/><br/>
      * 优化冒泡排序中每一次遍历不断比较的过程，如果在一次遍历的过程中没有发生交换，
-     * 则说明已经排好序了，不需要再进行遍历了，该函数会返回一个false来指示bubbleSort()
-     * 中的for循环终止执行
-     */
-    private boolean betterBubble(int n) {
-        boolean swapped = false;
-        for (int i = 1; i < n - 1; i++) {
-            if (targetList.get(i).compareTo(targetList.get(i + 1)) > 0) {
-                swap(i, i + 1);
-                swapped = true;
-            }
-        }
-        return swapped;
-    }
-
-    /**
-     * 优化之后的冒泡排序，也就是能及时终止的冒泡排序
+     * 则说明已经排好序了，不需要再进行下一轮的交换了
      */
     public void betterBubbleSort() {
         if (theArr == null) {
             throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
         }
-        for (int i = targetList.size(); i > 2 && betterBubble(i); i--) ;
+        boolean swapped = true;
+        for (int i = 1; i < targetList.size() && swapped; i++) {
+            swapped = false;
+            for (int j = 1; j < targetList.size() - i; j++) {
+                if (targetList.get(j).compareTo(targetList.get(j + 1)) > 0) {
+                    swap(j, j + 1);
+                    swapped = true;
+                }
+            }
+        }
         transform();
     }
 
     /**
-     * 折半插入排序
-     * <p>
-     * 算法特点：
-     * <p>
+     * <strong>折半插入排序</strong><br/><br/>
+     * 算法特点：<p>
      * 1、排序稳定<p>
      * 2、只能用于顺序结构<p>
      * 3、适合初始记录无序，数组元素数较大的情况<p>
@@ -233,8 +230,11 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     * 简单选择排序
-     * <p>算法特点<p>
+     *<strong>简单选择排序</strong><br/><br/>
+     * 算法思想：将序列分为两部分，前半部分为有序序列，后半部分为无序序列，一开始都是无序序列
+     * 不断地在无序序列中选出一个最小的元素然后无序序列最开头的元素进行交换，此时该元素变为
+     * 有序序列的一部分，然后继续这种交换过程<br/>
+     * 算法特点<p>
      * 1、不稳定排序<p>
      * 2、可用于链式存储结构<p>
      * 3、适用于移动记录次数较少，每一记录占用空间较多时的情况<p>
@@ -256,6 +256,7 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
+     * <strong>优化之后的简单选择排序</strong><br/><br/>
      * 优化之后的选择排序，可以在已经排好序的前提下提前终止循环
      */
     public void betterSelectSort() {
@@ -278,8 +279,8 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 堆排序
-     * <p>算法特点<p>
+     * <strong>堆排序</strong><br/><br/>
+     * 算法特点<p>
      * 1、不稳定排序<p>
      * 2、只能用于顺序结构<p>
      * 3、时间复杂度O(nlogn)<p>
@@ -291,15 +292,18 @@ public class ArraySorter<T extends Comparable<T>> {
          * 1、下标为i的节点的父节点下标：i/2
          * 2、下标为i的节点的左孩子下标：2*i
          * 3、下标为i的节点的右孩子下标：2*i+1
-         * 本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
+         * 注意本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
          * */
         if (theArr == null) {
             throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
         }
+        //此时将初始的未排序序列视为完全二叉树的层序遍历的结果，就可以将初始序列视为一个完全二叉树，此时对这个完全二叉树进行堆调整，使其符合大根堆的定义
 
         //k的初始值是堆最后一个节点的父节点的编号
         for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
-            biggerHeapAdjust(k, targetList.size() - 1);
+            biggerHeapAdjust(k, targetList.size() - 1);//创建初始大根堆的循环
+
+
         for (int k = 0; k < targetList.size() - 2; k++) {
             swap(1, targetList.size() - k - 1);
             biggerHeapAdjust(1, targetList.size() - k - 2);
@@ -311,21 +315,21 @@ public class ArraySorter<T extends Comparable<T>> {
      * 大根堆调整函数，将整个无序数组视为完全二叉树后，对其进行调整，使其符合大根堆的定义
      * 大根堆是每个节点的值都大于或等于其左右孩子节点的值的完全二叉树，小根堆相反
      *
-     * @param begin 待调整节点在整个堆中按照层序遍历的编号
+     * @param begin 待调整的子树的根节点在整个堆中按照层序遍历的编号
      * @param end   整个堆最后一个节点的层序遍历编号
      */
     private void biggerHeapAdjust(int begin, int end) {
         int i = begin;
         int j = 2 * i;
 
-        //此时i是待调整节点的编号，j是待调整节点的左子节点的编号
+        //此时i是待调整子树根节点的编号，j是待调整子树根节点的左子节点的编号
 
         while (j <= end) {
 
             //j<end实际是在判断i所指节点有没有右子树，如果有右子树，则必然满足此条件，则说明有右子树
             if (j < end && targetList.get(j).compareTo(targetList.get(j + 1)) < 0)
                 j++;
-            if (targetList.get(i).compareTo(targetList.get(j)) < 0)
+            if (targetList.get(i).compareTo(targetList.get(j)) < 0)//根节点与子节点的值进行比较，保证根节点和左右子节点三个节点中最大的节点成为新的根节点以满足大根堆的定义
                 swap(i, j);
             //如果此时子树又不符合堆的定义，那么更新i,j的值去调整子树
             i = j;
@@ -335,9 +339,10 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 归并排序
-     * <p>算法特点<p>
-     * 1、稳定排序<p>
+     * <strong>归并排序</strong><br/><br/>
+     * 算法特点<p>
+     * 1、稳定排序（如果相同的数字a1和a2分别在要合并的两段的开头，此时比较时a1<=a2，此时会先将a1放在临时容器中，相当于不改变
+     * 相同数字之间的相对位置，而如果相同的数字在同一段中则一定不会改变相对位置）<p>
      * 2、可用于链式结构<p>
      * 3、适合于数据量大且初始无序的情况<p>
      * 4、时间复杂度：O(nlogn)。分析：将子区间划分为只剩一个元素需要划分logn次，对每一层来说
@@ -378,30 +383,42 @@ public class ArraySorter<T extends Comparable<T>> {
         int i = begin, j = mid;
         ArrayList<T> tempList = new ArrayList<>();
         while (i < mid && j < end) {
-            if (targetList.get(i).compareTo(targetList.get(j)) < 0) {
+            if (targetList.get(i).compareTo(targetList.get(j)) <= 0) {
                 tempList.add(targetList.get(i++));
             } else {
                 tempList.add(targetList.get(j++));
             }
         }
+        //如果此时i和j还分别没有到第一段末尾和第二段末尾，则下面两个while循环则将剩下的元素放入tempList这个已经有序的容器中
         while (i < mid) {
             tempList.add(targetList.get(i++));
         }
         while (j < end) {
             tempList.add(targetList.get(j++));
         }
+        //将已经有序的序列重新写回原容器，达成归并的目的
         for (int k = 0; k < tempList.size(); k++) {
             targetList.set(begin + k, tempList.get(k));
         }
     }
 
     /**
-     * 基数排序
-     * <p>算法特点<p>
+     * <strong>基数排序</strong><br/><br/>
+     * 算法特点<p>
      * 1、基数排序是对桶排序的扩展，速度快<p>
      * 2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<p>
-     * 3、基数排序是稳定排序
-     * 4、基数排序不能对含有负数的数组进行排序
+     * 3、基数排序是稳定排序<br>
+     * 4、基数排序不能对含有负数、浮点数的数组进行排序<br/><br/>
+     * 时间复杂度分析：<br/>
+     * 该算法所花的时间分为两部分：<br/>
+     * 1、元素分配到桶里：循环 length 次<br/>
+     * 2、把元素从桶里串起来：第二循环是根据桶里面的元素而定的，表示为：k×bucketCount；其中k表示某个桶中的元素个数，bucketCount则表示存放元素的桶个数；<br/>
+     * 有几种特殊情况：<br/>
+     * 第一、所有的元素都存放在一个桶内：k = length，bucketCount = 1；<br/>
+     * 第二、所有的元素平均分配到每个桶中：k = length/ buketCount，bucketCount = 10；（这里已经固定了10个桶）<br/>
+     * 所以平均情况下收集部分所花的时间为：length （也就是元素长度 n）<br/>
+     * 综上所述：<br/>
+     * 时间复杂度为：posCount * (length  + length) ；其中 posCount 为数组中最大元素的最高位数；简化下得：O( k*n ) ；其中k为常数，n为元素个数；
      */
     public void radixSort() {
         if (theArr == null) {
@@ -475,16 +492,17 @@ public class ArraySorter<T extends Comparable<T>> {
 }
 
 
-
 class ArraySorterTester {
-    private ArraySorterTester(){}
+    private ArraySorterTester() {
+    }
+
     public static void main(String[] args) {
-        Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 200);
-        //Integer[] arr ={121,9,182,501,493,213,45,732,314,46,697,6,81,316,75};
+        //Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 200);
+        Integer[] arr ={46,79,56,38,40,84};
         System.out.println(Arrays.toString(arr));
         ArraySorter<Integer> sorter = new ArraySorter<>();
         sorter.setSortArray(arr);
-        sorter.quickSort(1,arr.length);
+        sorter.heapSort();
         System.out.println(Arrays.toString(arr));
         System.out.println();
     }
