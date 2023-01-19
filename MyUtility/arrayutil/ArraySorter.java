@@ -3,7 +3,7 @@ package arrayutil;
 import java.util.*;
 
 /**
- * 排序工具类,包含对数组的一些排序方法
+ * 排序工具类,包含对数组的一些排序方法，注意该排序器排序的对象必须实现{@link Comparable<T>}接口
  */
 public class ArraySorter<T extends Comparable<T>> {
     /**
@@ -46,21 +46,31 @@ public class ArraySorter<T extends Comparable<T>> {
         targetList.addAll(Arrays.asList(theArray));
     }
 
+
+    /**
+     * 包装快速排序，使设定边界的时候不用再手动设定，关于快速排序的详细讲解，参阅下方链接
+     * @see ArraySorter#quickSortDetail(int, int)
+     */
+    public void quickSort(){
+        if (theArr == null) {
+            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
+        }
+        quickSortDetail(1,targetList.size()-1);
+    }
     /**
      * <strong>快速排序</strong><br/><br/>
      * 算法特点<p>
      * 1、不稳定排序<p>
      * 2、排序时需要定位表的上下界，所以适合于顺序结构<p>
      * 3、适合初始记录无序，数组元素个数较大的情况<p>
-     * 4、快速排序的时间复杂度：最好情况下：O(nlogn) 最坏情况下：o(n^2)
-     *
+     * 4、快速排序的时间复杂度：最好情况O(nlogn) 最坏情况O(n^2) 平均情况O(nlogn)
+     * 5、空间复杂度：由于快速排序是递归的，执行时需要占用函数栈，最大递归调用次数和递归树的深度一致，
+     * 所以最好情况下的空间复杂度为O(logn)，因为递归树的深度在最好情况下是logn，最坏情况下：O(n)，在最坏情况下也就是在排序序列已经排好序的情况下，递归树成为单支树
      * @param left  快速排序要指定的左边界，在调用此函数时请填写1
      * @param right 快速排序要指定的右边界，在调用此函数时请填写数组的元素个数
      */
-    public void quickSort(int left, int right) {
-        if (theArr == null) {
-            throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
-        }
+    private void quickSortDetail(int left, int right) {
+
         /*如何选取轴值
          * 1、使用第一个记录的关键码
          * 2、选取序列中间记录的关键码
@@ -86,8 +96,8 @@ public class ArraySorter<T extends Comparable<T>> {
                 }
             }
             //此时i和j相等，i和j的值就是轴值的下标，轴值左侧都是小于轴值的值，轴值右侧都是大于轴值的值
-            quickSort(left, i - 1);
-            quickSort(i + 1, right);
+            quickSortDetail(left, i - 1);
+            quickSortDetail(i + 1, right);
         }
         transform();
     }
@@ -104,7 +114,7 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、稳定排序<p>
      * 2、适合链式存储结构<p>
      * 3、适合初始基本有序且数组元素个数较小的情况<p>
-     * 4、时间复杂度：O(n^2)
+     * 4、时间复杂度：最好情况O(n) 最坏情况O(n^2) 平均情况O(n^2)
      */
     public void insertSort() {
         if (theArr == null) {
@@ -128,7 +138,7 @@ public class ArraySorter<T extends Comparable<T>> {
      * 算法特点
      * <p>
      * 1、排序不稳定<p>
-     * 2、只能用于顺序结构<p>
+     * 2、只能用于顺序结构，希尔排序涉及随机访问，因为要不停的比较间隔已经距离的元素，所以肯定要随机访问，而链式存储对随机访问的支持比较差，所以仅适用于顺序存储<p>
      * 3、增量序列可以有各种取法，但应该使增量序列中的值没有除1之外的公因子，并且最后一个增量值必须等于1<p>
      * 4、适合初始记录无序，数组元素个数较大时的情况<p>
      * 5、时间复杂度：O(n^(1.3~2))<br/>
@@ -162,8 +172,8 @@ public class ArraySorter<T extends Comparable<T>> {
      * 算法特点<p>
      * 1、排序稳定<p>
      * 2、可用于链式存储结构<p>
-     * 3、适用于初始记录有序，数组元素个数较小的情况
-     * 4、时间复杂度：O(n^2)
+     * 3、适用于初始记录有序，数组元素个数较小的情况<br/>
+     * 4、时间复杂度：最好情况O(n) 最坏情况O(n^2) 平均情况O(n^2)
      */
     public void bubbleSort() {
         if (theArr == null) {
@@ -203,11 +213,12 @@ public class ArraySorter<T extends Comparable<T>> {
 
     /**
      * <strong>折半插入排序</strong><br/><br/>
-     * 算法特点：<p>
-     * 1、排序稳定<p>
-     * 2、只能用于顺序结构<p>
-     * 3、适合初始记录无序，数组元素数较大的情况<p>
-     * 4、相对于直接插入排序，减少了元素的比较次数，但是相对于直接插入排序元素的移动次数不变
+     * 算法特点：<br/>
+     * 1、排序稳定<br/>
+     * 2、只能用于顺序结构<br/>
+     * 3、适合初始记录无序，数组元素数较大的情况<br/>
+     * 4、相对于直接插入排序，减少了元素的比较次数，但是相对于直接插入排序元素的移动次数不变<br/>
+     * 算法时间复杂度：最好情况O(nlogn) 最坏情况O(n^2) 平均情况O(n^2)
      */
     public void binaryInsertSort() {
         if (theArr == null) {
@@ -238,7 +249,7 @@ public class ArraySorter<T extends Comparable<T>> {
      * 1、不稳定排序<p>
      * 2、可用于链式存储结构<p>
      * 3、适用于移动记录次数较少，每一记录占用空间较多时的情况<p>
-     * 4、时间复杂度：O(n^2)
+     * 4、时间复杂度：最好情况O(n^2) 最坏情况O(n^2) 平均情况O(n^2)
      */
     public void simpleSelectSort() {
         if (theArr == null) {
@@ -282,9 +293,9 @@ public class ArraySorter<T extends Comparable<T>> {
      * <strong>堆排序</strong><br/><br/>
      * 算法特点<p>
      * 1、不稳定排序<p>
-     * 2、只能用于顺序结构<p>
-     * 3、时间复杂度O(nlogn)<p>
-     * 4、适合初始无序且数据元素较多的情况使用
+     * 2、只能用于顺序结构，由于堆排序是直接将顺序数组作为大根堆的顺序存储序列，利用大根堆中父节点与子节点编号之间的数学关系作为随机访问的依据，所以堆排序不适合链式存储<p>
+     * 3、适合初始无序且数据元素较多的情况使用
+     * 4、时间复杂度：最好情况O(nlogn) 最坏情况O(nlogn) 平均情况O(nlogn)
      */
     public void heapSort() {
         /*
@@ -303,7 +314,8 @@ public class ArraySorter<T extends Comparable<T>> {
         for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
             biggerHeapAdjust(k, targetList.size() - 1);//创建初始大根堆的循环
 
-
+//注意创建初始大根堆的外层循环和交换堆顶并调整大根堆的外层循环不一样，创建初始大根堆的外层循环是自下向上自右向左地将非叶节点作为待调整子树根节点，相当于自下向上建堆。
+//        交换堆顶并调整大根堆在每一次交换之后的调整是由根节点向下调整，注意不能和创建初始大根堆从下向上的顺序弄反，
         for (int k = 0; k < targetList.size() - 2; k++) {
             swap(1, targetList.size() - k - 1);
             biggerHeapAdjust(1, targetList.size() - k - 2);
@@ -340,14 +352,19 @@ public class ArraySorter<T extends Comparable<T>> {
 
     /**
      * <strong>归并排序</strong><br/><br/>
-     * 算法特点<p>
+     * 算法特点<br/>
      * 1、稳定排序（如果相同的数字a1和a2分别在要合并的两段的开头，此时比较时a1<=a2，此时会先将a1放在临时容器中，相当于不改变
-     * 相同数字之间的相对位置，而如果相同的数字在同一段中则一定不会改变相对位置）<p>
-     * 2、可用于链式结构<p>
-     * 3、适合于数据量大且初始无序的情况<p>
-     * 4、时间复杂度：O(nlogn)。分析：将子区间划分为只剩一个元素需要划分logn次，对每一层来说
-     * 在合并所有子区间的过程中，n个元素都会被操作一次，每一层的时间复杂度是O(n)，所以归并排序的
-     * 时间复杂度是O(nlogn)
+     * 相同数字之间的相对位置，而如果相同的数字在同一段中则一定不会改变相对位置）<br/>
+     * 2、可用于链式结构<br/>
+     * 3、适合于数据量大且初始无序的情况<br/>
+     * 4、时间复杂度：最好情况O(nlogn) 最坏情况O(nlogn) 平均情况O(nlogn)<br/><br/>
+     * 时间复杂度分析：序列的每次分解都是一分为二，所以代价可忽略不计。归并算法中比较耗时的是归并操作，也就是把两个子数组合并为大数组。
+     * 每一层归并操作消耗的时间总和是一样的，跟要排序的数据规模有关。我们把每一层归并操作消耗的时间记作n，
+     * 归并排序递归树是一颗满二叉树，满二叉树的高度是logn，归并排序二叉树的高度就是归并的次数，用归并的次数乘以每一次归并的时间，就是总的时间，
+     * 所以，归并排序递归实现的时间复杂度就是 O(nlogn)。<br/>
+     * 5、空间复杂度：归并排序的空间复杂度是复杂排序中最大的，因为每一次实现归并的时候，需要一个大小为要归并的两段长度之和的辅助数组或容器，不停地
+     * 比较放入容器，所以空间复杂度取决于排序序列地长度，所以空间复杂度是O(n)
+     *
      */
     public void mergeSort() {
         if (theArr == null) {
@@ -410,15 +427,13 @@ public class ArraySorter<T extends Comparable<T>> {
      * 3、基数排序是稳定排序<br>
      * 4、基数排序不能对含有负数、浮点数的数组进行排序<br/><br/>
      * 时间复杂度分析：<br/>
-     * 该算法所花的时间分为两部分：<br/>
-     * 1、元素分配到桶里：循环 length 次<br/>
-     * 2、把元素从桶里串起来：第二循环是根据桶里面的元素而定的，表示为：k×bucketCount；其中k表示某个桶中的元素个数，bucketCount则表示存放元素的桶个数；<br/>
-     * 有几种特殊情况：<br/>
-     * 第一、所有的元素都存放在一个桶内：k = length，bucketCount = 1；<br/>
-     * 第二、所有的元素平均分配到每个桶中：k = length/ buketCount，bucketCount = 10；（这里已经固定了10个桶）<br/>
-     * 所以平均情况下收集部分所花的时间为：length （也就是元素长度 n）<br/>
-     * 综上所述：<br/>
-     * 时间复杂度为：posCount * (length  + length) ；其中 posCount 为数组中最大元素的最高位数；简化下得：O( k*n ) ；其中k为常数，n为元素个数；
+     * 假设有n个记录（要排序的对象），每个记录有d个关键字(假如1214为一个记录，那么组成该数字的每一位上的数字就是该记录的关键字)，
+     * 每个关键字的取值范围是x个值（1作为记录1214的关键字，可以有10种取值也就是0~9），进行链式基数排序时，每一趟分配的时间复杂度
+     * 为O(n)，因为要遍历所有的n个记录；每一趟收集过程的时间复杂度是O(x)，因为关键字的取值范围决定了桶的数量，桶的数量决定了收集的
+     * 时间复杂度；整个排序要进行d次分配和收集，因为记录有d个关键字，要针对每个关键字进行一次分配和收集；所以最后总的时间复杂度
+     * 就是O(d(n+x))<br/>
+     * 综上所述时间复杂度为：最好情况O(d(n+x)) 最坏情况O(d(n+x)) 平均情况O(d(n+x))
+     *
      */
     public void radixSort() {
         if (theArr == null) {

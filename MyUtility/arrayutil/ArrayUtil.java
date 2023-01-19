@@ -6,7 +6,6 @@ import myScannerAndPrinter.ScannerPlus;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * 自定义的Array工具类，包含一些对数组的简单操作
@@ -15,7 +14,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class ArrayUtil {
-    public static Scanner scanner = new Scanner(System.in);
+    public static ScannerPlus scanner = new ScannerPlus();
 
     private ArrayUtil(){}
 
@@ -51,7 +50,7 @@ public class ArrayUtil {
 
     /**
      * 输出给定数组，该数组的参数类型更加广泛，采用Object[]作为参数，可输出更多对象数组
-     *
+     * 注意数组中的对象必须重写toString()方法
      * @param arr 传入的要输出的数组
      */
     public static void showArray(Object[] arr) {
@@ -227,7 +226,7 @@ public class ArrayUtil {
     /**
      * 将两个升序表，合并为一个降序表
      */
-    public static int[] mergeSort(int[] a, int[] b) {
+    public static int[] mergeArray(int[] a, int[] b) {
         int[] merge = new int[a.length + b.length];
         int i = a.length - 1;
         int j = b.length - 1;
@@ -251,6 +250,19 @@ public class ArrayUtil {
             k++;
         }
         return merge;
+    }
+
+    public static String randomString(int length){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random=new Random();
+
+        StringBuilder resultStr= new StringBuilder();
+        for(int i=0;i<length;i++){
+            int number=random.nextInt(str.length());
+            resultStr.append(str.charAt(number));
+        }
+        return resultStr.toString();
+
     }
 
 }
@@ -383,7 +395,7 @@ class ArrayUtilTester {
 
         long beginMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
         sorter.setSortArray(backUpArrays[1]);
-        sorter.quickSort(1, backUpArrays[1].length);//排序器调用快速排序法对数组排序
+        sorter.quickSort();//排序器调用快速排序法对数组排序
         long endMillis2 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
         System.out.println("快速排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis2, endMillis2) + "毫秒");
 

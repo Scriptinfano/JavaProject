@@ -1,5 +1,6 @@
 package testResources;
 
+import arrayutil.ArrayUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -52,6 +53,10 @@ public class Person implements Comparable<Person> {
 
     public void setRandomAge() {
         age = randomGenerator.nextInt(1, 100);
+    }
+
+    public void setRandomName() {
+        name = ArrayUtil.randomString(10);
     }
 
     public String outputHash() {
