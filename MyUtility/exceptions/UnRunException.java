@@ -1,4 +1,4 @@
-package Math.exceptions;
+package exceptions;
 
 /**
  * 类未执行run()方法就想返回运行结果时抛出此异常，以指示需要运行类

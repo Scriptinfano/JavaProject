@@ -2,11 +2,11 @@ public class TestAnything {
 
 
     public static void main(String[] args) {
-
-System.out.println(byteToBitString(false,(byte)-15));
-
-
+        StringBuilder builder = new StringBuilder("hello mr.robot");
+        builder.delete(1, 3);
+        System.out.println(builder);
     }
+
     private static String byteToBitString(boolean flag, byte b) {
         int temp = b;//先将byte转换成int
         if (flag)
@@ -14,7 +14,6 @@ System.out.println(byteToBitString(false,(byte)-15));
         String str = Integer.toBinaryString(temp);
         return str.substring(str.length() - 8);
     }
-
 
 
 }

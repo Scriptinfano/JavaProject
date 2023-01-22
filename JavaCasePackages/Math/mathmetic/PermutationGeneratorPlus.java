@@ -1,7 +1,7 @@
 package Math.mathmetic;
 
-import Math.exceptions.RequiredSettingsNotCalledException;
-import Math.exceptions.UnRunException;
+import exceptions.RequiredActionNotExcuteException;
+import exceptions.UnRunException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,12 +75,12 @@ public class PermutationGeneratorPlus {
         switch (theMode) {
             case NORMAL -> {
                 if (dimension == null)
-                    throw new RequiredSettingsNotCalledException("未调用setDimension()设置dimension属性，无法以NORMAL模式运行");
+                    throw new RequiredActionNotExcuteException("未调用setDimension()设置dimension属性，无法以NORMAL模式运行");
                 run_NORMAL();
             }
             case SELECT -> {
                 if (dimension == null || selectSize == null)
-                    throw new RequiredSettingsNotCalledException("未调用setSelectSize()设置dimension属性或selectSize属性，无法以SELECT模式运行");
+                    throw new RequiredActionNotExcuteException("未调用setSelectSize()设置dimension属性或selectSize属性，无法以SELECT模式运行");
                 run_SELECT();
             }
         }

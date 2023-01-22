@@ -1,12 +1,13 @@
 package JavaAlgorithm.huffmanCode;
 
 import DataStructure.tree.nodes.BinaryTreeNode;
+import exceptions.RequiredActionNotExcuteException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 class HuffmanNode extends BinaryTreeNode implements Comparable<HuffmanNode> {
-    private Character character;
+    private final Character character;
 
     public HuffmanNode(Integer value, Character ch) {
         super(value);
@@ -53,7 +54,7 @@ public class StringCompressor {
     /**
      * 存放各哈夫曼树各叶子节点的容器，构建哈夫曼树时需要用到该容器
      */
-    private ArrayList<HuffmanNode> nodes = new ArrayList<>();
+    private final ArrayList<HuffmanNode> nodes = new ArrayList<>();
 
     /**
      * 根据原字符串出现次数构建好的哈夫曼树的根节点
@@ -63,7 +64,7 @@ public class StringCompressor {
     /**
      * 哈夫曼编码表，Map容器，存储的是键值对，键是字符串中的字符，值是该字符对应的哈夫曼编码
      */
-    private Map<Character, String> huffmanTable = new HashMap<>();
+    private final Map<Character, String> huffmanTable = new HashMap<>();
 
     /**
      * 要处理的原本的字符串
@@ -126,7 +127,7 @@ public class StringCompressor {
     /**
      * 得到哈夫曼编码的流程控制函数
      *
-     * @return {@link String} 若
+     * @return {@link String} 返回的由0和1组成的二进制哈夫曼编码
      */
     private String getCompressedCode() {
         if (preString == null || preString.isEmpty())
@@ -144,7 +145,7 @@ public class StringCompressor {
      */
     public byte[] getHuffmanCodeBytes() {
         String huffmanCode = getCompressedCode();
-        System.out.println("转换原始字符串之后的哈夫曼编码"+huffmanCode);
+        System.out.println("转换原始字符串之后的哈夫曼编码" + huffmanCode);
         int arrayLength = (int) Math.ceil(huffmanCode.length() / 8d);
         byte[] huffmanCodeBytes = new byte[arrayLength];
         int index = 0;
@@ -213,11 +214,33 @@ public class StringCompressor {
     }
 
     public void decode(byte[] byteArr) {
+        if (huffmanTable.isEmpty())
+            throw new RequiredActionNotExcuteException("请先执行压缩操作，再执行解压缩操作");
         StringBuilder builder = new StringBuilder();
-        for (byte b : byteArr) {
-            builder.append(byteToBitString(b >= 0, b));
+        for (int i = 0; i < byteArr.length; i++) {
+            if (i == byteArr.length - 1) {
+                //对于最后一个
+                int temp = byteArr[i];
+                builder.append(Integer.toBinaryString(temp));
+                break;
+            }
+            builder.append(byteToBitString(byteArr[i] >= 0, byteArr[i]));
         }
 
+        Map<String, Character> decodeMap = new HashMap<>();
+        for (Map.Entry<Character, String> entry : huffmanTable.entrySet()) {
+            decodeMap.put(entry.getValue(), entry.getKey());
+        }
+        List<Character> decodeList = new ArrayList<>();
+        for (int i = 0; i < builder.length(); i++) {
+            int count = 0;
+            Character character = null;
+            while (character == null) {
+                decodeMap.get(builder.substring(count, i + 1));
+                count++;
+            }
+
+        }
     }
 }
 
@@ -229,6 +252,14 @@ class TestHuffmanGenerator {
         byte[] compressedArr = generator.getHuffmanCodeBytes();
         System.out.println(Arrays.toString(compressedArr));
         generator.decode(compressedArr);
+
+    }
+
+    public static void test() {
+        String str = "011010001000100101111011011110100010111001100101011110001110111111001011101";
+        String str2 = "011010001000100101111011011110100010111001100101011110001110111111001011101";
+        System.out.println(str.equals(str2));
+
 
     }
 }
