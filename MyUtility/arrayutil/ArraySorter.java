@@ -59,13 +59,15 @@ public class ArraySorter<T extends Comparable<T>> {
     }
     /**
      * <strong>快速排序</strong><br/><br/>
-     * 算法特点<p>
-     * 1、不稳定排序<p>
-     * 2、排序时需要定位表的上下界，所以适合于顺序结构<p>
-     * 3、适合初始记录无序，数组元素个数较大的情况<p>
-     * 4、快速排序的时间复杂度：最好情况O(nlogn) 最坏情况O(n^2) 平均情况O(nlogn)
+     * 算法特点<br/>
+     * 1、不稳定排序<br/>
+     * 2、排序时需要定位表的上下界，所以适合于顺序结构<br/>
+     * 3、适合初始记录无序，数组元素个数较大的情况<br/>
+     * 4、快速排序的时间复杂度：最好情况O(nlogn) 最坏情况O(n^2) 平均情况O(nlogn)<br/>
      * 5、空间复杂度：由于快速排序是递归的，执行时需要占用函数栈，最大递归调用次数和递归树的深度一致，
-     * 所以最好情况下的空间复杂度为O(logn)，因为递归树的深度在最好情况下是logn，最坏情况下：O(n)，在最坏情况下也就是在排序序列已经排好序的情况下，递归树成为单支树
+     * 所以最好情况下的空间复杂度为O(logn)，因为递归树的深度在最好情况下是logn，最坏情况下：O(n)，
+     * 在最坏情况下也就是在排序序列已经排好序的情况下，递归树成为单支树
+     *
      * @param left  快速排序要指定的左边界，在调用此函数时请填写1
      * @param right 快速排序要指定的右边界，在调用此函数时请填写数组的元素个数
      */
@@ -512,14 +514,13 @@ class ArraySorterTester {
     }
 
     public static void main(String[] args) {
-        //Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 200);
-        Integer[] arr ={46,79,56,38,40,84};
+        Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 100);
+        //Integer[] arr ={46,79,56,38,40,84};
         System.out.println(Arrays.toString(arr));
         ArraySorter<Integer> sorter = new ArraySorter<>();
         sorter.setSortArray(arr);
-        sorter.heapSort();
+        sorter.quickSort();
         System.out.println(Arrays.toString(arr));
-        System.out.println();
     }
 
 }
