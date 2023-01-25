@@ -98,6 +98,12 @@ public class StringOrByteCompressor {
      * 模式二要处理的原始的待压缩字节数组
      */
     private byte[] preBytes;
+
+    /**
+     * 在将哈夫曼编码转化为字节数组的时候，因为是每8位算一个byte，但不能保证哈夫曼编码一定是8的
+     * 倍数，所以最后留下几位不够8位，这个endLength就是记录最后是几位不够凑齐8位，以便在译码时
+     * 将缺的0补齐
+     */
     private int endLength;
     /**
      * 模式选择，A模式必须调用{@link StringOrByteCompressor#setPreString(String)}之后使用，该模式以字符串中字符的出现次数来作为
@@ -113,8 +119,14 @@ public class StringOrByteCompressor {
      * @param arr    压缩之后得到的字节数组
      * @return double 返回的压缩率，越高越好
      */
+
+
     public static double compressionRatio(String preStr, byte[] arr) {
         return (1 - (13 + arr.length) / (double) (40 + 2 * preStr.length())) * 100;
+    }
+
+    public static Mode modeA() {
+        return Mode.A;
     }
 
     /**
@@ -128,19 +140,19 @@ public class StringOrByteCompressor {
         return (1 - (laterBytes.length) / (double) (preBytes.length)) * 100;
     }
 
-    public void setPreBytes(byte[] preBytes) {
-        clear();
-        this.preBytes = preBytes;
+    public static Mode modeB() {
+        return Mode.B;
     }
 
     /**
-     * 设定原字符串或者已经设定好字符串的情况下可以重新设定字符串
+     * 得到根据霍夫曼树所得到的霍夫曼编码
      *
-     * @param preStr 要压缩的字符串
+     * @return {@link String} 返回由1和0组成的霍夫曼编码
      */
-    public void setPreString(String preStr) {
-        clear();
-        preString = preStr;
+    public String getHuffmanCode() {
+        if (huffmanCode == null || huffmanCode.isEmpty())
+            throw new RequiredActionNotExcuteException("未运行压缩，无法从内部取得哈夫曼编码或运行之后暂未生成哈夫曼编码，检查调用时所处条件");
+        return huffmanCode;
     }
 
     /**
@@ -160,8 +172,6 @@ public class StringOrByteCompressor {
      * 得到哈夫曼编码的流程控制函数，将结果保存在类内部变量huffmanCode中
      */
     private void loadCompressedCode() {
-        if (preString == null || preString.isEmpty())
-            throw new RuntimeException("请先调用setPreString(String)接口设定要压缩处理的字符串再调用此接口");
         switch (mode) {
             case A -> statisticalCharacter();//统计原字符串中各字符出现的次数
             case B -> statisticalCharacter2();
@@ -185,16 +195,13 @@ public class StringOrByteCompressor {
     }
 
     /**
-     * 根据已经构建好的哈夫曼编码表，将原字符串的各个字符按照编码表中的编码转化成哈夫曼编码
+     * 设置要压缩的字节数组或者已经设定好字节数组的情况下可以重新设定字节数组（自动清空内部的状态）
      *
-     * @return {@link String} 转换后的哈夫曼编码，是一段由0和1组成的二进制字符串
+     * @param preBytes 要压缩的字节数组
      */
-    private String generateHuffmanCode() {
-        StringBuilder huffmanCodeBuilder = new StringBuilder();
-        for (Character ch : preString.toCharArray()) {
-            huffmanCodeBuilder.append(huffmanTable.get(ch));
-        }
-        return huffmanCodeBuilder.toString();
+    public void setPreBytes(byte[] preBytes) {
+        clear();
+        this.preBytes = preBytes;
     }
 
     /**
@@ -246,13 +253,56 @@ public class StringOrByteCompressor {
     }
 
     /**
+     * 设定原字符串或者已经设定好字符串的情况下可以重新设定字符串（自动清空内部的状态）
+     *
+     * @param preStr 要压缩的字符串
+     */
+    public void setPreString(String preStr) {
+        clear();
+        preString = preStr;
+    }
+
+    /**
+     * 根据已经构建好的哈夫曼编码表，将原字符串的各个字符按照编码表中的编码转化成哈夫曼编码
+     *
+     * @return {@link String} 转换后的哈夫曼编码，是一段由0和1组成的二进制字符串
+     */
+    private String generateHuffmanCode() {
+        StringBuilder huffmanCodeBuilder = new StringBuilder();
+        if (mode == Mode.A) {
+            for (Character ch : preString.toCharArray()) {
+                huffmanCodeBuilder.append(huffmanTable.get(ch));
+            }
+        } else {
+            for (Byte by : preBytes) {
+                huffmanCodeBuilder.append(huffmanTable2.get(by));
+            }
+        }
+
+        return huffmanCodeBuilder.toString();
+    }
+
+    private static String byteToBitString(boolean flag, byte b) {
+        int temp = b;//先将byte转换成int
+        if (flag)
+            temp |= 256;
+        String str = Integer.toBinaryString(temp);
+        return str.substring(str.length() - 8);
+    }
+
+    /**
      * 压缩字符串或字节数组，根据由0和1组成的二进制编码，将其转换为压缩之后的byte数组。在设定要压缩的字符串或者字节数组之后调用此接口得到压缩之后的byte[]数组
+     * <br/>用法：在调用{@link StringOrByteCompressor#setPreBytes}或{@link StringOrByteCompressor#setPreString(String)}设置好要压缩的字符串或
+     * 者字节数组并调用{@link StringOrByteCompressor#setMode(Mode)}设定好相应的运行模式之后调用该接口执行压缩操作
      *
      * @return {@link byte[]} 返回压缩之后的字节数组
      */
-    public byte[] compressString() {
+    public byte[] compress() {
+        if (mode == null) throw new RequiredActionNotExcuteException("运行模式未设定，无法执行压缩");
+        if (((mode == Mode.A) && (preString == null || preString.isEmpty())) || ((mode == Mode.B) && (preBytes == null || preBytes.length == 0)))
+            throw new RequiredActionNotExcuteException("运行模式已设定，请设定要压缩处理的字符串或字节数组");
         loadCompressedCode();//生成压缩之后的二进制哈夫曼编码，保存在内部变量huffmanCode中
-        System.out.println("压缩之后得到的哈夫曼编码：" + huffmanCode);
+        //System.out.println("压缩之后得到的哈夫曼编码：" + huffmanCode);
         int arrayLength = (int) Math.ceil(huffmanCode.length() / 8d);
         byte[] huffmanCodeBytes = new byte[arrayLength];
         int index = 0;
@@ -270,6 +320,21 @@ public class StringOrByteCompressor {
         return huffmanCodeBytes;
     }
 
+    /*
+     * 如果运行模式是B，则调用此接口将压缩之后的字节数组还原回压缩之前的字节数组
+     *
+     * @param byteArr 压缩之后的字节数组
+     * @return {@link byte[]} 压缩之前的字节数组
+     */
+    /*public byte[] depressByteArrToByteArray(byte[] byteArr) {
+
+    }*/
+
+    private enum Mode {
+        A,
+        B
+    }
+
     /**
      * 如果运行模式是A，解压压缩之后的字节数组，转换为原本的字节数组
      *
@@ -277,29 +342,33 @@ public class StringOrByteCompressor {
      * @return {@link String} 压缩之前的字符串
      */
     public String depressbyteArrToString(byte[] byteArr) {
+        if (mode == null) throw new RequiredActionNotExcuteException("运行模式未设定，无法执行任何操作");
         if (mode == Mode.B) throw new UnsupportedOperationException("当前设置的是运行模式B，不支持将byte[]转化为String，模式B只能将byte[]转化为压缩之前的byte[]");
         if (huffmanTable.isEmpty())
             throw new RequiredActionNotExcuteException("请先执行模式A的压缩操作，再执行解压缩操作");
         StringBuilder builder = new StringBuilder();
+        //这一段循环是将每一个byte还原成二进制字符串，也就是哈夫曼编码
         for (int i = 0; i < byteArr.length; i++) {
             if (i == byteArr.length - 1) {
                 //对于最后一个要单独处理，长度最后一定要等于endLength
                 int temp = byteArr[i];
                 String tempString = Integer.toBinaryString(temp);
-                while (tempString.length() < endLength)
-                    builder.insert(0, '0');
-                builder.append(builder);
+                StringBuilder tempBuilder = new StringBuilder(tempString);
+                while (tempBuilder.length() < endLength)
+                    tempBuilder.insert(0, '0');
+                builder.append(tempBuilder);
                 break;
             }
             builder.append(byteToBitString(byteArr[i] >= 0, byteArr[i]));
         }
-        System.out.println("解压时得到的哈夫曼编码：" + builder);
+        //System.out.println("解压时得到的哈夫曼编码：" + builder);
 
+        //反转哈夫曼映射表，原本的映射表是从字符到哈夫曼编码，我们现在已知哈夫曼编码，要将哈夫曼编码变回字符，就需要反转映射表
         Map<String, Character> decodeMap = new HashMap<>();
         for (Map.Entry<Character, String> entry : huffmanTable.entrySet()) {
             decodeMap.put(entry.getValue(), entry.getKey());
         }
-        List<Character> decodeList = new ArrayList<>();
+        List<Character> decodeList = new ArrayList<>();//保存由哈夫曼编码转化之后的字符
 
         while (!builder.isEmpty()) {
             int count = 1;
@@ -316,14 +385,6 @@ public class StringOrByteCompressor {
         return builder.toString();
     }
 
-    private static String byteToBitString(boolean flag, byte b) {
-        int temp = b;//先将byte转换成int
-        if (flag)
-            temp |= 256;
-        String str = Integer.toBinaryString(temp);
-        return str.substring(str.length() - 8);
-    }
-
     /**
      * 递归遍历哈夫曼树，将到叶子节点路径转化为二进制串
      *
@@ -333,7 +394,7 @@ public class StringOrByteCompressor {
      */
     private void processTreeNode(HuffmanNode node, StringBuilder builder, Boolean leftOrRight) {
         if (node != null) {
-            if (node.getCharacter() == null) {
+            if ((mode == Mode.A && node.getCharacter() == null) || (mode == Mode.B && node.getByteCharacter() == null)) {
                 if (leftOrRight != null) {
                     //如果leftOrRight==null，则说明node是根节点，没有父节点，此时继续递归即可
                     if (leftOrRight) {
@@ -357,40 +418,26 @@ public class StringOrByteCompressor {
                         builder.append("1");
                     }
                 }
-                huffmanTable.put(node.getCharacter(), builder.toString());
+                if (mode == Mode.A)
+                    huffmanTable.put(node.getCharacter(), builder.toString());
+                else huffmanTable2.put(node.getByteCharacter(), builder.toString());
             }
         }
-    }
-
-    /**
-     * 如果运行模式是B，则调用此接口将压缩之后的字节数组还原回压缩之前的字节数组
-     *
-     * @param byteArr 压缩之后的字节数组
-     * @return {@link byte[]} 压缩之前的字节数组
-     */
-    /*public byte[] depressByteArrToByteArray(byte[] byteArr) {
-
-    }*/
-
-    private enum Mode {
-        A,
-        B
     }
 }
 
 class TestHuffmanGenerator {
     public static void main(String[] args) {
-        testMain();
         test();
     }
 
     public static void testMain() {
         StringOrByteCompressor compresser = new StringOrByteCompressor();
         String str = "I want to make love with y";
-        System.out.println(str.length());
         System.out.println("压缩之前的字符串：" + str);
+        compresser.setMode(StringOrByteCompressor.modeA());
         compresser.setPreString(str);
-        byte[] compressedArr = compresser.compressString();
+        byte[] compressedArr = compresser.compress();
         System.out.println("压缩之后的byte[]数组：" + Arrays.toString(compressedArr));
         String result = compresser.depressbyteArrToString(compressedArr);
         System.out.println("解码之后的结果：" + result);
@@ -398,8 +445,13 @@ class TestHuffmanGenerator {
     }
 
     public static void test() {
-        String str = "11100011 10010010 00000101 00110110 11111110 01111011 01001111 10101100 01101001 11001101 10011101 0011000";
-        String str2 = "111000111001001000000101001101101111111001111011010011111010110001101001110011011001110100011000";
-        System.out.println(str.equals(str2));
+        String testStr = "hello world, I like java, do you like java.";
+        System.out.println("压缩之前的字节数组" + Arrays.toString(testStr.getBytes()));
+        byte[] byteArr = testStr.getBytes();
+        StringOrByteCompressor compressor = new StringOrByteCompressor();
+        compressor.setMode(StringOrByteCompressor.modeB());
+        compressor.setPreBytes(byteArr);
+        byte[] compressedBytes = compressor.compress();
+        System.out.printf("压缩之后的字节数组" + Arrays.toString(compressedBytes));
     }
 }
