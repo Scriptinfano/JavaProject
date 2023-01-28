@@ -1,18 +1,22 @@
 package DataStructure.tree.trees;
 
+import DataStructure.exception.CollectionEmptyException;
+import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinarySortTreeNode;
+import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
 import myScannerAndPrinter.IOTransformer;
 import myScannerAndPrinter.NoMoreScanException;
 import myScannerAndPrinter.ScannerPlus;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 二叉排序树
  *
  * @author Mingxiang
  */
-public class BinarySortTree {
-    private BinarySortTreeNode root;
+public class BinarySortTree extends AbstractTree<Integer> {
+
 
     /**
      * 传入关键码集合，构造二叉排序树
@@ -20,26 +24,28 @@ public class BinarySortTree {
      * @param arr 加勒比海盗
      */
     public BinarySortTree(Integer[] arr) {
-        for (Integer t : arr) {
-            insertNode(t);
+        for (Integer value : arr) {
+            BinarySortTreeNode newNode = new BinarySortTreeNode(null, value);
+            insert(newNode);
         }
 
     }
 
     /**
-     * 插入节点
+     * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
      *
-     * @param data 要插入节点的数据域的值
+     * @param node 待插入的节点
      */
-    public void insertNode(Integer data) {
+    @Override
+    public void insert(BinaryTreeNode<Integer> node) {
         if (root == null) {
-            root = new BinarySortTreeNode(null, data);
-            root.setMark(BinarySortTreeNode.childMark.NONE);
+            root = node;
+            ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
         } else {
-            if (data.compareTo(root.getElement()) < 0) {
-                insertNodeRecurse(root, root.getLeftChild(), data, false);
+            if (node.getElement().compareTo(root.getElement()) < 0) {
+                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getLeftChild(), node.getElement(), false);
             } else
-                insertNodeRecurse(root, root.getRightChild(), data, true);
+                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getRightChild(), node.getElement(), true);
         }
 
     }
@@ -63,7 +69,7 @@ public class BinarySortTree {
                 currentNode.setMark(BinarySortTreeNode.childMark.LEFT);
             }
         } else {
-            if (data<currentNode.getElement()) {
+            if (data < currentNode.getElement()) {
                 insertNodeRecurse(currentNode, currentNode.getLeftChild(), data, false);
             } else
                 insertNodeRecurse(currentNode, currentNode.getRightChild(), data, true);
@@ -71,25 +77,20 @@ public class BinarySortTree {
     }
 
     /**
-     * 对二叉排序树执行中序遍历操作
-     */
-    public void inorder() {
-    }
-
-    /**
-     * 搜索节点数据域是data的节点，返回该节点
+     * 搜索节点值为value的节点，并返回该节点引用，若未找到则返回null
      *
-     * @param data 数据
-     * @return {@link BinarySortTreeNode}
+     * @param value 要搜索的节点的值为value
+     * @return {@link BinaryTreeNode<Integer>} 反回的找到的节点
      */
-    public BinarySortTreeNode searchNode(Integer data) {
+    @Override
+    public BinaryTreeNode<Integer> search(Object value) throws NodeNotFoundException {
         if (root == null)
             return null;
         else {
-            if (data<root.getElement() ){
-                return searchNodeRecurse(root.getLeftChild(), data);
-            } else if (data>root.getElement())
-                return searchNodeRecurse(root.getRightChild(), data);
+            if (((Integer) value).compareTo(root.getElement()) < 0) {
+                return searchNodeRecurse((BinarySortTreeNode) root.getLeftChild(), (Integer) value);
+            } else if (((Integer) value).compareTo(root.getElement()) > 0)
+                return searchNodeRecurse((BinarySortTreeNode) root.getRightChild(), (Integer) value);
             else return root;
         }
     }
@@ -101,32 +102,39 @@ public class BinarySortTree {
      * @param data    数据
      * @return {@link BinarySortTreeNode} 返回搜索到的节点的引用
      */
-    private BinarySortTreeNode searchNodeRecurse(BinarySortTreeNode theNode, Integer data) {
+    private BinarySortTreeNode searchNodeRecurse(BinarySortTreeNode theNode, Integer data) throws NodeNotFoundException {
         if (theNode == null)
-            return null;//未找到
-        else if (data<theNode.getElement())
+            throw new NodeNotFoundException(data);
+        else if (data < theNode.getElement())
             return searchNodeRecurse(theNode.getLeftChild(), data);//在左子树中递归查找
-        else if (data>theNode.getElement())
+        else if (data > theNode.getElement())
             return searchNodeRecurse(theNode.getRightChild(), data);//在右子树中递归查找
         else return theNode;//找到了
 
     }
 
-    public void deleteNode(Integer data) throws IllegalArgumentException {
+    /**
+     * 删除值为value的节点，若未找到节点则抛出异常
+     *
+     * @param value 价值
+     * @throws NodeNotFoundException 节点没有发现异常
+     */
+    @Override
+    public void delete(Object value) throws NodeNotFoundException, CollectionEmptyException {
         if (root != null) {
-            var theNode = searchNode(data);
+            BinarySortTreeNode theNode = (BinarySortTreeNode) search(value);//先在树中查找待删除节点
             if (theNode == null)
-                return;//没有找到待删除的节点
-            var theParentNode = theNode.getParent();
+                throw new NodeNotFoundException(value);//没有找到待删除的节点，抛出没有找到节点的异常
+            BinarySortTreeNode theParentNode = theNode.getParent();//得到待删除节点的父节点
 
             if (theNode.getLeftChild() != null && theNode.getRightChild() != null) {
                 /*
                 待删除的节点有左右子树的情况。处理方法：以其左子树中最大值节点（左子树最右下节点）或右子树中最小值节点（右子树最左下节点）替代之，然后再删除该节点
                 此处有两种选择，可以选择删除左子树中最大值节点也可以删除右子树中最小值节点，这里以删除左子树中最大值节点为例
                 */
-                var theLargestNode = deleteNode_findLargestNodeInLeftTree(root);
+                BinarySortTreeNode theLargestNode = deleteNode_findLargestNodeInLeftTree((BinarySortTreeNode) root);//找到左子树中的右下节点
                 theNode.setElement(theLargestNode.getElement());
-                var leftChildOfLargestNode = theLargestNode.getLeftChild();
+                BinarySortTreeNode leftChildOfLargestNode = theLargestNode.getLeftChild();
                 theLargestNode.getParent().setRightChild(leftChildOfLargestNode);
                 leftChildOfLargestNode.setMark(BinarySortTreeNode.childMark.RIGHT);
             } else if (theNode.getLeftChild() == null && theNode.getRightChild() == null) {
@@ -152,7 +160,7 @@ public class BinarySortTree {
                     } else {
                         //该节点是根节点且该节点只有一颗右子树
                         root = root.getRightChild();
-                        root.setMark(BinarySortTreeNode.childMark.NONE);
+                        ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
                     }
                 } else {
                     //该节点只有左子树的情况
@@ -166,13 +174,13 @@ public class BinarySortTree {
                     } else {
                         //该节点是根节点且该节点只有一颗左子树
                         root = root.getLeftChild();
-                        root.setMark(BinarySortTreeNode.childMark.NONE);
+                        ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
                     }
 
                 }
             }
         } else {
-            throw new IllegalArgumentException("该二叉排序树是空树，无法执行任何操作");
+            throw new CollectionEmptyException("该二叉排序树是空树，无法执行任何操作");
         }
     }
 
@@ -218,15 +226,16 @@ class TestBinarySortTree {
         testDelete(theSortTree);
     }
 
-    private static void testSearch(BinarySortTree theSortTree) {
+    private static void testSearch(@NotNull BinarySortTree theSortTree) {
         while (true) {
             IOTransformer.printer.print("输入要查找的数字：");
             int theNum = IOTransformer.scanner.nextInt();
-            BinarySortTreeNode theNode = theSortTree.searchNode(theNum);
-            if (theNode != null) {
+            BinarySortTreeNode theNode = null;
+            try {
+                theNode = (BinarySortTreeNode) theSortTree.search(theNum);
                 IOTransformer.printer.println("找到了位于" + theNode + "的节点");
-            } else {
-                IOTransformer.printer.println("没找到");
+            } catch (NodeNotFoundException e) {
+                System.out.println(e.getMessage());
             }
             try {
                 IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
@@ -242,16 +251,18 @@ class TestBinarySortTree {
         while (true) {
             IOTransformer.printer.println("输入要删除的数字");
             int theNum = IOTransformer.scanner.nextInt();
-            if (theSortTree.searchNode(theNum) != null) {
-                //找到了该节点，可以删除
-                theSortTree.deleteNode(theNum);
-            } else {
-                IOTransformer.printer.println("没有找到节点，无法删除");
+            try {
+                theSortTree.delete(theNum);
+            } catch (NodeNotFoundException e) {
+                System.out.println(e.getMessage());//未找到要删除的节点
+            } catch (CollectionEmptyException e) {
+                System.out.println(e.getMessage());
+                return;//因为已经是空树了，没有元素可以删除了，直接返回
             }
             try {
                 IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
             } catch (NoMoreScanException e) {
-                break;
+                return;
             }
 
         }

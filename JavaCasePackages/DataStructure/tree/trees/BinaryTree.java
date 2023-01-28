@@ -1,50 +1,18 @@
 package DataStructure.tree.trees;
 
-import DataStructure.dataStructureInterfaces.Tree;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryTreeNode;
 
-import java.util.List;
+/**
+ * 最基本的二叉树
+ *
+ * @author Mingxiang
+ */
+public class BinaryTree<T> extends AbstractTree<T> {
+    //TODO 完成基本二叉树的设计
 
-public class BinaryTree implements Tree {
-    /**
-     * 不使用递归方式实现的前序遍历
-     *
-     * @return {@link List}<{@link BinaryTreeNode}> 返回填满树节点的容器
-     */
-    @Override
-    public List<? extends BinaryTreeNode> preOrderWithoutRecurse() {
-        return null;
-    }
-
-    /**
-     * 不使用递归方式实现的中序遍历
-     *
-     * @return {@link List}<{@link ?} {@link extends} {@link BinaryTreeNode}> 返回填满树节点的容器
-     */
-    @Override
-    public List<? extends BinaryTreeNode> inOrderWithoutRecurse() {
-        return null;
-    }
-
-    /**
-     * 不使用递归方式实现的后序遍历
-     *
-     * @return {@link List}<{@link ?} {@link extends} {@link BinaryTreeNode}> 返回填满树节点的容器
-     */
-    @Override
-    public List<? extends BinaryTreeNode> postOrderWithoutRecurse() {
-        return null;
-    }
-
-    /**
-     * 层次遍历
-     *
-     * @return {@link List}<{@link ?} {@link extends} {@link BinaryTreeNode}>返回填满树节点的容器
-     */
-    @Override
-    public List<? extends BinaryTreeNode> levelOrder() {
-        return null;
+    public static void main(String[] args) {
+        BinaryTree<Integer> tree = new BinaryTree<>();
     }
 
     /**
@@ -53,38 +21,18 @@ public class BinaryTree implements Tree {
      * @param node 待插入的节点
      */
     @Override
-    public void insert(BinaryTreeNode node) {
+    public void insert(BinaryTreeNode<T> node) {
 
-    }
-
-    /**
-     * 使用递归的方式计算树中的叶子节点的数目
-     *
-     * @return int
-     */
-    @Override
-    public int leafSize() {
-        return 0;
-    }
-
-    /**
-     * 求总树高
-     *
-     * @return int 总的树高
-     */
-    @Override
-    public int height() {
-        return 0;
     }
 
     /**
      * 搜索节点值为value的节点，并返回该节点引用，若未找到则返回null
      *
      * @param value 要搜索的节点的值为value
-     * @return {@link BinaryTreeNode} 反回的找到的节点
+     * @return {@link BinaryTreeNode<T>} 反回的找到的节点
      */
     @Override
-    public BinaryTreeNode search(Object value) {
+    public BinaryTreeNode<T> search(Object value) {
         return null;
     }
 
@@ -97,5 +45,11 @@ public class BinaryTree implements Tree {
     @Override
     public void delete(Object value) throws NodeNotFoundException {
 
+    }
+}
+
+class TestBinaryTree {
+    public static void main(String[] args) {
+        BinaryTree<Integer> tree = new BinaryTree<>();
     }
 }

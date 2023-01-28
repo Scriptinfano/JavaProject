@@ -40,7 +40,7 @@ public class QueueWithRear<T> implements MyQueue<T> {
     /**
      * 出队
      */
-    public void pop() {
+    public void pop() throws CollectionEmptyException {
         if (isEmpty()) throw new CollectionEmptyException();
         Node<T> p = rear;
         while (!p.getNext().equals(rear)) {
@@ -50,7 +50,7 @@ public class QueueWithRear<T> implements MyQueue<T> {
         rear = p;
     }
 
-    public T front() {
+    public T front() throws CollectionEmptyException {
         if (isEmpty()) throw new CollectionEmptyException();
         return rear.getElement();
     }

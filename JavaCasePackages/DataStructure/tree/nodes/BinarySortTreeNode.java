@@ -1,7 +1,7 @@
 package DataStructure.tree.nodes;
 
 
-public class BinarySortTreeNode extends BinaryTreeNode {
+public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
     private BinarySortTreeNode parent;
 
     public enum childMark {

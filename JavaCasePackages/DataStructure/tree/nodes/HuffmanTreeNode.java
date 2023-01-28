@@ -2,7 +2,7 @@ package DataStructure.tree.nodes;
 
 import org.jetbrains.annotations.NotNull;
 
-public class HuffmanTreeNode extends BinaryTreeNode implements Comparable<HuffmanTreeNode>{
+public class HuffmanTreeNode extends BinaryTreeNode<Integer> implements Comparable<HuffmanTreeNode> {
 
 
     public HuffmanTreeNode(int value) {
@@ -11,6 +11,6 @@ public class HuffmanTreeNode extends BinaryTreeNode implements Comparable<Huffma
 
     @Override
     public int compareTo(@NotNull HuffmanTreeNode o) {
-        return this.getElement()-o.getElement();//从小到大排序
+        return this.getElement() - o.getElement();//从小到大排序
     }
 }

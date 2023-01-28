@@ -1,13 +1,15 @@
 package DataStructure.dataStructureInterfaces;
 
+import DataStructure.exception.CollectionEmptyException;
+
 public interface MyQueue<T> {
     void push(T element);
 
-    void pop();
+    void pop() throws CollectionEmptyException;
 
     int size();
 
-    T front();
+    T front() throws CollectionEmptyException;
 
     boolean isEmpty();
 

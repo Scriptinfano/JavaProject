@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-class HuffmanNode extends BinaryTreeNode implements Comparable<HuffmanNode> {
+class HuffmanNode extends BinaryTreeNode<Integer> implements Comparable<HuffmanNode> {
     private final Character character;
 
     private final Byte byteCharacter;

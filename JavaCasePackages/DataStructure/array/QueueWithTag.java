@@ -44,13 +44,13 @@ public class QueueWithTag<T> implements MyQueue<T> {
         return (rear - head + arr.length) % arr.length;
     }
 
-    public T front() {
+    public T front() throws CollectionEmptyException {
         if (isEmpty()) throw new CollectionEmptyException("队列为空，无法取出队头元素");
         return arr[head];
 
     }
 
-    public void pop() {
+    public void pop() throws CollectionEmptyException {
         if (isEmpty()) throw new CollectionEmptyException("队列为空，无法弹出元素");
         head = (head + 1) % arr.length;
         tag = false;

@@ -4,11 +4,11 @@ import DataStructure.array.QueueWithTag;
 import DataStructure.exception.CollectionEmptyException;
 
 public class Tester {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CollectionEmptyException {
         testQueueWithRear();
     }
 
-    public static void testQueueWithRear() {
+    public static void testQueueWithRear() throws CollectionEmptyException {
         QueueWithRear<Integer> list = new QueueWithRear<>();
         list.push(12);
         list.push(41);
@@ -28,7 +28,7 @@ public class Tester {
 
     }
 
-    public static void testQueueWithTag() {
+    public static void testQueueWithTag() throws CollectionEmptyException {
         QueueWithTag<Integer> list = new QueueWithTag<>(Integer.class, 5);
         list.push(12);
         list.push(41);
