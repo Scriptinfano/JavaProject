@@ -27,18 +27,8 @@ public class BinarySortTreeNode extends BinaryTreeNode {
     }
 
     @Override
-    public void setLeftChild(BinaryTreeNode leftChild) {
-        super.setLeftChild(leftChild);
-    }
-
-    @Override
     public BinarySortTreeNode getRightChild() {
         return (BinarySortTreeNode)super.getRightChild();
-    }
-
-    @Override
-    public void setRightChild(BinaryTreeNode rightChild) {
-        super.setRightChild(rightChild);
     }
 
     public void setParent(BinarySortTreeNode theParent) {

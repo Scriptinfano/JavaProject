@@ -183,9 +183,9 @@ public class Compressor {
      * @return {@link byte[]} 返回压缩之前的字节数组
      */
     public static byte[] depress(ZipPackage compressedPackage) {
-        byte[] compressedBytes = compressedPackage.getHuffmanCodeBytes();
-        int endLengths = compressedPackage.getEndLength();
-        Map<Byte, String> huffmanTable = compressedPackage.getHuffmanByteTable();
+        byte[] compressedBytes = compressedPackage.huffmanCodeBytes();
+        int endLengths = compressedPackage.endLength();
+        Map<Byte, String> huffmanTable = compressedPackage.huffmanByteTable();
 
         StringBuilder huffmanCodeBuilder = new StringBuilder();
         //这一段循环是将每一个byte还原成二进制字符串，也就是哈夫曼编码
@@ -241,7 +241,7 @@ class TestHuffmanGenerator {
         String str = "I want to make love with y";
         System.out.println("压缩之前的字符串：" + str);
         ZipPackage compressedPackage = Compressor.compress(str.getBytes());
-        System.out.println("压缩之后的byte[]数组：" + Arrays.toString(compressedPackage.getHuffmanCodeBytes()));
+        System.out.println("压缩之后的byte[]数组：" + Arrays.toString(compressedPackage.huffmanCodeBytes()));
         byte[] strbytes = Compressor.depress(compressedPackage);
         String resultStr = new String(strbytes);
         System.out.println(resultStr);

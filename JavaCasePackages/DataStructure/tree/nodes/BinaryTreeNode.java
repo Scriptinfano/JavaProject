@@ -1,5 +1,10 @@
 package DataStructure.tree.nodes;
 
+/**
+ * 所有二叉树节点的基类
+ *
+ * @author Mingxiang
+ */
 public class BinaryTreeNode {
     private Integer element;//二叉树节点权值
     private BinaryTreeNode leftChild;//二叉树左孩子指针
@@ -24,6 +29,7 @@ public class BinaryTreeNode {
 
     /**
      * 获取该节点的权值
+     *
      * @return Integer 返回
      */
     public Integer getElement() {
@@ -75,5 +81,35 @@ public class BinaryTreeNode {
         this.rightChild = rightChild;
     }
 
+    /**
+     * 返回以该节点为根节点的树的高度
+     *
+     * @return int 左右子树高度的较大值就是以该节点为根节点的子树的高度
+     */
+    public int height() {
+        return Math.max(getLeftChild() == null ? 0 : getLeftChild().height(), getRightChild() == null ? 0 : getRightChild().height()) + 1;
+    }
+
+    /**
+     * 求该节点左子树的高度
+     *
+     * @return int 左子树的高度
+     */
+    public int leftHeight() {
+        if (getLeftChild() == null)
+            return 0;
+        return getLeftChild().height();
+    }
+
+    /**
+     * 求该节点右子树的高度
+     *
+     * @return int
+     */
+    public int rightHeight() {
+        if (getRightChild() == null)
+            return 0;
+        return getRightChild().height();
+    }
 }
 

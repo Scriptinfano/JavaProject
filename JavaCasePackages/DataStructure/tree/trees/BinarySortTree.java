@@ -1,6 +1,10 @@
 package DataStructure.tree.trees;
 
 import DataStructure.tree.nodes.BinarySortTreeNode;
+import arrayutil.ArrayUtil;
+import myScannerAndPrinter.IOTransformer;
+import myScannerAndPrinter.NoMoreScanException;
+import myScannerAndPrinter.ScannerPlus;
 
 /**
  * 二叉排序树
@@ -110,19 +114,19 @@ public class BinarySortTree {
 
     public void deleteNode(Integer data) throws IllegalArgumentException {
         if (root != null) {
-            BinarySortTreeNode theNode = searchNode(data);
+            var theNode = searchNode(data);
             if (theNode == null)
                 return;//没有找到待删除的节点
-            BinarySortTreeNode theParentNode = theNode.getParent();
+            var theParentNode = theNode.getParent();
 
             if (theNode.getLeftChild() != null && theNode.getRightChild() != null) {
-                //待删除的节点有左右子树的情况
                 /*
-                 * 处理方法：以其左子树中最大值节点（左子树最右下节点）或右子树中最小值节点（右子树最左下节点）替代之，然后再删除该节点*/
-                //此处有两种选择，可以选择删除左子树中最大值节点也可以删除右子树中最小值节点，这里以删除左子树中最大值节点为例
-                BinarySortTreeNode theLargestNode = deleteNode_findLargestNodeInLeftTree(root);
+                待删除的节点有左右子树的情况。处理方法：以其左子树中最大值节点（左子树最右下节点）或右子树中最小值节点（右子树最左下节点）替代之，然后再删除该节点
+                此处有两种选择，可以选择删除左子树中最大值节点也可以删除右子树中最小值节点，这里以删除左子树中最大值节点为例
+                */
+                var theLargestNode = deleteNode_findLargestNodeInLeftTree(root);
                 theNode.setElement(theLargestNode.getElement());
-                BinarySortTreeNode leftChildOfLargestNode = theLargestNode.getLeftChild();
+                var leftChildOfLargestNode = theLargestNode.getLeftChild();
                 theLargestNode.getParent().setRightChild(leftChildOfLargestNode);
                 leftChildOfLargestNode.setMark(BinarySortTreeNode.childMark.RIGHT);
             } else if (theNode.getLeftChild() == null && theNode.getRightChild() == null) {
@@ -202,3 +206,54 @@ public class BinarySortTree {
 
 }
 
+class TestBinarySortTree {
+    public static void main(String[] args) {
+
+        //Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 100);
+
+        Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
+        ArrayUtil.showArray(arr);
+        BinarySortTree theSortTree = new BinarySortTree(arr);
+        //testSearch(theSortTree);
+        testDelete(theSortTree);
+    }
+
+    private static void testSearch(BinarySortTree theSortTree) {
+        while (true) {
+            IOTransformer.printer.print("输入要查找的数字：");
+            int theNum = IOTransformer.scanner.nextInt();
+            BinarySortTreeNode theNode = theSortTree.searchNode(theNum);
+            if (theNode != null) {
+                IOTransformer.printer.println("找到了位于" + theNode + "的节点");
+            } else {
+                IOTransformer.printer.println("没找到");
+            }
+            try {
+                IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
+            } catch (NoMoreScanException e) {
+                break;
+            }
+        }
+        ScannerPlus.pause();
+    }
+
+    //TODO 测试删除功能未完成
+    private static void testDelete(BinarySortTree theSortTree) {
+        while (true) {
+            IOTransformer.printer.println("输入要删除的数字");
+            int theNum = IOTransformer.scanner.nextInt();
+            if (theSortTree.searchNode(theNum) != null) {
+                //找到了该节点，可以删除
+                theSortTree.deleteNode(theNum);
+            } else {
+                IOTransformer.printer.println("没有找到节点，无法删除");
+            }
+            try {
+                IOTransformer.scanner.noMoreScan();//询问用户是否还需要输入
+            } catch (NoMoreScanException e) {
+                break;
+            }
+
+        }
+    }
+}

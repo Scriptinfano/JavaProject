@@ -50,6 +50,9 @@ public class FloydSolver {
     }
 
 
+    /**
+     * 运行
+     */
     public void run() {
         if (!hasSet) throw new RuntimeException("FloydSolver对象未完成必要设置（未调用set()接口），无法运行run接口");
         int nodeSize = path.size();

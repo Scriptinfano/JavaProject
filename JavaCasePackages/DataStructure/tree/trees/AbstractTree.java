@@ -4,9 +4,22 @@ import DataStructure.dataStructureInterfaces.Tree;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryTreeNode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
-public class BinaryTree implements Tree {
+public class AbstractTree<T> implements Tree {
+    private BinaryTreeNode root;//树的根节点
+    private T treeSize;//树中的节点个数
+
+    public BinaryTreeNode getRoot() {
+        return root;
+    }
+
+    public T getTreeSize() {
+        return treeSize;
+    }
+
     /**
      * 不使用递归方式实现的前序遍历
      *
@@ -14,7 +27,13 @@ public class BinaryTree implements Tree {
      */
     @Override
     public List<? extends BinaryTreeNode> preOrderWithoutRecurse() {
-        return null;
+        Stack<BinaryTreeNode> nodeStack = new Stack<>();
+        ArrayList<T> result = new ArrayList<>();
+        nodeStack.push(root);
+        while (!nodeStack.isEmpty()) {
+            var current = nodeStack.pop();
+
+        }
     }
 
     /**

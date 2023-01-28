@@ -3,12 +3,14 @@ package DataStructure.graph.baseOnAdjacencyList;
 import myScannerAndPrinter.ScannerPlus;
 
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
- * 有向图的邻接表表示法，每个顶点放在数组容器中，每个顶点关联一个边链表，边链表中存放关联于该顶点的所有边的信息
- *
- * @author Mingxiang
+ * 基于邻接表表示法的图，每个顶点放在数组容器中，每个顶点关联一个边链表，边链表中存放关联于该顶点的所有边的信息
+ * 邻接表中弧节点的数量就是边的总数
  */
 public class GraphAdjacencyList {
 
@@ -40,46 +42,7 @@ public class GraphAdjacencyList {
         else throw new RuntimeException("错误初始化");
     }
 
-    /**
-     * 与用户交互录入各个顶点与边的信息
-     */
-    private void create_user() {
-        System.out.println("开始录入每个顶点的信息...");
-        System.out.println("输入图中有多少个顶点：");
-        //代表图中总共有多少个顶点
-        int nodeSize = scanner.nextInt();
-        graphList = new ArrayList<>(nodeSize);
-        hasVisited = new boolean[nodeSize];
-        System.out.println("开始录入图中每个顶点的信息...（按照顶点在图中的顺序输入）");
-        for (int i = 0; i < nodeSize; i++) {
-            System.out.println("输入第" + (i + 1) + "个顶点的权值（任意输入）：");
-            graphList.add(new HeadNode(i + 1, scanner.nextLine()));
-        }
-
-        System.out.println("开始录入每个顶点所关联的所有边的信息...");
-        for (int i = 0; i < nodeSize; i++) {
-            System.out.println("请输入第" + (i + 1) + "个顶点的出度：");
-            int theOutDegree = scanner.nextInt();
-            ArrayList<Integer> hasRepeat = new ArrayList<>();
-            for (int j = 0; j < theOutDegree; j++) {
-                System.out.println("请输入该顶点所关联的第" + (j + 1) + "条有向边指向了图中的第几个顶点：");
-                int theIndex = i + 1;
-                //这个for循环的意思是该顶点的邻接点不能是自己，必须输入其他邻接点
-                while (theIndex == i + 1 || hasRepeat.contains(theIndex)) {
-                    theIndex = scanner.nextSelectionByInt(1, nodeSize);
-                    if (theIndex == i + 1)
-                        System.out.println("该顶点所关联的边不能指向该顶点自身且顶点所关联的有向线段必须各自指向不同的顶点，请重新输入所指向顶点是图中的第几个顶点：");
-                }
-                System.out.println("请输入该边的权值：");
-                graphList.get(i).addLineNode(graphList.get(theIndex - 1), scanner.nextLine());
-                hasRepeat.add(theIndex);
-            }
-        }
-
-        System.out.println("录入完毕");
-        ScannerPlus.pause();
-
-    }
+    private FloydSolver solver;
 
     /**
      * 按照图片默认有向图.jpg构造有向图
@@ -299,10 +262,61 @@ public class GraphAdjacencyList {
         return graphList.size();
     }
 
+    /**
+     * 与用户交互录入各个顶点与边的信息
+     */
+    private void create_user() {
+        System.out.println("开始录入每个顶点的信息...");
+        System.out.println("输入图中有多少个顶点：");
+        //代表图中总共有多少个顶点
+        int nodeSize = scanner.nextInt();
+        graphList = new ArrayList<>(nodeSize);
+        hasVisited = new boolean[nodeSize];
+        System.out.println("开始录入图中每个顶点的信息...（按照顶点在图中的顺序输入）");
+        for (int i = 0; i < nodeSize; i++) {
+            System.out.println("输入第" + (i + 1) + "个顶点的权值（任意输入）：");
+            graphList.add(new HeadNode(i + 1, scanner.nextLine()));
+        }
+
+        System.out.println("开始录入每个顶点所关联的所有边的信息...");
+        for (int i = 0; i < nodeSize; i++) {
+            System.out.println("请输入第" + (i + 1) + "个顶点的出度：");
+            int theOutDegree = scanner.nextInt();
+            ArrayList<Integer> hasRepeat = new ArrayList<>();
+            for (int j = 0; j < theOutDegree; j++) {
+                System.out.println("请输入该顶点所关联的第" + (j + 1) + "条有向边指向了图中的第几个顶点：");
+                int theIndex = i + 1;
+                //这个循环的意思是该顶点的邻接点不能是自己，必须输入其他邻接点
+                while (theIndex == i + 1 || hasRepeat.contains(theIndex)) {
+                    theIndex = scanner.nextSelectionByInt(1, nodeSize);
+                    if (theIndex == i + 1)
+                        System.out.println("该顶点所关联的边不能指向该顶点自身且顶点所关联的有向线段必须各自指向不同的顶点，请重新输入所指向顶点是图中的第几个顶点：");
+                }
+                System.out.println("请输入该边的权值：");
+                graphList.get(i).addLineNode(graphList.get(theIndex - 1), scanner.nextLine());
+                hasRepeat.add(theIndex);
+            }
+        }
+
+        System.out.println("录入完毕");
+        ScannerPlus.pause();
+
+    }
+
+    /**
+     * 使用弗洛伊德算法，求解指定起始点到终止点的最短路径长度是多少，只有第一次调用接口会使用
+     * 算法求解，在之后的调用后就直接由弗洛伊德算法求解出的表来给出答案
+     *
+     * @param startIndex 起始点的编号
+     * @param endIndex   终止点的编号
+     * @return int 起始点和终止点之间的最短路径长度
+     */
     public int getShortestPathByFloyd(int startIndex, int endIndex) {
-        FloydSolver solver = new FloydSolver();
-        solver.set(graphList);
-        solver.run();
+        if (solver == null) {
+            solver = new FloydSolver();
+            solver.set(graphList);
+            solver.run();
+        }
         return solver.getShortestPathLength(startIndex, endIndex);
     }
 
