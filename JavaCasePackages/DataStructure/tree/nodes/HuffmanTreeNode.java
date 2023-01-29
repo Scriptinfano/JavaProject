@@ -11,6 +11,6 @@ public class HuffmanTreeNode extends BinaryTreeNode<Integer> implements Comparab
 
     @Override
     public int compareTo(@NotNull HuffmanTreeNode o) {
-        return this.getElement() - o.getElement();//从小到大排序
+        return this.getValue() - o.getValue();//从小到大排序
     }
 }

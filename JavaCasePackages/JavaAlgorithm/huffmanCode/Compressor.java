@@ -24,7 +24,7 @@ class HuffmanNode extends BinaryTreeNode<Integer> implements Comparable<HuffmanN
 
     @Override
     public int compareTo(@NotNull HuffmanNode o) {
-        return this.getElement() - o.getElement();
+        return this.getValue() - o.getValue();
     }
 
     public Character getCharacter() {
@@ -119,7 +119,7 @@ public class Compressor {
             Collections.sort(huffmanNodes);
             HuffmanNode leftNode = huffmanNodes.get(0);
             HuffmanNode rightNode = huffmanNodes.get(1);
-            parentNode = new HuffmanNode((Character) null, leftNode.getElement() + rightNode.getElement());
+            parentNode = new HuffmanNode((Character) null, leftNode.getValue() + rightNode.getValue());
             parentNode.setLeftChild(leftNode);
             parentNode.setRightChild(rightNode);
             huffmanNodes.remove(leftNode);

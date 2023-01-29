@@ -12,10 +12,6 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
 
     private childMark mark;//标识该节点是父节点的什么节点
 
-    public BinarySortTreeNode() {
-        super();
-    }
-
     public BinarySortTreeNode(BinarySortTreeNode theParent, Integer theData) {
         super(theData);
         parent = theParent;

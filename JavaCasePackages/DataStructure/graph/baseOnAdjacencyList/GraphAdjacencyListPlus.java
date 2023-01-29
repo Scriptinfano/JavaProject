@@ -3,7 +3,7 @@ package DataStructure.graph.baseOnAdjacencyList;
 import java.util.*;
 
 public class GraphAdjacencyListPlus {
-    //TODO 完成该类的设计
+    //TODO 完成该类的设计，基于用哈希表来表示邻接表的图
     private HashMap<Character, List<Character>> graph;
 
     /**

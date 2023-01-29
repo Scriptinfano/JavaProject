@@ -27,7 +27,7 @@ public class HuffmanTree {
             Collections.sort(huffmanNodes);
             HuffmanTreeNode leftNode = huffmanNodes.get(0);
             HuffmanTreeNode rightNode = huffmanNodes.get(1);
-            parentNode = new HuffmanTreeNode(leftNode.getElement() + rightNode.getElement());
+            parentNode = new HuffmanTreeNode(leftNode.getValue() + rightNode.getValue());
             parentNode.setLeftChild(leftNode);
             parentNode.setRightChild(rightNode);
             huffmanNodes.remove(leftNode);

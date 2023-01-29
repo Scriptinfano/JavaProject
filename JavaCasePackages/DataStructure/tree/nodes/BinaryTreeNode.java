@@ -6,9 +6,9 @@ package DataStructure.tree.nodes;
  * @author Mingxiang
  */
 public class BinaryTreeNode<T> {
-    private T element;//二叉树节点权值
-    private BinaryTreeNode<T> leftChild;//二叉树左孩子指针
-    private BinaryTreeNode<T> rightChild;//二叉树右孩子指针
+    protected T value;//二叉树节点权值
+    protected BinaryTreeNode<T> leftChild;//二叉树左孩子指针
+    protected BinaryTreeNode<T> rightChild;//二叉树右孩子指针
 
     /**
      * 默认初始化二叉树节点，两个指针域均置空
@@ -23,7 +23,7 @@ public class BinaryTreeNode<T> {
      * @param theElement 元素
      */
     public BinaryTreeNode(T theElement) {
-        element = theElement;
+        value = theElement;
         leftChild = rightChild = null;
     }
 
@@ -32,17 +32,17 @@ public class BinaryTreeNode<T> {
      *
      * @return Integer 返回
      */
-    public T getElement() {
-        return element;
+    public T getValue() {
+        return value;
     }
 
     /**
      * 设置节点权值
      *
-     * @param element 给定的权值
+     * @param value 给定的权值
      */
-    public void setElement(T element) {
-        this.element = element;
+    public void setValue(T value) {
+        this.value = value;
     }
 
     /**

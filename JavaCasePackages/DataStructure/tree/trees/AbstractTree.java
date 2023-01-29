@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 public abstract class AbstractTree<T> implements Tree<T> {
-    //TODO 完成抽象树类中所有非抽象方法的设计，这些非抽象方法被所有继承此抽象类的实例类公用
+
 
     protected BinaryTreeNode<T> root;//树的根节点
     protected Integer treeSize;//树中的节点个数
@@ -48,7 +48,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
         while (!treeStack.isEmpty()) {
             BinaryTreeNode<T> tempNode = treeStack.pop();
             if (tempNode != null) {
-                resultList.add(tempNode.getElement());
+                resultList.add(tempNode.getValue());
                 treeStack.push(tempNode.getRightChild());
                 treeStack.push(tempNode.getLeftChild());
             }
@@ -163,7 +163,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
 
     private void preOrderRecursive(List<T> list, BinaryTreeNode<T> node) {
         if (node != null) {
-            list.add(node.getElement());
+            list.add(node.getValue());
             preOrderRecursive(list, node.getLeftChild());
             preOrderRecursive(list, node.getRightChild());
         }
@@ -184,7 +184,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
     private void inOrderRecursive(List<T> list, BinaryTreeNode<T> node) {
         if (node != null) {
             inOrderRecursive(list, node.getLeftChild());
-            list.add(node.getElement());
+            list.add(node.getValue());
             inOrderRecursive(list, node.getRightChild());
         }
     }
@@ -205,7 +205,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
         if (node != null) {
             postOrderRecursive(list, node.getLeftChild());
             postOrderRecursive(list, node.getRightChild());
-            list.add(node.getElement());
+            list.add(node.getValue());
         }
     }
 }
