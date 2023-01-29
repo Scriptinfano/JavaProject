@@ -4,6 +4,7 @@ import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
+import arrayutil.ArrayUtil;
 
 public class BinaryBalanceTree extends BinarySortTree {
     //TODO 完成二叉平衡树的设计
@@ -30,24 +31,38 @@ public class BinaryBalanceTree extends BinarySortTree {
     public void insert(BinaryTreeNode<Integer> node) {
         super.insert(node);//先按照二叉排序树的方法插入一个节点，然后再判断是否打破的了二叉平衡树的平衡，再执行具体的调整
         //若 右子树高度-左子树高度>1，则应该执行具体的调整，否则什么也不做
+        try {
+            judgeBalance((BinaryBalanceTreeNode) root);
+        }catch (RotateMarkException e)
+        {
+            //在最小的不平衡子树上执行旋转操作
+            if(e.isRightOrLeft())
+            {
+                //需要右旋转
+                e.getUnbalancedNode().rightRotate();//
+            }else {
+                //需要左旋转
+                e.getUnbalancedNode().leftRotate();
+
+            }
+        }
 
 
     }
 
     /**
-     * 递归地判断每个节点的左右子树高度是否有不平衡的现象出现
+     * 递归地判断每个节点的左右子树高度是否有不平衡的现象出现，并抛出一个异常指示出需要左旋转还是右旋转来调整二叉树使其满足平衡二叉树的要求
      *
      * @param node 节点
      */
     private void judgeBalance(BinaryBalanceTreeNode node) throws RotateMarkException {
 
-        if (node.getLeftChild() == null && node.getRightChild() == null)
-            return;
-        else {
+        if (node.getLeftChild() != null || node.getRightChild() != null)
+        {
             if (node.rightHeight() - node.leftHeight() > 1) {
-                throw new RotateMarkException(false);//表示需要左旋转
+                throw new RotateMarkException(false,node);//表示需要左旋转
             } else if (node.rightHeight() - node.leftHeight() < 1) {
-                throw new RotateMarkException(true);//表示需要右旋转
+                throw new RotateMarkException(true,node);//表示需要右旋转
             } else {
                 //左右子树平衡的情况，继续递归判断子树的平衡情况
                 judgeBalance(node.getLeftChild());
@@ -62,8 +77,18 @@ public class BinaryBalanceTree extends BinarySortTree {
          */
         private boolean rightOrLeft;
 
-        public RotateMarkException(boolean rightOrLeft) {
+        /**
+         * 最小的不平衡子树的根节点
+         */
+        private BinaryBalanceTreeNode unbalancedNode;
+
+        public BinaryBalanceTreeNode getUnbalancedNode() {
+            return unbalancedNode;
+        }
+
+        public RotateMarkException(boolean rightOrLeft, BinaryBalanceTreeNode theNode) {
             this.rightOrLeft = rightOrLeft;
+            unbalancedNode=theNode;
         }
 
         public boolean isRightOrLeft() {
@@ -91,5 +116,18 @@ public class BinaryBalanceTree extends BinarySortTree {
     @Override
     public void delete(Object value) throws NodeNotFoundException, CollectionEmptyException {
 
+    }
+}
+
+class TestBalanceTree{
+    public static void main(String[] args) {
+        Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
+        ArrayUtil.showArray(arr);
+        BinaryBalanceTree theBalanceTree = new BinaryBalanceTree(arr);
+        try {
+            theBalanceTree.search(57);
+        } catch (NodeNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
