@@ -52,9 +52,9 @@ public class BinarySortTree extends AbstractTree<Integer> {
             String nodeName = nodeType.getName();//TODO 这是测试代码，在测试完成之后请删除此代码
             if (node.getValue().compareTo(root.getValue()) < 0) {
 
-                insertNodeRecurse((BinarySortTreeNode) root, (BinarySortTreeNode) node, node.getValue(), false);
+                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getLeftChild(), (BinarySortTreeNode) node, false);
             } else
-                insertNodeRecurse((BinarySortTreeNode) root, (BinarySortTreeNode) node, node.getValue(), true);
+                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getRightChild(), (BinarySortTreeNode) node, true);
         }
 
     }
@@ -62,26 +62,27 @@ public class BinarySortTree extends AbstractTree<Integer> {
     /**
      * 插入节点的递归函数
      *
-     * @param data         数据
      * @param previousNode 当前节点的父节点
      * @param currentNode  当前节点
+     * @param insertNode   要插入的节点
      * @param rightOrLeft  指示当前节点是之前节点的左孩子还是右孩子，为true时是右孩子，为false时为左孩子
      */
-    private void insertNodeRecurse(BinarySortTreeNode previousNode, BinarySortTreeNode currentNode, Integer data, boolean rightOrLeft) {
+    private void insertNodeRecurse(BinarySortTreeNode previousNode, BinarySortTreeNode currentNode, BinarySortTreeNode insertNode, boolean rightOrLeft) {
         if (currentNode == null) {
-            currentNode = new BinarySortTreeNode(previousNode, data);
             if (rightOrLeft) {
-                previousNode.setRightChild(currentNode);
-                currentNode.setMark(BinarySortTreeNode.childMark.RIGHT);
+                previousNode.setRightChild(insertNode);
+                insertNode.setMark(BinarySortTreeNode.childMark.RIGHT);
+                insertNode.setParent(previousNode);
             } else {
-                previousNode.setLeftChild(currentNode);
-                currentNode.setMark(BinarySortTreeNode.childMark.LEFT);
+                previousNode.setLeftChild(insertNode);
+                insertNode.setMark(BinarySortTreeNode.childMark.LEFT);
+                insertNode.setParent(previousNode);
             }
         } else {
-            if (data < currentNode.getValue()) {
-                insertNodeRecurse(currentNode, currentNode.getLeftChild(), data, false);
+            if (insertNode.getValue() < currentNode.getValue()) {
+                insertNodeRecurse(currentNode, currentNode.getLeftChild(), insertNode, false);
             } else
-                insertNodeRecurse(currentNode, currentNode.getRightChild(), data, true);
+                insertNodeRecurse(currentNode, currentNode.getRightChild(), insertNode, true);
         }
     }
 

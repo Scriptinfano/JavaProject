@@ -12,6 +12,16 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
 
     private childMark mark;//标识该节点是父节点的什么节点
 
+    /**
+     * 仅初始化节点值的构造器，其parent默认初始化为null
+     *
+     * @param theData 节点的值
+     */
+    public BinarySortTreeNode(Integer theData) {
+        super(theData);
+        parent = null;
+    }
+
     public BinarySortTreeNode(BinarySortTreeNode theParent, Integer theData) {
         super(theData);
         parent = theParent;
@@ -19,7 +29,7 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
 
     @Override
     public BinarySortTreeNode getLeftChild() {
-        return (BinarySortTreeNode)super.getLeftChild();
+        return (BinarySortTreeNode) super.getLeftChild();
     }
 
     @Override

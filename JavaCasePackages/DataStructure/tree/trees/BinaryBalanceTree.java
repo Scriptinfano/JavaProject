@@ -33,17 +33,16 @@ public class BinaryBalanceTree extends BinarySortTree {
         //若 右子树高度-左子树高度>1，则应该执行具体的调整，否则什么也不做
         try {
             judgeBalance((BinaryBalanceTreeNode) root);
-        }catch (RotateMarkException e)
-        {
+        } catch (RotateMarkException e) {
             //在最小的不平衡子树上执行旋转操作
-            if(e.isRightOrLeft())
-            {
-                //需要右旋转
-                e.getUnbalancedNode().rightRotate();//
-            }else {
-                //需要左旋转
-                e.getUnbalancedNode().leftRotate();
-
+            if (e.getType() == RotateMarkException.RotateType.LL) {
+                e.getUnbalancedNode().LL_Rotate();
+            } else if (e.getType() == RotateMarkException.RotateType.RR) {
+                e.getUnbalancedNode().RR_Rotate();
+            } else if (e.getType() == RotateMarkException.RotateType.LR) {
+                e.getUnbalancedNode().LR_Rotate();
+            } else {
+                e.getUnbalancedNode().RL_Rotate();
             }
         }
 
@@ -57,42 +56,16 @@ public class BinaryBalanceTree extends BinarySortTree {
      */
     private void judgeBalance(BinaryBalanceTreeNode node) throws RotateMarkException {
 
-        if (node.getLeftChild() != null || node.getRightChild() != null)
-        {
+        if (node != null && (node.getLeftChild() != null || node.getRightChild() != null)) {
             if (node.rightHeight() - node.leftHeight() > 1) {
-                throw new RotateMarkException(false, node);//表示需要左旋转
-            } else if (node.rightHeight() - node.leftHeight() < 1) {
-                throw new RotateMarkException(true, node);//表示需要右旋转
+                //TODO 进一步判断旋转的类型，此处是右子树比左子树高
+            } else if (node.leftHeight() - node.rightHeight() > 1) {
+                //TODO 进一步判断旋转的类型，此处是左子树比右子树高
             } else {
                 //左右子树平衡的情况，继续递归判断子树的平衡情况
                 judgeBalance(node.getLeftChild());
                 judgeBalance(node.getRightChild());
             }
-        }
-    }
-
-    private static class RotateMarkException extends Exception {
-        /**
-         * 若为true则表示需要右旋转，否则需要左旋转
-         */
-        private final boolean rightOrLeft;
-
-        /**
-         * 最小的不平衡子树的根节点
-         */
-        private final BinaryBalanceTreeNode unbalancedNode;
-
-        public BinaryBalanceTreeNode getUnbalancedNode() {
-            return unbalancedNode;
-        }
-
-        public RotateMarkException(boolean rightOrLeft, BinaryBalanceTreeNode theNode) {
-            this.rightOrLeft = rightOrLeft;
-            unbalancedNode=theNode;
-        }
-
-        public boolean isRightOrLeft() {
-            return rightOrLeft;
         }
     }
 
@@ -104,6 +77,7 @@ public class BinaryBalanceTree extends BinarySortTree {
      */
     @Override
     public BinaryTreeNode<Integer> search(Object value) throws NodeNotFoundException {
+        //TODO 完成二叉平衡树的搜索功能
         return null;
     }
 
@@ -115,11 +89,60 @@ public class BinaryBalanceTree extends BinarySortTree {
      */
     @Override
     public void delete(Object value) throws NodeNotFoundException, CollectionEmptyException {
+//TODO 完成二叉树的删除节点功能
+    }
+
+    private static class RotateMarkException extends Exception {
+        /**
+         * 旋转类型
+         */
+        private final RotateType type;
+
+        /**
+         * 构造器
+         *
+         * @param theType 指定该最小不平衡子树应该执行的旋转类型
+         * @param theNode 指定的最小的不平衡子树的根节点
+         */
+        public RotateMarkException(RotateType theType, BinaryBalanceTreeNode theNode) {
+            this.type = theType;
+            unbalancedNode = theNode;
+        }
+
+        /**
+         * 得到当前最小不平衡节点的旋转类型
+         *
+         * @return {@link RotateType}
+         */
+        public RotateType getType() {
+            return type;
+        }
+
+        /**
+         * 最小的不平衡子树的根节点
+         */
+        private final BinaryBalanceTreeNode unbalancedNode;
+
+        /**
+         * 得到该异常包装的最小不平衡节点
+         *
+         * @return {@link BinaryBalanceTreeNode}
+         */
+        public BinaryBalanceTreeNode getUnbalancedNode() {
+            return unbalancedNode;
+        }
+
+        /**
+         * 旋转类型枚举常量
+         */
+        private static enum RotateType {
+            RR, LL, LR, RL
+        }
 
     }
 }
 
-class TestBalanceTree{
+class TestBalanceTree {
     public static void main(String[] args) {
         Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
         ArrayUtil.showArray(arr);

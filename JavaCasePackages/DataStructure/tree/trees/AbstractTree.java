@@ -64,6 +64,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      */
     @Override
     public final List<T> inOrderWithoutRecurse() {
+        //TODO 完成不使用递归实现的中序遍历
         return null;
     }
 
@@ -74,6 +75,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      */
     @Override
     public final List<T> postOrderWithoutRecurse() {
+        //TODO 完成不使用递归实现的后序遍历
         return null;
     }
 
@@ -84,6 +86,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      */
     @Override
     public final List<T> levelOrder() {
+        //TODO 完成层次遍历
         return null;
     }
 
@@ -207,5 +210,21 @@ public abstract class AbstractTree<T> implements Tree<T> {
             postOrderRecursive(list, node.getRightChild());
             list.add(node.getValue());
         }
+    }
+
+    /**
+     * 比较两棵树是否相同
+     *
+     * @param obj obj 传入的对象
+     * @return boolean 相同则返回true
+     */
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof AbstractTree<?>) {
+            //在该对象是继承了抽象树的实例树时，才能比较两者是否相同
+            //TODO 完成树的比较操作
+            return true;
+        } else return false;
+
     }
 }

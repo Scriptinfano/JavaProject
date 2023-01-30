@@ -104,5 +104,7 @@ public interface Tree<T> {
      */
     List<T> postOrder();
 
+    boolean equals(Object obj);
+
 
 }
