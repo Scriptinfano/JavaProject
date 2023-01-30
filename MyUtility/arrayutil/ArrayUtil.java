@@ -16,7 +16,8 @@ import java.util.Random;
 public class ArrayUtil {
     public static ScannerPlus scanner = new ScannerPlus();
 
-    private ArrayUtil(){}
+    private ArrayUtil() {
+    }
 
     /**
      * 输出排序前后的数组
@@ -51,6 +52,7 @@ public class ArrayUtil {
     /**
      * 输出给定数组，该数组的参数类型更加广泛，采用Object[]作为参数，可输出更多对象数组
      * 注意数组中的对象必须重写toString()方法
+     *
      * @param arr 传入的要输出的数组
      */
     public static void showArray(Object[] arr) {
@@ -184,15 +186,15 @@ public class ArrayUtil {
      * @param right    右边界，建议此处写待排序数组的长度
      * @return boolean 找到了则返回true否则返回false
      */
-    public static boolean binarySearchRecursion(Integer[]theArray,int num,int left,int right){
-        if(left+1==right)
+    public static boolean binarySearchRecursion(Integer[] theArray, int num, int left, int right) {
+        if (left + 1 == right)
             return false;
         else {
-            int mid=(int) Math.floor((left + right) / (double) 2);
-            if(theArray[mid]>num)
-                return binarySearchRecursion(theArray,num,left,mid);
-            else if(theArray[mid]<num)
-                return binarySearchRecursion(theArray,num,mid,right);
+            int mid = (int) Math.floor((left + right) / (double) 2);
+            if (theArray[mid] > num)
+                return binarySearchRecursion(theArray, num, left, mid);
+            else if (theArray[mid] < num)
+                return binarySearchRecursion(theArray, num, mid, right);
             else return true;
         }
     }
@@ -252,21 +254,26 @@ public class ArrayUtil {
         return merge;
     }
 
-    public static String randomString(int length){
-        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random=new Random();
+    public static String randomString(int length) {
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
 
-        StringBuilder resultStr= new StringBuilder();
-        for(int i=0;i<length;i++){
-            int number=random.nextInt(str.length());
+        StringBuilder resultStr = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(str.length());
             resultStr.append(str.charAt(number));
         }
         return resultStr.toString();
 
     }
 
-}
+    public static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
+}
 
 
 /**
@@ -276,7 +283,9 @@ public class ArrayUtil {
  */
 class ArrayUtilTester {
 
-    private ArrayUtilTester(){}
+    private ArrayUtilTester() {
+    }
+
     private static final ScannerPlus scanner = new ScannerPlus();
 
     public static void main(String[] args) {
@@ -379,9 +388,9 @@ class ArrayUtilTester {
      * 对各种排序算法做时间分析，并运行二分查找寻找给定的元素检验排序是否正确
      */
     private static void analysisAlgorithmTime() {
-        int arrSize=10000;//要排序的数组中总共有多少个元素
-        int begin=1;//随机数生成的范围的起始
-        int end=100000;//随机数生成范围的终止
+        int arrSize = 10000;//要排序的数组中总共有多少个元素
+        int begin = 1;//随机数生成的范围的起始
+        int end = 100000;//随机数生成范围的终止
 
         Integer[] arr = ArrayUtil.randomIntegerArray(arrSize, begin, end);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 8);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
@@ -417,22 +426,22 @@ class ArrayUtilTester {
         long endMillis5 = AlgorithmAnalyzer.getCurrentTime();//以纳秒为单位返回系统单位时间
         System.out.println("选择排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis5, endMillis5) + "毫秒");
 
-        long beginMillis6=AlgorithmAnalyzer.getCurrentTime();
+        long beginMillis6 = AlgorithmAnalyzer.getCurrentTime();
         sorter.setSortArray(backUpArrays[5]);
         sorter.heapSort();
-        long endMillis6=AlgorithmAnalyzer.getCurrentTime();
+        long endMillis6 = AlgorithmAnalyzer.getCurrentTime();
         System.out.println("堆排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis6, endMillis6) + "毫秒");
 
-        long beginMillis7=AlgorithmAnalyzer.getCurrentTime();
+        long beginMillis7 = AlgorithmAnalyzer.getCurrentTime();
         sorter.setSortArray(backUpArrays[6]);
         sorter.shellSort();
-        long endMillis7=AlgorithmAnalyzer.getCurrentTime();
+        long endMillis7 = AlgorithmAnalyzer.getCurrentTime();
         System.out.println("希尔排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis7, endMillis7) + "毫秒");
 
-        long beginMillis8=AlgorithmAnalyzer.getCurrentTime();
+        long beginMillis8 = AlgorithmAnalyzer.getCurrentTime();
         sorter.setSortArray(backUpArrays[7]);
         sorter.mergeSort();
-        long endMillis8=AlgorithmAnalyzer.getCurrentTime();
+        long endMillis8 = AlgorithmAnalyzer.getCurrentTime();
         System.out.println("归并排序排序总共耗费时间:" + AlgorithmAnalyzer.getAlgorithmTime(beginMillis8, endMillis8) + "毫秒");
 
         //ArrayUtil.showBothArray(arr, backUpArrays[4]);
@@ -445,17 +454,16 @@ class ArrayUtilTester {
         else System.out.println("未找到");*/
     }
 
-    public static void testBinarySearch(){
-        Integer[]arr=ArrayUtil.randomIntegerArray(100,1,1000);
+    public static void testBinarySearch() {
+        Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 1000);
         System.out.println(Arrays.toString(arr));
         Arrays.sort(arr);
-        while (true){
+        while (true) {
             System.out.println("输入查询数字:");
-            int num=scanner.nextInt();
-            if (ArrayUtil.binarySearchRecursion(arr,num,-1,arr.length)) {
+            int num = scanner.nextInt();
+            if (ArrayUtil.binarySearchRecursion(arr, num, -1, arr.length)) {
                 System.out.println("找到了");
-            }
-            else System.out.println("未找到 ");
+            } else System.out.println("未找到 ");
             try {
                 scanner.noMoreScan();
             } catch (NoMoreScanException e) {
