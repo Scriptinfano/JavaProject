@@ -2,6 +2,7 @@ package DataStructure.tree.nodes;
 
 public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
     public BinaryBalanceTreeNode(Integer theValue) {
+
         super(null, theValue);
     }
 

@@ -60,9 +60,9 @@ public class BinaryBalanceTree extends BinarySortTree {
         if (node.getLeftChild() != null || node.getRightChild() != null)
         {
             if (node.rightHeight() - node.leftHeight() > 1) {
-                throw new RotateMarkException(false,node);//表示需要左旋转
+                throw new RotateMarkException(false, node);//表示需要左旋转
             } else if (node.rightHeight() - node.leftHeight() < 1) {
-                throw new RotateMarkException(true,node);//表示需要右旋转
+                throw new RotateMarkException(true, node);//表示需要右旋转
             } else {
                 //左右子树平衡的情况，继续递归判断子树的平衡情况
                 judgeBalance(node.getLeftChild());
@@ -71,16 +71,16 @@ public class BinaryBalanceTree extends BinarySortTree {
         }
     }
 
-    private class RotateMarkException extends Exception {
+    private static class RotateMarkException extends Exception {
         /**
          * 若为true则表示需要右旋转，否则需要左旋转
          */
-        private boolean rightOrLeft;
+        private final boolean rightOrLeft;
 
         /**
          * 最小的不平衡子树的根节点
          */
-        private BinaryBalanceTreeNode unbalancedNode;
+        private final BinaryBalanceTreeNode unbalancedNode;
 
         public BinaryBalanceTreeNode getUnbalancedNode() {
             return unbalancedNode;

@@ -48,10 +48,13 @@ public class BinarySortTree extends AbstractTree<Integer> {
             root = node;
             ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
         } else {
+            Class nodeType = node.getClass();//TODO 这是测试代码，在测试完成之后请删除此代码
+            String nodeName = nodeType.getName();//TODO 这是测试代码，在测试完成之后请删除此代码
             if (node.getValue().compareTo(root.getValue()) < 0) {
-                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getLeftChild(), node.getValue(), false);
+
+                insertNodeRecurse((BinarySortTreeNode) root, (BinarySortTreeNode) node, node.getValue(), false);
             } else
-                insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getRightChild(), node.getValue(), true);
+                insertNodeRecurse((BinarySortTreeNode) root, (BinarySortTreeNode) node, node.getValue(), true);
         }
 
     }
