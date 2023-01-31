@@ -5,9 +5,9 @@ import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
+import testResources.Person;
 
 public class BinaryBalanceTree extends BinarySortTree {
-    //TODO 完成二叉平衡树的设计
 
     /**
      * 按照给定的权值序列，依次将这些节点插入二叉平衡树并时刻保持二叉平衡树的特性
@@ -30,52 +30,40 @@ public class BinaryBalanceTree extends BinarySortTree {
     @Override
     public void insert(BinaryTreeNode<Integer> node) {
         super.insert(node);//先按照二叉排序树的方法插入一个节点，然后再判断是否打破的了二叉平衡树的平衡，再执行具体的调整
-        //若 右子树高度-左子树高度>1，则应该执行具体的调整，否则什么也不做
-        try {
-            judgeBalance((BinaryBalanceTreeNode) root);
-        } catch (RotateMarkException e) {
-            //在最小的不平衡子树上执行旋转操作
-            if (e.getType() == RotateMarkException.RotateType.LL) {
-                e.getUnbalancedNode().LL_Rotate();
-            } else if (e.getType() == RotateMarkException.RotateType.RR) {
-                e.getUnbalancedNode().RR_Rotate();
-            } else if (e.getType() == RotateMarkException.RotateType.LR) {
-                e.getUnbalancedNode().LR_Rotate();
-            } else {
-                e.getUnbalancedNode().RL_Rotate();
-            }
-        }
-
-
+        judgeBalanceAndRotate((BinaryBalanceTreeNode) node);//从插入的节点一直向上遍历父节点，直到找到最小的不平衡子树
     }
 
     /**
      * 从插入节点依次遍历父节点，查找第一个不平衡的子树
      *
-     * @param node 节点
+     * @param node 最后插入的节点
      */
-    private void judgeBalance(BinaryBalanceTreeNode node) throws RotateMarkException {
+    private void judgeBalanceAndRotate(BinaryBalanceTreeNode node) {
 
-        if (node != null && (node.getLeftChild() != null || node.getRightChild() != null)) {
-            if (node.rightHeight() - node.leftHeight() > 1) {
-                //进一步判断旋转的类型，此处是右子树比左子树高
-                var rightRoot=node.getRightChild();
-                if(rightRoot.leftHeight()>rightRoot.rightHeight())
-                    node.RL_Rotate();
-                else node.RR_Rotate();
-            } else if (node.leftHeight() - node.rightHeight() > 1) {
-                //进一步判断旋转的类型，此处是左子树比右子树高
-                var leftRoot=node.getLeftChild();
-                if(leftRoot.rightHeight()>leftRoot.leftHeight())
-                    node.LR_Rotate();
-                else node.LL_Rotate();
-            } else {
-                //左右子树平衡的情况，继续递归判断子树的平衡情况
-                judgeBalance(node.getLeftChild());
-                judgeBalance(node.getRightChild());
+        //从插入节点开始向上回溯，不断遍历父节点，然后判断每个节点的平衡性，然后判断需要四种旋转类型的哪一种
+        BinaryBalanceTreeNode tempNode = node;
+        while (tempNode.getParent() != null || tempNode == root) {
+            int heightDifference = tempNode.judgeBalance();
+            if (heightDifference > 1) {
+                //左子树较高的情况，继续判断应该执行LR旋转还是LL旋转
+                var leftRoot = tempNode.getLeftChild();
+                if (leftRoot.rightHeight() > leftRoot.leftHeight())
+                    tempNode.LR_Rotate();
+                else tempNode.LL_Rotate();
+                break;
+            } else if (heightDifference < -1) {
+                //右子树较高的情况，继续判断应该执行RL旋转还是RR旋转
+                var rightRoot = tempNode.getRightChild();
+                if (rightRoot.leftHeight() > rightRoot.rightHeight())
+                    tempNode.RL_Rotate();
+                else tempNode.RR_Rotate();
+                break;
             }
+            tempNode = tempNode.getParent();
+            if (tempNode == null) break;
         }
     }
+
 
     /**
      * 搜索节点值为value的节点，并返回该节点引用，若未找到则返回null
@@ -97,69 +85,23 @@ public class BinaryBalanceTree extends BinarySortTree {
      */
     @Override
     public void delete(Object value) throws NodeNotFoundException, CollectionEmptyException {
-//TODO 完成二叉树的删除节点功能
+        //TODO 完成二叉树的删除节点功能
     }
 
-    private static class RotateMarkException extends Exception {
-        /**
-         * 旋转类型
-         */
-        private final RotateType type;
-
-        /**
-         * 构造器
-         *
-         * @param theType 指定该最小不平衡子树应该执行的旋转类型
-         * @param theNode 指定的最小的不平衡子树的根节点
-         */
-        public RotateMarkException(RotateType theType, BinaryBalanceTreeNode theNode) {
-            this.type = theType;
-            unbalancedNode = theNode;
-        }
-
-        /**
-         * 得到当前最小不平衡节点的旋转类型
-         *
-         * @return {@link RotateType}
-         */
-        public RotateType getType() {
-            return type;
-        }
-
-        /**
-         * 最小的不平衡子树的根节点
-         */
-        private final BinaryBalanceTreeNode unbalancedNode;
-
-        /**
-         * 得到该异常包装的最小不平衡节点
-         *
-         * @return {@link BinaryBalanceTreeNode}
-         */
-        public BinaryBalanceTreeNode getUnbalancedNode() {
-            return unbalancedNode;
-        }
-
-        /**
-         * 旋转类型枚举常量
-         */
-        private static enum RotateType {
-            RR, LL, LR, RL
-        }
-
-    }
 }
 
 class TestBalanceTree {
     public static void main(String[] args) {
-        Integer[] arr = {10,5,15,17,16};
+        Integer[] arr = {10, 8, 17, 15, 19, 16};
         ArrayUtil.showArray(arr);
         BinaryBalanceTree theBalanceTree = new BinaryBalanceTree(arr);
-        try {
+        /*try {
             theBalanceTree.search(57);
         } catch (NodeNotFoundException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
+        Person p = new Person();
+
 
     }
 }

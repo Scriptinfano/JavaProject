@@ -46,7 +46,6 @@ public class BinarySortTree extends AbstractTree<Integer> {
     public void insert(BinaryTreeNode<Integer> node) {
         if (root == null) {
             root = node;
-            ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
         } else {
             Class nodeType = node.getClass();//TODO 这是测试代码，在测试完成之后请删除此代码
             String nodeName = nodeType.getName();//TODO 这是测试代码，在测试完成之后请删除此代码
@@ -71,12 +70,8 @@ public class BinarySortTree extends AbstractTree<Integer> {
         if (currentNode == null) {
             if (rightOrLeft) {
                 previousNode.setRightChild(insertNode);
-                insertNode.setMark(BinarySortTreeNode.childMark.RIGHT);
-                insertNode.setParent(previousNode);
             } else {
                 previousNode.setLeftChild(insertNode);
-                insertNode.setMark(BinarySortTreeNode.childMark.LEFT);
-                insertNode.setParent(previousNode);
             }
         } else {
             if (insertNode.getValue() < currentNode.getValue()) {
@@ -173,25 +168,22 @@ public class BinarySortTree extends AbstractTree<Integer> {
                     } else if (theNode.getMark() == BinarySortTreeNode.childMark.LEFT) {
                         //该节点是某节点的左孩子
                         theParentNode.setLeftChild(theNode.getRightChild());
-                        theNode.getRightChild().setMark(BinarySortTreeNode.childMark.LEFT);
                     } else {
                         //该节点是根节点且该节点只有一颗右子树
                         root = root.getRightChild();
-                        ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
                     }
                 } else {
                     //该节点只有左子树的情况
                     if (theNode.getMark() == BinarySortTreeNode.childMark.RIGHT) {
                         //该节点是某节点的右孩子
                         theParentNode.setRightChild(theNode.getLeftChild());
-                        theNode.getLeftChild().setMark(BinarySortTreeNode.childMark.RIGHT);
+
                     } else if (theNode.getMark() == BinarySortTreeNode.childMark.LEFT) {
                         //该节点是某节点的左孩子
                         theParentNode.setLeftChild(theNode.getLeftChild());
                     } else {
                         //该节点是根节点且该节点只有一颗左子树
                         root = root.getLeftChild();
-                        ((BinarySortTreeNode) root).setMark(BinarySortTreeNode.childMark.NONE);
                     }
 
                 }

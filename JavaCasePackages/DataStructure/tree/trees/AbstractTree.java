@@ -158,7 +158,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      * @return {@link List}<{@link T}> 返回装着以节点值为元素的容器
      */
     @Override
-    public List<T> preOrder() {
+    public final List<T> preOrder() {
         ArrayList<T> list = new ArrayList<>();
         preOrderRecursive(list, root);
         return list;
@@ -178,7 +178,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
     @Override
-    public List<T> inOrder() {
+    public final List<T> inOrder() {
         ArrayList<T> list = new ArrayList<>();
         inOrderRecursive(list, root);
         return list;
