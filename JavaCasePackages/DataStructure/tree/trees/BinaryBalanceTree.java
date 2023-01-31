@@ -4,7 +4,7 @@ import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
-import testResources.Person;
+import arrayutil.ArrayUtil;
 
 public class BinaryBalanceTree extends BinarySortTree {
     //TODO 完成二叉平衡树的设计
@@ -50,7 +50,7 @@ public class BinaryBalanceTree extends BinarySortTree {
     }
 
     /**
-     * 递归地判断每个节点的左右子树高度是否有不平衡的现象出现，并抛出一个异常指示出需要左旋转还是右旋转来调整二叉树使其满足平衡二叉树的要求
+     * 从插入节点依次遍历父节点，查找第一个不平衡的子树
      *
      * @param node 节点
      */
@@ -58,9 +58,17 @@ public class BinaryBalanceTree extends BinarySortTree {
 
         if (node != null && (node.getLeftChild() != null || node.getRightChild() != null)) {
             if (node.rightHeight() - node.leftHeight() > 1) {
-                //TODO 进一步判断旋转的类型，此处是右子树比左子树高
+                //进一步判断旋转的类型，此处是右子树比左子树高
+                var rightRoot=node.getRightChild();
+                if(rightRoot.leftHeight()>rightRoot.rightHeight())
+                    node.RL_Rotate();
+                else node.RR_Rotate();
             } else if (node.leftHeight() - node.rightHeight() > 1) {
-                //TODO 进一步判断旋转的类型，此处是左子树比右子树高
+                //进一步判断旋转的类型，此处是左子树比右子树高
+                var leftRoot=node.getLeftChild();
+                if(leftRoot.rightHeight()>leftRoot.leftHeight())
+                    node.LR_Rotate();
+                else node.LL_Rotate();
             } else {
                 //左右子树平衡的情况，继续递归判断子树的平衡情况
                 judgeBalance(node.getLeftChild());
@@ -144,14 +152,14 @@ public class BinaryBalanceTree extends BinarySortTree {
 
 class TestBalanceTree {
     public static void main(String[] args) {
-        /*Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
+        Integer[] arr = {10,5,15,17,16};
         ArrayUtil.showArray(arr);
         BinaryBalanceTree theBalanceTree = new BinaryBalanceTree(arr);
         try {
             theBalanceTree.search(57);
         } catch (NodeNotFoundException e) {
             System.out.println(e.getMessage());
-        }*/
-        Person p = new Person("xi", 12);
+        }
+
     }
 }

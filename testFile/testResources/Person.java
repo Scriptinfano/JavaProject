@@ -62,4 +62,13 @@ public class Person implements Comparable<Person> {
     public String outputHash() {
         return toString();
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Person{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", age=").append(age);
+        sb.append('}');
+        return sb.toString();
+    }
 }
