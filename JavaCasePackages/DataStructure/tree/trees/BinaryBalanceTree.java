@@ -4,7 +4,7 @@ import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
-import arrayutil.ArrayUtil;
+import testResources.Person;
 
 public class BinaryBalanceTree extends BinarySortTree {
     //TODO 完成二叉平衡树的设计
@@ -144,13 +144,14 @@ public class BinaryBalanceTree extends BinarySortTree {
 
 class TestBalanceTree {
     public static void main(String[] args) {
-        Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
+        /*Integer[] arr = {34, 21, 99, 9, 57, 76, 46, 61, 28, 50};
         ArrayUtil.showArray(arr);
         BinaryBalanceTree theBalanceTree = new BinaryBalanceTree(arr);
         try {
             theBalanceTree.search(57);
         } catch (NodeNotFoundException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
+        Person p = new Person("xi", 12);
     }
 }

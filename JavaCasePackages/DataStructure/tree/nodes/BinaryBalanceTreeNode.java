@@ -2,7 +2,6 @@ package DataStructure.tree.nodes;
 
 public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
     public BinaryBalanceTreeNode(Integer theValue) {
-
         super(theValue);
     }
 
@@ -10,8 +9,6 @@ public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
      * 由于在不平衡子树根节点的右子树的右子树上插入节点导致不平衡，所以将这种调整命名为RR型调整
      */
     public void RR_Rotate() {
-
-
         //创建新的节点，值为当前节点的值
         var newNode = new BinaryBalanceTreeNode(value);
         //把新的节点的左子树设置为当前节点的左子树
@@ -24,7 +21,6 @@ public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
         setLeftChild(newNode);
         //将当前节点的右子设为右子节点的右子节点
         setRightChild(getRightChild().getRightChild());
-
     }
 
     /**
