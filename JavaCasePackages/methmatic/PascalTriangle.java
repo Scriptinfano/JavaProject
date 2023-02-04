@@ -1,4 +1,4 @@
-package Math.mathmetic;
+package methmatic;
 
 public class PascalTriangle {
 

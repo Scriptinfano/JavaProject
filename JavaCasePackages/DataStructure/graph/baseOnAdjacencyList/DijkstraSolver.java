@@ -72,7 +72,7 @@ public class DijkstraSolver {
     private boolean hasNegativeLine() {
         for (HeadNode node : headNodeList) {
             for (int j = 0; j < node.getOutDegree(); j++) {
-                if (node.getLineDistanceByOrder(j) < 0)
+                if (node.getDistanceByOrder(j) < 0)
                     return true;
             }
         }
@@ -96,7 +96,7 @@ public class DijkstraSolver {
                 HeadNode theAdjacencyNode = currentNode.getAdjacencyNode(i);//当前正在处理的邻接点
                 //检查该邻接点是否已被纳入最短路径集合
                 if (!pathCollection.contains(theAdjacencyNode)) {
-                    int newDistance = distance[currentNode.getIndex()] + currentNode.getLineDistanceByOrder(i);//到达该顶点的最短距离加上目前正在遍历的邻接点到该顶点的距离
+                    int newDistance = distance[currentNode.getIndex()] + currentNode.getDistanceByOrder(i);//到达该顶点的最短距离加上目前正在遍历的邻接点到该顶点的距离
                     if (distance[theAdjacencyNode.getIndex()] == null || newDistance < distance[theAdjacencyNode.getIndex()])
                         update(theAdjacencyNode, newDistance, currentNode);//更新邻接点的状态
                     else update(theAdjacencyNode, distance[theAdjacencyNode.getIndex()], parent[theAdjacencyNode.getIndex()]);//维持该邻接点原有的状态不变

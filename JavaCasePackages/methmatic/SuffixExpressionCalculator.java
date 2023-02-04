@@ -1,7 +1,7 @@
 /**
  * 本程序可以计算中缀表达式
  */
-package Math.mathmetic.suffixExpression;
+package methmatic;
 
 import java.util.ArrayList;
 import java.util.Arrays;

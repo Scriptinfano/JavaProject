@@ -41,7 +41,7 @@ public class FloydSolver {
             HeadNode currentHeadNode = headNodeList.get(i);
             for (int j = 0; j < currentHeadNode.getOutDegree(); j++) {
                 HeadNode theAdjacencyNode = currentHeadNode.getAdjacencyNode(j);
-                distance.get(i).set(theAdjacencyNode.getIndex(), currentHeadNode.getLineDistanceByOrder(j));
+                distance.get(i).set(theAdjacencyNode.getIndex(), currentHeadNode.getDistanceByOrder(j));
                 distance.get(i).set(currentHeadNode.getIndex(), 0);//自己到自己的最短距离是0
                 path.get(i).set(theAdjacencyNode.getIndex(), i);
             }

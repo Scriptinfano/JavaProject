@@ -1,6 +1,6 @@
 package DataStructure.hashTable;
 
-import Math.mathmetic.MathUtil;
+import methmatic.MathUtil;
 import myScannerAndPrinter.NoMoreScanException;
 import myScannerAndPrinter.ScannerPlus;
 

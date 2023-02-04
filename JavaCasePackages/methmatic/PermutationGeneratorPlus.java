@@ -1,4 +1,4 @@
-package Math.mathmetic;
+package methmatic;
 
 import exceptions.RequiredActionNotExcuteException;
 import exceptions.UnRunException;

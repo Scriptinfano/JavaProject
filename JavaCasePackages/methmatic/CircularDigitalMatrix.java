@@ -1,4 +1,4 @@
-package Math.mathmetic;
+package methmatic;
 
 /**
  * 回形数字矩阵类

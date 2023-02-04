@@ -1,6 +1,6 @@
 //该程序演示使用递归法生成数列的全排列组合
 
-package Math.mathmetic;
+package methmatic;
 
 import java.util.ArrayList;
 

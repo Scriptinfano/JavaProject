@@ -1,7 +1,7 @@
 /**
  * 本程序可以计算任意阶数的二阶行列式的结果
  */
-package Math.mathmetic;
+package methmatic;
 
 import java.util.ArrayList;
 import java.util.List;

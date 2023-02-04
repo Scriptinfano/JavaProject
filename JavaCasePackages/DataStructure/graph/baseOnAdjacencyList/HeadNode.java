@@ -95,7 +95,7 @@ public class HeadNode {
      * @param index 该边所连接的邻接点是该顶点的第几个邻接点（注意这里的index从0开始）
      * @return int 返回边的长度
      */
-    public int getLineDistanceByOrder(int index) {
+    public int getDistanceByOrder(int index) {
         return Integer.parseInt(lineList.get(index).getInfo());
     }
 
@@ -105,7 +105,7 @@ public class HeadNode {
      * @param index 指定的顶点的编号
      * @return int 返回边的权值，如果编号为index的顶点没有和当前节点相连，则返回-1
      */
-    public int getLineDistanceByIndex(int index) {
+    public int getDistanceByIndex(int index) {
         for (LineNode lineNode : lineList) {
             if (lineNode.getAdjacency().getIndex() == index)
                 return Integer.parseInt(lineNode.getInfo());

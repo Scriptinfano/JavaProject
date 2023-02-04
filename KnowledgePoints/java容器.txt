@@ -66,6 +66,7 @@ Map接口
 Hashtable:底层哈希表，线程安全，效率低，无序。不允许null值，父类Dictionary。
 TreeMap:底层红黑树，默认排序升序排序。有序。
 HashMap:默认大小是16，每次增加两倍，底层哈希表，无序，线程不安全，效率高，key和value允许为null，父类AbstractMap。jdk1.8采用数组+链表+红黑树，在链表过长的时候可以通过转换成红黑树提升访问性能
+ 1、HashMap在插入键值对时，如果正在插入的键值对的键已经存在容器中，则新值会覆盖旧值
 LinkedHashMap:底层链表和哈希表，有序。
 方法
 put(key,value) 添加数据
