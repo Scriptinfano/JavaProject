@@ -10,9 +10,7 @@ import java.io.PrintStream;
 public abstract class ViewManager {
     protected static final ScannerPlus scanner = new ScannerPlus();
     protected static final PrintStream printer = new PrintStream(System.out);
-
     protected abstract void showMenu();
-
     /**
      * 询问用户是否退出，并执行退出程序的代码
      */
@@ -30,14 +28,12 @@ public abstract class ViewManager {
                 System.out.print("输入内容不正确，请重新输入:");
             }
         }
-
     }
 
     /**
      * 表示运行此交互系统
      */
     protected abstract void run();
-
     /**
      * 暂停程序的运行，按任意键继续
      */

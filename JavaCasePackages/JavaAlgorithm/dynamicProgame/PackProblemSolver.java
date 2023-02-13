@@ -1,4 +1,4 @@
-package JavaAlgorithm.packProblem;
+package JavaAlgorithm.dynamicProgame;
 //背包问题
 /*以下列背包问题为例
  * 物品  重量  价格
@@ -32,41 +32,67 @@ package JavaAlgorithm.packProblem;
  * */
 
 abstract class Product {
-    protected Double weight;
-    protected Double price;
+    protected final double weight = 12d;
+    protected final double price = 3d;
 
-    public Product(double weight, double price) {
-        this.weight = weight;
-        this.price = price;
-    }
-
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 }
 
 class Guitar extends Product {
+    final double weight = 24d;
+    final double price = 3d;
 
-    public Guitar(double weight, double price) {
-        super(weight, price);
+    @Override
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
     }
 }
 
 class Audio extends Product {
-    public Audio(double weight, double price) {
-        super(weight, price);
+    final double weight = 44d;
+    final double price = 7d;
+
+    @Override
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
     }
 }
 
 class Computer extends Product {
-    public Computer(double weight, double price) {
-        super(weight, price);
+    final double weight = 34d;
+    final double price = 65d;
+
+    @Override
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
     }
 }
 
 public class PackProblemSolver {
+
+
+    public static void main(String[] args) {
+
+    }
 }

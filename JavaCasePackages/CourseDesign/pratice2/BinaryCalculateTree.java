@@ -31,12 +31,6 @@ public class BinaryCalculateTree {
     private ArrayList<String> inOrderContainer = new ArrayList<>();
 
     /**
-     * 空参构造器
-     */
-    public BinaryCalculateTree() {
-    }
-
-    /**
      * 检测传入的中缀表达式字符串是否符合一个表达式的要求，例如是否有其他非法字符或者是否符合表达式的特定组合要求
      *
      * @param expressionArray 代表待检测的中缀表达式
@@ -54,27 +48,26 @@ public class BinaryCalculateTree {
         for (int i = 1; i < expressionArray.length - 1; i++) {
             String s = expressionArray[i];
             if (isNumber(s)) {
-                if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || !expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1]))
+                if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || (!expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1])))
                     return false;
             } else if (isOperator(s)) {
-                if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || !expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1]))
+                if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || (!expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1])))
                     return false;
             } else if (isBracket(s)) {
                 if(s.equals("("))
                 {
                     //左括号
-                    if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || !expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1]))
+                    if ((!expressionArray[i - 1].equals("(") && !isOperator(expressionArray[i - 1])) || (!expressionArray[i + 1].equals("(") && !isNumber(expressionArray[i + 1])))
                         return false;
                 }else {
                     //右括号
-                    if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || !expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1]))
+                    if ((!expressionArray[i - 1].equals(")") && !isNumber(expressionArray[i - 1])) || (!expressionArray[i + 1].equals(")") && !isOperator(expressionArray[i + 1])))
                         return false;
                 }
 
             } else {
                 return false;//遇到非法符号说明此表达式一定不符合要求
             }
-
         }
         return true;
     }

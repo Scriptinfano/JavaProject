@@ -78,6 +78,5 @@ public class BinaryTreeNode<T extends Comparable<T>> {
     public void setRightChild(BinaryTreeNode<T> rightChild) {
         this.rightChild = rightChild;
     }
-
 }
 

@@ -102,13 +102,6 @@ public class GraphBaseOnMatrix {
      * 图中顶点的个数
      */
     private int pointSize = 0;
-
-    /**
-     * 构造函数
-     */
-    public GraphBaseOnMatrix() {
-    }
-
     /**
      * 验证传入的邻接矩阵上三角部分的行主次序序列是否符合要求，若符合要求同时初始化内部代表点的个数的变量
      * @param arr 该整型数组依次按照行主次序存储各边权值，例如有五个点的全连通图（依次名为A,B,C,D,E），
@@ -235,7 +228,5 @@ public class GraphBaseOnMatrix {
         System.out.println("最小权值之和=" + totalValue);
         System.out.println("输出完成");
     }
-
-
 }
 
