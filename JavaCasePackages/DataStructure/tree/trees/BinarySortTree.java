@@ -47,10 +47,7 @@ public class BinarySortTree extends AbstractTree<Integer> {
         if (root == null) {
             root = node;
         } else {
-            Class nodeType = node.getClass();//TODO 这是测试代码，在测试完成之后请删除此代码
-            String nodeName = nodeType.getName();//TODO 这是测试代码，在测试完成之后请删除此代码
             if (node.getValue().compareTo(root.getValue()) < 0) {
-
                 insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getLeftChild(), (BinarySortTreeNode) node, false);
             } else
                 insertNodeRecurse((BinarySortTreeNode) root, ((BinarySortTreeNode) root).getRightChild(), (BinarySortTreeNode) node, true);
@@ -89,7 +86,7 @@ public class BinarySortTree extends AbstractTree<Integer> {
      */
     @Override
     public BinaryTreeNode<Integer> search(Object value) throws NodeNotFoundException {
-        if (root == null)
+        if (isEmpty())
             return null;
         else {
             if (((Integer) value).compareTo(root.getValue()) < 0) {

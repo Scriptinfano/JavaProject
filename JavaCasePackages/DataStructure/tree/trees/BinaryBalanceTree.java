@@ -72,9 +72,11 @@ public class BinaryBalanceTree extends BinarySortTree {
      * @return {@link BinaryTreeNode<Integer>} 反回的找到的节点
      */
     @Override
-    public BinaryTreeNode<Integer> search(Object value) throws NodeNotFoundException {
+    public BinaryBalanceTreeNode search(Object value) throws NodeNotFoundException {
         //TODO 完成二叉平衡树的搜索功能
-        return null;
+        if(value instanceof Integer){
+            //因该二叉平衡树节点只存放
+        }else return null;
     }
 
     /**

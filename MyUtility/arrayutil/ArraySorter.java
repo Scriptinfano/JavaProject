@@ -49,14 +49,16 @@ public class ArraySorter<T extends Comparable<T>> {
 
     /**
      * 包装快速排序，使设定边界的时候不用再手动设定，关于快速排序的详细讲解，参阅下方链接
+     *
      * @see ArraySorter#quickSortDetail(int, int)
      */
-    public void quickSort(){
+    public void quickSort() {
         if (theArr == null) {
             throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
         }
-        quickSortDetail(1,targetList.size()-1);
+        quickSortDetail(1, targetList.size() - 1);
     }
+
     /**
      * <strong>快速排序</strong><br/><br/>
      * 算法特点<br/>
@@ -243,7 +245,7 @@ public class ArraySorter<T extends Comparable<T>> {
     }
 
     /**
-     *<strong>简单选择排序</strong><br/><br/>
+     * <strong>简单选择排序</strong><br/><br/>
      * 算法思想：将序列分为两部分，前半部分为有序序列，后半部分为无序序列，一开始都是无序序列
      * 不断地在无序序列中选出一个最小的元素然后无序序列最开头的元素进行交换，此时该元素变为
      * 有序序列的一部分，然后继续这种交换过程<br/>
@@ -316,8 +318,8 @@ public class ArraySorter<T extends Comparable<T>> {
         for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
             biggerHeapAdjust(k, targetList.size() - 1);//创建初始大根堆的循环
 
-//注意创建初始大根堆的外层循环和交换堆顶并调整大根堆的外层循环不一样，创建初始大根堆的外层循环是自下向上自右向左地将非叶节点作为待调整子树根节点，相当于自下向上建堆。
-//        交换堆顶并调整大根堆在每一次交换之后的调整是由根节点向下调整，注意不能和创建初始大根堆从下向上的顺序弄反，
+        // 注意创建初始大根堆的外层循环和交换堆顶并调整大根堆的外层循环不一样，创建初始大根堆的外层循环是自下向上自右向左地将非叶节点作为待调整子树根节点，相当于自下向上建堆。
+        //交换堆顶并调整大根堆在每一次交换之后的调整是由根节点向下调整，注意不能和创建初始大根堆从下向上的顺序弄反，
         for (int k = 0; k < targetList.size() - 2; k++) {
             swap(1, targetList.size() - k - 1);
             biggerHeapAdjust(1, targetList.size() - k - 2);
@@ -366,7 +368,6 @@ public class ArraySorter<T extends Comparable<T>> {
      * 所以，归并排序递归实现的时间复杂度就是 O(nlogn)。<br/>
      * 5、空间复杂度：归并排序的空间复杂度是复杂排序中最大的，因为每一次实现归并的时候，需要一个大小为要归并的两段长度之和的辅助数组或容器，不停地
      * 比较放入容器，所以空间复杂度取决于排序序列地长度，所以空间复杂度是O(n)
-     *
      */
     public void mergeSort() {
         if (theArr == null) {
@@ -435,7 +436,6 @@ public class ArraySorter<T extends Comparable<T>> {
      * 时间复杂度；整个排序要进行d次分配和收集，因为记录有d个关键字，要针对每个关键字进行一次分配和收集；所以最后总的时间复杂度
      * 就是O(d(n+x))<br/>
      * 综上所述时间复杂度为：最好情况O(d(n+x)) 最坏情况O(d(n+x)) 平均情况O(d(n+x))
-     *
      */
     public void radixSort() {
         if (theArr == null) {
