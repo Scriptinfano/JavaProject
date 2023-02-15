@@ -2,16 +2,17 @@ package DataStructure.dataStructureInterfaces;
 
 import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
+import DataStructure.tree.MyTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 
 import java.util.List;
 
 /**
- * 树类应该有的接口，统一树类操作
+ * 二叉树类应该有的接口，统一树类操作
  *
  * @author Mingxiang
  */
-public interface Tree<T> {
+public interface Tree<T extends Comparable<T>> {
     /**
      * 不使用递归方式实现的前序遍历
      * @return {@link List}<{@link T}> 返回以节点的值作为元素的List容器
@@ -66,7 +67,7 @@ public interface Tree<T> {
      * @param value 要搜索的节点的值为value
      * @return {@link BinaryTreeNode<T>} 反回的找到的节点
      */
-    BinaryTreeNode<T> search(Object value) throws NodeNotFoundException;
+    MyTreeNode<T> search(T value) throws NodeNotFoundException;
 
     /**
      * 删除值为value的节点，若未找到节点则抛出异常
@@ -74,7 +75,7 @@ public interface Tree<T> {
      * @param value 价值
      * @throws NodeNotFoundException 节点没有发现异常
      */
-    void delete(Object value) throws NodeNotFoundException, CollectionEmptyException;
+    void delete(T value) throws NodeNotFoundException, CollectionEmptyException;
 
     /**
      * 判断是否为空树

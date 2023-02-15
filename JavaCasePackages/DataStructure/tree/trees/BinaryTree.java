@@ -8,7 +8,7 @@ import DataStructure.tree.nodes.BinaryTreeNode;
  *
  * @author Mingxiang
  */
-public class BinaryTree<T> extends AbstractTree<T> {
+public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
     //TODO 完成基本二叉树的设计
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class BinaryTree<T> extends AbstractTree<T> {
      * @return {@link BinaryTreeNode<T>} 反回的找到的节点
      */
     @Override
-    public BinaryTreeNode<T> search(Object value) {
+    public BinaryTreeNode<T> search(T value) {
         return null;
     }
 
@@ -43,7 +43,7 @@ public class BinaryTree<T> extends AbstractTree<T> {
      * @throws NodeNotFoundException 节点没有发现异常
      */
     @Override
-    public void delete(Object value) throws NodeNotFoundException {
+    public void delete(T value) throws NodeNotFoundException {
 
     }
 }

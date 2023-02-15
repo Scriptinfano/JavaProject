@@ -7,17 +7,17 @@ import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
 import testResources.Person;
 
-public class BinaryBalanceTree extends BinarySortTree {
+public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T> {
 
     /**
      * 按照给定的权值序列，依次将这些节点插入二叉平衡树并时刻保持二叉平衡树的特性
      *
      * @param values 权值序列
      */
-    public BinaryBalanceTree(Integer[] values) {
+    public BinaryBalanceTree(T[] values) {
         super();//调用的是基类的空构造器，不做任何事情
-        for (Integer value : values) {
-            BinaryBalanceTreeNode newNode = new BinaryBalanceTreeNode(value);//二叉平衡树的节点仍然采用二叉排序树的节点，二者基本一致
+        for (T value : values) {
+            BinaryBalanceTreeNode<T> newNode = new BinaryBalanceTreeNode<>(value);//二叉平衡树的节点仍然采用二叉排序树的节点，二者基本一致
             insert(newNode);
         }
     }
@@ -28,9 +28,9 @@ public class BinaryBalanceTree extends BinarySortTree {
      * @param node 待插入的节点
      */
     @Override
-    public void insert(BinaryTreeNode<Integer> node) {
+    public void insert(BinaryTreeNode<T> node) {
         super.insert(node);//先按照二叉排序树的方法插入一个节点，然后再判断是否打破的了二叉平衡树的平衡，再执行具体的调整
-        judgeBalanceAndRotate((BinaryBalanceTreeNode) node);//从插入的节点一直向上遍历父节点，直到找到最小的不平衡子树
+        judgeBalanceAndRotate((BinaryBalanceTreeNode<T>) node);//从插入的节点一直向上遍历父节点，直到找到最小的不平衡子树
     }
 
     /**
@@ -38,10 +38,10 @@ public class BinaryBalanceTree extends BinarySortTree {
      *
      * @param node 最后插入的节点
      */
-    private void judgeBalanceAndRotate(BinaryBalanceTreeNode node) {
+    private void judgeBalanceAndRotate(BinaryBalanceTreeNode<T> node) {
 
         //从插入节点开始向上回溯，不断遍历父节点，然后判断每个节点的平衡性，然后判断需要四种旋转类型的哪一种
-        BinaryBalanceTreeNode tempNode = node;
+        BinaryBalanceTreeNode<T> tempNode = node;
         while (tempNode.getParent() != null || tempNode == root) {
             int heightDifference = tempNode.judgeBalance();
             if (heightDifference > 1) {
@@ -72,11 +72,8 @@ public class BinaryBalanceTree extends BinarySortTree {
      * @return {@link BinaryTreeNode<Integer>} 反回的找到的节点
      */
     @Override
-    public BinaryBalanceTreeNode search(Object value) throws NodeNotFoundException {
-        //TODO 完成二叉平衡树的搜索功能
-        if(value instanceof Integer){
-            //因该二叉平衡树节点只存放
-        }else return null;
+    public BinaryBalanceTreeNode<T> search(T value) throws NodeNotFoundException {
+        return (BinaryBalanceTreeNode<T>) super.search(value);//搜索功能不涉及对节点的插入和删除，所以步骤和二叉排序树完全一样，所以直接调用父类接口
     }
 
     /**
@@ -86,7 +83,7 @@ public class BinaryBalanceTree extends BinarySortTree {
      * @throws NodeNotFoundException 节点没有发现异常
      */
     @Override
-    public void delete(Object value) throws NodeNotFoundException, CollectionEmptyException {
+    public void delete(T value) throws NodeNotFoundException, CollectionEmptyException {
         //TODO 完成二叉树的删除节点功能
     }
 
@@ -96,7 +93,7 @@ class TestBalanceTree {
     public static void main(String[] args) {
         Integer[] arr = {10, 8, 17, 15, 19, 16};
         ArrayUtil.showArray(arr);
-        BinaryBalanceTree theBalanceTree = new BinaryBalanceTree(arr);
+        BinaryBalanceTree<Integer> theBalanceTree = new BinaryBalanceTree<>(arr);
         /*try {
             theBalanceTree.search(57);
         } catch (NodeNotFoundException e) {

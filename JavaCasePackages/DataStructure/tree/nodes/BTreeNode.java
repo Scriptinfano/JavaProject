@@ -1,4 +1,6 @@
 package DataStructure.tree.nodes;
 
-public class BTreeNode {
+import DataStructure.tree.MyTreeNode;
+
+public class BTreeNode<T extends Comparable<T>> extends MyTreeNode<T> {
 }

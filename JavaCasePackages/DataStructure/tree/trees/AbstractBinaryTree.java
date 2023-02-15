@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public abstract class AbstractTree<T> implements Tree<T> {
-
+public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     protected BinaryTreeNode<T> root;//树的根节点
     protected Integer treeSize;//树中的节点个数
@@ -91,7 +90,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
     }
 
     /**
-     * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
+     * 向树中插入一个新节点，由于各个树的插入算法不一样，所以子类均需要重写该接口
      *
      * @param node 待插入的节点
      */
@@ -141,7 +140,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      * @return {@link BinaryTreeNode<T>} 反回的找到的节点
      */
     @Override
-    public abstract BinaryTreeNode<T> search(Object value) throws NodeNotFoundException;
+    public abstract BinaryTreeNode<T> search(T value) throws NodeNotFoundException;
 
     /**
      * 删除值为value的节点，若未找到节点则抛出异常
@@ -150,7 +149,7 @@ public abstract class AbstractTree<T> implements Tree<T> {
      * @throws NodeNotFoundException 节点没有发现异常
      */
     @Override
-    public abstract void delete(Object value) throws NodeNotFoundException, CollectionEmptyException;
+    public abstract void delete(T value) throws NodeNotFoundException, CollectionEmptyException;
 
     /**
      * 递归实现前序遍历 该接口在实例子类中可选择实现
@@ -220,11 +219,9 @@ public abstract class AbstractTree<T> implements Tree<T> {
      */
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof AbstractTree<?>) {
-            //在该对象是继承了抽象树的实例树时，才能比较两者是否相同
-            //TODO 完成树的比较操作
-            return true;
-        } else return false;
+        //在该对象是继承了抽象树的实例树时，才能比较两者是否相同
+        //TODO 完成树的比较操作
+        return obj instanceof Tree<?>;
 
     }
 }

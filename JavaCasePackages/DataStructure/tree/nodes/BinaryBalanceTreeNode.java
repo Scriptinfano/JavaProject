@@ -1,7 +1,7 @@
 package DataStructure.tree.nodes;
 
-public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
-    public BinaryBalanceTreeNode(Integer theValue) {
+public final class BinaryBalanceTreeNode<T extends Comparable<T>> extends BinarySortTreeNode<T> {
+    public BinaryBalanceTreeNode(T theValue) {
         super(theValue);
     }
 
@@ -9,7 +9,7 @@ public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
      * 由于在不平衡子树根节点的右子树的右子树上插入节点导致不平衡，所以将这种调整命名为RR型调整
      */
     public void RR_Rotate() {
-        var newNode = new BinaryBalanceTreeNode(value);
+        var newNode = new BinaryBalanceTreeNode<>(value);
         newNode.setLeftChild(getLeftChild());
         newNode.setRightChild(getRightChild().getLeftChild());
         setValue(getRightChild().getValue());
@@ -21,7 +21,7 @@ public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
      * 由于在不平衡子树根节点的左子树的左子树上插入节点导致不平衡，所以将这种调整命名为LL型调整
      */
     public void LL_Rotate() {
-        var newNode = new BinaryBalanceTreeNode(value);
+        var newNode = new BinaryBalanceTreeNode<>(value);
         newNode.setRightChild(getRightChild());
         newNode.setLeftChild(getLeftChild().getRightChild());
         setValue(getLeftChild().getValue());
@@ -59,19 +59,19 @@ public final class BinaryBalanceTreeNode extends BinarySortTreeNode {
 
 
     @Override
-    public BinaryBalanceTreeNode getLeftChild() {
-        return (BinaryBalanceTreeNode) super.getLeftChild();
+    public BinaryBalanceTreeNode<T> getLeftChild() {
+        return (BinaryBalanceTreeNode<T>) super.getLeftChild();
     }
 
 
     @Override
-    public BinaryBalanceTreeNode getRightChild() {
-        return (BinaryBalanceTreeNode) super.getRightChild();
+    public BinaryBalanceTreeNode<T> getRightChild() {
+        return (BinaryBalanceTreeNode<T>) super.getRightChild();
     }
 
     @Override
-    public BinaryBalanceTreeNode getParent() {
-        return (BinaryBalanceTreeNode) super.getParent();
+    public BinaryBalanceTreeNode<T> getParent() {
+        return (BinaryBalanceTreeNode<T>) super.getParent();
     }
 
 }

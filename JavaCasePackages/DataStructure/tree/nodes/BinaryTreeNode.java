@@ -1,12 +1,13 @@
 package DataStructure.tree.nodes;
 
+import DataStructure.tree.MyTreeNode;
+
 /**
  * 所有二叉树节点的基类
  *
  * @author Mingxiang
  */
-public class BinaryTreeNode<T> {
-    protected T value;//二叉树节点权值
+public class BinaryTreeNode<T extends Comparable<T>> extends MyTreeNode<T> {
     protected BinaryTreeNode<T> leftChild;//二叉树左孩子指针
     protected BinaryTreeNode<T> rightChild;//二叉树右孩子指针
 

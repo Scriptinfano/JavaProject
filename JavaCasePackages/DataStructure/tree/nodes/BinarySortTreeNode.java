@@ -1,8 +1,8 @@
 package DataStructure.tree.nodes;
 
 
-public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
-    private BinarySortTreeNode parent;
+public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
+    private BinarySortTreeNode<T> parent;
 
     public enum childMark {
         LEFT,//该节点是父节点的左子
@@ -17,7 +17,7 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
      *
      * @param theData 节点的值
      */
-    public BinarySortTreeNode(Integer theData) {
+    public BinarySortTreeNode(T theData) {
         super(theData);
         parent = null;
     }
@@ -28,35 +28,35 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
      * @param theParent 父节点
      * @param theData   节点数据
      */
-    public BinarySortTreeNode(BinarySortTreeNode theParent, Integer theData) {
+    public BinarySortTreeNode(BinarySortTreeNode theParent, T theData) {
         super(theData);
         parent = theParent;
     }
 
     @Override
-    public BinarySortTreeNode getLeftChild() {
-        return (BinarySortTreeNode) super.getLeftChild();
+    public BinarySortTreeNode<T> getLeftChild() {
+        return (BinarySortTreeNode<T>) super.getLeftChild();
     }
 
     @Override
-    public BinarySortTreeNode getRightChild() {
-        return (BinarySortTreeNode) super.getRightChild();
+    public BinarySortTreeNode<T> getRightChild() {
+        return (BinarySortTreeNode<T>) super.getRightChild();
     }
 
     @Override
-    public void setRightChild(BinaryTreeNode<Integer> rightChild) {
+    public void setRightChild(BinaryTreeNode<T> rightChild) {
         this.rightChild = rightChild;
         if (rightChild != null) {
-            ((BinarySortTreeNode) rightChild).setParent(this);
-            ((BinarySortTreeNode) rightChild).setMark(childMark.RIGHT);
+            ((BinarySortTreeNode<T>) rightChild).setParent(this);
+            ((BinarySortTreeNode<T>) rightChild).setMark(childMark.RIGHT);
         }
     }
 
-    public BinarySortTreeNode getParent() {
+    public BinarySortTreeNode<T> getParent() {
         return parent;
     }
 
-    private void setParent(BinarySortTreeNode theParent) {
+    private void setParent(BinarySortTreeNode<T> theParent) {
         parent = theParent;
     }
 
@@ -69,11 +69,11 @@ public class BinarySortTreeNode extends BinaryTreeNode<Integer> {
     }
 
     @Override
-    public void setLeftChild(BinaryTreeNode<Integer> leftChild) {
+    public void setLeftChild(BinaryTreeNode<T> leftChild) {
         this.leftChild = leftChild;
         if (leftChild != null) {
-            ((BinarySortTreeNode) leftChild).setParent(this);
-            ((BinarySortTreeNode) leftChild).setMark(childMark.LEFT);
+            ((BinarySortTreeNode<T>) leftChild).setParent(this);
+            ((BinarySortTreeNode<T>) leftChild).setMark(childMark.LEFT);
         }
     }
 }
