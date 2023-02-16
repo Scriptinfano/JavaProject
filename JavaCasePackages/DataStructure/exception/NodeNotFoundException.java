@@ -7,6 +7,6 @@ public class NodeNotFoundException extends Exception {
     private Object value;
 
     public NodeNotFoundException(Object theValue) {
-        super("未找到值为" + theValue + "的异常");
+        super("未找到值为" + theValue + "的节点");
     }
 }

@@ -3,9 +3,11 @@ package DataStructure.tree.trees;
 import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
+import DataStructure.tree.nodes.BinarySortTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
-import testResources.Person;
+import myScannerAndPrinter.NoMoreScanException;
+import myScannerAndPrinter.ScannerPlus;
 
 public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T> {
 
@@ -87,20 +89,195 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
         //TODO 完成二叉树的删除节点功能
     }
 
+    private BinaryBalanceTreeNode<T> delete(BinaryBalanceTreeNode<T>node,T value){
+        if(isEmpty())
+            return node;
+        if(value.compareTo(node.getValue())<0){
+            node.setLeftChild(delete(node.getLeftChild(),value));
+        }else if(value.compareTo(node.getValue())>0){
+            node.setRightChild(delete(node.getRightChild(),value));
+        }else {
+            if(node.getLeftChild()==null||node.getRightChild()==null){
+                BinaryBalanceTreeNode<T> temp=null;
+                //将temp变为不为空的左节点或右节点
+                if(temp==node.getLeftChild())
+                    temp=node.getRightChild();
+                else
+                    temp=node.getLeftChild();
+
+                if(temp==null){
+                //左右子节点均为空的情况
+                temp=node;
+                node=null;
+                }else
+                    node=temp;
+            }
+        }
+    }
+
 }
+/*AI代码参考
+public class AVLTree {
+
+    private class Node {
+        int key, height;
+        Node left, right;
+
+        public Node(int key) {
+            this.key = key;
+            this.height = 1;
+        }
+    }
+
+    private Node root;
+
+    public void insert(int key) {
+        root = insert(root, key);
+    }
+
+    private Node insert(Node node, int key) {
+        if (node == null) {
+            return new Node(key);
+        }
+
+        if (key < node.key) {
+            node.left = insert(node.left, key);
+        } else if (key > node.key) {
+            node.right = insert(node.right, key);
+        } else {
+            return node; // the key already exists
+        }
+
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+
+        int balance = getBalance(node);
+
+        if (balance > 1 && key < node.left.key) {
+            return rightRotate(node);
+        }
+
+        if (balance < -1 && key > node.right.key) {
+            return leftRotate(node);
+        }
+
+        if (balance > 1 && key > node.left.key) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if (balance < -1 && key < node.right.key) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
+        return node;
+    }
+
+    public void delete(int key) {
+        root = delete(root, key);
+    }
+
+    private Node delete(Node node, int key) {
+        if (node == null) {
+            return node;
+        }
+
+        if (key < node.key) {
+            node.left = delete(node.left, key);
+        } else if (key > node.key) {
+            node.right = delete(node.right, key);
+        } else {
+            if (node.left == null || node.right == null) {
+                Node temp = null;
+                if (temp == node.left) {
+                    temp = node.right;
+                } else {
+                    temp = node.left;
+                }
+
+                if (temp == null) {
+                    temp = node;
+                    node = null;
+                } else {
+                    node = temp;
+                }
+            } else {
+                Node temp = minValueNode(node.right);
+                node.key = temp.key;
+                node.right = delete(node.right, temp.key);
+            }
+        }
+
+        if (node == null) {
+            return node;
+        }
+
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+
+        int balance = getBalance(node);
+
+        if (balance > 1 && getBalance(node.left) >= 0) {
+            return rightRotate(node);
+        }
+
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if (balance < -1 && getBalance(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
+        return node;
+    }
+
+    private Node minValueNode(Node node) {
+        Node current = node;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current;
+    }
+
+    private int height(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.height;
+    }
+
+    private int getBalance(Node node) {
+        if (node == null) {
+            return
+
+* */
 
 class TestBalanceTree {
     public static void main(String[] args) {
         Integer[] arr = {10, 8, 17, 15, 19, 16};
         ArrayUtil.showArray(arr);
         BinaryBalanceTree<Integer> theBalanceTree = new BinaryBalanceTree<>(arr);
-        /*try {
-            theBalanceTree.search(57);
-        } catch (NodeNotFoundException e) {
-            System.out.println(e.getMessage());
-        }*/
-        Person p = new Person();
-
-
+        ScannerPlus scanner = new ScannerPlus();
+        while(true){
+            System.out.println("输入要查找的数字：");
+            int searchNum =scanner.nextInt();
+            try {
+                theBalanceTree.search(searchNum);
+                System.out.println("找到了");
+            } catch (NodeNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                scanner.noMoreScan();
+            } catch (NoMoreScanException e) {
+                break;
+            }
+        }
     }
 }
