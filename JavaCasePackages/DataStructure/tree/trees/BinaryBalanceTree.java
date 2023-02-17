@@ -81,37 +81,50 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
     /**
      * 删除值为value的节点，若未找到节点则抛出异常
      *
-     * @param value 价值
-     * @throws NodeNotFoundException 节点没有发现异常
+     * @param value 删除值为value的节点
+     * @throws NodeNotFoundException 当未找到该节点时抛出该异常
      */
     @Override
     public void delete(T value) throws NodeNotFoundException, CollectionEmptyException {
         //TODO 完成二叉树的删除节点功能
+        /*
+         * 从平衡二叉树中删除节点也分为两步，第一步完成节点的删除，第二步找到因为删除而导致不满足平衡二叉树要求的子树并对其进行调整*/
+        root = delete((BinaryBalanceTreeNode<T>) root, value);
     }
 
-    private BinaryBalanceTreeNode<T> delete(BinaryBalanceTreeNode<T>node,T value){
-        if(isEmpty())
-            return node;
-        if(value.compareTo(node.getValue())<0){
-            node.setLeftChild(delete(node.getLeftChild(),value));
-        }else if(value.compareTo(node.getValue())>0){
-            node.setRightChild(delete(node.getRightChild(),value));
-        }else {
-            if(node.getLeftChild()==null||node.getRightChild()==null){
-                BinaryBalanceTreeNode<T> temp=null;
-                //将temp变为不为空的左节点或右节点
-                if(temp==node.getLeftChild())
-                    temp=node.getRightChild();
-                else
-                    temp=node.getLeftChild();
+    /**
+     * 删除平衡二叉树的节点的递归函数
+     *
+     * @param node  要删除的节点在以该节点为根节点的子树中
+     * @param value 要删除的节点的权值，如果不存在该权值，则什么也不做
+     * @return {@link BinaryBalanceTreeNode}<{@link T}> 返回删除了目标节点并经过调整之后的子树的根节点
+     */
+    private BinaryBalanceTreeNode<T> delete(BinaryBalanceTreeNode<T> node, T value) {
 
-                if(temp==null){
-                //左右子节点均为空的情况
-                temp=node;
-                node=null;
-                }else
-                    node=temp;
+        if (node == null) return null;//判断当前节点是否为空
+        if (value.compareTo(node.getValue()) < 0) {
+            node.setLeftChild(delete(node.getLeftChild(), value));
+        } else if (value.compareTo(node.getValue()) > 0) {
+            node.setRightChild(delete(node.getRightChild(), value));
+        } else {
+            //找到了待删除的节点
+            if (node.getLeftChild() == null && node.getRightChild() != null) {
+                //左子树是空，右子树不是空的情况
+            }else if(node.getLeftChild()!=null&&node.getRightChild()==null)
+            {
+                //右子树是空，左子树不是空的情况
+            }else if(node.getLeftChild()!=null&&node.getRightChild()!=null){
+                //两颗子树都不是空的情况
+                int balance=node.leftHeight()-node.rightHeight();
+                if(balance==-1){
+                    //该节点的右子树比较高
+                }else{
+                    //该节点的
+                }
+            }else {
+                //两颗子树都是空的情况
             }
+
         }
     }
 
@@ -264,9 +277,9 @@ class TestBalanceTree {
         ArrayUtil.showArray(arr);
         BinaryBalanceTree<Integer> theBalanceTree = new BinaryBalanceTree<>(arr);
         ScannerPlus scanner = new ScannerPlus();
-        while(true){
+        while (true) {
             System.out.println("输入要查找的数字：");
-            int searchNum =scanner.nextInt();
+            int searchNum = scanner.nextInt();
             try {
                 theBalanceTree.search(searchNum);
                 System.out.println("找到了");
