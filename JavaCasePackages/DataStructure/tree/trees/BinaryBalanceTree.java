@@ -3,7 +3,6 @@ package DataStructure.tree.trees;
 import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
-import DataStructure.tree.nodes.BinarySortTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
 import myScannerAndPrinter.NoMoreScanException;
@@ -36,7 +35,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
     }
 
     /**
-     * 从插入节点依次遍历父节点，查找第一个不平衡的子树
+     * 从给定节点开始依次遍历父节点，查找第一个不平衡的子树，在找到不平衡子树的根节点之后，对根节点调用旋转算法对二叉平衡树进行调整
      *
      * @param node 最后插入的节点
      */
@@ -89,7 +88,12 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
         //TODO 完成二叉树的删除节点功能
         /*
          * 从平衡二叉树中删除节点也分为两步，第一步完成节点的删除，第二步找到因为删除而导致不满足平衡二叉树要求的子树并对其进行调整*/
-        root = delete((BinaryBalanceTreeNode<T>) root, value);
+        if (isEmpty()) throw new CollectionEmptyException();
+        BinaryBalanceTreeNode<T> tempNode = delete((BinaryBalanceTreeNode<T>) root, value);
+        if (tempNode == null) throw new NodeNotFoundException(value);
+        else {
+            root = tempNode;
+        }
     }
 
     /**
@@ -101,31 +105,46 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
      */
     private BinaryBalanceTreeNode<T> delete(BinaryBalanceTreeNode<T> node, T value) {
 
-        if (node == null) return null;//判断当前节点是否为空
+        /*if (node == null) return null;//判断当前节点是否为空
         if (value.compareTo(node.getValue()) < 0) {
             node.setLeftChild(delete(node.getLeftChild(), value));
         } else if (value.compareTo(node.getValue()) > 0) {
             node.setRightChild(delete(node.getRightChild(), value));
         } else {
+            var parentNode = node.getParent();
             //找到了待删除的节点
             if (node.getLeftChild() == null && node.getRightChild() != null) {
                 //左子树是空，右子树不是空的情况
-            }else if(node.getLeftChild()!=null&&node.getRightChild()==null)
-            {
+                if (node.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                    parentNode.setRightChild(node.getRightChild());
+                    judgeBalanceAndRotate(parentNode.getRightChild());
+                } else {
+                    parentNode.setLeftChild(node.getRightChild());
+                    judgeBalanceAndRotate(parentNode.getLeftChild());
+                }
+            } else if (node.getLeftChild() != null && node.getRightChild() == null) {
                 //右子树是空，左子树不是空的情况
-            }else if(node.getLeftChild()!=null&&node.getRightChild()!=null){
+                if (node.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                    parentNode.setRightChild(node.getLeftChild());
+                    judgeBalanceAndRotate(parentNode.getRightChild());
+                } else {
+                    parentNode.setLeftChild(node.getLeftChild());
+                    judgeBalanceAndRotate(parentNode.getLeftChild());
+                }
+            } else if (node.getLeftChild() != null && node.getRightChild() != null) {
                 //两颗子树都不是空的情况
-                int balance=node.leftHeight()-node.rightHeight();
-                if(balance==-1){
+                int balance = node.leftHeight() - node.rightHeight();
+                if (balance == -1) {
                     //该节点的右子树比较高
-                }else{
+                } else {
                     //该节点的
                 }
-            }else {
+            } else {
                 //两颗子树都是空的情况
             }
 
-        }
+        }*/
+        return null;
     }
 
 }
@@ -272,11 +291,12 @@ public class AVLTree {
 * */
 
 class TestBalanceTree {
+    private static ScannerPlus scanner = new ScannerPlus();
     public static void main(String[] args) {
         Integer[] arr = {10, 8, 17, 15, 19, 16};
         ArrayUtil.showArray(arr);
         BinaryBalanceTree<Integer> theBalanceTree = new BinaryBalanceTree<>(arr);
-        ScannerPlus scanner = new ScannerPlus();
+
         while (true) {
             System.out.println("输入要查找的数字：");
             int searchNum = scanner.nextInt();
@@ -292,5 +312,27 @@ class TestBalanceTree {
                 break;
             }
         }
+    }
+
+    public static void testPerson() {
+        /*Person[] persons = {new Person("小明",12), new Person("小白",43),new Person("校长",41),new Person("诗人",44)};
+        System.out.println(Arrays.toString(persons));
+        BinaryBalanceTree<Person> theBalanceTree = new BinaryBalanceTree<>(persons);
+        ScannerPlus scanner = new ScannerPlus();
+        while (true) {
+            System.out.println("输入要查找的人的姓名：");
+            int searchNum = scanner.nextInt();
+            try {
+                theBalanceTree.search();
+                System.out.println("找到了");
+            } catch (NodeNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                scanner.noMoreScan();
+            } catch (NoMoreScanException e) {
+                break;
+            }
+        }*/
     }
 }
