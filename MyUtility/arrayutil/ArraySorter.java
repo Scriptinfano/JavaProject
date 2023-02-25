@@ -315,6 +315,7 @@ public class ArraySorter<T extends Comparable<T>> {
         //此时将初始的未排序序列视为完全二叉树的层序遍历的结果，就可以将初始序列视为一个完全二叉树，此时对这个完全二叉树进行堆调整，使其符合大根堆的定义
 
         //k的初始值是堆最后一个节点的父节点的编号
+        //k = (targetList.size() - 1) / 2 相当于将K定位到了最后一个非叶子节点上，随后k不断变小遍历每一个非叶子节点
         for (int k = (targetList.size() - 1) / 2; k >= 1; k--)
             biggerHeapAdjust(k, targetList.size() - 1);//创建初始大根堆的循环
 
@@ -346,7 +347,9 @@ public class ArraySorter<T extends Comparable<T>> {
             if (j < end && targetList.get(j).compareTo(targetList.get(j + 1)) < 0)
                 j++;
             if (targetList.get(i).compareTo(targetList.get(j)) < 0)//根节点与子节点的值进行比较，保证根节点和左右子节点三个节点中最大的节点成为新的根节点以满足大根堆的定义
+            {
                 swap(i, j);
+            }
             //如果此时子树又不符合堆的定义，那么更新i,j的值去调整子树
             i = j;
             j = 2 * i;
@@ -519,7 +522,7 @@ class ArraySorterTester {
         System.out.println(Arrays.toString(arr));
         ArraySorter<Integer> sorter = new ArraySorter<>();
         sorter.setSortArray(arr);
-        sorter.quickSort();
+        sorter.heapSort();
         System.out.println(Arrays.toString(arr));
     }
 

@@ -2,7 +2,10 @@ import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.trees.BinaryBalanceTree;
 import arrayutil.ArrayUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static arrayutil.ArrayUtil.swap;
 
@@ -47,10 +50,14 @@ class Solution {
 
 
     public static void main(String[] args) {
-        int[] nums = {0, 1, 2, 2, 3, 0, 4, 2};
-        int result = removeElement(nums, 2);
-        System.out.println(result);
-        System.out.println(Arrays.toString(nums));
+        ArrayList<Integer> cache = new ArrayList<>();
+        cache.add(3);
+        cache.add(3);
+        cache.add(3);
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        names.forEach(name -> System.out.println("Hello, " + name));
+        Optional<Integer> op = cache.stream().min(Integer::compareTo);
+        System.out.println(op.get());
     }
 
 }
