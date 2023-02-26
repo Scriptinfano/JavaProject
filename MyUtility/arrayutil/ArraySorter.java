@@ -16,7 +16,6 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private T[] theArr;
 
-
     /**
      * 构造ArraySorter对象，构造之后尚不能排序，调用resetArray接口设定待排序数组
      */
@@ -219,15 +218,17 @@ public class ArraySorter<T extends Comparable<T>> {
      * <strong>折半插入排序</strong><br/><br/>
      * 算法特点：<br/>
      * 1、排序稳定<br/>
-     * 2、只能用于顺序结构<br/>
+     * 2、只能用于顺序结构(需要随机访问)<br/>
      * 3、适合初始记录无序，数组元素数较大的情况<br/>
-     * 4、相对于直接插入排序，减少了元素的比较次数，但是相对于直接插入排序元素的移动次数不变<br/>
+     * 4、相对于直接插入排序，减少了元素的比较次数，每次的比较次数=Math.floor(log(2,i))但是相对于直接插入排序，元素的移动次数不变<br/>
      * 算法时间复杂度：最好情况O(nlogn) 最坏情况O(n^2) 平均情况O(n^2)
      */
     public void binaryInsertSort() {
         if (theArr == null) {
             throw new RuntimeException("未设置待排序的数组，请调用resetArray设定待排序数组");
         }
+
+        //依次插入第2到第n个元素
         for (int i = 2; i < targetList.size(); i++) {
             T temp = targetList.get(i);
             int low = 1, high = i - 1;
@@ -237,6 +238,8 @@ public class ArraySorter<T extends Comparable<T>> {
                     high = mid - 1;
                 else low = mid + 1;
             }
+            //上一个while循环结束之后，high+1就是插入位置
+            //下面for循环的目的是把[high+1,i-1]的元素向后挪一位
             for (int j = i - 1; j >= high + 1; j--)
                 targetList.set(j + 1, targetList.get(j));
             targetList.set(high + 1, temp);
@@ -304,7 +307,7 @@ public class ArraySorter<T extends Comparable<T>> {
     public void heapSort() {
         /*
          * 如果大根堆的根的编号从1开始，则满足以下性质
-         * 1、下标为i的节点的父节点下标：i/2
+         * 1、下标为i的节点的父节点下标：Math.floor(i/2) 或 (i-1)/2
          * 2、下标为i的节点的左孩子下标：2*i
          * 3、下标为i的节点的右孩子下标：2*i+1
          * 注意本堆排序所采用的堆的根节点的编号从1开始算，数组的下标也从1开始算，数组的0号位是空引用null
@@ -337,7 +340,7 @@ public class ArraySorter<T extends Comparable<T>> {
      */
     private void biggerHeapAdjust(int begin, int end) {
         int i = begin;
-        int j = 2 * i;
+        int j = 2 * i;//j所指节点是i所指节点的左子节点
 
         //此时i是待调整子树根节点的编号，j是待调整子树根节点的左子节点的编号
 
@@ -345,12 +348,14 @@ public class ArraySorter<T extends Comparable<T>> {
 
             //j<end实际是在判断i所指节点有没有右子树，如果有右子树，则必然满足此条件，则说明有右子树
             if (j < end && targetList.get(j).compareTo(targetList.get(j + 1)) < 0)
-                j++;
-            if (targetList.get(i).compareTo(targetList.get(j)) < 0)//根节点与子节点的值进行比较，保证根节点和左右子节点三个节点中最大的节点成为新的根节点以满足大根堆的定义
-            {
+                j++;//当i所指节点有右子树且其左子节点比右子节点小，则将j指向较大的孩子节点，也就是i所指节点的右子节点
+
+            //根节点与子节点中较大节点的值进行比较然后让较大值成为新的根节点
+            if (targetList.get(i).compareTo(targetList.get(j)) < 0) {
                 swap(i, j);
             }
-            //如果此时子树又不符合堆的定义，那么更新i,j的值去调整子树
+            //以上两个if语句及操作保证了根节点和左右子节点三个节点中最大的节点成为新的根节点以满足大根堆的定义
+            //更新i,j的值在下一个循环中检查子树是否符合大根堆的定义并调整
             i = j;
             j = 2 * i;
         }
@@ -427,10 +432,11 @@ public class ArraySorter<T extends Comparable<T>> {
 
     /**
      * <strong>基数排序</strong><br/><br/>
-     * 算法特点<p>
-     * 1、基数排序是对桶排序的扩展，速度快<p>
-     * 2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<p>
+     * 算法特点<br/>
+     * 1、基数排序是对桶排序的扩展，速度快<br/>
+     * 2、基数排序是经典的空间换时间的策略，占用内存大，对大量数据排序时可能出现OutOfMemoryError<br/>
      * 3、基数排序是稳定排序<br>
+     * 4、适用于链式结构 <a href="https://blog.csdn.net/qq_44739053/article/details/90048158">对链式基数排序的详解</a>
      * 4、基数排序不能对含有负数、浮点数的数组进行排序<br/><br/>
      * 时间复杂度分析：<br/>
      * 假设有n个记录（要排序的对象），每个记录有d个关键字(假如1214为一个记录，那么组成该数字的每一位上的数字就是该记录的关键字)，
