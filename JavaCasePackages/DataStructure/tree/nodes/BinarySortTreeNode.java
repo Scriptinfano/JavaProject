@@ -28,7 +28,7 @@ public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<
      * @param theParent 父节点
      * @param theData   节点数据
      */
-    public BinarySortTreeNode(BinarySortTreeNode theParent, T theData) {
+    public BinarySortTreeNode(BinarySortTreeNode<T> theParent, T theData) {
         super(theData);
         parent = theParent;
     }

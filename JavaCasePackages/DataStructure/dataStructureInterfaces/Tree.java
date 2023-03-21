@@ -107,5 +107,7 @@ public interface Tree<T extends Comparable<T>> {
 
     boolean equals(Object obj);
 
+    void output();
+
 
 }

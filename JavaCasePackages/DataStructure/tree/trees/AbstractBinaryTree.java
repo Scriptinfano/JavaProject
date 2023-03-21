@@ -5,9 +5,7 @@ import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryTreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tree<T> {
 
@@ -103,22 +101,21 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return int
      */
     @Override
-    public final int leafSize() throws CollectionEmptyException {
-        if (root == null)
-            throw new CollectionEmptyException();
-        return 1 + leafSizeRecursive(root.getLeftChild()) + leafSizeRecursive(root.getRightChild());
+    public final int leafSize() {
+        if (root == null) return 0;
+        return leafSizeRecursive(root.getLeftChild()) + leafSizeRecursive(root.getRightChild());
     }
 
     private int leafSizeRecursive(BinaryTreeNode<T> node) {
         if (node == null) return 0;
-        if (node.getLeftChild() == null && root.getRightChild() == null) return 1;
+        if (node.getLeftChild() == null && node.getRightChild() == null) return 1;
         return leafSizeRecursive(node.getLeftChild()) + leafSizeRecursive(node.getRightChild());//这是非叶子节点的情况，需要继续递归
     }
 
     /**
      * 求总树高
      *
-     * @return int 总的树高
+     * @return 总树高
      */
     @Override
     public final int height() {
@@ -223,5 +220,21 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
         //TODO 完成树的比较操作
         return obj instanceof Tree<?>;
 
+    }
+
+    @Override
+    public final void output() {
+        if (root == null) return;
+        Queue<BinaryTreeNode<T>> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            for (int i = 0; i < queue.size(); i++) {
+                BinaryTreeNode<T> node = queue.poll();
+                System.out.println(node + " ");
+                if (node.getLeftChild() != null) queue.offer(node.getLeftChild());
+                if (node.getRightChild() != null) queue.offer(node.getRightChild());
+            }
+            System.out.println();
+        }
     }
 }

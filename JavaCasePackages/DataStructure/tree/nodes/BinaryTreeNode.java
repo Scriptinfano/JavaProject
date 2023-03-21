@@ -112,5 +112,9 @@ public class BinaryTreeNode<T extends Comparable<T>> extends MyTreeNode<T> {
             return 0;
         return getRightChild().height();
     }
+
+    public String toString() {
+        return value.toString();
+    }
 }
 

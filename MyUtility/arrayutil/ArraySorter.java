@@ -401,7 +401,7 @@ public class ArraySorter<T extends Comparable<T>> {
 
 
     /**
-     * 归并排序中归并的过程
+     * 归并排序中归并的过程，归并的过程是需要额外空间的，归并排序需要和待排序记录个数相等的辅助存储空间，所以空间复杂度是所有排序算法中最高的，为O(n)。
      *
      * @param begin 归并第一段的起始编号
      * @param mid   归并第一段的终止编号
@@ -523,7 +523,7 @@ class ArraySorterTester {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = ArrayUtil.randomIntegerArray(10, 1, 100);
+        Integer[] arr = ArrayUtil.randomIntegerArray(7, 1, 100);
         //Integer[] arr ={46,79,56,38,40,84};
         System.out.println(Arrays.toString(arr));
         ArraySorter<Integer> sorter = new ArraySorter<>();
