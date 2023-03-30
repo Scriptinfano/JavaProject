@@ -102,8 +102,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      */
     @Override
     public final int leafSize() {
-        if (root == null) return 0;
-        return leafSizeRecursive(root.getLeftChild()) + leafSizeRecursive(root.getRightChild());
+        return leafSizeRecursive(root);
     }
 
     private int leafSizeRecursive(BinaryTreeNode<T> node) {
@@ -123,8 +122,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
     }
 
     private int heightRecursive(BinaryTreeNode<T> node) {
-        if (node == null)
-            return 0;
+        if (node == null) return 0;
         int i = heightRecursive(node.getLeftChild());
         int j = heightRecursive(node.getRightChild());
         return i > j ? i + 1 : j + 1;

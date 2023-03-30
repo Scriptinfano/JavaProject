@@ -78,11 +78,13 @@ public class ArraySorter<T extends Comparable<T>> {
          * 1、使用第一个记录的关键码
          * 2、选取序列中间记录的关键码
          * 3、比较序列中第一个记录，最后一个记录和中间记录的关键码，取关键码居中的作为轴值并调换到第一个记录的位置
-         * 4、随机选取轴值*/
+         * 4、随机选取轴值
+         * */
         if (left < right) {
             int i = left, j = right;
             T standard = targetList.get(i);
             while (i < j) {
+                //如果每次都选取区间的左端作为枢轴值，则右侧指针先向左走然后左侧指针再朝右走
                 while (targetList.get(j).compareTo(standard) >= 0 && i < j) {
                     j--;
                 }

@@ -1,10 +1,15 @@
 import DataStructure.linklist.LinkList;
+import arrayutil.ArrayUtil;
+
+import java.util.ArrayList;
 
 public class TestAnyThing {
     public static void main(String[] args) {
-        Integer[] arr = {1, 2, 3, 4, 52, 32, 4, 12, 4, 5432, 4, 123, 4512, 4};
+        Integer[] arr = ArrayUtil.randomIntegerArray(19, 1, 100);
         LinkList<Integer> list = new LinkList<>(arr);
-        list.deleteNodeByElem(4);
         list.output();
+        ArrayList<LinkList<Integer>> lists = list.divide();
+        lists.get(0).output();
+        lists.get(1).output();
     }
 }

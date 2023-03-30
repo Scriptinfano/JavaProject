@@ -80,7 +80,7 @@ public class LinkList<T> {
         }
 
         ArrayList<LinkList<T>> arr = new ArrayList<>(2);
-        LinkList<T> link2 = new LinkList<>();
+        LinkList<T> link2 = new LinkList<>();//分裂出来的第二个链表
         link2.setHead(tempNode);
         arr.add(this);
         arr.add(link2);
