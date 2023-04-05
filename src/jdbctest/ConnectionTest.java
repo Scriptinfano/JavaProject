@@ -1,11 +1,11 @@
-package mysql;
+package jdbctest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ConnectionTester {
+public class ConnectionTest {
     private static final String driver = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306";
     private static final String user = "root";
@@ -20,7 +20,7 @@ public class ConnectionTester {
                 System.out.println("数据库连接成功");
                 if (con.isValid(10)) {
                     Statement stat = con.createStatement();
-                    String sql = "use test;create table count(num int);";
+                    String sql = "use university;";
                     stat.execute(sql);
                     stat.close();
 
