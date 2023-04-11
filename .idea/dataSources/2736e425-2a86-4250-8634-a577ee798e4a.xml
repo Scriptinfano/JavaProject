@@ -1002,126 +1002,123 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <schema id="290" parent="1" name="performance_schema">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <schema id="291" parent="1" name="sql_tuo">
+    <schema id="291" parent="1" name="sys">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <schema id="292" parent="1" name="sys">
+    <schema id="292" parent="1" name="university">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <schema id="293" parent="1" name="university">
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </schema>
-    <user id="294" parent="1" name="mysql.infoschema">
+    <user id="293" parent="1" name="mysql.infoschema">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="295" parent="1" name="mysql.session">
+    <user id="294" parent="1" name="mysql.session">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="296" parent="1" name="mysql.sys">
+    <user id="295" parent="1" name="mysql.sys">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="297" parent="1" name="root">
+    <user id="296" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="298" parent="291" name="表_name">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <table id="299" parent="293" name="c">
+    <table id="297" parent="292" name="c">
       <Comment>课程关系表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="300" parent="293" name="s">
+    <table id="298" parent="292" name="s">
       <Comment>学生基本表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="301" parent="293" name="sc">
+    <table id="299" parent="292" name="sc">
       <Comment>选课关系表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="302" parent="293" name="t">
+    <table id="300" parent="292" name="t">
       <Comment>教师关系表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="303" parent="293" name="tc">
+    <table id="301" parent="292" name="tc">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="304" parent="298" name="name">
-      <DasType>int|0s</DasType>
-      <Position>1</Position>
-    </column>
-    <column id="305" parent="299" name="CNo">
+    <view id="302" parent="292" name="computer_stu">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>243</SourceTextLength>
+    </view>
+    <view id="303" parent="292" name="computer_stu2">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>355</SourceTextLength>
+    </view>
+    <column id="304" parent="297" name="CNo">
       <Comment>课程号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="306" parent="299" name="CN">
+    <column id="305" parent="297" name="CN">
       <Comment>课程名</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="307" parent="299" name="CT">
+    <column id="306" parent="297" name="CT">
       <Comment>课时</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="308" parent="299" name="PRIMARY">
+    <index id="307" parent="297" name="PRIMARY">
       <ColNames>CNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="309" parent="299" name="C_CN_uni">
+    <index id="308" parent="297" name="C_CN_uni">
       <ColNames>CN</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="310" parent="299" name="PRIMARY">
+    <key id="309" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="311" parent="299" name="C_CN_uni">
+    <key id="310" parent="297" name="C_CN_uni">
       <UnderlyingIndexName>C_CN_uni</UnderlyingIndexName>
     </key>
-    <check id="312" parent="300" name="S_Age_chk">
+    <check id="311" parent="298" name="S_Age_chk">
       <Predicate>`Age` between 15 and 25</Predicate>
     </check>
-    <check id="313" parent="300" name="S_Dept_chk">
+    <check id="312" parent="298" name="S_Dept_chk">
       <Predicate>`Dept` in (_utf8mb4\&apos;è®¡ç®&#x97;æ&#x9c;º\&apos;,_utf8mb4\&apos;ä¿¡æ&#x81;¯\&apos;,_utf8mb4\&apos;è&#x87;ªå&#x8a;¨å&#x8c;&#x96;\&apos;)</Predicate>
     </check>
-    <check id="314" parent="300" name="S_Sex_chk">
+    <check id="313" parent="298" name="S_Sex_chk">
       <Predicate>`Sex` in (_utf8mb4\&apos;ç&#x94;·\&apos;,_utf8mb4\&apos;å¥³\&apos;)</Predicate>
     </check>
-    <column id="315" parent="300" name="SNo">
+    <column id="314" parent="298" name="SNo">
       <Comment>学生学号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="316" parent="300" name="SN">
+    <column id="315" parent="298" name="SN">
       <Comment>学生姓名</Comment>
       <DasType>varchar(3)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="317" parent="300" name="Sex">
+    <column id="316" parent="298" name="Sex">
       <Comment>学生性别</Comment>
       <DasType>char(1)|0s</DasType>
       <DefaultExpression>&apos;男&apos;</DefaultExpression>
@@ -1129,102 +1126,102 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="318" parent="300" name="Age">
+    <column id="317" parent="298" name="Age">
       <Comment>学生年龄</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="319" parent="300" name="Dept">
+    <column id="318" parent="298" name="Dept">
       <Comment>系别</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <index id="320" parent="300" name="PRIMARY">
+    <index id="319" parent="298" name="PRIMARY">
       <ColNames>SNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="321" parent="300" name="PRIMARY">
+    <key id="320" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <check id="322" parent="301" name="SC_Score_chk">
+    <check id="321" parent="299" name="SC_Score_chk">
       <Predicate>`Score` between 0 and 100</Predicate>
     </check>
-    <column id="323" parent="301" name="SNo">
+    <column id="322" parent="299" name="SNo">
       <Comment>学生学号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="324" parent="301" name="CNo">
+    <column id="323" parent="299" name="CNo">
       <Comment>课程号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="325" parent="301" name="Score">
+    <column id="324" parent="299" name="Score">
       <Comment>成绩</Comment>
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <foreign-key id="326" parent="301" name="SC_SNo_foreignKey">
+    <foreign-key id="325" parent="299" name="SC_SNo_foreignKey">
       <ColNames>SNo</ColNames>
       <RefColNames>SNo</RefColNames>
       <RefTableName>s</RefTableName>
     </foreign-key>
-    <foreign-key id="327" parent="301" name="SC_CNo_foreignKey">
+    <foreign-key id="326" parent="299" name="SC_CNo_foreignKey">
       <ColNames>CNo</ColNames>
       <RefColNames>CNo</RefColNames>
       <RefTableName>c</RefTableName>
     </foreign-key>
-    <index id="328" parent="301" name="SNo_CNo_Unique">
+    <index id="327" parent="299" name="SNo_CNo_Unique">
       <ColNames>SNo
 CNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="329" parent="301" name="SC_SNO_foreignKeyIndex">
+    <index id="328" parent="299" name="SC_SNO_foreignKeyIndex">
       <ColNames>SNo</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="330" parent="301" name="SC_CNo_foreignKey">
+    <index id="329" parent="299" name="SC_CNo_foreignKey">
       <ColNames>CNo</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="331" parent="301" name="SNo_CNo_Unique">
+    <key id="330" parent="299" name="SNo_CNo_Unique">
       <UnderlyingIndexName>SNo_CNo_Unique</UnderlyingIndexName>
     </key>
-    <check id="332" parent="302" name="T_Age_chk2">
+    <check id="331" parent="300" name="T_Age_chk2">
       <Predicate>`Age` between 20 and 60</Predicate>
     </check>
-    <check id="333" parent="302" name="T_Dept_chk">
+    <check id="332" parent="300" name="T_Dept_chk">
       <Predicate>`Dept` in (_utf8mb3\&apos;è®¡ç®&#x97;æ&#x9c;º\&apos;,_utf8mb3\&apos;ä¿¡æ&#x81;¯\&apos;,_utf8mb3\&apos;è&#x87;ªå&#x8a;¨å&#x8c;&#x96;\&apos;)</Predicate>
     </check>
-    <check id="334" parent="302" name="T_Prof_chk">
+    <check id="333" parent="300" name="T_Prof_chk">
       <Predicate>`Prof` in (_utf8mb3\&apos;æ&#x95;&#x99;æ&#x8e;&#x88;\&apos;,_utf8mb3\&apos;è®²å¸&#x88;\&apos;,_utf8mb3\&apos;å&#x89;¯æ&#x95;&#x99;æ&#x8e;&#x88;\&apos;)</Predicate>
     </check>
-    <check id="335" parent="302" name="T_Sex_chk">
+    <check id="334" parent="300" name="T_Sex_chk">
       <Predicate>`Sex` in (_utf8mb3\&apos;ç&#x94;·\&apos;,_utf8mb3\&apos;å¥³\&apos;)</Predicate>
     </check>
-    <column id="336" parent="302" name="TNo">
+    <column id="335" parent="300" name="TNo">
       <Comment>教师编号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="337" parent="302" name="TN">
+    <column id="336" parent="300" name="TN">
       <Comment>教师姓名</Comment>
       <DasType>varchar(3)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="338" parent="302" name="Sex">
+    <column id="337" parent="300" name="Sex">
       <Comment>教师性别</Comment>
       <DasType>char(1)|0s</DasType>
       <DefaultExpression>&apos;男&apos;</DefaultExpression>
@@ -1232,77 +1229,119 @@ CNo</ColNames>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="339" parent="302" name="Age">
+    <column id="338" parent="300" name="Age">
       <Comment>教师年龄</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="340" parent="302" name="Prof">
+    <column id="339" parent="300" name="Prof">
       <Comment>职称</Comment>
       <DasType>varchar(5)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="341" parent="302" name="Sal">
+    <column id="340" parent="300" name="Sal">
       <Comment>工资</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="342" parent="302" name="Comm">
+    <column id="341" parent="300" name="Comm">
       <Comment>岗位津贴</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="343" parent="302" name="Dept">
+    <column id="342" parent="300" name="Dept">
       <Comment>系别</Comment>
       <DasType>varchar(5)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>8</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <index id="344" parent="302" name="PRIMARY">
+    <index id="343" parent="300" name="PRIMARY">
       <ColNames>TNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="345" parent="302" name="PRIMARY">
+    <key id="344" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="346" parent="303" name="TNo">
+    <column id="345" parent="301" name="TNo">
       <Comment>教师编号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="347" parent="303" name="CNo">
+    <column id="346" parent="301" name="CNo">
       <Comment>课程号</Comment>
       <DasType>varchar(2)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <foreign-key id="348" parent="303" name="TC_TNo_foreignKey">
+    <foreign-key id="347" parent="301" name="TC_TNo_foreignKey">
       <ColNames>TNo</ColNames>
       <RefColNames>TNo</RefColNames>
       <RefTableName>t</RefTableName>
     </foreign-key>
-    <foreign-key id="349" parent="303" name="TC_CNo_foreignKey">
+    <foreign-key id="348" parent="301" name="TC_CNo_foreignKey">
       <ColNames>CNo</ColNames>
       <RefColNames>CNo</RefColNames>
       <RefTableName>c</RefTableName>
     </foreign-key>
-    <index id="350" parent="303" name="TC_TNo_foreignKey">
+    <index id="349" parent="301" name="TC_TNo_foreignKey">
       <ColNames>TNo</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="351" parent="303" name="TC_CNo_foreignKey">
+    <index id="350" parent="301" name="TC_CNo_foreignKey">
       <ColNames>CNo</ColNames>
       <Type>btree</Type>
     </index>
+    <column id="351" parent="302" name="sno">
+      <Comment>学生学号</Comment>
+      <DasType>varchar(2)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="352" parent="302" name="sn">
+      <Comment>学生姓名</Comment>
+      <DasType>varchar(3)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="353" parent="302" name="cno">
+      <Comment>课程号</Comment>
+      <DasType>varchar(2)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="354" parent="303" name="sno">
+      <Comment>学生学号</Comment>
+      <DasType>varchar(2)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="355" parent="303" name="sn">
+      <Comment>学生姓名</Comment>
+      <DasType>varchar(3)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="356" parent="303" name="cno">
+      <Comment>课程号</Comment>
+      <DasType>varchar(2)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="357" parent="303" name="tno">
+      <Comment>教师编号</Comment>
+      <DasType>varchar(2)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
   </database-model>
 </dataSource>
