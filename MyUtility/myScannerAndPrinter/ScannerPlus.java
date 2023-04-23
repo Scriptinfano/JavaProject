@@ -332,4 +332,8 @@ public class ScannerPlus {
         scanner = new Scanner(System.in);
     }
 
+    public void close() {
+        scanner.close();
+    }
+
 }
