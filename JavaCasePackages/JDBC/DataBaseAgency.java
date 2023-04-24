@@ -4,6 +4,10 @@ import myScannerAndPrinter.NoMoreScanException;
 import myScannerAndPrinter.ScannerPlus;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 初始化时连接上数据库，并作为软件和数据库的中介，执行sql语句
@@ -12,9 +16,9 @@ import java.sql.*;
  */
 public class DataBaseAgency {
     public static ScannerPlus scanner = new ScannerPlus();
-    protected static String inputTip = "输入静态sql查询语句";
+    protected static String inputTip = "输入静态sql查询语句";//根据需求改变的提示语
     protected Connection connection;
-    protected Statement sqlStatement;
+    private Statement sqlStatement;
     private String passWard;
     private String user;
     private String databaseType;
@@ -87,6 +91,11 @@ public class DataBaseAgency {
         sqlStatement = connection.createStatement();
     }
 
+    /**
+     * 初始化，执行连接数据库的所有步骤，包括登录（输入账号密码）、注册驱动、获取连接、获取执行sql的Statement对象
+     *
+     * @throws SQLException sqlexception异常
+     */
     public void initialize() throws SQLException {
         System.out.println("是否以测试模式登录？输入(0或1)：");
         login(scanner.nextSelectionByInt(0, 1) == 1);
@@ -96,47 +105,76 @@ public class DataBaseAgency {
     }
 
     /**
-     * 输入sql查询语言，输出查询结果
+     * 用此时类中已经初始化好的statement对象执行sql查询语句，并输出查询结果
      *
      * @param sql sql
      * @throws SQLException sqlexception异常
      */
-    public void outputQuery(String sql) throws SQLException {
-        if (sqlStatement == null) {
-            sqlStatement = connection.prepareStatement(sql);
-            //TODO 为何此时sqlStatement无法执行setObject
-        }
+    public void executeSQL(String sql) throws SQLException {
+        query(sql);
+    }
+
+    public void query(String sql) throws SQLException {
         ResultSet set = sqlStatement.executeQuery(sql);
-        ResultSetMetaData metaData = set.getMetaData();
+        print(set);
+    }
+
+    public void insert(String sql) throws SQLException {
+
+    }
+
+    /**
+     * 传入数据表游标ResultSet，打印所有数据
+     *
+     * @param resultSet 结果集，也称游标，类似于迭代器
+     * @throws SQLException sqlexception异常
+     */
+    protected void print(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
         int columnSize = metaData.getColumnCount();
         int[] types = new int[columnSize];
         for (int i = 0; i < columnSize; i++) {
             types[i] = metaData.getColumnType(i + 1);
         }
         boolean hasData = false;
-        while (set.next()) {
+        while (resultSet.next()) {
             hasData = true;
             //注意数据库中列的序号是从1开始的
             for (int i = 1; i <= columnSize; i++) {
                 int type = types[i - 1];
                 if (type == Types.VARCHAR || type == Types.NVARCHAR || type == Types.CHAR)
-                    System.out.print(set.getString(i) + " ");
+                    System.out.print(resultSet.getString(i) + " ");
                 else if (type == Types.DOUBLE || type == Types.FLOAT)
-                    System.out.print(set.getDouble(i) + " ");
+                    System.out.print(resultSet.getDouble(i) + " ");
                 else if (type == Types.INTEGER)
-                    System.out.print(set.getInt(i) + " ");
+                    System.out.print(resultSet.getInt(i) + " ");
                 else if (type == Types.DECIMAL)
-                    System.out.print(set.getBigDecimal(i) + " ");
+                    System.out.print(resultSet.getBigDecimal(i) + " ");
                 else if (type == Types.NULL)
                     System.out.print("NULL");
                 else
                     throw new SQLException("读取到了未经辨识的数据类型列");
             }
-
             System.out.println();
         }
         if (!hasData) System.out.println("查询出的数据表中没有数据");
     }
+
+    public List<Map<Object, Object>> getTableData(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnSize = metaData.getColumnCount();
+        List<Map<Object, Object>> theList = new ArrayList<>();
+        while (resultSet.next()) {
+            Map<Object, Object> map = new HashMap<>();
+            for (int i = 1; i <= columnSize; i++) {
+                //建议使用getColumnLabel接口，可以解决列的别名问题
+                map.put(metaData.getColumnLabel(i), resultSet.getObject(i));
+            }
+            theList.add(map);
+        }
+        return theList;
+    }
+
 
     public void run() {
         while (true) {
@@ -152,7 +190,7 @@ public class DataBaseAgency {
             System.out.println(inputTip);
             String sql = scanner.nextLine();
             try {
-                outputQuery(sql);
+                executeSQL(sql);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -175,6 +213,7 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
     public static void main(String[] args) {
         DataBaseAgency_PreparedStatement agency = new DataBaseAgency_PreparedStatement();
         agency.run();
+
     }
 
     /**
@@ -183,5 +222,42 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
     @Override
     protected void initializeStatement() throws SQLException {
         //跳过提前初始化Statement对象的步骤，因为要使用PreparedStatement必须要传入sql语句
+    }
+
+    /**
+     * 用此时类中已经初始化好的statement对象执行sql查询语句，并输出查询结果
+     *
+     * @param sql sql
+     * @throws SQLException sqlexception异常
+     */
+    @Override
+    public void executeSQL(String sql) throws SQLException {
+        insert(sql);
+
+    }
+
+    public void insert(String insertSql) throws SQLException {
+        PreparedStatement sqlStatement = connection.prepareStatement(insertSql);
+        ArrayList<Integer> list = detectPlaceHolder(insertSql);
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (j == 0)
+                    sqlStatement.setObject(j + 1, "id" + i);
+                else sqlStatement.setObject(j + 1, "name" + i);
+            }
+            sqlStatement.executeUpdate();
+        }
+
+
+    }
+
+    private ArrayList<Integer> detectPlaceHolder(String sql) throws SQLException {
+        ArrayList<Integer> theList = new ArrayList<>();
+        for (int i = 0; i < sql.length(); i++) {
+            if (sql.charAt(i) == '?') {
+                theList.add(i);
+            }
+        }
+        return theList;
     }
 }
