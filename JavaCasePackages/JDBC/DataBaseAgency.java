@@ -1,5 +1,6 @@
 package JDBC;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import myScannerAndPrinter.NoMoreScanException;
 import myScannerAndPrinter.ScannerPlus;
 
@@ -26,7 +27,7 @@ public class DataBaseAgency {
     private String port;
     private String databaseName;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         DataBaseAgency agency = new DataBaseAgency();
         agency.run();
     }
@@ -175,8 +176,28 @@ public class DataBaseAgency {
         return theList;
     }
 
+    /**
+     * 在JDBC中如何创建数据库事务
+     * 1、连接对象调用setAutoCommit(false)接口关闭自动提交
+     * 2、用try-catch块包裹事务中要执行的代码
+     * 3、在catch块中，connection对象调用rollback操作以便在事务中的代码执行出错时回滚事务
+     * 4、在try-catch中的try块的最后一行，connection调用接口commit接口提交事务
+     *
+     * @throws SQLException sqlexception异常
+     */
+    public void testEvent() throws SQLException {
+        try {
+            connection.setAutoCommit(false);
+            //在事务中执行的操作
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();//一旦事务中有一句sql执行失败，则将整个数据库的状态回滚到执行事务之前的状态
+        }
+        connection.setAutoCommit(true);//重新打开事务
+    }
 
-    public void run() {
+
+    public void run() throws SQLException {
         while (true) {
             try {
                 initialize();
@@ -198,10 +219,16 @@ public class DataBaseAgency {
             try {
                 scanner.noMoreScan();
             } catch (NoMoreScanException e) {
+                close();//关闭连接和状态对象
                 break;
             }
 
         }
+    }
+
+    protected void close() throws SQLException {
+        sqlStatement.close();
+        connection.close();
     }
 }
 
@@ -210,7 +237,7 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
         inputTip = "请输入动态查询的sql语言（其中动态值的部分可以是?）";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         DataBaseAgency_PreparedStatement agency = new DataBaseAgency_PreparedStatement();
         agency.run();
 
@@ -220,7 +247,7 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
      * 初始化PreparedStatement对象，该对象是Statement对象的子对象，有效解决了注入攻击问题
      */
     @Override
-    protected void initializeStatement() throws SQLException {
+    protected void initializeStatement() {
         //跳过提前初始化Statement对象的步骤，因为要使用PreparedStatement必须要传入sql语句
     }
 
@@ -245,13 +272,15 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
                     sqlStatement.setObject(j + 1, "id" + i);
                 else sqlStatement.setObject(j + 1, "name" + i);
             }
-            sqlStatement.executeUpdate();
+            //sqlStatement.executeUpdate();
+            sqlStatement.addBatch();//暂时不执行sql语句，仅将values暂存到缓冲区
         }
-
+        sqlStatement.executeBatch();//统一执行sql
 
     }
 
-    private ArrayList<Integer> detectPlaceHolder(String sql) throws SQLException {
+
+    private ArrayList<Integer> detectPlaceHolder(String sql) {
         ArrayList<Integer> theList = new ArrayList<>();
         for (int i = 0; i < sql.length(); i++) {
             if (sql.charAt(i) == '?') {
@@ -259,5 +288,20 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
             }
         }
         return theList;
+    }
+}
+
+class TestDruidDataSources {
+    public static void main(String[] args) throws SQLException {
+        DruidDataSource source = new DruidDataSource();
+        source.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        source.setUsername("root");
+        source.setPassword("200329");
+        source.setUrl("jdbc:mysql://localhost:3306/test");
+        source.setInitialSize(5);//初始化连接数量
+        source.setMaxActive(5);//最大数量
+        Connection connection = source.getConnection();
+        connection.close();//这一步不是关闭连接，而是回收连接，将连接对象放回连接池
+
     }
 }
