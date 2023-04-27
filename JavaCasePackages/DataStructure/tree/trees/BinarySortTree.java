@@ -4,6 +4,7 @@ import DataStructure.exception.CollectionEmptyException;
 import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinarySortTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
+import DataStructure.tree.nodes.RedBlackTreeNode;
 import arrayutil.ArrayUtil;
 import myScannerAndPrinter.IOTransformer;
 import myScannerAndPrinter.NoMoreScanException;
@@ -25,8 +26,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
      */
     public BinarySortTree(T[] arr) {
         for (T value : arr) {
-            BinarySortTreeNode<T> newNode = new BinarySortTreeNode<T>(null, value);
-            insert(newNode);
+            insert(value);
         }
 
     }
@@ -34,25 +34,40 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
     /**
      * 这是一个给子类使用的空构造器
      */
-    protected BinarySortTree() {
+    public BinarySortTree() {
     }
 
     /**
-     * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
+     * 按照传值的方式向树中插入一个新节点
+     * 由于该方法仅传递要插入节点的值，没有提前造好节点，如果某个树要在插入结点之后要立即获取已插入节点的引用，则该方法不适用，因此
+     * 将该方法设为final，不允许再重写，该方法仅适用于二叉排序树，因为在插入节点之后无需再获取插入节点的引用
      *
-     * @param node 待插入的节点
+     * @param value 待插入的节点
      */
     @Override
-    public void insert(BinaryTreeNode<T> node) {
+    public final void insert(T value) {
+        BinarySortTreeNode<T> newNode = new BinarySortTreeNode<>(value);
         if (root == null) {
-            root = node;
+            root = newNode;
         } else {
-            if (node.getValue().compareTo(root.getValue()) < 0) {
-                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getLeftChild(), (BinarySortTreeNode<T>) node, false);
+            if (value.compareTo(root.getValue()) < 0) {
+                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getLeftChild(), newNode, false);
             } else
-                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getRightChild(), (BinarySortTreeNode<T>) node, true);
+                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getRightChild(), newNode, true);
         }
 
+    }
+
+    @Override
+    public void insert(BinaryTreeNode<T> newNode) {
+        if (root == null) {
+            root = newNode;
+        } else {
+            if (newNode.getValue().compareTo(root.getValue()) < 0) {
+                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getLeftChild(), (BinarySortTreeNode<T>) newNode, false);
+            } else
+                insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getRightChild(), (BinarySortTreeNode<T>) newNode, true);
+        }
     }
 
     /**
@@ -71,6 +86,14 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
                 previousNode.setLeftChild(insertNode);
             }
         } else {
+            if (currentNode.getValue() == null) {
+                //这种情况是为了防止继承该类的树中如果有值为null的节点，那么下面的compareTo就会抛出NullPointerException
+                currentNode.setValue(insertNode.getValue());
+                if (currentNode instanceof RedBlackTreeNode<T>) {
+                    ((RedBlackTreeNode<T>) currentNode).setColor(RedBlackTreeNode.Color.RED);
+                    ((RedBlackTreeNode<T>) currentNode).generateNilNode();
+                }
+            }
             if (insertNode.getValue().compareTo(currentNode.getValue()) < 0) {
                 insertNodeRecurse(currentNode, currentNode.getLeftChild(), insertNode, false);
             } else
@@ -138,18 +161,18 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
                 BinarySortTreeNode<T> theLargestNode = deleteNode_findLargestNodeInLeftTree(theNode);//找到左子树中的右下节点
                 theNode.setValue(theLargestNode.getValue());
                 //此时只需删除theLargestNode这个叶子节点即可
-                if (theLargestNode.getMark() == BinarySortTreeNode.childMark.LEFT) {
+                if (theLargestNode.getMark() == BinarySortTreeNode.ChildMark.LEFT) {
                     theLargestNode.getParent().setLeftChild(null);
                     return;
                 }
-                if (theLargestNode.getMark() == BinarySortTreeNode.childMark.RIGHT)
+                if (theLargestNode.getMark() == BinarySortTreeNode.ChildMark.RIGHT)
                     theLargestNode.getParent().setRightChild(null);
             } else if (theNode.getLeftChild() == null && theNode.getRightChild() == null) {
                 //待删除的节点是叶子节点或是没有左右子树的根节点
-                if (theNode.getMark() == BinarySortTreeNode.childMark.NONE)
+                if (theNode.getMark() == BinarySortTreeNode.ChildMark.NONE)
                     //该节点就是根节点的情况
                     root = null;
-                else if (theNode.getMark() == BinarySortTreeNode.childMark.RIGHT)
+                else if (theNode.getMark() == BinarySortTreeNode.ChildMark.RIGHT)
                     //该叶子节点是右子节点
                     theParentNode.setRightChild(null);
                 else
@@ -159,10 +182,10 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
                 //待删除的节点只有一颗子树
                 if (theNode.getRightChild() != null) {
                     //该节点只有右子树的情况
-                    if (theNode.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                    if (theNode.getMark() == BinarySortTreeNode.ChildMark.RIGHT) {
                         //该节点是某节点的右孩子
                         theParentNode.setRightChild(theNode.getRightChild());
-                    } else if (theNode.getMark() == BinarySortTreeNode.childMark.LEFT) {
+                    } else if (theNode.getMark() == BinarySortTreeNode.ChildMark.LEFT) {
                         //该节点是某节点的左孩子
                         theParentNode.setLeftChild(theNode.getRightChild());
                     } else {
@@ -171,11 +194,11 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
                     }
                 } else {
                     //该节点只有左子树的情况
-                    if (theNode.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                    if (theNode.getMark() == BinarySortTreeNode.ChildMark.RIGHT) {
                         //该节点是某节点的右孩子
                         theParentNode.setRightChild(theNode.getLeftChild());
 
-                    } else if (theNode.getMark() == BinarySortTreeNode.childMark.LEFT) {
+                    } else if (theNode.getMark() == BinarySortTreeNode.ChildMark.LEFT) {
                         //该节点是某节点的左孩子
                         theParentNode.setLeftChild(theNode.getLeftChild());
                     } else {
@@ -236,7 +259,7 @@ class TestBinarySortTree {
         while (true) {
             IOTransformer.printer.print("输入要查找的数字：");
             int theNum = IOTransformer.scanner.nextInt();
-            BinarySortTreeNode<Integer> theNode = null;
+            BinarySortTreeNode<Integer> theNode;
             try {
                 theNode = (BinarySortTreeNode<Integer>) theSortTree.search(theNum);
                 IOTransformer.printer.println("找到了位于" + theNode + "的节点");

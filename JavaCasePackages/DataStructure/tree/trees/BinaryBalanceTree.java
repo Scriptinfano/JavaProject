@@ -26,12 +26,12 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
     /**
      * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
      *
-     * @param node 待插入的节点
+     * @param newNode 待插入的节点
      */
-    @Override
-    public void insert(BinaryTreeNode<T> node) {
-        super.insert(node);//先按照二叉排序树的方法插入一个节点，然后再判断是否打破的了二叉平衡树的平衡，再执行具体的调整
-        judgeBalanceAndRotate((BinaryBalanceTreeNode<T>) node);//从插入的节点一直向上遍历父节点，直到找到最小的不平衡子树
+
+    public void insert(BinaryTreeNode<T> newNode) {
+        super.insert(newNode);//先按照二叉排序树的方法插入一个节点，然后再判断是否打破的了二叉平衡树的平衡，再执行具体的调整
+        judgeBalanceAndRotate((BinaryBalanceTreeNode<T>) newNode);//从插入的节点一直向上遍历父节点，直到找到最小的不平衡子树
     }
 
     /**
@@ -115,7 +115,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
             //找到了待删除的节点
             if (node.getLeftChild() == null && node.getRightChild() != null) {
                 //左子树是空，右子树不是空的情况
-                if (node.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                if (node.getMark() == BinarySortTreeNode.ChildMark.RIGHT) {
                     parentNode.setRightChild(node.getRightChild());
                     judgeBalanceAndRotate(parentNode.getRightChild());
                 } else {
@@ -124,7 +124,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
                 }
             } else if (node.getLeftChild() != null && node.getRightChild() == null) {
                 //右子树是空，左子树不是空的情况
-                if (node.getMark() == BinarySortTreeNode.childMark.RIGHT) {
+                if (node.getMark() == BinarySortTreeNode.ChildMark.RIGHT) {
                     parentNode.setRightChild(node.getLeftChild());
                     judgeBalanceAndRotate(parentNode.getRightChild());
                 } else {
@@ -148,147 +148,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
     }
 
 }
-/*AI代码参考
-public class AVLTree {
 
-    private class Node {
-        int key, height;
-        Node left, right;
-
-        public Node(int key) {
-            this.key = key;
-            this.height = 1;
-        }
-    }
-
-    private Node root;
-
-    public void insert(int key) {
-        root = insert(root, key);
-    }
-
-    private Node insert(Node node, int key) {
-        if (node == null) {
-            return new Node(key);
-        }
-
-        if (key < node.key) {
-            node.left = insert(node.left, key);
-        } else if (key > node.key) {
-            node.right = insert(node.right, key);
-        } else {
-            return node; // the key already exists
-        }
-
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-
-        int balance = getBalance(node);
-
-        if (balance > 1 && key < node.left.key) {
-            return rightRotate(node);
-        }
-
-        if (balance < -1 && key > node.right.key) {
-            return leftRotate(node);
-        }
-
-        if (balance > 1 && key > node.left.key) {
-            node.left = leftRotate(node.left);
-            return rightRotate(node);
-        }
-
-        if (balance < -1 && key < node.right.key) {
-            node.right = rightRotate(node.right);
-            return leftRotate(node);
-        }
-
-        return node;
-    }
-
-    public void delete(int key) {
-        root = delete(root, key);
-    }
-
-    private Node delete(Node node, int key) {
-        if (node == null) {
-            return node;
-        }
-
-        if (key < node.key) {
-            node.left = delete(node.left, key);
-        } else if (key > node.key) {
-            node.right = delete(node.right, key);
-        } else {
-            if (node.left == null || node.right == null) {
-                Node temp = null;
-                if (temp == node.left) {
-                    temp = node.right;
-                } else {
-                    temp = node.left;
-                }
-
-                if (temp == null) {
-                    temp = node;
-                    node = null;
-                } else {
-                    node = temp;
-                }
-            } else {
-                Node temp = minValueNode(node.right);
-                node.key = temp.key;
-                node.right = delete(node.right, temp.key);
-            }
-        }
-
-        if (node == null) {
-            return node;
-        }
-
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-
-        int balance = getBalance(node);
-
-        if (balance > 1 && getBalance(node.left) >= 0) {
-            return rightRotate(node);
-        }
-
-        if (balance > 1 && getBalance(node.left) < 0) {
-            node.left = leftRotate(node.left);
-            return rightRotate(node);
-        }
-
-        if (balance < -1 && getBalance(node.right) <= 0) {
-            return leftRotate(node);
-        }
-
-        if (balance < -1 && getBalance(node.right) > 0) {
-            node.right = rightRotate(node.right);
-            return leftRotate(node);
-        }
-
-        return node;
-    }
-
-    private Node minValueNode(Node node) {
-        Node current = node;
-        while (current.left != null) {
-            current = current.left;
-        }
-        return current;
-    }
-
-    private int height(Node node) {
-        if (node == null) {
-            return 0;
-        }
-        return node.height;
-    }
-
-    private int getBalance(Node node) {
-        if (node == null) {
-            return
-
-* */
 
 class TestBalanceTree {
     private static ScannerPlus scanner = new ScannerPlus();

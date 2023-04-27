@@ -18,10 +18,15 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
     /**
      * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
      *
-     * @param node 待插入的节点
+     * @param value 待插入的节点
      */
     @Override
-    public void insert(BinaryTreeNode<T> node) {
+    public void insert(T value) {
+
+    }
+
+    @Override
+    public void insert(BinaryTreeNode<T> newNode) {
 
     }
 

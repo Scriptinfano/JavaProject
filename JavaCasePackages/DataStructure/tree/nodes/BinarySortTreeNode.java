@@ -2,15 +2,17 @@ package DataStructure.tree.nodes;
 
 
 public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
-    private BinarySortTreeNode<T> parent;
+    protected BinarySortTreeNode<T> parent;
+    protected ChildMark mark = ChildMark.NONE;//标识该节点是父节点的什么节点，默认为NONE
 
-    public enum childMark {
-        LEFT,//该节点是父节点的左子
-        RIGHT,//该节点是父节点的右子
-        NONE//该节点没有父节点
+    @Override
+    public void setRightChild(BinaryTreeNode<T> rightChild) {
+        this.rightChild = rightChild;
+        if (rightChild != null) {
+            ((BinarySortTreeNode<T>) rightChild).setParent(this);
+            ((BinarySortTreeNode<T>) rightChild).setMark(ChildMark.RIGHT);
+        }
     }
-
-    private childMark mark = childMark.NONE;//标识该节点是父节点的什么节点，默认为NONE
 
     /**
      * 仅初始化节点值的构造器，其parent默认初始化为null
@@ -43,28 +45,19 @@ public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<
         return (BinarySortTreeNode<T>) super.getRightChild();
     }
 
-    @Override
-    public void setRightChild(BinaryTreeNode<T> rightChild) {
-        this.rightChild = rightChild;
-        if (rightChild != null) {
-            ((BinarySortTreeNode<T>) rightChild).setParent(this);
-            ((BinarySortTreeNode<T>) rightChild).setMark(childMark.RIGHT);
-        }
+    protected void setParent(BinarySortTreeNode<T> theParent) {
+        parent = theParent;
     }
 
     public BinarySortTreeNode<T> getParent() {
         return parent;
     }
 
-    private void setParent(BinarySortTreeNode<T> theParent) {
-        parent = theParent;
-    }
-
-    public final childMark getMark() {
+    public final ChildMark getMark() {
         return mark;
     }
 
-    private void setMark(childMark mark) {
+    protected void setMark(ChildMark mark) {
         this.mark = mark;
     }
 
@@ -73,8 +66,14 @@ public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<
         this.leftChild = leftChild;
         if (leftChild != null) {
             ((BinarySortTreeNode<T>) leftChild).setParent(this);
-            ((BinarySortTreeNode<T>) leftChild).setMark(childMark.LEFT);
+            ((BinarySortTreeNode<T>) leftChild).setMark(ChildMark.LEFT);
         }
+    }
+
+    public enum ChildMark {
+        LEFT,//该节点是父节点的左子
+        RIGHT,//该节点是父节点的右子
+        NONE//该节点没有父节点
     }
 }
 

@@ -90,10 +90,12 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
     /**
      * 向树中插入一个新节点，由于各个树的插入算法不一样，所以子类均需要重写该接口
      *
-     * @param node 待插入的节点
+     * @param value 待插入的节点
      */
     @Override
-    public abstract void insert(BinaryTreeNode<T> node);
+    public abstract void insert(T value);
+
+    public abstract void insert(BinaryTreeNode<T> newNode);
 
     /**
      * 使用递归的方式计算树中的叶子节点的数目
@@ -138,7 +140,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
     public abstract BinaryTreeNode<T> search(T value) throws NodeNotFoundException;
 
     /**
-     * 删除值为value的节点，若未找到节点则抛出异常
+     * 删除值为value的节点，若未找到节点则抛出异常，由于各种树删除节点的操作可能不一样，所以所有继承该抽象类的子类均需要实现该方法
      *
      * @param value 价值
      * @throws NodeNotFoundException 节点没有发现异常

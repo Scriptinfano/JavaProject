@@ -1,6 +1,6 @@
 package DataStructure.tree.nodes;
 
-public final class BinaryBalanceTreeNode<T extends Comparable<T>> extends BinarySortTreeNode<T> {
+public class BinaryBalanceTreeNode<T extends Comparable<T>> extends BinarySortTreeNode<T> {
     public BinaryBalanceTreeNode(T theValue) {
         super(theValue);
     }

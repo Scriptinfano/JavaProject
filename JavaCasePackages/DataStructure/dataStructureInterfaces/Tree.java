@@ -43,9 +43,9 @@ public interface Tree<T extends Comparable<T>> {
     /**
      * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
      *
-     * @param node 待插入的节点
+     * @param value 待插入的节点
      */
-    void insert(BinaryTreeNode<T> node);
+    void insert(T value);
 
     /**
      * 使用递归的方式计算树中的叶子节点的数目

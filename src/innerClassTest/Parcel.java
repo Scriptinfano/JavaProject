@@ -2,6 +2,7 @@ package innerClassTest;
 
 //如何通过外部类对象直接创建内部类对象的方法，使用p.new 内部类() 语法（p是外部类对象名）
 //该方法可以省略掉了在外部类中定义方法返回内部类对象的步骤
+//该方法只能获取内部非静态类对象
 public class Parcel {
     class Contents {
         private int i = 11;
@@ -24,6 +25,10 @@ public class Parcel {
         }
     }
 
+    static class StaticClass {
+        private int i;
+    }
+
 
 }
 
@@ -32,6 +37,7 @@ class TestParcel {
         Parcel p = new Parcel();
         Parcel.Contents c = p.new Contents();
         Parcel.Destination d = p.new Destination("Tasmania");
+        //Parcel.StaticClass stc=p.new StaticClass();
     }
 }
 
