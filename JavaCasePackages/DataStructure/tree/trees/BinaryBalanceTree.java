@@ -104,7 +104,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
      * @return {@link BinaryBalanceTreeNode}<{@link T}> 返回删除了目标节点并经过调整之后的子树的根节点
      */
     private BinaryBalanceTreeNode<T> delete(BinaryBalanceTreeNode<T> node, T value) {
-
+//TODO 完成二叉平衡树的删除代码测试
         /*if (node == null) return null;//判断当前节点是否为空
         if (value.compareTo(node.getValue()) < 0) {
             node.setLeftChild(delete(node.getLeftChild(), value));
@@ -152,6 +152,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
 
 class TestBalanceTree {
     private static ScannerPlus scanner = new ScannerPlus();
+
     public static void main(String[] args) {
         Integer[] arr = {10, 8, 17, 15, 19, 16};
         ArrayUtil.showArray(arr);

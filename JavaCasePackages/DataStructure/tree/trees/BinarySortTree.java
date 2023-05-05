@@ -25,6 +25,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
      * @param arr 加勒比海盗
      */
     public BinarySortTree(T[] arr) {
+        treeSize = 0;
         for (T value : arr) {
             insert(value);
         }
@@ -35,6 +36,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
      * 这是一个给子类使用的空构造器
      */
     public BinarySortTree() {
+        treeSize = 0;
     }
 
     /**
@@ -45,7 +47,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
      * @param value 待插入的节点
      */
     @Override
-    public final void insert(T value) {
+    public void insert(T value) {
         BinarySortTreeNode<T> newNode = new BinarySortTreeNode<>(value);
         if (root == null) {
             root = newNode;
@@ -55,7 +57,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
             } else
                 insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getRightChild(), newNode, true);
         }
-
+        treeSize++;
     }
 
     @Override
@@ -68,6 +70,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
             } else
                 insertNodeRecurse((BinarySortTreeNode<T>) root, ((BinarySortTreeNode<T>) root).getRightChild(), (BinarySortTreeNode<T>) newNode, true);
         }
+        treeSize++;
     }
 
     /**
@@ -86,18 +89,21 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
                 previousNode.setLeftChild(insertNode);
             }
         } else {
-            if (currentNode.getValue() == null) {
-                //这种情况是为了防止继承该类的树中如果有值为null的节点，那么下面的compareTo就会抛出NullPointerException
-                currentNode.setValue(insertNode.getValue());
-                if (currentNode instanceof RedBlackTreeNode<T>) {
-                    ((RedBlackTreeNode<T>) currentNode).setColor(RedBlackTreeNode.Color.RED);
+            try {
+                if (currentNode.getValue() == null && insertNode.getClass() == Class.forName("DataStructure.tree.nodes.RedBlackTreeNode")) {
+                    //这种情况是为了防止继承该类的树中如果有值为null的节点，那么下面的compareTo就会抛出NullPointerException
+                    currentNode.getParent().setChild(currentNode.getMark(), insertNode);
                     ((RedBlackTreeNode<T>) currentNode).generateNilNode();
+                } else {
+                    if (insertNode.getValue().compareTo(currentNode.getValue()) < 0) {
+                        insertNodeRecurse(currentNode, currentNode.getLeftChild(), insertNode, false);
+                    } else
+                        insertNodeRecurse(currentNode, currentNode.getRightChild(), insertNode, true);
                 }
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-            if (insertNode.getValue().compareTo(currentNode.getValue()) < 0) {
-                insertNodeRecurse(currentNode, currentNode.getLeftChild(), insertNode, false);
-            } else
-                insertNodeRecurse(currentNode, currentNode.getRightChild(), insertNode, true);
+
         }
     }
 
@@ -211,6 +217,7 @@ public class BinarySortTree<T extends Comparable<T>> extends AbstractBinaryTree<
         } else {
             throw new CollectionEmptyException("该二叉排序树是空树，无法执行任何操作");
         }
+        treeSize--;
     }
 
     /**

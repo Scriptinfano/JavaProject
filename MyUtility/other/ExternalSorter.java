@@ -65,7 +65,7 @@ public class ExternalSorter {
 
 class TestExternalSort {
     public static void main(String[] args) {
-        Integer[] intArr = ArrayUtil.randomIntegerArray(100, 1, 1000);
+        Integer[] intArr = ArrayUtil.randomIntegerArrayWithoutDuplicate(100, 1, 1000);
         ArrayList<Integer> list = Arrays.stream(intArr).collect(Collectors.toCollection(ArrayList::new));
         ExternalSorter sorter = new ExternalSorter(list);
         sorter.run();

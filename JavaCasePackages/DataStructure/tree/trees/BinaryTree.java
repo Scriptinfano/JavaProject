@@ -22,12 +22,12 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
      */
     @Override
     public void insert(T value) {
-
+        //TODO 编写最普通的二叉树的插入代码
     }
 
     @Override
     public void insert(BinaryTreeNode<T> newNode) {
-
+        //TODO 编写最普通的二叉树的插入搜索代码
     }
 
     /**
@@ -38,6 +38,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
      */
     @Override
     public BinaryTreeNode<T> search(T value) {
+        //TODO 编写最普通的二叉树的搜索代码
         return null;
     }
 
@@ -49,8 +50,9 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
      */
     @Override
     public void delete(T value) throws NodeNotFoundException {
-
+        //TODO 编写最普通的二叉树的删除节点的代码
     }
+
 }
 
 class TestBinaryTree {

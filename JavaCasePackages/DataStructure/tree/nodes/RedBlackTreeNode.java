@@ -98,4 +98,40 @@ public class RedBlackTreeNode<T extends Comparable<T>> extends BinaryBalanceTree
         BLACK,
         RED
     }
+
+    /**
+     * 输出该红黑树节点信息，包括节点的颜色和节点的值
+     *
+     * @return {@link String}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{value:");
+        if (value == null)
+            builder.append("null");
+        else builder.append(value);
+        builder.append(",color:");
+        String strColor;
+        if (color == Color.RED)
+            strColor = "red";
+        else strColor = "black";
+        builder.append(strColor).append("}");
+        return builder.toString();
+    }
+
+    /**
+     * 比较两个红黑树节点在颜色和值上是否相等
+     *
+     * @param obj obj
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object obj) {
+
+        if (super.equals(obj)) {
+            return color.equals(((RedBlackTreeNode<?>) obj).getColor());
+        } else return false;
+
+    }
 }

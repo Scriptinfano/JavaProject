@@ -525,7 +525,7 @@ class ArraySorterTester {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = ArrayUtil.randomIntegerArray(7, 1, 100);
+        Integer[] arr = ArrayUtil.randomIntegerArrayWithoutDuplicate(7, 1, 100);
         //Integer[] arr ={46,79,56,38,40,84};
         System.out.println(Arrays.toString(arr));
         ArraySorter<Integer> sorter = new ArraySorter<>();

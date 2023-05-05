@@ -194,7 +194,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
     @Override
-    public List<T> postOrder() {
+    public final List<T> postOrder() {
         ArrayList<T> list = new ArrayList<>();
         postOrderRecursive(list, root);
         return list;

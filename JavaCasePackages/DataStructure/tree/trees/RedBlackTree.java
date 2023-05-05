@@ -28,7 +28,6 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySortTree<T> {
     public RedBlackTree(T[] values) {
         super();//调用的是基类的空构造器，不做任何事情
         for (T value : values) {
-
             insert(value);
         }
     }
@@ -52,8 +51,26 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySortTree<T> {
 
     }
 
+    /**
+     * 按照传值的方式向红黑树中插入一个新节点
+     *
+     * @param value 待插入的节点的值
+     */
+    @Override
+    public void insert(T value) {
+        RedBlackTreeNode<T> newNode = new RedBlackTreeNode<>(value);
+        super.insert(newNode);
+        adjust(newNode);
+    }
+
+    /**
+     * 红黑树的调整，按照红黑规则对新插入的以及所需要的节点进行颜色调整与旋转
+     *
+     * @param node 新插入的节点
+     */
     private void adjust(RedBlackTreeNode<T> node) {
-        if (isEmpty()) {
+        if (treeSize == 1) {
+            //只有根节点的情况
             node.setColor(RedBlackTreeNode.Color.BLACK);//红黑规则第一条：根节点必须是黑色
             node.generateNilNode();//为根节点生成Nil节点
         } else {
@@ -77,8 +94,6 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySortTree<T> {
                         grandFatherNode.setColor(RedBlackTreeNode.Color.RED);
                         adjust(grandFatherNode);
                     }
-
-
                 } else if (uncleNode.getColor() == RedBlackTreeNode.Color.BLACK && node.getMark() == BinarySortTreeNode.ChildMark.RIGHT) {
                     //叔叔节点是黑色且当前节点是父节点的右孩子的情况
                     //TODO 将父节点作为当前节点并左旋，再进行判断是什么意思
@@ -89,7 +104,6 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySortTree<T> {
                     grandFatherNode.setColor(RedBlackTreeNode.Color.RED);
                     grandFatherNode.rightRotate();
                 }
-
             }
             //如果父节点是黑色，则什么都不做
         }
@@ -110,3 +124,16 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySortTree<T> {
 
 }
 
+class TestRedBlackTree {
+    public static void main(String[] args) {
+        RedBlackTree<Integer> tree = new RedBlackTree<>();
+        tree.insert(20);
+        tree.insert(18);
+        tree.insert(23);
+        tree.insert(22);
+        tree.insert(17);
+        tree.insert(24);
+        tree.insert(19);
+
+    }
+}

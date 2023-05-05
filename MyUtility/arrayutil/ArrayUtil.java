@@ -99,9 +99,10 @@ public class ArrayUtil {
      * @param end   随机数组中元素可能取值范围的终止值
      * @return {@link Integer[]} 返回的随机数数组
      */
-    public static Integer[] randomIntegerArray(int size, int begin, int end) {
+    public static Integer[] randomIntegerArrayWithoutDuplicate(int size, int begin, int end) {
+        if (end - begin + 1 < size) throw new IllegalArgumentException("randomIntegerArray生成的是无重复的随机数字，请检查生成数字的起始和终止值以及生成数量，确保生成范围大于生成数量");
         Integer[] randomArray = new Integer[size];
-        Random randomGenerator = new Random(System.currentTimeMillis());
+        Random randomGenerator = new Random();
         for (int i = 0; i < randomArray.length; i++) {
             loopLabel:
             while (true) {
@@ -116,6 +117,28 @@ public class ArrayUtil {
         return randomArray;
     }
 
+    public static Integer[] randomIntegerArrayWithDuplicate(int[] arr, int size) {
+        Integer[] randomArray = new Integer[size];
+        Random randomGenerator;
+        //Random random2=new Random();
+
+        for (int i = 0; i < randomArray.length; i++) {
+            randomGenerator = new Random();
+            int index = randomGenerator.nextInt(0, arr.length);
+            randomArray[i] = arr[index];
+        }
+        return randomArray;
+    }
+
+    public static Integer[] randomIntegerArrayWithDuplicate(int size, int begin, int end) {
+        Integer[] randomArray = new Integer[size];
+        Random randomGenerator = new Random(System.currentTimeMillis());
+        for (int i = 0; i < randomArray.length; i++) {
+            randomArray[i] = randomGenerator.nextInt(begin, end + 1);
+        }
+        return randomArray;
+    }
+
     /**
      * 返回一个随机int数组，元素随机且不重复，数组元素个数是size，范围是[begin,end]
      *
@@ -124,8 +147,8 @@ public class ArrayUtil {
      * @param end   随机数组中元素可能取值范围的终止值
      * @return {@link int[]} 返回的随机数数组
      */
-    public static int[] randomIntArray(int size, int begin, int end) {
-        return Arrays.stream(randomIntegerArray(size, begin, end)).mapToInt(Integer::valueOf).toArray();
+    public static int[] randomIntArrayWithoutDuplicate(int size, int begin, int end) {
+        return Arrays.stream(randomIntegerArrayWithoutDuplicate(size, begin, end)).mapToInt(Integer::valueOf).toArray();
     }
 
     /**
@@ -296,7 +319,7 @@ class ArrayUtilTester {
     }
 
     private static void testMaxOrMinFunc() {
-        Integer[] array = ArrayUtil.randomIntegerArray(20, 1, 10);
+        Integer[] array = ArrayUtil.randomIntegerArrayWithoutDuplicate(20, 1, 10);
         //Integer[][] backUpArray = ArrayUtil.getBackUpArrays(array, 2);
 
 
@@ -335,7 +358,7 @@ class ArrayUtilTester {
         String arrayString2 = Arrays.toString(arr);
         System.out.println(arrayString2);
         //4、void sort(int[]a) 对数组进行排序
-        Integer[] randomArray = ArrayUtil.randomIntegerArray(50, 0, 100);
+        Integer[] randomArray = ArrayUtil.randomIntegerArrayWithoutDuplicate(50, 0, 100);
         Arrays.sort(randomArray);
         String arrayString3 = Arrays.toString(randomArray);
         System.out.println(arrayString3);
@@ -392,7 +415,7 @@ class ArrayUtilTester {
         int begin = 1;//随机数生成的范围的起始
         int end = 100000;//随机数生成范围的终止
 
-        Integer[] arr = ArrayUtil.randomIntegerArray(arrSize, begin, end);//生成随机数组
+        Integer[] arr = ArrayUtil.randomIntegerArrayWithoutDuplicate(arrSize, begin, end);//生成随机数组
         Integer[][] backUpArrays = ArrayUtil.getBackUpArrays(arr, 8);//返回一个未排序数组的集合，这些集合都是上面那个未排序数组的拷贝
         ArraySorter<Integer> sorter = new ArraySorter<>();//实例化排序器对象
 
@@ -455,7 +478,7 @@ class ArrayUtilTester {
     }
 
     public static void testBinarySearch() {
-        Integer[] arr = ArrayUtil.randomIntegerArray(100, 1, 1000);
+        Integer[] arr = ArrayUtil.randomIntegerArrayWithoutDuplicate(100, 1, 1000);
         System.out.println(Arrays.toString(arr));
         Arrays.sort(arr);
         while (true) {

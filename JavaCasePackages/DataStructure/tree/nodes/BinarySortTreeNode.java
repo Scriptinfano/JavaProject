@@ -40,6 +40,16 @@ public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<
         return (BinarySortTreeNode<T>) super.getLeftChild();
     }
 
+    public final void setChild(ChildMark mark, BinarySortTreeNode<T> theChild) {
+        if (mark == null)
+            throw new NullPointerException("setChild的第一个参数不能为null");
+        if (mark == ChildMark.LEFT)
+            setLeftChild(theChild);
+        else
+            setRightChild(theChild);
+
+    }
+
     @Override
     public BinarySortTreeNode<T> getRightChild() {
         return (BinarySortTreeNode<T>) super.getRightChild();
@@ -75,5 +85,6 @@ public class BinarySortTreeNode<T extends Comparable<T>> extends BinaryTreeNode<
         RIGHT,//该节点是父节点的右子
         NONE//该节点没有父节点
     }
+
 }
 
