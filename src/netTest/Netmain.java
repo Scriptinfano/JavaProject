@@ -142,9 +142,9 @@ class Client implements Runnable {
 
     @Override
     public void run() {
-        InetAddress inet = null;//和自己连接
+        InetAddress inet;//和自己连接
         try {
-            inet = InetAddress.getByName("127.0.0.1");
+            inet = InetAddress.getByName("10.129.");
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
