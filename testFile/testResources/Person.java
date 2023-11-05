@@ -2,6 +2,7 @@ package testResources;
 
 import arrayutil.ArrayUtil;
 import org.jetbrains.annotations.NotNull;
+import testpack.TestAnyThing;
 
 import java.util.Random;
 
@@ -43,6 +44,7 @@ public class Person implements Comparable<Person> {
     }
 
     public void output() {
+        TestAnyThing anyThing = new TestAnyThing();
         System.out.println("姓名：" + name + ",年龄：" + age);
     }
 

@@ -7,7 +7,7 @@ import java.util.*;
  *
  * @author Mingxiang
  */
-public class ScannerPlus {
+public class MyScanner {
     private Scanner scanner = new Scanner(System.in);
 
     /**
@@ -206,11 +206,11 @@ public class ScannerPlus {
     }
 
     /**
-     * 获取用户输入的字符串，当用户的输入不合法时要求重新输入
+     * 获取用户输入的字符串，当用户的输入不合法时要求重新输入，该方法要求输入的字符串不能为空
      *
      * @return {@link String}
      */
-    public String nextLine() {
+    public String nextLineNoEmpty() {
         String lineData;
         while (true) {
             try {
@@ -236,7 +236,7 @@ public class ScannerPlus {
      */
     public String nextSelectionByString(int selectMin, int selectMax) {
         while (true) {
-            String userIn = nextLine();
+            String userIn = nextLineNoEmpty();
             int choice;
             try {
                 choice = Integer.parseInt(userIn);
@@ -314,7 +314,7 @@ public class ScannerPlus {
     public void noMoreScan() throws NoMoreScanException {
         IOTransformer.printer.print("你是否还需要继续输入，继续输入请按y，不想输入了请按n：");
         while (true) {
-            String message = nextLine();
+            String message = nextLineNoEmpty();
             if (message.equals("y")) {
                 break;
             } else if (message.equals("n")) {

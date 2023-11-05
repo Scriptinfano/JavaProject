@@ -1,6 +1,6 @@
 package JavaAlgorithm.parkinglotmanage;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 import viewManagerPack.ViewManager;
 
 import java.util.Calendar;
@@ -57,7 +57,7 @@ public class ParkingLotManageSystem extends ViewManager {
     private void showInformation() {
         if (parkinglot.isEmpty()) {
             System.out.println("停车场中目前没有任何车辆");
-            ScannerPlus.pause();
+            MyScanner.pause();
         } else parkinglot.showInformation();
     }
 
@@ -67,7 +67,7 @@ public class ParkingLotManageSystem extends ViewManager {
             if (parkinglot.isEmpty()) {
                 //停车场中没有车辆，无法驶出
                 System.out.println("停车场中目前没有任何车辆，无法驶出");
-                ScannerPlus.pause();
+                MyScanner.pause();
                 return;
             }
             label:
@@ -115,7 +115,7 @@ public class ParkingLotManageSystem extends ViewManager {
             //要驶入的车辆暂时不能进入停车场，要在停车场外的候车道等候（也就是不能进入栈，只能进入队列，等待处理）
             parkinglot.driveInQueue(theCar);
             System.out.println("温馨提示：停车场已满，请在候车道等候");
-            ScannerPlus.pause();
+            MyScanner.pause();
         } else
             parkinglot.driveInStack(theCar);
     }
@@ -127,7 +127,7 @@ public class ParkingLotManageSystem extends ViewManager {
      */
     private CarRecord getBasicInformation() {
         System.out.println("输入该车的车牌号:");
-        String carId = scanner.nextLine();
+        String carId = scanner.nextLineNoEmpty();
         //不能有重复的车牌号，检查当前输入的车牌号是否和已有的车牌号重复
         if (!parkinglot.verifyCarId(carId))
             return null;//验证失败
@@ -160,7 +160,7 @@ public class ParkingLotManageSystem extends ViewManager {
     private void driveOutById() {
         System.out.println("请输入你要驶出的车辆的车牌号：");
         while (true) {
-            String CarId = scanner.nextLine();
+            String CarId = scanner.nextLineNoEmpty();
             if (parkinglot.driveOut(CarId)) break;
         }
     }

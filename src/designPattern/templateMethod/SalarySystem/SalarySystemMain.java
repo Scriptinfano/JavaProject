@@ -15,13 +15,13 @@
 
 package designPattern.templateMethod.SalarySystem;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.util.Calendar;
 
 public class SalarySystemMain {
     Employee employee = new SalariedEmployee("小明", 12, 2003, 3, 29);
-    private static ScannerPlus scanner = new ScannerPlus();
+    private static MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         System.out.print("输入当月的月份");

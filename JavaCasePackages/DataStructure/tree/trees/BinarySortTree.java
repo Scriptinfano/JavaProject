@@ -7,8 +7,8 @@ import DataStructure.tree.nodes.BinaryTreeNode;
 import DataStructure.tree.nodes.RedBlackTreeNode;
 import arrayutil.ArrayUtil;
 import myScannerAndPrinter.IOTransformer;
+import myScannerAndPrinter.MyScanner;
 import myScannerAndPrinter.NoMoreScanException;
-import myScannerAndPrinter.ScannerPlus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -279,7 +279,7 @@ class TestBinarySortTree {
                 break;
             }
         }
-        ScannerPlus.pause();
+        MyScanner.pause();
     }
 
     private static void testDelete(BinarySortTree<Integer> theSortTree) {

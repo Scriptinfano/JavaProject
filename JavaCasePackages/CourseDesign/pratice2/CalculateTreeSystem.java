@@ -79,7 +79,7 @@ public class CalculateTreeSystem extends ViewManager {
     private void setNewExpression() {
         while (true) {
             printer.print("输入新的待计算的表达式（每个符号用空格分开）：");
-            String expressionStr = scanner.nextLine();
+            String expressionStr = scanner.nextLineNoEmpty();
             String[] expression = expressionStr.split(" ");//用空格分割字符串
             if (tree.setExpression(expression)) {
                 //设置成功的情况

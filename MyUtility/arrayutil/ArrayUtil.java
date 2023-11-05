@@ -1,8 +1,8 @@
 package arrayutil;
 
 import analyzer.AlgorithmAnalyzer;
+import myScannerAndPrinter.MyScanner;
 import myScannerAndPrinter.NoMoreScanException;
-import myScannerAndPrinter.ScannerPlus;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -14,7 +14,7 @@ import java.util.Random;
  * @version 1.0
  */
 public class ArrayUtil {
-    public static ScannerPlus scanner = new ScannerPlus();
+    public static MyScanner scanner = new MyScanner();
 
     private ArrayUtil() {
     }
@@ -117,6 +117,13 @@ public class ArrayUtil {
         return randomArray;
     }
 
+    /**
+     * 指定生成的随机数来自于某数组
+     *
+     * @param arr  指定的某数组
+     * @param size 返回的数组的大小
+     * @return {@link Integer[]} 返回的随机数数组
+     */
     public static Integer[] randomIntegerArrayWithDuplicate(int[] arr, int size) {
         Integer[] randomArray = new Integer[size];
         Random randomGenerator;
@@ -309,7 +316,7 @@ class ArrayUtilTester {
     private ArrayUtilTester() {
     }
 
-    private static final ScannerPlus scanner = new ScannerPlus();
+    private static final MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         //ArrayUtil.analysisAlgorithmTime();

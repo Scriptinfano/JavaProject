@@ -27,7 +27,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
 
     @Override
     public void insert(BinaryTreeNode<T> newNode) {
-        //TODO 编写最普通的二叉树的插入搜索代码
+        //TODO 编写最普通的二叉树的插入代码
     }
 
     /**
@@ -37,9 +37,39 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractBinaryTree<T> {
      * @return {@link BinaryTreeNode<T>} 反回的找到的节点
      */
     @Override
+    @SuppressWarnings("unchecked")
     public BinaryTreeNode<T> search(T value) {
-        //TODO 编写最普通的二叉树的搜索代码
+        if (isEmpty()) return null;
+        try {
+            searchRecurse(root, value);
+        } catch (NodeFound e) {
+            Object oe = e.getNode();
+            if (oe instanceof BinaryTreeNode<?>)
+                return (BinaryTreeNode<T>) oe;
+            else throw new ClassCastException();
+        }
         return null;
+    }
+
+    public void searchRecurse(BinaryTreeNode<T> node, T value) throws NodeFound {
+        if (node.getValue().equals(value))
+            throw new NodeFound(node);
+        else {
+            searchRecurse(node.getLeftChild(), value);
+            searchRecurse(node.getRightChild(), value);
+        }
+    }
+
+    private static class NodeFound extends Exception {
+        private final Object node;
+
+        public NodeFound(Object theNode) {
+            node = theNode;
+        }
+
+        public Object getNode() {
+            return node;
+        }
     }
 
     /**

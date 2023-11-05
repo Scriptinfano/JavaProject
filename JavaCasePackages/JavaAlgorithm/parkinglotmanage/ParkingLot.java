@@ -1,6 +1,6 @@
 package JavaAlgorithm.parkinglotmanage;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.util.*;
 
@@ -114,7 +114,7 @@ class ParkingLot {
             System.out.println(theRecord.toString());
         }
         System.out.println("已输出全部信息");
-        ScannerPlus.pause();
+        MyScanner.pause();
     }
 
     /**

@@ -1,8 +1,8 @@
 package DataStructure.hashTable;
 
 import methmatic.MathUtil;
+import myScannerAndPrinter.MyScanner;
 import myScannerAndPrinter.NoMoreScanException;
-import myScannerAndPrinter.ScannerPlus;
 
 import java.util.ArrayList;
 
@@ -159,7 +159,7 @@ public class HashTable implements HashTableInterFace{
 }
 
 class HashTest {
-    private static final ScannerPlus scanner = new ScannerPlus();
+    private static final MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         HashTable hashTable = new HashTable(10);

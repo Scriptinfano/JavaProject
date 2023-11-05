@@ -36,21 +36,21 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link BinaryTreeNode<T>}> 返回填满树节点的容器
      */
     @Override
-    public final List<T> preOrderWithoutRecurse() {
-        List<T> resultList = new Stack<>();
-        if (isEmpty()) return resultList;
-        Stack<BinaryTreeNode<T>> treeStack = new Stack<>();
+    public final ArrayList<T> preOrderWithoutRecurse() {
+        ArrayList<T> resultList = new ArrayList<>();
+        if (!isEmpty()) {
+            Stack<BinaryTreeNode<T>> treeStack = new Stack<>();
 
-        treeStack.push(root);
-        while (!treeStack.isEmpty()) {
-            BinaryTreeNode<T> tempNode = treeStack.pop();
-            if (tempNode != null) {
-                resultList.add(tempNode.getValue());
-                treeStack.push(tempNode.getRightChild());
-                treeStack.push(tempNode.getLeftChild());
+            treeStack.push(root);
+            while (!treeStack.isEmpty()) {
+                BinaryTreeNode<T> tempNode = treeStack.pop();
+                if (tempNode != null) {
+                    resultList.add(tempNode.getValue());
+                    treeStack.push(tempNode.getRightChild());
+                    treeStack.push(tempNode.getLeftChild());
+                }
             }
         }
-
         return resultList;
     }
 
@@ -60,9 +60,24 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}>返回填满树节点的容器
      */
     @Override
-    public final List<T> inOrderWithoutRecurse() {
-        //TODO 完成不使用递归实现的中序遍历
-        return null;
+    public final ArrayList<T> inOrderWithoutRecurse() {
+
+        ArrayList<T> resultList = new ArrayList<>();
+        if (!isEmpty()) {
+            Stack<BinaryTreeNode<T>> treeStack = new Stack<>();
+            BinaryTreeNode<T> tempNode = root;
+
+            while (tempNode != null || !treeStack.isEmpty()) {
+                while (tempNode != null) {
+                    treeStack.push(tempNode);
+                    tempNode = tempNode.getLeftChild();
+                }
+                tempNode = treeStack.pop();
+                resultList.add(tempNode.getValue());
+                tempNode = tempNode.getRightChild();
+            }
+        }
+        return resultList;
     }
 
     /**
@@ -71,9 +86,25 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}>返回填满树节点的容器
      */
     @Override
-    public final List<T> postOrderWithoutRecurse() {
-        //TODO 完成不使用递归实现的后序遍历
-        return null;
+    public final ArrayList<T> postOrderWithoutRecurse() {
+
+        ArrayList<T> resultList = new ArrayList<>();
+        if (!isEmpty()) {
+            Stack<BinaryTreeNode<T>> s1 = new Stack<>();
+            Stack<BinaryTreeNode<T>> s2 = new Stack<>();
+            BinaryTreeNode<T> tempNode = root;
+            s1.push(tempNode);
+            while (!s1.isEmpty()) {
+                tempNode = s1.pop();
+                s2.push(tempNode);
+                if (tempNode.getLeftChild() != null) s1.push(tempNode.getLeftChild());
+                if (tempNode.getRightChild() != null) s1.push(tempNode.getRightChild());
+
+            }
+            while (!s2.isEmpty())
+                resultList.add(s2.pop().getValue());
+        }
+        return resultList;
     }
 
     /**
@@ -82,7 +113,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}> 返回填满树节点的容器
      */
     @Override
-    public final List<T> levelOrder() {
+    public final ArrayList<T> levelOrder() {
         //TODO 完成层次遍历
         return null;
     }
@@ -154,7 +185,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}> 返回装着以节点值为元素的容器
      */
     @Override
-    public final List<T> preOrder() {
+    public final ArrayList<T> preOrder() {
         ArrayList<T> list = new ArrayList<>();
         preOrderRecursive(list, root);
         return list;
@@ -174,7 +205,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
     @Override
-    public final List<T> inOrder() {
+    public final ArrayList<T> inOrder() {
         ArrayList<T> list = new ArrayList<>();
         inOrderRecursive(list, root);
         return list;
@@ -194,7 +225,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>> implements Tre
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
     @Override
-    public final List<T> postOrder() {
+    public final ArrayList<T> postOrder() {
         ArrayList<T> list = new ArrayList<>();
         postOrderRecursive(list, root);
         return list;

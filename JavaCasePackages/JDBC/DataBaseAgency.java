@@ -1,14 +1,7 @@
 package JDBC;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import myScannerAndPrinter.NoMoreScanException;
-import myScannerAndPrinter.ScannerPlus;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Properties;
 
 /**
  * 初始化时连接上数据库，并作为软件和数据库的中介，执行sql语句
@@ -16,112 +9,44 @@ import java.util.Map;
  * @author Mingxiang
  */
 public class DataBaseAgency {
-    public static ScannerPlus scanner = new ScannerPlus();
-    protected static String inputTip = "输入静态sql查询语句";//根据需求改变的提示语
+
     protected Connection connection;
-    private Statement sqlStatement;
-    private String passWard;
-    private String user;
-    private String databaseType;
-    private String ipAddress;
-    private String port;
-    private String databaseName;
+    private final Statement sqlStatement;
 
-    public static void main(String[] args) throws SQLException {
-        DataBaseAgency agency = new DataBaseAgency();
-        agency.run();
-    }
-
-    /**
-     * 登录
-     * 录入用户的用户名和密码
-     *
-     * @param testMode 测试模式，若以测试模式登录，则会登录默认的测试数据库，否则登录用户指定的数据库
-     */
-    private void login(boolean testMode) {
-        if (testMode) {
-            user = "root";
-            passWard = "200329";
-            databaseType = "mysql";
-            ipAddress = "localhost";
-            port = "3306";
-            databaseName = "university";
-        } else {
-            System.out.print("请输入账号：");
-            user = scanner.nextLine();
-            System.out.print("请输入密码：");
-            passWard = scanner.nextLine();
-            System.out.print("请输入数据库的类型（例如:mysql）");
-            databaseType = scanner.nextLine();
-            System.out.print("请输入数据库的ip地址：");
-            ipAddress = scanner.nextLine();
-            System.out.print("请输入数据库的端口号：");
-            port = scanner.nextLine();
-            System.out.print("请输入数据库的名字：");
-            databaseName = scanner.nextLine();
-        }
-
-    }
-
-    /**
-     * 注册驱动
-     */
-    private void enroll() {
+    public DataBaseAgency(String passWard,
+                          String user,
+                          String ipAddress,
+                          String port,
+                          String databaseName) throws SQLException {
+        //注册驱动
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    /**
-     * 获得连接
-     *
-     * @throws SQLException sqlexception异常
-     */
-    private void initializeConnection() throws SQLException {
-        String url = "jdbc:" + databaseType + "://" + ipAddress + ":" + port + "/" + databaseName;
+        //获取连接
+        String url = "jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName;
         connection = DriverManager.getConnection(url, user, passWard);
         //也可以仅传入url参数，但url参数中要包括user和passward, 例如：jdbc:mysql://ip:port/name?user=root&passward=root
-    }
 
-    /**
-     * 初始化Statement对象，这是用来发送sql语句到数据库的对象，并且会返回查询结果
-     */
-    protected void initializeStatement() throws SQLException {
+        //获取执行sql语句的对象
         sqlStatement = connection.createStatement();
     }
 
     /**
-     * 初始化，执行连接数据库的所有步骤，包括登录（输入账号密码）、注册驱动、获取连接、获取执行sql的Statement对象
-     *
-     * @throws SQLException sqlexception异常
-     */
-    public void initialize() throws SQLException {
-        System.out.println("是否以测试模式登录？输入(0或1)：");
-        login(scanner.nextSelectionByInt(0, 1) == 1);
-        enroll();
-        initializeConnection();
-        initializeStatement();
-    }
-
-    /**
-     * 用此时类中已经初始化好的statement对象执行sql查询语句，并输出查询结果
+     * 执行查询语句并输出查询结果
      *
      * @param sql sql
      * @throws SQLException sqlexception异常
      */
-    public void executeSQL(String sql) throws SQLException {
-        query(sql);
+    public ResultSet query(String sql) throws SQLException {
+        return sqlStatement.executeQuery(sql);
     }
 
-    public void query(String sql) throws SQLException {
-        ResultSet set = sqlStatement.executeQuery(sql);
-        print(set);
-    }
 
-    public void insert(String sql) throws SQLException {
-
+    public void update(String sql) throws SQLException {
+        sqlStatement.executeUpdate(sql);
     }
 
     /**
@@ -161,7 +86,7 @@ public class DataBaseAgency {
         if (!hasData) System.out.println("查询出的数据表中没有数据");
     }
 
-    public List<Map<Object, Object>> getTableData(ResultSet resultSet) throws SQLException {
+    /*public List<Map<Object, Object>> getTableData(ResultSet resultSet) throws SQLException {
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnSize = metaData.getColumnCount();
         List<Map<Object, Object>> theList = new ArrayList<>();
@@ -174,7 +99,7 @@ public class DataBaseAgency {
             theList.add(map);
         }
         return theList;
-    }
+    }*/
 
     /**
      * 在JDBC中如何创建数据库事务
@@ -196,35 +121,44 @@ public class DataBaseAgency {
         connection.setAutoCommit(true);//重新打开事务
     }
 
+    protected void showMenu() {
+        System.out.println("1、更新数据库");
+        System.out.println("2、查询数据库");
+        System.out.println("3、退出程序");
+    }
+
 
     public void run() throws SQLException {
-        while (true) {
-            try {
-                initialize();
-                System.out.println("数据库登录成功");
-                break;
-            } catch (SQLException e) {
-                System.out.println("输入的数据库登录信息有误，请重新输入");
-            }
+        /*try {
+            initialize();
+            System.out.println("数据库登录成功");
+        } catch (SQLException e) {
+            System.out.println("输入的数据库登录信息有误，请重新输入");
         }
+
         while (true) {
-            System.out.println(inputTip);
+            showMenu();
+            int select = scanner.nextSelectionByInt(1, 3);
             String sql = scanner.nextLine();
-            try {
-                executeSQL(sql);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                continue;
+            switch (select) {
+                case 1 -> {
+                    update(sql);
+                    continue;
+                }
+                case 2 -> {
+                    query(sql);
+                    continue;
+                }
+                case 3 -> close();//关闭连接和状态对象
             }
             try {
                 scanner.noMoreScan();
             } catch (NoMoreScanException e) {
-                close();//关闭连接和状态对象
                 break;
             }
-
-        }
+        }*/
     }
+
 
     protected void close() throws SQLException {
         sqlStatement.close();
@@ -232,36 +166,9 @@ public class DataBaseAgency {
     }
 }
 
+/*
 class DataBaseAgency_PreparedStatement extends DataBaseAgency {
-    static {
-        inputTip = "请输入动态查询的sql语言（其中动态值的部分可以是?）";
-    }
 
-    public static void main(String[] args) throws SQLException {
-        DataBaseAgency_PreparedStatement agency = new DataBaseAgency_PreparedStatement();
-        agency.run();
-
-    }
-
-    /**
-     * 初始化PreparedStatement对象，该对象是Statement对象的子对象，有效解决了注入攻击问题
-     */
-    @Override
-    protected void initializeStatement() {
-        //跳过提前初始化Statement对象的步骤，因为要使用PreparedStatement必须要传入sql语句
-    }
-
-    /**
-     * 用此时类中已经初始化好的statement对象执行sql查询语句，并输出查询结果
-     *
-     * @param sql sql
-     * @throws SQLException sqlexception异常
-     */
-    @Override
-    public void executeSQL(String sql) throws SQLException {
-        insert(sql);
-
-    }
 
     public void insert(String insertSql) throws SQLException {
         PreparedStatement sqlStatement = connection.prepareStatement(insertSql);
@@ -290,10 +197,11 @@ class DataBaseAgency_PreparedStatement extends DataBaseAgency {
         return theList;
     }
 }
+*/
 
 class TestDruidDataSources {
     public static void main(String[] args) throws SQLException {
-        DruidDataSource source = new DruidDataSource();
+        /*DruidDataSource source = new DruidDataSource();
         source.setDriverClassName("com.mysql.cj.jdbc.Driver");
         source.setUsername("root");
         source.setPassword("200329");
@@ -301,7 +209,11 @@ class TestDruidDataSources {
         source.setInitialSize(5);//初始化连接数量
         source.setMaxActive(5);//最大数量
         Connection connection = source.getConnection();
-        connection.close();//这一步不是关闭连接，而是回收连接，将连接对象放回连接池
+        connection.close();//这一步不是关闭连接，而是回收连接，将连接对象放回连接池*/
+        Properties pro = new Properties();
+        //pro.load(ClassLoader.getSystemClassLoader().getResourceAsStream(""));
+        //DataBaseAgency db = new DataBaseAgency();
+        //db.run();
 
     }
 }

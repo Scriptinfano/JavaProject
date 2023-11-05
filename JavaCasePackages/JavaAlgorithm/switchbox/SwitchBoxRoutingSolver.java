@@ -2,7 +2,7 @@
 
 package JavaAlgorithm.switchbox;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ import java.util.*;
  */
 final public class SwitchBoxRoutingSolver {
     private static Scanner scanner = new Scanner(System.in);
-    private static final ScannerPlus scannerPlus = new ScannerPlus();
+    private static final MyScanner myScanner = new MyScanner();
     private final Stack<Integer> routingStack;//解决开关盒布线问题中必须要用到的栈
     private ArrayList<NetGroup> netGroups;//存储问题所要求的网组
     private ArrayList<Integer> switchBoxLayout;//布线盒的布局
@@ -83,14 +83,14 @@ final public class SwitchBoxRoutingSolver {
         System.out.println("在该布线盒布线问题中，一共有几个管脚");
         int pinSize;
         while (true) {
-            pinSize = scannerPlus.nextInt();
+            pinSize = myScanner.nextInt();
             if (pinSize % 2 != 0) {
                 System.out.print("管脚的数量只能是偶数，不能是奇数，请重新输入");
             } else break;
         }
 
         System.out.println("请以顺时针顺序输入管脚布局（每一个管脚编号中间用空格分开）");
-        int[] pinLayout = scannerPlus.nextIntArray(pinSize, false, false);
+        int[] pinLayout = myScanner.nextIntArray(pinSize, false, false);
 
         switchBoxLayout = new ArrayList<>(pinLayout.length);
         for (int j : pinLayout) switchBoxLayout.add(j);

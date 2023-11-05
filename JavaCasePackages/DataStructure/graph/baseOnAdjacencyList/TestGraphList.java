@@ -1,6 +1,6 @@
 package DataStructure.graph.baseOnAdjacencyList;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.io.PrintStream;
 
@@ -9,7 +9,7 @@ import java.io.PrintStream;
  * @see GraphAdjacencyList GraphAdjacencyList的测试类
  */
 class TestGraphList {
-    private static final ScannerPlus scanner = new ScannerPlus();
+    private static final MyScanner scanner = new MyScanner();
     private static final PrintStream printer = System.out;
 
     public static void main(String[] args) {

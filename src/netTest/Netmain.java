@@ -11,7 +11,7 @@ public class Netmain {
 
     public static void main(String[] args) {
         try {
-            netThread();
+            generateCharacters();
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -41,27 +41,29 @@ public class Netmain {
 
     }
 
-    public static void testInetAddress() {
-        try {
-            //在java中使用InetAddress类表示IP对象，可从对象中获得主机地址与ip地址等信息
+    public static void generateCharacters() throws IOException {
+        OutputStream out = System.out;
+        out.write(126);
+        out.flush();
+    }
 
-            //通过getByName()解析域名
-            InetAddress inet = InetAddress.getByName("192.168.14.100");
-            System.out.println(inet);
-            InetAddress inet2 = InetAddress.getByName("www.google.com");//将传入函数的域名地址解析为ip地址并返回
-            System.out.println(inet2);
-            InetAddress inet3 = InetAddress.getByName("localhost");
-            System.out.println(inet3);
-            InetAddress inet4 = InetAddress.getByName("127.0.0.1");
-            System.out.println(inet4);
-            InetAddress inet5 = InetAddress.getLocalHost();//获取本地主机名称与本地ip地址
-            System.out.println(inet5);
-            System.out.println(inet5.getHostName());//InetAddress对象调用getHostName()可返回主机名称
-            System.out.println(inet5.getHostAddress());//InetAddress对象调用getHostAddress()可返回主地址
-        } catch (UnknownHostException exception) {
-            String errorMessage = exception.getMessage();
-            System.out.println(errorMessage);
-        }
+    public static void testInetAddress() throws UnknownHostException {
+        //在java中使用InetAddress类表示IP对象，可从对象中获得主机地址与ip地址等信息
+        //通过getByName()解析域名
+        InetAddress inet = InetAddress.getByName("192.168.3.211");
+        System.out.println(inet);
+        InetAddress inet2 = InetAddress.getByName("www.google.com");//将传入函数的域名地址解析为ip地址并返回
+        System.out.println(inet2);
+        InetAddress inet3 = InetAddress.getByName("localhost");
+        System.out.println(inet3);
+        InetAddress inet4 = InetAddress.getByName("127.0.0.1");
+        System.out.println(inet4);
+        InetAddress inet5 = InetAddress.getLocalHost();//获取本地主机名称与本地ip地址
+        System.out.println(inet5);
+        System.out.println(inet5.getHostName());//InetAddress对象调用getHostName()可返回主机名称
+        System.out.println(inet5.getHostAddress());//InetAddress对象调用getHostAddress()可返回主地址
+
+
     }
 
     public static void netThread() {

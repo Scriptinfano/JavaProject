@@ -1,6 +1,6 @@
 package DataStructure.graph.baseOnAdjacencyList;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Queue;
 public class GraphAdjacencyList {
 
     private static final PrintStream printer = System.out;
-    private static final ScannerPlus scanner = new ScannerPlus();
+    private static final MyScanner scanner = new MyScanner();
     private ArrayList<HeadNode> graphList;//代表整个邻接表
 
     private boolean[] hasVisited;//标记顶点是否经过了访问，经过默认初始化之后，所有值均为false
@@ -275,7 +275,7 @@ public class GraphAdjacencyList {
         System.out.println("开始录入图中每个顶点的信息...（按照顶点在图中的顺序输入）");
         for (int i = 0; i < nodeSize; i++) {
             System.out.println("输入第" + (i + 1) + "个顶点的权值（任意输入）：");
-            graphList.add(new HeadNode(i + 1, scanner.nextLine()));
+            graphList.add(new HeadNode(i + 1, scanner.nextLineNoEmpty()));
         }
 
         System.out.println("开始录入每个顶点所关联的所有边的信息...");
@@ -293,13 +293,13 @@ public class GraphAdjacencyList {
                         System.out.println("该顶点所关联的边不能指向该顶点自身且顶点所关联的有向线段必须各自指向不同的顶点，请重新输入所指向顶点是图中的第几个顶点：");
                 }
                 System.out.println("请输入该边的权值：");
-                graphList.get(i).addLineNode(graphList.get(theIndex - 1), scanner.nextLine());
+                graphList.get(i).addLineNode(graphList.get(theIndex - 1), scanner.nextLineNoEmpty());
                 hasRepeat.add(theIndex);
             }
         }
 
         System.out.println("录入完毕");
-        ScannerPlus.pause();
+        MyScanner.pause();
 
     }
 

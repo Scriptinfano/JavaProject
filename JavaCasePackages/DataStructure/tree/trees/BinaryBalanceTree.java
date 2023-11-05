@@ -5,8 +5,8 @@ import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.nodes.BinaryBalanceTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 import arrayutil.ArrayUtil;
+import myScannerAndPrinter.MyScanner;
 import myScannerAndPrinter.NoMoreScanException;
-import myScannerAndPrinter.ScannerPlus;
 
 public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T> {
 
@@ -151,7 +151,7 @@ public class BinaryBalanceTree<T extends Comparable<T>> extends BinarySortTree<T
 
 
 class TestBalanceTree {
-    private static ScannerPlus scanner = new ScannerPlus();
+    private static MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         Integer[] arr = {10, 8, 17, 15, 19, 16};
@@ -179,7 +179,7 @@ class TestBalanceTree {
         /*Person[] persons = {new Person("小明",12), new Person("小白",43),new Person("校长",41),new Person("诗人",44)};
         System.out.println(Arrays.toString(persons));
         BinaryBalanceTree<Person> theBalanceTree = new BinaryBalanceTree<>(persons);
-        ScannerPlus scanner = new ScannerPlus();
+        MyScanner scanner = new MyScanner();
         while (true) {
             System.out.println("输入要查找的人的姓名：");
             int searchNum = scanner.nextInt();

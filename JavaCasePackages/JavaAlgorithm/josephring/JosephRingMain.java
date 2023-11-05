@@ -1,7 +1,7 @@
 //约瑟夫环问题升级版
 package JavaAlgorithm.josephring;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -118,7 +118,7 @@ class JosephRingManager {
         int winnerIndex = solveProblem();//返回最终结果
         System.out.println("本轮约瑟夫环问题的胜利者是" + winnerIndex);
         answer.add(winnerIndex);
-        ScannerPlus.pause();
+        MyScanner.pause();
     }
 
     //求解约瑟夫问题的具体细节，返回胜利者的编号
@@ -141,7 +141,7 @@ class JosephRingManager {
     public void showRecord() {
         if (answer.size() == 0) {
             System.out.println("目前没有任何记录");
-            ScannerPlus.pause();
+            MyScanner.pause();
         } else {
             int i = 0;
             System.out.println("以下是每一次的记录：");
@@ -149,13 +149,13 @@ class JosephRingManager {
                 System.out.println("第" + (i + 1) + "次约瑟夫环问题结果：" + index);
                 i++;
             }
-            ScannerPlus.pause();
+            MyScanner.pause();
         }
     }
 }
 
 public class JosephRingMain {
-    private static final ScannerPlus scanner = new ScannerPlus();
+    private static final MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         JosephRingManager manager = JosephRingManager.getInstance();//单例设计模式必须通过静态函数得到内部创建的实例对象
@@ -163,7 +163,7 @@ public class JosephRingMain {
             String choice;
             showMenu();
             System.out.print("请输入你的选择：");
-            choice = scanner.nextLine();
+            choice = scanner.nextLineNoEmpty();
             switch (choice) {
                 case "1" -> manager.runProcess();
                 case "2" -> manager.showRecord();
@@ -186,7 +186,7 @@ public class JosephRingMain {
         String choice;
         System.out.println("确定退出吗？输入(y/n):");
         while (true) {
-            choice = scanner.nextLine();
+            choice = scanner.nextLineNoEmpty();
             if (choice.equals("y") || choice.equals("Y"))
                 System.exit(0);
             else if (choice.equals("n") || choice.equals("N")) {

@@ -1,10 +1,10 @@
 package JavaAlgorithm.printerManagement;
 
-import myScannerAndPrinter.ScannerPlus;
+import myScannerAndPrinter.MyScanner;
 
 public class PrintManagerSolver {
     private final PrintTaskManager manager = new PrintTaskManager();
-    private final ScannerPlus scanner = new ScannerPlus();
+    private final MyScanner scanner = new MyScanner();
 
     public static void main(String[] args) {
         PrintManagerSolver solver = new PrintManagerSolver();
@@ -15,7 +15,7 @@ public class PrintManagerSolver {
         String userSelection;
         while (true) {
             showMenu();
-            userSelection = scanner.nextLine();
+            userSelection = scanner.nextLineNoEmpty();
             switch (userSelection) {
                 case "1" -> printFirstTask();
                 case "2" -> addNewTask();
@@ -45,7 +45,7 @@ public class PrintManagerSolver {
      */
     private boolean readConfirmSelection() {
         while (true) {
-            String userInput = scanner.nextLine();
+            String userInput = scanner.nextLineNoEmpty();
             if (!userInput.equals("Y") && !userInput.equals("N") && !userInput.equals("y") && !userInput.equals("n")) {
                 System.out.println("选择错误，请重新输入");
             } else {
@@ -75,7 +75,7 @@ public class PrintManagerSolver {
         System.out.println("请输入打印任务的id号码:");
         int id = scanner.nextInt();
         System.out.println("请输入打印内容:");
-        String text = scanner.nextLine();
+        String text = scanner.nextLineNoEmpty();
         manager.addTask(id, text);
     }
 

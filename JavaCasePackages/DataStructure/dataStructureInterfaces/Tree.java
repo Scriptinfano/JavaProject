@@ -5,6 +5,7 @@ import DataStructure.exception.NodeNotFoundException;
 import DataStructure.tree.MyTreeNode;
 import DataStructure.tree.nodes.BinaryTreeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,30 +16,31 @@ import java.util.List;
 public interface Tree<T extends Comparable<T>> {
     /**
      * 不使用递归方式实现的前序遍历
+     *
      * @return {@link List}<{@link T}> 返回以节点的值作为元素的List容器
      */
-    List<T> preOrderWithoutRecurse();
+    ArrayList<T> preOrderWithoutRecurse();
 
     /**
      * 不使用递归方式实现的中序遍历
      *
      * @return {@link List}<{@link T}> 返回以节点的值作为元素的List容器
      */
-    List<T> inOrderWithoutRecurse();
+    ArrayList<T> inOrderWithoutRecurse();
 
     /**
      * 不使用递归方式实现的后序遍历
      *
      * @return {@link List}<{@link T}> 返回以节点的值作为元素的List容器
      */
-    List<T> postOrderWithoutRecurse();
+    ArrayList<T> postOrderWithoutRecurse();
 
     /**
      * 层次遍历
      *
      * @return {@link List}<{@link T}> 返回以节点的值作为元素的List容器
      */
-    List<T> levelOrder();
+    ArrayList<T> levelOrder();
 
     /**
      * 向树中插入一个新节点，若该树有固定的插入规则，则按照该规则插入；若该树没有固定的插入规则，则需要另写方法指定插入位置，然后将该参数传入另一个接口
@@ -89,21 +91,21 @@ public interface Tree<T extends Comparable<T>> {
      *
      * @return {@link List}<{@link T}> 返回装着以节点值为元素的容器
      */
-    List<T> preOrder();
+    ArrayList<T> preOrder();
 
     /**
      * 递归实现中序遍历
      *
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
-    List<T> inOrder();
+    ArrayList<T> inOrder();
 
     /**
      * 递归实现后序遍历
      *
      * @return {@link List}<{@link T}>返回装着以节点值为元素的容器
      */
-    List<T> postOrder();
+    ArrayList<T> postOrder();
 
     boolean equals(Object obj);
 

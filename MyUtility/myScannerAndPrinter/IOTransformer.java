@@ -9,6 +9,6 @@ import java.io.PrintStream;
  * @date 2022/12/05
  */
 public class IOTransformer {
-    public static final ScannerPlus scanner=new ScannerPlus();
-    public static final PrintStream printer=new PrintStream(System.out);
+    public static final MyScanner scanner = new MyScanner();
+    public static final PrintStream printer = new PrintStream(System.out);
 }
