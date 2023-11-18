@@ -107,6 +107,21 @@ public class ArraySorter<T extends Comparable<T>> {
         transform();
     }
 
+    private int split(int low, int high) {
+        int k, i = low;
+        T x = targetList.get(low);
+        for (k = low + 1; k <= high; k++) {
+            if (targetList.get(k).compareTo(x) <= 0) {
+                i++;
+                if (i != k) {
+                    swap(i, k);
+                }
+            }
+        }
+        swap(low, i);
+        return i;
+    }
+
 
     /**
      * <strong>直接插入排序</strong><br/><br/>
