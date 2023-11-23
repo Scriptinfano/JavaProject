@@ -1,5 +1,8 @@
 package os_experiment.page_based_virtual_memory_manage;
 
+import java.util.Random;
+import java.util.random.RandomGenerator;
+
 /**
  * 作业模拟类
  *
@@ -27,7 +30,7 @@ public class Process {
     /**
      * 该进程需要依次执行的指令
      */
-    private Instruction[] instructions;
+    private final Instruction[] instructions;
 
 
     /**
@@ -43,7 +46,17 @@ public class Process {
         this.totalPage = totalPage;
         this.applyPageCount = applyPageCount;
         this.initPageCodes = initPageCodes;
-        initInstructions();
+
+        int instructionNum = totalPage * Page.pageSize;
+        instructions = new Instruction[instructionNum];
+        RandomGenerator generator = new Random(System.currentTimeMillis());
+
+        //创建进程所需要的所有指令
+        String[] names = {"加指令", "减指令", "乘指令", "存指令", "取指令", "移位指令"};
+        for (int i = 0; i < instructionNum; i++) {
+            int randomNameIndex = generator.nextInt(0, names.length);
+            instructions[i] = new Instruction(i % totalPage, i % Page.pageSize, names[randomNameIndex]);
+        }
     }
 
     /**
@@ -81,28 +94,6 @@ public class Process {
 
     public int getApplyPageCount() {
         return applyPageCount;
-    }
-
-    /**
-     * 在此处设定该进程应该执行的所有指令
-     */
-    private void initInstructions() {
-        instructions = new Instruction[12];
-        //创建进程所需要的所有指令
-        instructions[0] = new Instruction(1, 0, 70, "加指令");
-        instructions[1] = new Instruction(2, 1, 50, "减指令");
-        instructions[2] = new Instruction(3, 2, 15, "乘指令");
-        instructions[3] = new Instruction(4, 3, 21, "存指令");
-        instructions[4] = new Instruction(5, 0, 56, "取指令");
-        instructions[5] = new Instruction(2, 6, 40, "减指令");
-        instructions[6] = new Instruction(6, 4, 53, "移位指令");
-        instructions[7] = new Instruction(1, 5, 23, "加指令");
-        instructions[8] = new Instruction(4, 1, 37, "存指令");
-        instructions[9] = new Instruction(5, 2, 78, "取指令");
-        instructions[10] = new Instruction(1, 4, 1, "加指令");
-        instructions[11] = new Instruction(4, 6, 84, "存指令");
-
-
     }
 
     public Instruction[] getInstructions() {

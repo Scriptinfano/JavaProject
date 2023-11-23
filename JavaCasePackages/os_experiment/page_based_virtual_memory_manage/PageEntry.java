@@ -2,14 +2,11 @@ package os_experiment.page_based_virtual_memory_manage;
 
 /**
  * 页表项，页表项构成页表，指明作业的某个页是否在主存中并指出在主存的哪一个页框中
- *
+ * 注意：页表项中的逻辑页号隐式存储，页表项在页表项数组中的编号就是逻辑页号
  * @author Mingxiang
  */
 public class PageEntry {
-    /**
-     * 该页表项所代表的页表的逻辑页号
-     */
-    private int pageCode;
+
 
     /**
      * 该页表项所代表的页面存放在主存中的哪一个页框种
@@ -42,24 +39,6 @@ public class PageEntry {
      */
     public void setPageFrameCode(int pageFrameCode) {
         this.pageFrameCode = pageFrameCode;
-    }
-
-    /**
-     * 取得该页表项的逻辑页号
-     *
-     * @return int 逻辑页号
-     */
-    public int getPageCode() {
-        return pageCode;
-    }
-
-    /**
-     * 设置该页表项的逻辑页号
-     *
-     * @param pageCode 逻辑页号
-     */
-    public void setPageCode(int pageCode) {
-        this.pageCode = pageCode;
     }
 
     /**
