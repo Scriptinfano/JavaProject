@@ -1,0 +1,15 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.9" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+			name: "this"
+			"$sizePolicy": 1
+			"title": "查询统计表"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 140, 115 )
+			"size": new java.awt.Dimension( 520, 375 )
+		} )
+	}
+}

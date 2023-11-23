@@ -1,7 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Test">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
-    <root id="1"/>
+    <root id="1">
+      <DefaultCasing>lower/lower</DefaultCasing>
+      <DefaultEngine>InnoDB</DefaultEngine>
+      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
+      <Grants>|root||root|localhost|ALTER|G
+|root||root|localhost|ALTER ROUTINE|G
+|root||root|localhost|APPLICATION_PASSWORD_ADMIN|G
+|root||root|localhost|AUDIT_ABORT_EXEMPT|G
+|root||root|localhost|AUDIT_ADMIN|G
+|root||root|localhost|AUTHENTICATION_POLICY_ADMIN|G
+|root||root|localhost|BACKUP_ADMIN|G
+|root||root|localhost|BINLOG_ADMIN|G
+|root||root|localhost|BINLOG_ENCRYPTION_ADMIN|G
+|root||root|localhost|CLONE_ADMIN|G
+|root||root|localhost|CONNECTION_ADMIN|G
+|root||root|localhost|CREATE|G
+|root||root|localhost|CREATE ROLE|G
+|root||root|localhost|CREATE ROUTINE|G
+|root||root|localhost|CREATE TABLESPACE|G
+|root||root|localhost|CREATE TEMPORARY TABLES|G
+|root||root|localhost|CREATE USER|G
+|root||root|localhost|CREATE VIEW|G
+|root||root|localhost|DELETE|G
+|root||root|localhost|DROP|G
+|root||root|localhost|DROP ROLE|G
+|root||root|localhost|ENCRYPTION_KEY_ADMIN|G
+|root||root|localhost|EVENT|G
+|root||root|localhost|EXECUTE|G
+|root||root|localhost|FILE|G
+|root||root|localhost|FIREWALL_EXEMPT|G
+|root||root|localhost|FLUSH_OPTIMIZER_COSTS|G
+|root||root|localhost|FLUSH_STATUS|G
+|root||root|localhost|FLUSH_TABLES|G
+|root||root|localhost|FLUSH_USER_RESOURCES|G
+|root||root|localhost|GROUP_REPLICATION_ADMIN|G
+|root||root|localhost|GROUP_REPLICATION_STREAM|G
+|root||root|localhost|INDEX|G
+|root||root|localhost|INNODB_REDO_LOG_ARCHIVE|G
+|root||root|localhost|INNODB_REDO_LOG_ENABLE|G
+|root||root|localhost|INSERT|G
+|root||root|localhost|LOCK TABLES|G
+|root||root|localhost|PASSWORDLESS_USER_ADMIN|G
+|root||root|localhost|PERSIST_RO_VARIABLES_ADMIN|G
+|root||root|localhost|PROCESS|G
+|root||root|localhost|REFERENCES|G
+|root||root|localhost|RELOAD|G
+|root||root|localhost|REPLICATION CLIENT|G
+|root||root|localhost|REPLICATION SLAVE|G
+|root||root|localhost|REPLICATION_APPLIER|G
+|root||root|localhost|REPLICATION_SLAVE_ADMIN|G
+|root||root|localhost|RESOURCE_GROUP_ADMIN|G
+|root||root|localhost|RESOURCE_GROUP_USER|G
+|root||root|localhost|ROLE_ADMIN|G
+|root||mysql.infoschema|localhost|SELECT|G
+|root||root|localhost|SELECT|G
+|root||root|localhost|SENSITIVE_VARIABLES_OBSERVER|G
+|root||root|localhost|SERVICE_CONNECTION_ADMIN|G
+|root||root|localhost|SESSION_VARIABLES_ADMIN|G
+|root||root|localhost|SET_USER_ID|G
+|root||root|localhost|SHOW DATABASES|G
+|root||root|localhost|SHOW VIEW|G
+|root||root|localhost|SHOW_ROUTINE|G
+|root||root|localhost|SHUTDOWN|G
+|root||root|localhost|SUPER|G
+|root||root|localhost|SYSTEM_USER|G
+|root||root|localhost|SYSTEM_VARIABLES_ADMIN|G
+|root||root|localhost|TABLE_ENCRYPTION_ADMIN|G
+|root||root|localhost|TRIGGER|G
+|root||root|localhost|UPDATE|G
+|root||root|localhost|XA_RECOVER_ADMIN|G
+|root||root|localhost|grant option|G
+newbookstore|schema||bookManager||ALTER|G
+newbookstore|schema||bookManager||ALTER ROUTINE|G
+newbookstore|schema||bookManager||CREATE|G
+newbookstore|schema||bookManager||CREATE ROUTINE|G
+newbookstore|schema||bookManager||CREATE TEMPORARY TABLES|G
+newbookstore|schema||bookManager||CREATE VIEW|G
+newbookstore|schema||bookManager||DELETE|G
+newbookstore|schema||bookManager||DROP|G
+newbookstore|schema||bookManager||EVENT|G
+newbookstore|schema||bookManager||EXECUTE|G
+newbookstore|schema||bookManager||INDEX|G
+newbookstore|schema||bookManager||INSERT|G
+newbookstore|schema||bookManager||LOCK TABLES|G
+newbookstore|schema||bookManager||REFERENCES|G
+newbookstore|schema||bookManager||SELECT|G
+newbookstore|schema||bookManager||SHOW VIEW|G
+newbookstore|schema||bookManager||TRIGGER|G
+newbookstore|schema||bookManager||UPDATE|G</Grants>
+      <ServerVersion>8.0.32</ServerVersion>
+    </root>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
     </collation>
@@ -923,238 +1013,342 @@
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="295" parent="1" name="newcompany">
+      <IntrospectionTimestamp>2023-11-22.03:08:34</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-21.11:08:34</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="296" parent="1" name="newbookstore">
+      <IntrospectionTimestamp>2023-11-22.03:08:34</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-21.11:08:34</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <user id="297" parent="1" name="mysql.infoschema">
+    <schema id="297" parent="1" name="coursedatabase">
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </schema>
+    <schema id="298" parent="1" name="bank_database">
+      <IntrospectionTimestamp>2023-11-22.03:08:34</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-21.11:08:34</LocalIntrospectionTimestamp>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </schema>
+    <user id="299" parent="1" name="mysql.infoschema">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="298" parent="1" name="root">
+    <user id="300" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <routine id="299" parent="295" name="myProcedure">
+    <user id="301" parent="1" name="bookManager">
+      <Plugin>caching_sha2_password</Plugin>
+    </user>
+    <routine id="302" parent="295" name="myProcedure">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>108</SourceTextLength>
     </routine>
-    <routine id="300" parent="295" name="p2">
+    <routine id="303" parent="295" name="p2">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>132</SourceTextLength>
     </routine>
-    <table id="301" parent="295" name="department">
+    <table id="304" parent="295" name="department">
       <Comment>部门基本表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="302" parent="295" name="employee">
+    <table id="305" parent="295" name="employee">
       <Comment>雇员基本表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="303" parent="295" name="employee_backup">
+    <table id="306" parent="295" name="employee_backup">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="304" parent="295" name="employee_log">
+    <table id="307" parent="295" name="employee_log">
       <Comment>employee表日志</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="305" parent="295" name="manager_project">
+    <table id="308" parent="295" name="manager_project">
       <Comment>这个表记录了每一个部门主管所负责的项目关系</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="306" parent="295" name="profession">
+    <table id="309" parent="295" name="profession">
       <Comment>职位基本信息表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="307" parent="295" name="project">
+    <table id="310" parent="295" name="project">
       <Comment>项目基本信息表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <routine id="308" parent="296" name="createPurchaseDetailOrder">
+    <routine id="311" parent="296" name="createPurchaseDetailOrder">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>273</SourceTextLength>
     </routine>
-    <routine id="309" parent="296" name="createPurchaseOrder">
+    <routine id="312" parent="296" name="createPurchaseOrder">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>128</SourceTextLength>
     </routine>
-    <routine id="310" parent="296" name="createSaleDetailOrder">
+    <routine id="313" parent="296" name="createSaleDetailOrder">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>376</SourceTextLength>
+      <SourceTextLength>380</SourceTextLength>
     </routine>
-    <routine id="311" parent="296" name="createSaleOrder">
+    <routine id="314" parent="296" name="createSaleOrder">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>126</SourceTextLength>
     </routine>
-    <routine id="312" parent="296" name="createSaleView">
+    <routine id="315" parent="296" name="editBook">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>467</SourceTextLength>
+      <SourceTextLength>237</SourceTextLength>
     </routine>
-    <routine id="313" parent="296" name="inputBook">
+    <routine id="316" parent="296" name="editCustomer">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>146</SourceTextLength>
+      <SourceTextLength>155</SourceTextLength>
     </routine>
-    <routine id="314" parent="296" name="inputUser">
+    <routine id="317" parent="296" name="editMerchant">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>142</SourceTextLength>
+      <SourceTextLength>165</SourceTextLength>
     </routine>
-    <routine id="315" parent="296" name="inputWholesaler">
+    <routine id="318" parent="296" name="inputBook">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>110</SourceTextLength>
+      <SourceTextLength>173</SourceTextLength>
     </routine>
-    <routine id="316" parent="296" name="updateSaleOrder">
+    <routine id="319" parent="296" name="inputUser">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>134</SourceTextLength>
+    </routine>
+    <routine id="320" parent="296" name="inputWholesaler">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>141</SourceTextLength>
+    </routine>
+    <routine id="321" parent="296" name="selectInoutSchedule_in">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>127</SourceTextLength>
+    </routine>
+    <routine id="322" parent="296" name="selectInoutSchedule_out">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>127</SourceTextLength>
+    </routine>
+    <routine id="323" parent="296" name="updateSaleOrder">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>250</SourceTextLength>
     </routine>
-    <routine id="317" parent="296" name="updateSalePrice">
+    <routine id="324" parent="296" name="updateSalePrice">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
-      <SourceTextLength>95</SourceTextLength>
+      <SourceTextLength>99</SourceTextLength>
     </routine>
-    <table id="318" parent="296" name="bookinfo">
+    <table id="325" parent="296" name="bookinfo">
       <Comment>图书信息表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="319" parent="296" name="customer">
+    <table id="326" parent="296" name="customer">
       <Comment>顾客联系表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="320" parent="296" name="detailpurchaseorder">
+    <table id="327" parent="296" name="detailpurchaseorder">
       <Comment>进货详单表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="321" parent="296" name="detailsalesorder">
+    <table id="328" parent="296" name="detailsalesorder">
       <Comment>销售详单表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="322" parent="296" name="inoutschedule">
+    <table id="329" parent="296" name="inoutschedule">
       <Comment>进出库明细表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="323" parent="296" name="purchaseorder">
+    <table id="330" parent="296" name="purchaseorder">
       <Comment>进货订单表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="324" parent="296" name="salesorder">
+    <table id="331" parent="296" name="salesorder">
       <Comment>销售订单表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="325" parent="296" name="wholesaler">
+    <table id="332" parent="296" name="wholesaler">
       <Comment>批发商表</Comment>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <view id="326" parent="296" name="sale_view">
+    <view id="333" parent="296" name="bookinfo_view">
       <Definer>root@localhost</Definer>
-      <SourceTextLength>644</SourceTextLength>
+      <SourceTextLength>476</SourceTextLength>
     </view>
-    <argument id="327" parent="300" name="count_stu">
+    <view id="334" parent="296" name="bookpurchase_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>135</SourceTextLength>
+    </view>
+    <view id="335" parent="296" name="booksale_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>249</SourceTextLength>
+    </view>
+    <view id="336" parent="296" name="customer_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>243</SourceTextLength>
+    </view>
+    <view id="337" parent="296" name="merchant_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>265</SourceTextLength>
+    </view>
+    <view id="338" parent="296" name="purchase_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>669</SourceTextLength>
+    </view>
+    <view id="339" parent="296" name="sale_view">
+      <Definer>root@localhost</Definer>
+      <SourceTextLength>606</SourceTextLength>
+    </view>
+    <table id="340" parent="298" name="bankcardinfo">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="341" parent="298" name="cardcancellationrecord">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="342" parent="298" name="cardopeningrecord">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="343" parent="298" name="client">
+      <Comment>客户表</Comment>
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="344" parent="298" name="depositrecord">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="345" parent="298" name="employeeaccount">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="346" parent="298" name="financialreport">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="347" parent="298" name="salesman">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="348" parent="298" name="statistics">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="349" parent="298" name="transferrecord">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="350" parent="298" name="withdrawalrecord">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <argument id="351" parent="303" name="count_stu">
       <ArgumentDirection>O</ArgumentDirection>
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <column id="328" parent="301" name="dno">
+    <column id="352" parent="304" name="dno">
       <Comment>部门编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="329" parent="301" name="dn">
+    <column id="353" parent="304" name="dn">
       <Comment>部门名称</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="330" parent="301" name="dm">
+    <column id="354" parent="304" name="dm">
       <Comment>部门负责人编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>3</Position>
     </column>
-    <foreign-key id="331" parent="301" name="d_foreign">
+    <foreign-key id="355" parent="304" name="d_foreign">
       <ColNames>dm</ColNames>
       <OnDelete>set-null</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>eno</RefColNames>
       <RefTableName>employee</RefTableName>
     </foreign-key>
-    <index id="332" parent="301" name="PRIMARY">
+    <index id="356" parent="304" name="PRIMARY">
       <ColNames>dno</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="333" parent="301" name="d_unique_m">
+    <index id="357" parent="304" name="d_unique_m">
       <ColNames>dm</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="334" parent="301" name="department_unique">
+    <index id="358" parent="304" name="department_unique">
       <ColNames>dm</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="335" parent="301" name="PRIMARY">
+    <key id="359" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="336" parent="301" name="d_unique_m">
+    <key id="360" parent="304" name="d_unique_m">
       <UnderlyingIndexName>d_unique_m</UnderlyingIndexName>
     </key>
-    <key id="337" parent="301" name="department_unique">
+    <key id="361" parent="304" name="department_unique">
       <UnderlyingIndexName>department_unique</UnderlyingIndexName>
     </key>
-    <check id="338" parent="302" name="e_age_chk">
+    <check id="362" parent="305" name="e_age_chk">
       <Predicate>`age` between 20 and 30</Predicate>
     </check>
-    <check id="339" parent="302" name="s_sex_chk">
+    <check id="363" parent="305" name="s_sex_chk">
       <Predicate>`sex` in (_utf8mb3\&apos;ç&#x94;·\&apos;,_utf8mb3\&apos;å¥³\&apos;)</Predicate>
     </check>
-    <column id="340" parent="302" name="eno">
+    <column id="364" parent="305" name="eno">
       <Comment>员工编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="341" parent="302" name="eid">
+    <column id="365" parent="305" name="eid">
       <Comment>员工身份证号</Comment>
       <DasType>char(18)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="342" parent="302" name="en">
+    <column id="366" parent="305" name="en">
       <Comment>员工姓名</Comment>
       <DasType>varchar(3)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="343" parent="302" name="sex">
+    <column id="367" parent="305" name="sex">
       <Comment>员工性别</Comment>
       <DasType>char(1)|0s</DasType>
       <DefaultExpression>&apos;男&apos;</DefaultExpression>
@@ -1162,91 +1356,91 @@
       <Position>4</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="344" parent="302" name="age">
+    <column id="368" parent="305" name="age">
       <Comment>员工年龄</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="345" parent="302" name="phone">
+    <column id="369" parent="305" name="phone">
       <Comment>电话号码</Comment>
       <DasType>char(13)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="346" parent="302" name="pno">
+    <column id="370" parent="305" name="pno">
       <Comment>职位编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>7</Position>
     </column>
-    <foreign-key id="347" parent="302" name="e_foreign_pno">
+    <foreign-key id="371" parent="305" name="e_foreign_pno">
       <ColNames>pno</ColNames>
       <OnDelete>set-null</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>pno</RefColNames>
       <RefTableName>profession</RefTableName>
     </foreign-key>
-    <index id="348" parent="302" name="PRIMARY">
+    <index id="372" parent="305" name="PRIMARY">
       <ColNames>eno</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="349" parent="302" name="e_unique_id">
+    <index id="373" parent="305" name="e_unique_id">
       <ColNames>eid</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="350" parent="302" name="e_unique_phone">
+    <index id="374" parent="305" name="e_unique_phone">
       <ColNames>phone</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="351" parent="302" name="e_foreign_pno">
+    <index id="375" parent="305" name="e_foreign_pno">
       <ColNames>pno</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="352" parent="302" name="PRIMARY">
+    <key id="376" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="353" parent="302" name="e_unique_id">
+    <key id="377" parent="305" name="e_unique_id">
       <UnderlyingIndexName>e_unique_id</UnderlyingIndexName>
     </key>
-    <key id="354" parent="302" name="e_unique_phone">
+    <key id="378" parent="305" name="e_unique_phone">
       <UnderlyingIndexName>e_unique_phone</UnderlyingIndexName>
     </key>
-    <trigger id="355" parent="302" name="salary_check_trigger">
+    <trigger id="379" parent="305" name="salary_check_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>458</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <trigger id="356" parent="302" name="employee_backup_insert">
+    <trigger id="380" parent="305" name="employee_backup_insert">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>114</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <column id="357" parent="303" name="eno">
+    <column id="381" parent="306" name="eno">
       <Comment>员工编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="358" parent="303" name="eid">
+    <column id="382" parent="306" name="eid">
       <Comment>员工身份证号</Comment>
       <DasType>char(18)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="359" parent="303" name="en">
+    <column id="383" parent="306" name="en">
       <Comment>员工姓名</Comment>
       <DasType>varchar(3)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="360" parent="303" name="sex">
+    <column id="384" parent="306" name="sex">
       <Comment>员工性别</Comment>
       <DasType>char(1)|0s</DasType>
       <DefaultExpression>&apos;男&apos;</DefaultExpression>
@@ -1254,810 +1448,1649 @@
       <Position>4</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="361" parent="303" name="age">
+    <column id="385" parent="306" name="age">
       <Comment>员工年龄</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="362" parent="303" name="phone">
+    <column id="386" parent="306" name="phone">
       <Comment>电话号码</Comment>
       <DasType>char(13)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="363" parent="303" name="pno">
+    <column id="387" parent="306" name="pno">
       <Comment>职位编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="364" parent="304" name="id">
+    <column id="388" parent="307" name="id">
       <AutoIncrement>12</AutoIncrement>
       <Comment>日志id</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="365" parent="304" name="time">
+    <column id="389" parent="307" name="time">
       <Comment>操作时间</Comment>
       <DasType>time|0s</DasType>
       <DefaultExpression>&apos;00:00:00&apos;</DefaultExpression>
       <Position>2</Position>
     </column>
-    <column id="366" parent="304" name="note">
+    <column id="390" parent="307" name="note">
       <DasType>varchar(1000)|0s</DasType>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <index id="367" parent="304" name="PRIMARY">
+    <index id="391" parent="307" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="368" parent="304" name="PRIMARY">
+    <key id="392" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="369" parent="305" name="manager">
+    <column id="393" parent="308" name="manager">
       <Comment>各个部门部长的员工编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="370" parent="305" name="prono">
+    <column id="394" parent="308" name="prono">
       <Comment>项目编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>2</Position>
     </column>
-    <foreign-key id="371" parent="305" name="mp_foreign_manager">
+    <foreign-key id="395" parent="308" name="mp_foreign_manager">
       <ColNames>manager</ColNames>
       <OnDelete>set-null</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>eno</RefColNames>
       <RefTableName>employee</RefTableName>
     </foreign-key>
-    <foreign-key id="372" parent="305" name="mp_foreign_prono">
+    <foreign-key id="396" parent="308" name="mp_foreign_prono">
       <ColNames>prono</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>prono</RefColNames>
       <RefTableName>project</RefTableName>
     </foreign-key>
-    <index id="373" parent="305" name="mp_unique_prono">
+    <index id="397" parent="308" name="mp_unique_prono">
       <ColNames>prono</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="374" parent="305" name="mp_foreign_manager">
+    <index id="398" parent="308" name="mp_foreign_manager">
       <ColNames>manager</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="375" parent="305" name="mp_unique_prono">
+    <key id="399" parent="308" name="mp_unique_prono">
       <UnderlyingIndexName>mp_unique_prono</UnderlyingIndexName>
     </key>
-    <check id="376" parent="306" name="profession_chk_1">
+    <check id="400" parent="309" name="profession_chk_1">
       <NameSurrogate>1</NameSurrogate>
       <Predicate>`is_supervisor` in (_utf8mb4\&apos;1\&apos;,_utf8mb4\&apos;0\&apos;)</Predicate>
     </check>
-    <check id="377" parent="306" name="p_chk_salary">
+    <check id="401" parent="309" name="p_chk_salary">
       <Predicate>`salary` between 5000 and 200000</Predicate>
     </check>
-    <column id="378" parent="306" name="pno">
+    <column id="402" parent="309" name="pno">
       <Comment>职位编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="379" parent="306" name="pn">
+    <column id="403" parent="309" name="pn">
       <Comment>职位名称</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="380" parent="306" name="salary">
+    <column id="404" parent="309" name="salary">
       <Comment>职位薪水</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="381" parent="306" name="dno">
+    <column id="405" parent="309" name="dno">
       <Comment>部门编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="382" parent="306" name="is_supervisor">
+    <column id="406" parent="309" name="is_supervisor">
       <Comment>是否为主管标记</Comment>
       <DasType>varchar(5)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="383" parent="306" name="profession_fk_dno">
+    <foreign-key id="407" parent="309" name="profession_fk_dno">
       <ColNames>dno</ColNames>
       <RefColNames>dno</RefColNames>
       <RefTableName>department</RefTableName>
     </foreign-key>
-    <index id="384" parent="306" name="PRIMARY">
+    <index id="408" parent="309" name="PRIMARY">
       <ColNames>pno</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="385" parent="306" name="p_unique_n">
+    <index id="409" parent="309" name="p_unique_n">
       <ColNames>pn</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="386" parent="306" name="profession_fk_dno">
+    <index id="410" parent="309" name="profession_fk_dno">
       <ColNames>dno</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="387" parent="306" name="PRIMARY">
+    <key id="411" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="388" parent="306" name="p_unique_n">
+    <key id="412" parent="309" name="p_unique_n">
       <UnderlyingIndexName>p_unique_n</UnderlyingIndexName>
     </key>
-    <trigger id="389" parent="306" name="trigger_unique_manager">
+    <trigger id="413" parent="309" name="trigger_unique_manager">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>431</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <check id="390" parent="307" name="project_chk_protime">
+    <check id="414" parent="310" name="project_chk_protime">
       <NameSurrogate>1</NameSurrogate>
       <Predicate>`protime` between 1 and 10</Predicate>
     </check>
-    <column id="391" parent="307" name="prono">
+    <column id="415" parent="310" name="prono">
       <Comment>项目编号</Comment>
       <DasType>varchar(10)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="392" parent="307" name="pron">
+    <column id="416" parent="310" name="pron">
       <Comment>项目名字</Comment>
       <DasType>varchar(10)|0s</DasType>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="393" parent="307" name="protime">
+    <column id="417" parent="310" name="protime">
       <Comment>项目周期</Comment>
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <index id="394" parent="307" name="PRIMARY">
+    <index id="418" parent="310" name="PRIMARY">
       <ColNames>prono</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="395" parent="307" name="project_unique_pron">
+    <index id="419" parent="310" name="project_unique_pron">
       <ColNames>pron</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="396" parent="307" name="PRIMARY">
+    <key id="420" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="397" parent="307" name="project_unique_pron">
+    <key id="421" parent="310" name="project_unique_pron">
       <UnderlyingIndexName>project_unique_pron</UnderlyingIndexName>
     </key>
-    <argument id="398" parent="308" name="thePurchaseId">
+    <argument id="422" parent="311" name="thePurchaseId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="399" parent="308" name="theBookId">
+    <argument id="423" parent="311" name="theBookId">
       <DasType>int|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="400" parent="308" name="theOrderNum">
+    <argument id="424" parent="311" name="theOrderNum">
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="401" parent="308" name="thePrice">
+    <argument id="425" parent="311" name="thePrice">
       <DasType>float|0s</DasType>
       <Position>4</Position>
     </argument>
-    <argument id="402" parent="309" name="merchantId">
+    <argument id="426" parent="312" name="merchantId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="403" parent="309" name="theDate">
+    <argument id="427" parent="312" name="theDate">
       <DasType>datetime|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="404" parent="309" name="theContext">
+    <argument id="428" parent="312" name="theContext">
       <DasType>varchar(20)|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="405" parent="310" name="theSaleId">
+    <argument id="429" parent="313" name="theSaleId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="406" parent="310" name="theBookId">
+    <argument id="430" parent="313" name="theBookId">
       <DasType>int|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="407" parent="310" name="theBookCount">
+    <argument id="431" parent="313" name="theBookCount">
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="408" parent="311" name="theCustomerId">
+    <argument id="432" parent="314" name="theCustomerId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="409" parent="311" name="theDate">
+    <argument id="433" parent="314" name="theDate">
       <DasType>datetime|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="410" parent="311" name="theContext">
+    <argument id="434" parent="314" name="theContext">
       <DasType>varchar(20)|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="411" parent="312" name="theSaleId">
+    <argument id="435" parent="315" name="theBookId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="412" parent="313" name="theName">
-      <DasType>varchar(20)|0s</DasType>
-      <Position>1</Position>
-    </argument>
-    <argument id="413" parent="313" name="theAuthor">
+    <argument id="436" parent="315" name="theBookName">
       <DasType>varchar(20)|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="414" parent="313" name="theType">
+    <argument id="437" parent="315" name="theBookType">
       <DasType>varchar(20)|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="415" parent="313" name="thePublisherName">
+    <argument id="438" parent="315" name="theBookAuthor">
       <DasType>varchar(20)|0s</DasType>
       <Position>4</Position>
     </argument>
-    <argument id="416" parent="314" name="theName">
+    <argument id="439" parent="315" name="theBookPublisher">
       <DasType>varchar(20)|0s</DasType>
+      <Position>5</Position>
+    </argument>
+    <argument id="440" parent="315" name="theContext">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>6</Position>
+    </argument>
+    <argument id="441" parent="316" name="theCustomerId">
+      <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="417" parent="314" name="thePhoneNum">
-      <DasType>varchar(11)|0s</DasType>
+    <argument id="442" parent="316" name="theContext">
+      <DasType>varchar(100)|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="418" parent="314" name="theContext">
+    <argument id="443" parent="316" name="theName">
       <DasType>varchar(20)|0s</DasType>
       <Position>3</Position>
     </argument>
-    <argument id="419" parent="315" name="theName">
+    <argument id="444" parent="316" name="theTel">
+      <DasType>varchar(11)|0s</DasType>
+      <Position>4</Position>
+    </argument>
+    <argument id="445" parent="317" name="theMerchantId">
+      <DasType>int|0s</DasType>
+      <Position>1</Position>
+    </argument>
+    <argument id="446" parent="317" name="theContext">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>2</Position>
+    </argument>
+    <argument id="447" parent="317" name="theName">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>3</Position>
+    </argument>
+    <argument id="448" parent="317" name="theTel">
+      <DasType>varchar(11)|0s</DasType>
+      <Position>4</Position>
+    </argument>
+    <argument id="449" parent="318" name="theName">
       <DasType>varchar(20)|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="420" parent="315" name="theContact">
+    <argument id="450" parent="318" name="theAuthor">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>2</Position>
+    </argument>
+    <argument id="451" parent="318" name="theType">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>3</Position>
+    </argument>
+    <argument id="452" parent="318" name="thePublisherName">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>4</Position>
+    </argument>
+    <argument id="453" parent="318" name="theContext">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>5</Position>
+    </argument>
+    <argument id="454" parent="319" name="theName">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>1</Position>
+    </argument>
+    <argument id="455" parent="319" name="thePhoneNum">
       <DasType>varchar(11)|0s</DasType>
       <Position>2</Position>
     </argument>
-    <argument id="421" parent="316" name="theSalesOrderId">
+    <argument id="456" parent="319" name="theContext">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>3</Position>
+    </argument>
+    <argument id="457" parent="320" name="theName">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>1</Position>
+    </argument>
+    <argument id="458" parent="320" name="theContact">
+      <DasType>varchar(11)|0s</DasType>
+      <Position>2</Position>
+    </argument>
+    <argument id="459" parent="320" name="theContext">
+      <DasType>varchar(20)|0s</DasType>
+      <Position>3</Position>
+    </argument>
+    <argument id="460" parent="321" name="dateBegin">
+      <DasType>datetime|0s</DasType>
+      <Position>1</Position>
+    </argument>
+    <argument id="461" parent="321" name="dateEnd">
+      <DasType>datetime|0s</DasType>
+      <Position>2</Position>
+    </argument>
+    <argument id="462" parent="322" name="dateBegin">
+      <DasType>datetime|0s</DasType>
+      <Position>1</Position>
+    </argument>
+    <argument id="463" parent="322" name="dateEnd">
+      <DasType>datetime|0s</DasType>
+      <Position>2</Position>
+    </argument>
+    <argument id="464" parent="323" name="theSalesOrderId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="422" parent="317" name="theBookId">
+    <argument id="465" parent="324" name="theBookId">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </argument>
-    <argument id="423" parent="317" name="thePrice">
+    <argument id="466" parent="324" name="thePrice">
       <DasType>float|0s</DasType>
       <Position>2</Position>
     </argument>
-    <check id="424" parent="318" name="chk__price">
-      <Predicate>(`price` &gt; `purchasePrice`) and (`purchasePrice` &gt; 0)</Predicate>
+    <check id="467" parent="325" name="chk__price">
+      <Predicate>(`bookPrice` &gt; `bookPurchasePrice`) and (`bookPurchasePrice` &gt; 0)</Predicate>
     </check>
-    <check id="425" parent="318" name="chk__inventory">
-      <Predicate>`inventory` &gt;= 0</Predicate>
+    <check id="468" parent="325" name="chk__inventory">
+      <Predicate>`bookInventory` &gt;= 0</Predicate>
     </check>
-    <column id="426" parent="318" name="bookId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="469" parent="325" name="bookId">
+      <AutoIncrement>8</AutoIncrement>
       <Comment>图书编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="427" parent="318" name="bookName">
+    <column id="470" parent="325" name="bookName">
       <Comment>图书名称</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="428" parent="318" name="bookType">
+    <column id="471" parent="325" name="bookType">
       <Comment>图书类别</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="429" parent="318" name="author">
+    <column id="472" parent="325" name="bookAuthor">
       <Comment>作者</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="430" parent="318" name="publisherName">
+    <column id="473" parent="325" name="bookPublisher">
       <Comment>出版社</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="431" parent="318" name="context">
+    <column id="474" parent="325" name="bookContext">
       <Comment>描述</Comment>
-      <DasType>varchar(500)|0s</DasType>
+      <DasType>varchar(100)|0s</DasType>
       <Position>6</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="432" parent="318" name="price">
+    <column id="475" parent="325" name="bookPrice">
       <Comment>售价</Comment>
       <DasType>float|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="433" parent="318" name="purchasePrice">
+    <column id="476" parent="325" name="bookPurchasePrice">
       <Comment>进价</Comment>
       <DasType>float|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="434" parent="318" name="inventory">
+    <column id="477" parent="325" name="bookInventory">
       <Comment>库存</Comment>
       <DasType>int|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>9</Position>
     </column>
-    <index id="435" parent="318" name="PRIMARY">
+    <index id="478" parent="325" name="PRIMARY">
       <ColNames>bookId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="436" parent="318" name="PRIMARY">
+    <key id="479" parent="325" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="437" parent="319" name="customerId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="480" parent="326" name="customerId">
+      <AutoIncrement>2</AutoIncrement>
       <Comment>顾客编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="438" parent="319" name="customerName">
+    <column id="481" parent="326" name="customerName">
       <Comment>顾客名</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="439" parent="319" name="customerPhoneNumber">
+    <column id="482" parent="326" name="customerTel">
       <Comment>顾客电话号码</Comment>
       <DasType>varchar(11)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="440" parent="319" name="customerContext">
+    <column id="483" parent="326" name="customerContext">
       <Comment>备注</Comment>
-      <DasType>varchar(20)|0s</DasType>
+      <DasType>varchar(100)|0s</DasType>
       <Position>4</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <index id="441" parent="319" name="PRIMARY">
+    <index id="484" parent="326" name="PRIMARY">
       <ColNames>customerId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="442" parent="319" name="uk__customerPhoneNumber">
-      <ColNames>customerPhoneNumber</ColNames>
+    <index id="485" parent="326" name="uk__customerPhoneNumber">
+      <ColNames>customerTel</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="443" parent="319" name="PRIMARY">
+    <key id="486" parent="326" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="444" parent="319" name="uk__customerPhoneNumber">
+    <key id="487" parent="326" name="uk__customerPhoneNumber">
       <UnderlyingIndexName>uk__customerPhoneNumber</UnderlyingIndexName>
     </key>
-    <check id="445" parent="320" name="chk__orderNum">
+    <check id="488" parent="327" name="chk__orderNum">
       <Predicate>`OrderNum` &gt; 0</Predicate>
     </check>
-    <check id="446" parent="320" name="chk__purchasePrice">
+    <check id="489" parent="327" name="chk__purchasePrice">
       <Predicate>`purchasePrice` &gt; 0</Predicate>
     </check>
-    <column id="447" parent="320" name="purchaseDetailOrderId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="490" parent="327" name="purchaseDetailOrderId">
+      <AutoIncrement>34</AutoIncrement>
       <Comment>进货详单编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="448" parent="320" name="purchaseOrderId">
+    <column id="491" parent="327" name="purchaseOrderId">
       <Comment>进货单号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="449" parent="320" name="bookId">
+    <column id="492" parent="327" name="bookId">
       <Comment>图书编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="450" parent="320" name="orderNum">
+    <column id="493" parent="327" name="orderNum">
       <Comment>进货数量</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="451" parent="320" name="purchasePrice">
+    <column id="494" parent="327" name="purchasePrice">
       <Comment>进货单价</Comment>
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="452" parent="320" name="purchaseTotalPrice">
+    <column id="495" parent="327" name="purchaseTotalPrice">
       <Comment>进货总价</Comment>
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <foreign-key id="453" parent="320" name="fk__purchaseId">
+    <foreign-key id="496" parent="327" name="fk__purchaseId">
       <ColNames>purchaseOrderId</ColNames>
       <RefColNames>purchaseOrderId</RefColNames>
       <RefTableName>purchaseorder</RefTableName>
     </foreign-key>
-    <foreign-key id="454" parent="320" name="fk__bookId">
+    <foreign-key id="497" parent="327" name="fk__bookId">
       <ColNames>bookId</ColNames>
       <RefColNames>bookId</RefColNames>
       <RefTableName>bookinfo</RefTableName>
     </foreign-key>
-    <index id="455" parent="320" name="PRIMARY">
+    <index id="498" parent="327" name="PRIMARY">
       <ColNames>purchaseDetailOrderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="456" parent="320" name="uk__purchaseId">
+    <index id="499" parent="327" name="uk__purchaseId">
       <ColNames>purchaseOrderId
 bookId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="457" parent="320" name="fk__bookId">
+    <index id="500" parent="327" name="fk__bookId">
       <ColNames>bookId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="458" parent="320" name="PRIMARY">
+    <key id="501" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="459" parent="320" name="uk__purchaseId">
+    <key id="502" parent="327" name="uk__purchaseId">
       <UnderlyingIndexName>uk__purchaseId</UnderlyingIndexName>
     </key>
-    <trigger id="460" parent="320" name="trigger_updateInoutLog_purchase">
+    <trigger id="503" parent="327" name="trigger_updateInoutLog_purchase">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>313</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <trigger id="461" parent="320" name="trigger_update_count">
+    <trigger id="504" parent="327" name="trigger_update_count">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
-      <SourceTextLength>125</SourceTextLength>
+      <SourceTextLength>133</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <trigger id="462" parent="320" name="trigger_update_price">
+    <trigger id="505" parent="327" name="trigger_update_price">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
-      <SourceTextLength>113</SourceTextLength>
+      <SourceTextLength>117</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <check id="463" parent="321" name="chk__salesNum">
+    <check id="506" parent="328" name="chk__salesNum">
       <Predicate>`SalesNum` &gt; 0</Predicate>
     </check>
-    <check id="464" parent="321" name="chk__salesPrice">
+    <check id="507" parent="328" name="chk__bookPrice">
+      <Predicate>`bookPrice` &gt; 0</Predicate>
+    </check>
+    <check id="508" parent="328" name="chk__salesPrice">
       <Predicate>`salesPrice` &gt; 0</Predicate>
     </check>
-    <column id="465" parent="321" name="detailSalesOrderId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="509" parent="328" name="detailSalesOrderId">
+      <AutoIncrement>5</AutoIncrement>
       <Comment>销售详单编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="466" parent="321" name="salesOrderId">
+    <column id="510" parent="328" name="salesOrderId">
       <Comment>销售单号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="467" parent="321" name="bookId">
+    <column id="511" parent="328" name="bookId">
       <Comment>图书编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="468" parent="321" name="salesNum">
+    <column id="512" parent="328" name="salesNum">
       <Comment>销售该书的数量</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="469" parent="321" name="bookPrice">
+    <column id="513" parent="328" name="bookPrice">
       <Comment>书的单价</Comment>
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="470" parent="321" name="salesPrice">
+    <column id="514" parent="328" name="salesPrice">
       <Comment>详单的总价</Comment>
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <foreign-key id="471" parent="321" name="fk__detailSalesOrder_SalesOrderId">
+    <foreign-key id="515" parent="328" name="fk__detailSalesOrder_SalesOrderId">
       <ColNames>salesOrderId</ColNames>
       <RefColNames>salesOrderId</RefColNames>
       <RefTableName>salesorder</RefTableName>
     </foreign-key>
-    <foreign-key id="472" parent="321" name="fk__detailSalesOrder_bookId">
+    <foreign-key id="516" parent="328" name="fk__detailSalesOrder_bookId">
       <ColNames>bookId</ColNames>
       <RefColNames>bookId</RefColNames>
       <RefTableName>bookinfo</RefTableName>
     </foreign-key>
-    <index id="473" parent="321" name="PRIMARY">
+    <index id="517" parent="328" name="PRIMARY">
       <ColNames>detailSalesOrderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="474" parent="321" name="uk__detailSalesOrder_saleOrderId_bookId">
+    <index id="518" parent="328" name="uk__detailSalesOrder_saleOrderId_bookId">
       <ColNames>salesOrderId
 bookId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="475" parent="321" name="fk__detailSalesOrder_bookId">
+    <index id="519" parent="328" name="fk__detailSalesOrder_bookId">
       <ColNames>bookId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="476" parent="321" name="PRIMARY">
+    <key id="520" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="477" parent="321" name="uk__detailSalesOrder_saleOrderId_bookId">
+    <key id="521" parent="328" name="uk__detailSalesOrder_saleOrderId_bookId">
       <UnderlyingIndexName>uk__detailSalesOrder_saleOrderId_bookId</UnderlyingIndexName>
     </key>
-    <trigger id="478" parent="321" name="trigger_updateInoutLog_sale">
+    <trigger id="522" parent="328" name="trigger_updateInoutLog_sale">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>292</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <trigger id="479" parent="321" name="trigger_update_count2">
+    <trigger id="523" parent="328" name="trigger_update_count2">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
-      <SourceTextLength>125</SourceTextLength>
+      <SourceTextLength>133</SourceTextLength>
       <Turn>after-row</Turn>
     </trigger>
-    <column id="480" parent="322" name="inoutId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="524" parent="329" name="inoutId">
+      <AutoIncrement>22</AutoIncrement>
       <Comment>每一个进货订单或售出订单均对应于一个明细</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="481" parent="322" name="inoutMark">
+    <column id="525" parent="329" name="inoutMark">
       <Comment>标识进货还是售出(1代表进，0代表出)</Comment>
       <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="482" parent="322" name="bookId">
+    <column id="526" parent="329" name="bookId">
       <Comment>引进或销售出去的书</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="483" parent="322" name="bookCount">
+    <column id="527" parent="329" name="bookCount">
       <Comment>引进的或销售出去的书本的数目</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="484" parent="322" name="financeChange">
+    <column id="528" parent="329" name="financeChange">
       <Comment>财务变化，引进为负数，卖出为正数</Comment>
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="485" parent="322" name="operateDate">
+    <column id="529" parent="329" name="operateDate">
       <Comment>交易的日期</Comment>
       <DasType>datetime|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <index id="486" parent="322" name="PRIMARY">
+    <index id="530" parent="329" name="PRIMARY">
       <ColNames>inoutId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="487" parent="322" name="PRIMARY">
+    <key id="531" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="488" parent="323" name="purchaseOrderId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="532" parent="330" name="purchaseOrderId">
+      <AutoIncrement>27</AutoIncrement>
       <Comment>进货单号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="489" parent="323" name="orderDate">
+    <column id="533" parent="330" name="orderDate">
       <Comment>下单日期</Comment>
       <DasType>datetime|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="490" parent="323" name="wholesalerId">
+    <column id="534" parent="330" name="wholesalerId">
       <Comment>批发商编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="491" parent="323" name="context">
+    <column id="535" parent="330" name="context">
       <Comment>备注</Comment>
-      <DasType>varchar(20)|0s</DasType>
+      <DasType>varchar(100)|0s</DasType>
       <Position>4</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <foreign-key id="492" parent="323" name="fk__purchaseOrder_wholesalerId">
+    <foreign-key id="536" parent="330" name="fk__purchaseOrder_wholesalerId">
       <ColNames>wholesalerId</ColNames>
       <RefColNames>wholesalerId</RefColNames>
       <RefTableName>wholesaler</RefTableName>
     </foreign-key>
-    <index id="493" parent="323" name="PRIMARY">
+    <index id="537" parent="330" name="PRIMARY">
       <ColNames>purchaseOrderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="494" parent="323" name="fk__purchaseOrder_wholesalerId">
+    <index id="538" parent="330" name="fk__purchaseOrder_wholesalerId">
       <ColNames>wholesalerId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="495" parent="323" name="PRIMARY">
+    <key id="539" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="496" parent="324" name="salesOrderId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="540" parent="331" name="salesOrderId">
+      <AutoIncrement>5</AutoIncrement>
       <Comment>销售单号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="497" parent="324" name="salesDate">
+    <column id="541" parent="331" name="salesDate">
       <Comment>销售日期</Comment>
       <DasType>datetime|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="498" parent="324" name="customerId">
+    <column id="542" parent="331" name="customerId">
       <Comment>顾客编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="499" parent="324" name="totalPrice">
+    <column id="543" parent="331" name="totalPrice">
       <Comment>该订单的总消费</Comment>
       <DasType>float|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="500" parent="324" name="context">
+    <column id="544" parent="331" name="context">
       <Comment>订单备注</Comment>
       <DasType>varchar(20)|0s</DasType>
       <Position>5</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <foreign-key id="501" parent="324" name="fk__salesOrder_CustomerId">
+    <foreign-key id="545" parent="331" name="fk__salesOrder_CustomerId">
       <ColNames>customerId</ColNames>
       <RefColNames>customerId</RefColNames>
       <RefTableName>customer</RefTableName>
     </foreign-key>
-    <index id="502" parent="324" name="PRIMARY">
+    <index id="546" parent="331" name="PRIMARY">
       <ColNames>salesOrderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="503" parent="324" name="fk__salesOrder_CustomerId">
+    <index id="547" parent="331" name="fk__salesOrder_CustomerId">
       <ColNames>customerId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="504" parent="324" name="PRIMARY">
+    <key id="548" parent="331" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="505" parent="325" name="wholesalerId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="549" parent="332" name="wholesalerId">
+      <AutoIncrement>2</AutoIncrement>
       <Comment>批发商编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="506" parent="325" name="wholesalerName">
+    <column id="550" parent="332" name="wholesalerName">
       <Comment>批发商名称</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <CollationName>utf8mb3_general_ci</CollationName>
     </column>
-    <column id="507" parent="325" name="wholesalerTel">
+    <column id="551" parent="332" name="wholesalerTel">
       <Comment>批发商电话号码</Comment>
       <DasType>varchar(11)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="508" parent="325" name="PRIMARY">
+    <column id="552" parent="332" name="wholesalerContext">
+      <Comment>批发商描述</Comment>
+      <DasType>varchar(100)|0s</DasType>
+      <Position>4</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <index id="553" parent="332" name="PRIMARY">
       <ColNames>wholesalerId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="509" parent="325" name="PRIMARY">
+    <key id="554" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="510" parent="326" name="订单号">
-      <Comment>销售单号</Comment>
+    <column id="555" parent="333" name="书籍id">
+      <Comment>图书编号</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="511" parent="326" name="书名">
+    <column id="556" parent="333" name="书名">
       <Comment>图书名称</Comment>
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="512" parent="326" name="备注">
-      <Comment>描述</Comment>
-      <DasType>varchar(500)|0s</DasType>
+    <column id="557" parent="333" name="书籍类型">
+      <Comment>图书类别</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="513" parent="326" name="单价">
-      <Comment>售价</Comment>
-      <DasType>float|0s</DasType>
+    <column id="558" parent="333" name="书籍作者">
+      <Comment>作者</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="514" parent="326" name="售卖日期">
-      <Comment>销售日期</Comment>
-      <DasType>datetime|0s</DasType>
+    <column id="559" parent="333" name="书籍出版商">
+      <Comment>出版社</Comment>
+      <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="515" parent="326" name="销售总价">
-      <Comment>详单的总价</Comment>
+    <column id="560" parent="333" name="书籍备注">
+      <Comment>描述</Comment>
+      <DasType>varchar(100)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="561" parent="333" name="售价">
+      <Comment>售价</Comment>
       <DasType>float|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="562" parent="333" name="进价">
+      <Comment>进价</Comment>
+      <DasType>float|0s</DasType>
+      <Position>8</Position>
+    </column>
+    <column id="563" parent="333" name="库存">
+      <Comment>库存</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+    </column>
+    <column id="564" parent="334" name="bookId">
+      <Comment>图书编号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="565" parent="334" name="bookName">
+      <Comment>图书名称</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="566" parent="335" name="bookId">
+      <Comment>图书编号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="567" parent="335" name="bookName">
+      <Comment>图书名称</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="568" parent="335" name="bookPrice">
+      <Comment>售价</Comment>
+      <DasType>float|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="569" parent="335" name="bookInventory">
+      <Comment>库存</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="570" parent="336" name="客户id">
+      <Comment>顾客编号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="571" parent="336" name="客户姓名">
+      <Comment>顾客名</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="572" parent="336" name="客户电话号码">
+      <Comment>顾客电话号码</Comment>
+      <DasType>varchar(11)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="573" parent="336" name="客户备注">
+      <Comment>备注</Comment>
+      <DasType>varchar(100)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="574" parent="337" name="批发商id">
+      <Comment>批发商编号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="575" parent="337" name="批发商名字">
+      <Comment>批发商名称</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="576" parent="337" name="批发商电话号码">
+      <Comment>批发商电话号码</Comment>
+      <DasType>varchar(11)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="577" parent="337" name="批发商备注">
+      <Comment>批发商描述</Comment>
+      <DasType>varchar(100)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="578" parent="338" name="进货订单号">
+      <Comment>进货单号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="579" parent="338" name="书名">
+      <Comment>图书名称</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="580" parent="338" name="进货进货单价">
+      <Comment>进货单价</Comment>
+      <DasType>float|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="581" parent="338" name="进货日期">
+      <Comment>下单日期</Comment>
+      <DasType>datetime|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="582" parent="338" name="进货总价">
+      <Comment>进货总价</Comment>
+      <DasType>float|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="583" parent="338" name="进货总数">
+      <Comment>进货数量</Comment>
+      <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="516" parent="326" name="售出数量">
+    <column id="584" parent="339" name="销售订单号">
+      <Comment>销售单号</Comment>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="585" parent="339" name="书名">
+      <Comment>图书名称</Comment>
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="586" parent="339" name="单价">
+      <Comment>售价</Comment>
+      <DasType>float|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="587" parent="339" name="售卖日期">
+      <Comment>销售日期</Comment>
+      <DasType>datetime|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="588" parent="339" name="销售总价">
+      <Comment>详单的总价</Comment>
+      <DasType>float|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="589" parent="339" name="售出数量">
       <Comment>销售该书的数量</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <check id="590" parent="340" name="bankcardinfo_chk_4">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>(`CreditLimit` &gt;= 0) and (`CreditLimit` &lt;= 100)</Predicate>
+    </check>
+    <check id="591" parent="340" name="bankcardinfo_chk_2">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>(`CurrentInterestRate` &gt;= 0) and (`CurrentInterestRate` &lt;= 1)</Predicate>
+    </check>
+    <check id="592" parent="340" name="bankcardinfo_chk_3">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`Balance` &gt;= 0</Predicate>
+    </check>
+    <check id="593" parent="340" name="bankcardinfo_chk_1">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`CardType` in (_utf8mb4\&apos;å&#x80;&#x9f;è®°å&#x8d;¡\&apos;,_utf8mb4\&apos;ä¿¡ç&#x94;¨å&#x8d;¡\&apos;)</Predicate>
+    </check>
+    <column id="594" parent="340" name="card_id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="595" parent="340" name="CardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="596" parent="340" name="CurrentInterestRate">
+      <DasType>decimal(5,4 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="597" parent="340" name="CardType">
+      <DasType>varchar(3)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="598" parent="340" name="Balance">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="599" parent="340" name="CurrentInterest">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="600" parent="340" name="CreditLimit">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
+    <column id="601" parent="340" name="CardPassword">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <column id="602" parent="340" name="account_id">
+      <DasType>varchar(10)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <foreign-key id="603" parent="340" name="bankcardinfo_ibfk_1">
+      <ColNames>account_id</ColNames>
+      <RefColNames>account_id</RefColNames>
+      <RefTableName>client</RefTableName>
+    </foreign-key>
+    <index id="604" parent="340" name="PRIMARY">
+      <ColNames>card_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="605" parent="340" name="CardNumber">
+      <ColNames>CardNumber</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="606" parent="340" name="account_id">
+      <ColNames>account_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="607" parent="340" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="608" parent="340" name="CardNumber">
+      <UnderlyingIndexName>CardNumber</UnderlyingIndexName>
+    </key>
+    <key id="609" parent="340" name="account_id">
+      <UnderlyingIndexName>account_id</UnderlyingIndexName>
+    </key>
+    <column id="610" parent="341" name="CancellationID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="611" parent="341" name="CancellationDate">
+      <DasType>date|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="612" parent="341" name="CardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="613" parent="341" name="UserID">
+      <DasType>int|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <index id="614" parent="341" name="PRIMARY">
+      <ColNames>CancellationID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="615" parent="341" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="616" parent="342" name="OpeningID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="617" parent="342" name="OpeningDate">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="618" parent="342" name="CardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="619" parent="342" name="UserID">
+      <DasType>int|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <index id="620" parent="342" name="PRIMARY">
+      <ColNames>OpeningID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="621" parent="342" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="622" parent="343" name="client_id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="623" parent="343" name="client_name">
+      <DasType>varchar(10)|0s</DasType>
+      <Position>2</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <column id="624" parent="343" name="contact_info">
+      <DasType>varchar(50)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <column id="625" parent="343" name="person_id">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <column id="626" parent="343" name="account_id">
+      <DasType>varchar(10)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <column id="627" parent="343" name="budget_info">
+      <DasType>varchar(50)|0s</DasType>
+      <Position>6</Position>
+      <CollationName>utf8mb3_general_ci</CollationName>
+    </column>
+    <column id="628" parent="343" name="credit">
+      <DasType>double|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+    </column>
+    <index id="629" parent="343" name="PRIMARY">
+      <ColNames>client_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="630" parent="343" name="person_id">
+      <ColNames>person_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="631" parent="343" name="account_id">
+      <ColNames>account_id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="632" parent="343" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="633" parent="343" name="person_id">
+      <UnderlyingIndexName>person_id</UnderlyingIndexName>
+    </key>
+    <key id="634" parent="343" name="account_id">
+      <UnderlyingIndexName>account_id</UnderlyingIndexName>
+    </key>
+    <check id="635" parent="344" name="depositrecord_chk_1">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`InterestRate` &gt;= 0</Predicate>
+    </check>
+    <column id="636" parent="344" name="BillNumber">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="637" parent="344" name="DepositDate">
+      <DasType>date|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="638" parent="344" name="Amount">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="639" parent="344" name="InterestRate">
+      <DasType>decimal(5,4 digit)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="640" parent="344" name="DepositMethod">
+      <DasType>varchar(50)|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="641" parent="344" name="TransactionLocation">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="642" parent="344" name="BankInfo">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="643" parent="344" name="HandlingFee">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <Position>8</Position>
+    </column>
+    <column id="644" parent="344" name="Balance">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+    </column>
+    <column id="645" parent="344" name="TransactionDetails">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>10</Position>
+    </column>
+    <column id="646" parent="344" name="CardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>11</Position>
+    </column>
+    <index id="647" parent="344" name="PRIMARY">
+      <ColNames>BillNumber</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="648" parent="344" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="649" parent="345" name="EmployeeID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="650" parent="345" name="EmployeeAccountID">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="651" parent="345" name="EmployeePassword">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="652" parent="345" name="AccountPermission">
+      <DasType>varchar(50)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="653" parent="345" name="PasswordPolicy">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <index id="654" parent="345" name="PRIMARY">
+      <ColNames>EmployeeID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="655" parent="345" name="EmployeeAccountID">
+      <ColNames>EmployeeAccountID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="656" parent="345" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="657" parent="345" name="EmployeeAccountID">
+      <UnderlyingIndexName>EmployeeAccountID</UnderlyingIndexName>
+    </key>
+    <column id="658" parent="346" name="ReportID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="659" parent="346" name="ReportDate">
+      <DasType>date|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="660" parent="346" name="TotalDeposits">
+      <DasType>decimal(15,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="661" parent="346" name="TotalWithdrawals">
+      <DasType>decimal(15,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="662" parent="346" name="NetBalance">
+      <DasType>decimal(15,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <index id="663" parent="346" name="PRIMARY">
+      <ColNames>ReportID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="664" parent="346" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="665" parent="347" name="SalesmanID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="666" parent="347" name="IDCardNumber">
+      <DasType>varchar(18)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="667" parent="347" name="Name">
+      <DasType>varchar(50)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="668" parent="347" name="ContactInfo">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="669" parent="347" name="BirthDate">
+      <DasType>date|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="670" parent="347" name="WorkExperience">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="671" parent="347" name="BankBusinessCertificateNumber">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+    </column>
+    <column id="672" parent="347" name="Photo">
+      <DasType>blob|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <column id="673" parent="347" name="EmployeeAccountID">
+      <DasType>varchar(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+    </column>
+    <foreign-key id="674" parent="347" name="salesman_ibfk_1">
+      <ColNames>EmployeeAccountID</ColNames>
+      <RefColNames>EmployeeAccountID</RefColNames>
+      <RefTableName>employeeaccount</RefTableName>
+    </foreign-key>
+    <index id="675" parent="347" name="PRIMARY">
+      <ColNames>SalesmanID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="676" parent="347" name="IDCardNumber">
+      <ColNames>IDCardNumber</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="677" parent="347" name="ContactInfo">
+      <ColNames>ContactInfo</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="678" parent="347" name="BankBusinessCertificateNumber">
+      <ColNames>BankBusinessCertificateNumber</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="679" parent="347" name="EmployeeAccountID">
+      <ColNames>EmployeeAccountID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="680" parent="347" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="681" parent="347" name="IDCardNumber">
+      <UnderlyingIndexName>IDCardNumber</UnderlyingIndexName>
+    </key>
+    <key id="682" parent="347" name="ContactInfo">
+      <UnderlyingIndexName>ContactInfo</UnderlyingIndexName>
+    </key>
+    <key id="683" parent="347" name="BankBusinessCertificateNumber">
+      <UnderlyingIndexName>BankBusinessCertificateNumber</UnderlyingIndexName>
+    </key>
+    <key id="684" parent="347" name="EmployeeAccountID">
+      <UnderlyingIndexName>EmployeeAccountID</UnderlyingIndexName>
+    </key>
+    <column id="685" parent="348" name="StatID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="686" parent="348" name="StatDate">
+      <DasType>date|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="687" parent="348" name="TotalUsers">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="688" parent="348" name="TotalBankCards">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <index id="689" parent="348" name="PRIMARY">
+      <ColNames>StatID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="690" parent="348" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="691" parent="349" name="TransferID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="692" parent="349" name="TransferDate">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="693" parent="349" name="Amount">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="694" parent="349" name="FromCardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="695" parent="349" name="ToCardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <index id="696" parent="349" name="PRIMARY">
+      <ColNames>TransferID</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="697" parent="349" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <check id="698" parent="350" name="withdrawalrecord_chk_1">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`Amount` &gt;= 0</Predicate>
+    </check>
+    <check id="699" parent="350" name="withdrawalrecord_chk_5">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`Balance` &gt;= 0</Predicate>
+    </check>
+    <check id="700" parent="350" name="withdrawalrecord_chk_4">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`HandlingFee` &gt;= 0</Predicate>
+    </check>
+    <check id="701" parent="350" name="withdrawalrecord_chk_2">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`Interest` &gt;= 0</Predicate>
+    </check>
+    <check id="702" parent="350" name="withdrawalrecord_chk_3">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>`WithdrawalMethod` in (_utf8mb4\&apos;çº¿ä¸&#x8a;\&apos;,_utf8mb4\&apos;çº¿ä¸&#x8b;\&apos;)</Predicate>
+    </check>
+    <column id="703" parent="350" name="BillNumber">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="704" parent="350" name="WithdrawalDate">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="705" parent="350" name="Amount">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="706" parent="350" name="Interest">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="707" parent="350" name="WithdrawalMethod">
+      <DasType>varchar(50)|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="708" parent="350" name="TransactionLocation">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="709" parent="350" name="BankInfo">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="710" parent="350" name="HandlingFee">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <column id="711" parent="350" name="Balance">
+      <DasType>decimal(10,2 digit)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+    </column>
+    <column id="712" parent="350" name="TransactionDetails">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>10</Position>
+    </column>
+    <column id="713" parent="350" name="CardNumber">
+      <DasType>varchar(16)|0s</DasType>
+      <Position>11</Position>
+    </column>
+    <index id="714" parent="350" name="PRIMARY">
+      <ColNames>BillNumber</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="715" parent="350" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
   </database-model>
 </dataSource>
