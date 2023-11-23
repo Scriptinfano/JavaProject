@@ -15,7 +15,7 @@ public class Main {
 
 
         //创建进程，并设定进程应该先载入主存的页号
-        Process process = Process.createInstance("A", 10, 4, new int[]{0, 1, 2, 3});
+        Process process = Process.createInstance("A", 10, 3, new int[]{0, 1, 2});
 
         //创建外存实例，外存根据进程中的指令所指明的页号及页内地址创建相应的页供内存调取
         Disk disk = Disk.createInstance(process);

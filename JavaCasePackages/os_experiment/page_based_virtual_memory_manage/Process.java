@@ -57,6 +57,23 @@ public class Process {
             int randomNameIndex = generator.nextInt(0, names.length);
             instructions[i] = new Instruction(i % totalPage, i % Page.pageSize, names[randomNameIndex]);
         }
+        shuffle(instructions);
+    }
+
+    /**
+     * 打乱指令序列的顺序
+     *
+     * @param instructions 指示
+     */
+    private void shuffle(Instruction[] instructions) {
+        for (int i = instructions.length - 1; i >= 0; --i) {
+            RandomGenerator generator = new Random(System.currentTimeMillis());
+            int random = generator.nextInt(0, instructions.length);
+            Instruction temp = instructions[random % (i + 1)];
+            instructions[random % (i + 1)] = instructions[i];
+            instructions[i] = temp;
+        }
+
     }
 
     /**
