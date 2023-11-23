@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/testFile" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaCasePackages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/src/array" />
+      <excludeFolder url="file://$MODULE_DIR$/src/garbageCollection" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
