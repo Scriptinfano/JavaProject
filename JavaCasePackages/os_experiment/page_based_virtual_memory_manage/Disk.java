@@ -42,7 +42,11 @@ public class Disk {
             if (pages1[pageCode] == null) pages1[pageCode] = new Page(Page.pageSize * pageCode);//若对应的页面未创建则创建，并指明其在外存的物理地址
             pages1[pageCode].setInstruction(offset, process.getInstructions()[i]);//将指令放入指定页面
         }
-        return new Disk(pages1, process);
+        System.out.println("所有页面初始化完毕，输出各页面在外存中的起始地址");
+        for (int i = 0; i < pages1.length; i++) {
+            System.out.println("第" + (i + 1) + "个页面在外存中的物理地址为=" + pages1[i].getDiskAddress());
+        }
+        return new Disk(pages1, process);//将创建好的所有页面放入外存
     }
 
     /**

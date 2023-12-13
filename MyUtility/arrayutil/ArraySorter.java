@@ -434,7 +434,7 @@ public class ArraySorter<T extends Comparable<T>> {
                 tempList.add(targetList.get(j++));
             }
         }
-        //如果此时i和j还分别没有到第一段末尾和第二段末尾，则下面两个while循环则将剩下的元素放入tempList这个已经有序的容器中
+        //如果此时i或j其中一个没有到第一段末尾或第二段末尾，则下面两个while循环则将剩下的元素放入tempList这个已经有序的容器中
         while (i < mid) {
             tempList.add(targetList.get(i++));
         }
@@ -445,6 +445,7 @@ public class ArraySorter<T extends Comparable<T>> {
         for (int k = 0; k < tempList.size(); k++) {
             targetList.set(begin + k, tempList.get(k));
         }
+
     }
 
     /**

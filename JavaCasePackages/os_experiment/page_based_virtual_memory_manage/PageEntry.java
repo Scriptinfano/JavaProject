@@ -9,7 +9,7 @@ public class PageEntry {
 
 
     /**
-     * 该页表项所代表的页面存放在主存中的哪一个页框种
+     * 该页表项所代表的页面存放在主存中的哪一个页框中
      */
     private int pageFrameCode;
 

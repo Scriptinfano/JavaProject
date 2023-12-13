@@ -1,5 +1,7 @@
 package JavaAlgorithm.pack;
 
+import java.util.Arrays;
+
 /**
  * 用贪心法求解背包问题
  */
@@ -75,5 +77,14 @@ public class GreedySolution {
         double temp = A[i];
         A[i] = A[j];
         A[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        double[] w = new double[]{2, 3, 5, 7, 1, 4, 1};
+        double[] v = new double[]{10, 5, 15, 7, 6, 18, 3};
+        double[] x = new double[w.length];
+        double opt = knapsack(15, w, v, x);
+        System.out.println(opt);
+        System.out.println(Arrays.toString(x));
     }
 }

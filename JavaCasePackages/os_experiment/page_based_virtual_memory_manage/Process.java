@@ -5,12 +5,9 @@ import java.util.random.RandomGenerator;
 
 /**
  * 作业模拟类
- *
  * @author Mingxiang
  */
 public class Process {
-
-
     /**
      * 进程名
      */
@@ -73,7 +70,6 @@ public class Process {
             instructions[random % (i + 1)] = instructions[i];
             instructions[i] = temp;
         }
-
     }
 
     /**

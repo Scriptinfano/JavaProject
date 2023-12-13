@@ -6,8 +6,6 @@ package os_experiment.page_based_virtual_memory_manage;
  * @author Mingxiang
  */
 public class CPU {
-
-
     /**
      * CPU访问主存的引用
      */
@@ -28,7 +26,6 @@ public class CPU {
         this.ram = ram;
         this.disk = disk;
     }
-
     /**
      * 运行进程所包含的指令，对进程中的指令所在的页进行调度，返回本次调度的缺页率
      */
@@ -64,6 +61,4 @@ public class CPU {
         }
         return lackPageSum / instructions.length;
     }
-
-
 }

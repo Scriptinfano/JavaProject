@@ -16,7 +16,7 @@ public class RAM {
     /**
      * 主存中的页框总数
      */
-    public final int pageFrameCount = 20;
+    public final int pageFrameCount = 50;
     /**
      * 页表，页表的大小就是操作系统为作业分配的最大页框数
      */

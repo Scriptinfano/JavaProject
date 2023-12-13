@@ -33,8 +33,8 @@ public class DynamicProgrammingSolution {
     public static Result packProblem(int[] v, int[] w, int capacity) {
         int size = v.length;
         int[][] max_v = new int[size + 1][capacity + 1];
-        for (int i = 0; i < size + 1; i++) {
-            for (int j = 0; j < capacity + 1; j++) {
+        for (int i = 0; i < max_v.length; i++) {
+            for (int j = 0; j < max_v[i].length; j++) {
                 if (i == 0 || j == 0) continue;
                 if (w[i - 1] > j)
                     max_v[i][j] = max_v[i - 1][j];

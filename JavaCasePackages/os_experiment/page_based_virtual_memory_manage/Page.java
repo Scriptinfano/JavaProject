@@ -9,7 +9,7 @@ public class Page {
     /**
      * 页面大小，最大可以存放多少个指令
      */
-    public static final int pageSize = 100;
+    public static final int pageSize = 50;
 
     /**
      * 页面内的指令集合

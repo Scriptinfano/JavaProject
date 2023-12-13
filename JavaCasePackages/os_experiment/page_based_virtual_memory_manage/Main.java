@@ -3,19 +3,32 @@ package os_experiment.page_based_virtual_memory_manage;
 /**
  * 实验内容：请求页式存储管理中硬件的地址转换和缺页中断，采用先进先出调度法处理缺页中断
  * <p>
- * 实验前提条件：
- * 1、假设主存共有m个页框，页表同样必须有m个页表项
- * 2、作业总的页面数要大于m，且作业投入主存运行时，主存会将自己的所有页框分配给该作业
- * 3、假定模拟过程中CPU仅执行一个作业的所有指令
+ * 实验前提条件：<p>
+ * 1、假定模拟过程中CPU仅执行一个作业的所有指令<p>
+ * 2、初始载入页面的顺序必须连续且从0号页开始
  *
  * @author Mingxiang
  */
 public class Main {
+    /**
+     * 输入初始化的页面数，即操作系统一开始为进程分配的页框数，得到从0开始的连续的初始化页号数组
+     *
+     * @param i 初始化页面数
+     * @return {@link int[]} 从0开始的连续的初始化页号数组
+     */
+    private static int[] getArr(int i) {
+        int[] arr = new int[i];
+        for (int j = 0; j < i; j++) {
+            arr[j] = j;
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
-
-
         //创建进程，并设定进程应该先载入主存的页号
-        Process process = Process.createInstance("A", 10, 3, new int[]{0, 1, 2});
+
+        int applyPageCount = 14;
+        Process process = Process.createInstance("A", 20, applyPageCount, getArr(applyPageCount));
 
         //创建外存实例，外存根据进程中的指令所指明的页号及页内地址创建相应的页供内存调取
         Disk disk = Disk.createInstance(process);
